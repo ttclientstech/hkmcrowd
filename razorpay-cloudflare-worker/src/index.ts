@@ -1,0 +1,581 @@
+import { Hono } from 'hono'
+import { env } from 'hono/adapter'
+import { drizzle, NeonHttpDatabase} from 'drizzle-orm/neon-http'
+import { neon, NeonQueryFunction } from '@neondatabase/serverless'
+import {  campaigns, paymentTable} from './db/schema'
+import { and, desc, eq, gte, ilike } from 'drizzle-orm/expressions'
+import { count,   sql,   sum } from 'drizzle-orm'
+import { bearerAuth } from 'hono/bearer-auth'
+import { cors } from 'hono/cors'
+import Razorpay from 'razorpay'
+import { basicAuth } from 'hono/basic-auth'
+declare module "hono"{
+  interface ContextVariableMap{
+    db:NeonHttpDatabase<Record<string, never>> & {
+      $client: NeonQueryFunction<false, false>;
+  },
+  razor:Razorpay
+  }
+}
+
+
+const app = new Hono();
+app.post("/checkpayment", cors({
+  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconhubli.org"], 
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
+  credentials:false
+}),async (c) => {
+  try {
+    const RAZ_ID = "<place_your_razorpay_id>";
+const RAZ_SECRET = "<place_your_razorpay_secret>";
+
+const DATABSE_URL = "postgresql://username:password@host:port/db_name?sslmode=require"
+const sqlneon = neon(DATABSE_URL);
+
+
+const razorpay = new Razorpay({
+  key_id:RAZ_ID,
+  key_secret:RAZ_SECRET
+})
+    const { paymentId,orderid} = await c.req.json(); 
+    let {campaignid} = await c.req.json();
+    const db = drizzle(sqlneon)
+
+    const payment = await razorpay.payments.fetch(paymentId)
+    if(payment.status == "captured") {
+      
+      try{ 
+        const payment_table = await db.select().from(paymentTable).where(eq(paymentTable.orderid,orderid))
+        console.log("paymetn",payment_table)
+       const paymentstatus = await db.update(paymentTable).set({
+        paymentstatus:true
+       }).where(eq(paymentTable.orderid,orderid))
+       console.log("payment_amount",payment.amount)
+       const amountInRupees = Number(payment.amount) / 100;
+       if(!campaignid){
+        const getpayment = await db.select({id:paymentTable.campaignsid}).from(paymentTable).where(eq(paymentTable.orderid,orderid))
+        campaignid = getpayment[0].id;
+       }
+       const updatecampaign = await db.update(campaigns).set({
+        raisedtotal:sql`${campaigns.raisedtotal} + ${amountInRupees}`,
+        funderstotal:sql`${campaigns.funderstotal} + 1`
+       }).where(eq(campaigns.id,campaignid))
+      }
+     
+      catch(e){
+        return c.json({
+          status:400,
+          message:"Failed to Update the payment in db: " + e
+        })
+      }
+    }
+    return c.json({ success: true, payment });
+  } catch (error) {
+    console.error(error);
+    return c.json({ success: false, message: error});
+  }
+});
+
+
+
+
+app.use("*", cors({
+  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconhubli.org"], 
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
+  credentials:false
+}))
+const token = "iskonhublicampaign";
+
+
+app.use('*', async (c, next) => {
+  try {
+
+const RAZ_ID = "<place_your_razorpay_id>";
+const RAZ_SECRET = "<place_your_razorpay_secret>";
+
+const DATABSE_URL = "postgresql://username:password@host:port/db_name?sslmode=require"
+
+const { AUTH_TOKEN } = env<{
+  AUTH_TOKEN: string;
+}>(c);
+
+const razorpay = new Razorpay({
+  key_id:RAZ_ID,
+  key_secret:RAZ_SECRET
+})
+
+  const sql = neon(DATABSE_URL);
+  c.set('db', drizzle(sql)); 
+  c.set('razor',razorpay);
+  await next();
+  }catch(err){
+    console.error("An error occurred while connecting to the database:", err);
+  }
+ 
+});
+
+
+
+
+app.get("/campaign/:id", async (c) => {
+  const db = c.get("db");
+  const campaignId = Number(c.req.param("id"));
+
+  if (isNaN(campaignId)) {
+    return c.json({
+      error: "Invalid campaign ID",
+      status: 400,
+    });
+  }
+
+  try {
+    // Fetch campaign details
+    const campaignDetails = await db
+      .select()
+      .from(campaigns)
+      .where(eq(campaigns.id, campaignId));
+
+    if (campaignDetails.length === 0) {
+      return c.json({
+        error: "Campaign not found",
+        status: 404,
+      });
+    }
+
+    const top10paymentDetails = await db
+      .select({
+        username: paymentTable.username,
+        amount: paymentTable.amount,
+        date: paymentTable.createdate,
+        isanonymous: paymentTable.isanonymous,
+      })
+      .from(paymentTable)
+      .where(and(eq(paymentTable.paymentstatus,true),gte(paymentTable.amount,5000))) 
+      .orderBy(desc(paymentTable.createdate))
+      .limit(10);
+
+
+    const userList = await db
+      .select()
+      .from(paymentTable)
+      .where(and(eq(paymentTable.campaignsid, campaignId),eq(paymentTable.paymentstatus,true)))
+      .orderBy(desc(paymentTable.amount));
+
+    return c.json({
+      campaignDetails: campaignDetails[0],
+      userList,
+      top10paymentDetails,
+      totalFunders:campaignDetails[0].funderstotal,
+    
+      raisedFund:campaignDetails[0].raisedtotal,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    return c.json({
+      error: "An error occurred while fetching campaign data: " + error,
+      status: 500,
+    });
+  }
+});
+
+app.post(
+  '/create-payment',
+  cors({
+    origin: [
+      "http://localhost:3000", 
+      "https://iskcon-hubli.vercel.app",
+      "https://campaigns.iskconhubli.org","https://campaigns.iskconhubli.org/"
+    ],
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
+    credentials: true,
+  }),
+  bearerAuth({ token }),
+  async (c) => {
+    const db = c.get('db');
+    const razor = c.get('razor');
+    let body;
+
+    try {
+      body = await c.req.json();
+    } catch (err) {
+      console.error("Error parsing JSON body:", err);
+      return c.json({ error: "Invalid JSON body: " + err, status: 400 }, 400);
+    }
+
+    const {
+      email,
+      mobileno,
+      country,
+      pincode,
+      panno,
+      address,
+      amount,
+      username,
+      campaignsid,
+      isanonymous
+    } = body;
+
+    const requiredFields = { mobileno, amount, username };
+
+    for (const [key, value] of Object.entries(requiredFields)) {
+      if (!value || value.toString().trim() === "") {
+        return c.json({ error: `${key} is required.`, status: 400 }, 400);
+      }
+    }
+
+    if (isNaN(Number(amount))) {
+      return c.json({ error: "Amount must be a valid number.", status: 400 }, 400);
+    }
+
+    const roundedAmount = Math.round(Number(amount)); 
+
+    if (campaignsid && isNaN(Number(campaignsid))) {
+      return c.json({ error: "Campaign ID must be a valid number.", status: 400 }, 400);
+    }
+
+    if (campaignsid) {
+      try {
+        const campaignExists = await db
+          .select()
+          .from(campaigns)
+          .where(eq(campaigns.id, campaignsid))
+          .limit(1);
+
+        if (!campaignExists.length) {
+          return c.json({ error: "Invalid 'campaignsid'.", status: 400 }, 400);
+        }
+      } catch (err) {
+        console.error("Error checking campaign existence:", err);
+        return c.json({ error: "Failed to validate campaign ID: " + err, status: 500 }, 500);
+      }
+    }
+
+    try {
+      const options = {
+        amount: roundedAmount * 100, // Amount for Razorpay (in paise)
+        currency: 'INR',
+        receipt: 'receipt_' + Math.random().toString(36).substring(2),
+      };
+      const order = await razor.orders.create(options);
+
+      const result = await db.insert(paymentTable).values({
+        email: email ? String(email) : null,
+        mobileno: String(mobileno),
+        country: country ? String(country) : null,
+        pincode: String(pincode),
+        panno: panno ? String(panno) : null,
+        address: address ? String(address) : null,
+        amount: roundedAmount, 
+        username: String(username),
+        campaignsid: campaignsid ? Number(campaignsid) : null,
+        orderid: String(order.id),
+        paymentstatus: false, 
+        createdate: new Date(),
+        isanonymous: isanonymous ? isanonymous : false
+      });
+
+      return c.json(
+        {
+          message: "Payment created successfully",
+          order,
+          status: 201,
+        },
+        201
+      );
+    } catch (error) {
+      console.error("Error creating payment:", error);
+      return c.json({ error: "Failed to create payment: " + error, status: 500 }, 500);
+    }
+  }
+);
+
+
+
+
+app.get("/campaignName", async (c) => {
+  try {
+    const db = c.get("db");
+    const name = c.req.query("name");
+
+    if (!name) {
+      return c.json({ error: "Campaign name is required" }, 400);
+    }
+
+    console.log(`%${name}%`);
+
+    
+    const campaign = await db
+  .select()
+  .from(campaigns)
+  .where(ilike(campaigns.campaignName, `%${name}%`));
+      console.log(campaign)
+
+    if (campaign.length === 0) {
+      return c.json({ message: "No campaigns found" }, 404);
+    }
+
+    return c.json(campaign);
+  } catch (error) {
+    console.error("Error fetching campaign:", error);
+    return c.json({ error: "Internal server error: " + error }, 500);
+  }
+});
+
+
+
+
+
+
+app.get("/showcampaigns", async (c) => {
+  try {
+    const db = c.get("db");
+    const limits = Number(c.req.query("limit"));
+    const page = Number(c.req.query("page")) || 1;
+    const offsets = (page - 1) * limits;
+    const campaignsData = await db.select().from(campaigns).orderBy(desc(campaigns.raisedtotal)).limit(limits).offset(offsets);
+    const campaignersJoined = await db.select({count:count(campaigns.id)}).from(campaigns)
+    const totalraised = await db.select({sum:sum(paymentTable.amount)}).from(paymentTable).where(eq(paymentTable.paymentstatus,true))
+    const totalgoalamts = await db.select({sum:sum(campaigns.targetAmount)}).from(campaigns)
+    const campaignDetails = campaignsData.map(campaign => ({
+      campaignId: campaign.id,
+      campaignName: campaign.campaignName,
+      imgurl: campaign.imgurl,
+      targetamt: campaign.targetAmount,
+      enddate: campaign.enddate,
+      startdate: campaign.startdate,
+      campaignphno: campaign.phoneno,
+      preacherName: campaign.preacherName,
+      totalFunderCount:campaign.funderstotal,
+      totalRaisedAmount:campaign.raisedtotal
+    })) 
+console.log("0", totalgoalamts[0].sum || 0)
+console.log("1",totalgoalamts)
+    return c.json({
+      totalcampaigncount: campaignersJoined[0].count || 0,
+      totalraisedamt:totalraised[0].sum || 0,
+      totalgoalamt:totalgoalamts[0].sum || 0,
+      campaignDetails: campaignDetails,
+     
+
+    });
+
+  } catch (e) {
+    return c.json({
+      error: "Failed to fetch the details: " + e,
+      status: 404
+    });
+  }
+});
+
+
+app.delete('/delete-campaign/:id',cors({
+  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconhubli.org"], 
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
+  credentials:true
+}),basicAuth({
+  username: 'admin',
+  password: 'admin',
+}), async (c) => {
+  const db = c.get('db');
+  const campaignId = Number(c.req.param('id'));
+
+  if (isNaN(campaignId)) {
+    return c.json({
+      error: "Invalid campaign ID",
+      status: 400,
+    });
+  }
+
+  try {
+    const existingCampaign = await db
+      .select()
+      .from(campaigns)
+      .where(eq(campaigns.id, campaignId))
+      .limit(1);
+
+    if (existingCampaign.length === 0) {
+      return c.json({
+        error: "Unable to delete. Campaign does not exist.",
+        status: 404,
+      });
+    }
+
+    const result = await db.delete(campaigns).where(eq(campaigns.id, campaignId));
+
+    if (!result) {
+      return c.json({
+        error: "Failed to delete the campaign. No rows were affected.",
+        status: 400,
+      });
+    }
+
+    return c.json({
+      message: "Campaign deleted successfully",
+      status: 200,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    return c.json({
+      error: "Failed to process the request: " + error,
+      status: 500,
+    });
+  }
+});
+
+
+
+app.put('/update-campaign/:id',cors({
+  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconhubli.org"], 
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
+  credentials:true
+}),bearerAuth({ token }), async (c) => {
+  const db = c.get('db');
+  const body = await c.req.json();
+  const campaignId = Number(c.req.param('id'));
+
+  // Validate campaignId
+  if (isNaN(campaignId)) {
+    return c.json({
+      error: "Invalid campaign ID",
+      status: 400,
+    });
+  }
+
+  // Validate body fields
+  if (!body.campaignname  || isNaN(Number(body.targetamount)) ) {
+    return c.json({
+      error: "All fields are required and must be valid",
+      status: 400,
+    });
+  }
+
+  const campaignData = {
+    campaignName: String(body.campaignname),
+    targetAmount: Number(body.targetamount),
+  };
+  console.log(campaignData)
+
+  try {
+    // Check if the campaign exists before updating
+    const existingCampaign = await db
+      .select()
+      .from(campaigns)
+      .where(eq(campaigns.id, campaignId))
+      .limit(1);
+
+    if (existingCampaign.length === 0) {
+      return c.json({
+        error: "Campaign not found",
+        status: 404,
+      });
+    }
+
+    // Update the campaign
+    const result = await db
+      .update(campaigns)
+      .set(campaignData)
+      .where(eq(campaigns.id, campaignId));
+
+    if (!result) {
+      return c.json({
+        error: "No changes applied to the campaign",
+        status: 400,
+      });
+    }
+
+    return c.json({
+      message: "Campaign updated successfully",
+      status: 200,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    return c.json({
+      error: "Failed to process the request: " + error,
+      status: 500,
+    });
+  }
+});
+
+
+
+
+app.post('/create-campaign',cors({
+  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconhubli.org","https://campaigns.iskconhubli.org"], 
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
+  credentials:true
+}), async (c) => {
+  
+  const db = c.get('db');
+  const body = await c.req.json();
+  try{
+    const campaignData = {
+      campaignName: String(body.campaignname),
+      targetAmount: Number(body.targetamount),
+      imgurl: String(body.imgurl), 
+      phoneno:String(body.phoneno),
+      enddate:String(body.enddate),
+      preacherName:String(body.preachername)
+    };
+    if(!campaignData.campaignName  || !campaignData.targetAmount || !campaignData.phoneno ||!campaignData.enddate){
+      return c.json({
+        error:"All fields are required",
+        status:400
+      })
+    }
+
+    const existingCampaign = await db.select().from(campaigns).where(eq(campaigns.campaignName, campaignData.campaignName)).limit(1);
+
+    if (existingCampaign.length > 0) {
+      return c.json({
+        error: "Campaign already exists",
+        status: 400
+      });
+    }
+  
+    try{
+      const result = await db.insert(campaigns).values(campaignData);
+      return c.json({
+        message: "Campaign created successfully",
+        status: 201,
+      });
+    }
+    catch(e){
+      return c.json({
+        error:"Failed to Update in the Database: " + e,
+        status:502
+      })
+    }
+  }
+  catch(e){
+    return c.json({
+      error:"Failed to parse the statement: " + e,
+      status:400
+    })
+  }
+ 
+});
+
+
+
+app.get('/', (c) => {
+  return c.text('Hello! Enter the Valid Api Endpoint')
+})
+
+
+
+app.get("/show", async (c)=> {
+  const db = c.get('db');
+  const res = await db.select().from(paymentTable).then((res)=>res);
+  return c.json(res)
+})
+
+
+
+
+export default app
