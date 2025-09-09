@@ -16,59 +16,76 @@ declare module "hono"{
   },
   razor:Razorpay
   }
+
 }
 
 
 const app = new Hono();
 app.post("/checkpayment", cors({
-  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconhubli.org"], 
+  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:false
 }),async (c) => {
   try {
-    const RAZ_ID = "<place_your_razorpay_id>";
-const RAZ_SECRET = "<place_your_razorpay_secret>";
+    const RAZ_ID = "rzp_test_qaL0Ut9tGYaofw";
+const RAZ_SECRET = "mLb9fg1zqQQKeOm0XezFJton";
 
-const DATABSE_URL = "postgresql://username:password@host:port/db_name?sslmode=require"
-const sqlneon = neon(DATABSE_URL);
+const DATABASE_URL = "postgresql://neondb_owner:npg_Y8anjoCb3kWV@ep-raspy-bush-a18madzu-pooler.ap-southeast-1.aws.neon.tech/neondb?options=-c%20search_path%3Dgh_campaign&branch=development&sslmode=require&channel_binding=require"
+const sqlneon = neon(DATABASE_URL);
 
 
 const razorpay = new Razorpay({
   key_id:RAZ_ID,
   key_secret:RAZ_SECRET
 })
-    const { paymentId,orderid} = await c.req.json(); 
-    let {campaignid} = await c.req.json();
-    const db = drizzle(sqlneon)
+    const { paymentId, orderid } = await c.req.json();
+    let { campaignid } = await c.req.json();
+    const db = drizzle( sqlneon );
+
 
     const payment = await razorpay.payments.fetch(paymentId)
     if(payment.status == "captured") {
-      
-      try{ 
+    console.log("hare krishna", orderid, paymentId, );
+    try{
         const payment_table = await db.select().from(paymentTable).where(eq(paymentTable.orderid,orderid))
-        console.log("paymetn",payment_table)
-       const paymentstatus = await db.update(paymentTable).set({
+        console.log("payment",payment_table)
+        const paymentstatus = await db.update(paymentTable).set({
         paymentstatus:true
-       }).where(eq(paymentTable.orderid,orderid))
-       console.log("payment_amount",payment.amount)
-       const amountInRupees = Number(payment.amount) / 100;
-       if(!campaignid){
-        const getpayment = await db.select({id:paymentTable.campaignsid}).from(paymentTable).where(eq(paymentTable.orderid,orderid))
-        campaignid = getpayment[0].id;
-       }
-       const updatecampaign = await db.update(campaigns).set({
-        raisedtotal:sql`${campaigns.raisedtotal} + ${amountInRupees}`,
-        funderstotal:sql`${campaigns.funderstotal} + 1`
-       }).where(eq(campaigns.id,campaignid))
-      }
-     
-      catch(e){
+    }).where(eq(paymentTable.orderid,orderid))
+        console.log("payment_amount",payment.amount)
+    }
+    catch(e){
         return c.json({
-          status:400,
-          message:"Failed to Update the payment in db: " + e
+            status:400,
+            message:"Failed to Update the payment status in db: " + e
         })
-      }
+    }
+    const amountInRupees = Number(payment.amount) / 100;
+    try {
+        if(!campaignid){
+            const getpayment = await db.select({id:paymentTable.campaignsid}).from(paymentTable).where(eq(paymentTable.orderid,orderid))
+            campaignid = getpayment[0].id;
+        }
+    }
+    catch(e){
+        return c.json({
+            status:400,
+            message:"Failed to campaignid from db: " + e
+        })
+    }
+    try {
+        const updatecampaign = await db.update(campaigns).set({
+                raisedtotal:sql`${campaigns.raisedtotal} + ${amountInRupees}`,
+                funderstotal:sql`${campaigns.funderstotal} + 1`
+               }).where(eq(campaigns.id,campaignid))
+        }
+    catch(e){
+                return c.json({
+                    status:400,
+                    message:"Failed to update payment in db: " + e
+                })
+            }
     }
     return c.json({ success: true, payment });
   } catch (error) {
@@ -77,14 +94,12 @@ const razorpay = new Razorpay({
   }
 });
 
-
-
-
 app.use("*", cors({
-  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconhubli.org"], 
+  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:false
+
 }))
 const token = "iskonhublicampaign";
 
@@ -92,11 +107,10 @@ const token = "iskonhublicampaign";
 app.use('*', async (c, next) => {
   try {
 
-const RAZ_ID = "<place_your_razorpay_id>";
-const RAZ_SECRET = "<place_your_razorpay_secret>";
+const RAZ_ID = "rzp_test_qaL0Ut9tGYaofw";
+const RAZ_SECRET = "mLb9fg1zqQQKeOm0XezFJton";
 
-const DATABSE_URL = "postgresql://username:password@host:port/db_name?sslmode=require"
-
+const DATABASE_URL = "postgresql://neondb_owner:npg_Y8anjoCb3kWV@ep-raspy-bush-a18madzu-pooler.ap-southeast-1.aws.neon.tech/neondb?options=-c%20search_path%3Dgh_campaign&branch=development&sslmode=require&channel_binding=require";
 const { AUTH_TOKEN } = env<{
   AUTH_TOKEN: string;
 }>(c);
@@ -106,14 +120,14 @@ const razorpay = new Razorpay({
   key_secret:RAZ_SECRET
 })
 
-  const sql = neon(DATABSE_URL);
-  c.set('db', drizzle(sql)); 
+  const sql = neon(DATABASE_URL);
+  c.set('db', drizzle(sql));
   c.set('razor',razorpay);
   await next();
   }catch(err){
     console.error("An error occurred while connecting to the database:", err);
   }
- 
+
 });
 
 
@@ -136,7 +150,7 @@ app.get("/campaign/:id", async (c) => {
       .select()
       .from(campaigns)
       .where(eq(campaigns.id, campaignId));
-
+    console.log(campaignDetails[0]);
     if (campaignDetails.length === 0) {
       return c.json({
         error: "Campaign not found",
@@ -152,11 +166,11 @@ app.get("/campaign/:id", async (c) => {
         isanonymous: paymentTable.isanonymous,
       })
       .from(paymentTable)
-      .where(and(eq(paymentTable.paymentstatus,true),gte(paymentTable.amount,5000))) 
+      .where(and(eq(paymentTable.paymentstatus,true),gte(paymentTable.amount,5000)))
       .orderBy(desc(paymentTable.createdate))
       .limit(10);
 
-
+    console.log("hare krishna hare krishna ");
     const userList = await db
       .select()
       .from(paymentTable)
@@ -168,7 +182,7 @@ app.get("/campaign/:id", async (c) => {
       userList,
       top10paymentDetails,
       totalFunders:campaignDetails[0].funderstotal,
-    
+
       raisedFund:campaignDetails[0].raisedtotal,
     });
   } catch (error) {
@@ -184,9 +198,9 @@ app.post(
   '/create-payment',
   cors({
     origin: [
-      "http://localhost:3000", 
+      "http://localhost:3000",
       "https://iskcon-hubli.vercel.app",
-      "https://campaigns.iskconhubli.org","https://campaigns.iskconhubli.org/"
+      "https://campaigns.iskconmangalore.org","https://campaigns.iskconmangalore.org"
     ],
     allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
@@ -230,7 +244,7 @@ app.post(
       return c.json({ error: "Amount must be a valid number.", status: 400 }, 400);
     }
 
-    const roundedAmount = Math.round(Number(amount)); 
+    const roundedAmount = Math.round(Number(amount));
 
     if (campaignsid && isNaN(Number(campaignsid))) {
       return c.json({ error: "Campaign ID must be a valid number.", status: 400 }, 400);
@@ -268,11 +282,11 @@ app.post(
         pincode: String(pincode),
         panno: panno ? String(panno) : null,
         address: address ? String(address) : null,
-        amount: roundedAmount, 
+        amount: roundedAmount,
         username: String(username),
         campaignsid: campaignsid ? Number(campaignsid) : null,
         orderid: String(order.id),
-        paymentstatus: false, 
+        paymentstatus: false,
         createdate: new Date(),
         isanonymous: isanonymous ? isanonymous : false
       });
@@ -306,7 +320,7 @@ app.get("/campaignName", async (c) => {
 
     console.log(`%${name}%`);
 
-    
+
     const campaign = await db
   .select()
   .from(campaigns)
@@ -324,10 +338,14 @@ app.get("/campaignName", async (c) => {
   }
 });
 
-
-
-
-
+app.get("/debug-tables", async (c) => {
+  const db = c.get("db");
+  const tables = await db.execute(
+//     sql`SELECT current_schema() AS current_schema;`
+    sql `SELECT * FROM userpayment;`
+  );
+  return c.json(tables);
+});
 
 app.get("/showcampaigns", async (c) => {
   try {
@@ -350,7 +368,7 @@ app.get("/showcampaigns", async (c) => {
       preacherName: campaign.preacherName,
       totalFunderCount:campaign.funderstotal,
       totalRaisedAmount:campaign.raisedtotal
-    })) 
+    }))
 console.log("0", totalgoalamts[0].sum || 0)
 console.log("1",totalgoalamts)
     return c.json({
@@ -358,7 +376,7 @@ console.log("1",totalgoalamts)
       totalraisedamt:totalraised[0].sum || 0,
       totalgoalamt:totalgoalamts[0].sum || 0,
       campaignDetails: campaignDetails,
-     
+
 
     });
 
@@ -372,7 +390,7 @@ console.log("1",totalgoalamts)
 
 
 app.delete('/delete-campaign/:id',cors({
-  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconhubli.org"], 
+  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
@@ -429,7 +447,7 @@ app.delete('/delete-campaign/:id',cors({
 
 
 app.put('/update-campaign/:id',cors({
-  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconhubli.org"], 
+  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
@@ -505,21 +523,22 @@ app.put('/update-campaign/:id',cors({
 
 
 app.post('/create-campaign',cors({
-  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconhubli.org","https://campaigns.iskconhubli.org"], 
+  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org","https://campaigns.iskconmangalore.org"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
 }), async (c) => {
-  
+
   const db = c.get('db');
   const body = await c.req.json();
   try{
     const campaignData = {
       campaignName: String(body.campaignname),
       targetAmount: Number(body.targetamount),
-      imgurl: String(body.imgurl), 
+      imgurl: String(body.imgurl),
+      startdate: new Date(body.startdate),
       phoneno:String(body.phoneno),
-      enddate:String(body.enddate),
+      enddate:new Date(body.enddate),
       preacherName:String(body.preachername)
     };
     if(!campaignData.campaignName  || !campaignData.targetAmount || !campaignData.phoneno ||!campaignData.enddate){
@@ -537,7 +556,7 @@ app.post('/create-campaign',cors({
         status: 400
       });
     }
-  
+
     try{
       const result = await db.insert(campaigns).values(campaignData);
       return c.json({
@@ -558,7 +577,7 @@ app.post('/create-campaign',cors({
       status:400
     })
   }
- 
+
 });
 
 
@@ -574,6 +593,8 @@ app.get("/show", async (c)=> {
   const res = await db.select().from(paymentTable).then((res)=>res);
   return c.json(res)
 })
+
+
 
 
 

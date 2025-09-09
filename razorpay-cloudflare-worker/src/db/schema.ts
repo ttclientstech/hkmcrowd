@@ -18,12 +18,12 @@ export const paymentTable = pgTable("userpayment",
         campaignsid:integer("campaign_id").references(()=>campaigns.id),
         createdate:timestamp("created_at").notNull().defaultNow(),
         paymentstatus:boolean("payment_status").notNull().default(false),
-        orderid:varchar({
+        orderid:varchar('order_id',{
           length:255
         }).notNull(),
-        isananymous:boolean("isanonymous").notNull().default(false)
+        isanonymous:boolean("isanonymous").notNull().default(false)
     }
-)
+);
 export const campaigns = pgTable('campaigns', {
     id: serial('id').primaryKey(),
     campaignName: varchar('campaign_name', { length: 255 }).notNull(),
@@ -35,7 +35,8 @@ export const campaigns = pgTable('campaigns', {
     preacherName:varchar('preacher_name',{length:255}).notNull(),
     raisedtotal:integer("raised_total").notNull().default(0),
     funderstotal:integer("funders_totaltotal").notNull().default(0)
-  });
+  }
+);
 
 
   export const campaignRelation = relations(campaigns, ({ many }) => ({

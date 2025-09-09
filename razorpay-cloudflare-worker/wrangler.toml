@@ -2,15 +2,22 @@ name = "razor"
 main = "src/index.ts"
 compatibility_date = "2025-01-02"
 
+routes = [
+    "campaigns.iskconmangalore.org/single/*"
+]
 
 compatibility_flags = [ "nodejs_compat" ]
 
 [vars]
 # MY_VAR = "my-variable"
-DATABSE_URL = "postgresql://username:password@host:port/db_name?sslmode=require"
-RAZ_ID = "<place_your_razorpay_id>"
-RAZ_SECRET = "<place_your_razorpay_secret>"
+DATABASE_URL = "postgresql://neondb_owner:npg_Y8anjoCb3kWV@ep-raspy-bush-a18madzu-pooler.ap-southeast-1.aws.neon.tech/neondb?options=-c%20search_path%3Dgh_campaign&branch=development&sslmode=require&channel_binding=require"
+RAZ_ID = "rzp_test_qaL0Ut9tGYaofw"
+RAZ_SECRET = "mLb9fg1zqQQKeOm0XezFJton"
 
+[logs]
+level = "info"
+include_invocation = true
+sampling_rate = 1.0
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
