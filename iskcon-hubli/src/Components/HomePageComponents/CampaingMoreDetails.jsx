@@ -226,6 +226,12 @@ const CampaignMoreDetails = ({ campaign, getSingleUser, themeColor, handleImageE
                 <Box w={"90%"} h={"auto"} mx={"auto"}>
                     <Image w={"100%"} h={"100%"} src={campaign.construction_img} />
                 </Box>
+                <Box w={"90%"} h={"auto"} mx={"auto"}>
+                                    <Image w={"100%"} h={"100%"} src={campaign.land_img} />
+                 </Box>
+                 <Box w={"90%"} h={"auto"} mx={"auto"}>
+                                     <Image w={"100%"} h={"100%"} src={campaign.land_img2} />
+                 </Box>
             </VStack>
 
             <VStack

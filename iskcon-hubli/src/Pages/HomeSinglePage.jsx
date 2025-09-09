@@ -5,7 +5,7 @@ import {
   fetchSingleUser,
   postPaymentFormData,
 } from "../Redux/clientSlices/clientUsers";
-import image16 from "../assets/images/image16.jpg";
+import image16 from "../assets/images/logo.jpeg";
 import avatar from "../assets/images/Avatar-PNG-Image.webp";
 import {
   Box,
@@ -199,7 +199,7 @@ const HomeSinglePage = () => {
     setImageError(true); // Set the state to indicate the image has failed to load
   };
 
-  const shareUrl = `https://campaigns.iskconhubli.org/single/${id}`;
+  const shareUrl = `https://campaigns.iskconmangalore.org/single/${id}`;
 
   const handleShare = () => {
     const message = `Check this out: ${shareUrl}`;
@@ -315,7 +315,7 @@ const HomeSinglePage = () => {
       ) : (
         <Funders getSingleUser={getSingleUser} />
       )}
-      <ProjectVedio />
+
       <Fotter />
     </Box>
   );

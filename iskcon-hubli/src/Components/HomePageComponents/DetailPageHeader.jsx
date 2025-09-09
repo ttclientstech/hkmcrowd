@@ -14,31 +14,32 @@ const DetailPageHeader = ({ themeColor, getSingleUser, image16 }) => {
 
   return (
     <>
+    <Box w="100%" h="6px" bgGradient="linear(to-r, #D4AF37, #FFD700, #D4AF37)" />
     <Box
       w={"100%"}
       bgGradient={bgGradient}
-      bg={'#d582f0'}
+      bg={'maroon'}
       py={"2rem"}
       px={["1.5rem", "2rem", "3rem"]}
     >
-      <Box w={"100%"} maxW={"1200px"} mx={"auto"} color={'#444444'}>
+      <Box w={"100%"} maxW={"1200px"} mx={"auto"} color={'white'}>
         <Text
           fontWeight={"bold"}
-          fontSize={["1.2rem", "1.5rem", "2rem"]}
+          fontSize={["1rem", "1rem", "1.5rem"]}
           w={["99%", "85%", "70%"]}
           maxW={"650px"}
           lineHeight={"2.2rem"}
         >
-          {getSingleUser?.campaignDetails?.campaignName}'S CAMPAIGN TO BUILD A
-          MAGNIFICENT SRI RADHA KRISHNA TEMPLE AND CULTURAL COMPLEX IN
-          HUBLI-DHARWAD, KARNATAKA.
+          {getSingleUser?.campaignDetails?.campaignName}'s campaign to build a
+          magnificent Sri Radha Krishna Temple AND Cultural Complex in
+          Mangalore-Govardhana Hills, Karnataka.
         </Text>
         <VStack alignItems={"flex-start"} gap={"1rem"} mt={"1rem"} >
           <HStack>
             <Box>
               <FaLocationDot />
             </Box>
-            <Text>Hubli-Dharwad, Karnataka, India</Text>
+            <Text>Benjanapadavu, Mangalore, Karnataka, India</Text>
           </HStack>
 
 
@@ -54,22 +55,23 @@ const DetailPageHeader = ({ themeColor, getSingleUser, image16 }) => {
                 <Image
                   h={"100%"}
                   w={"100%"}
-                  objectFit={"cover"}
+                  borderRadius="full"        // Makes the image container round
+                  objectFit="contain"        // Ensures entire image fits inside the circle
                   src={image16}
+                  alt="Profile"
                 />
               </Box>
               <VStack alignItems={"flex-start"} gap={"2px"}>
-                <Text fontWeight={"bold"}>ISKCON HUBLI-DHARWAD</Text>
+                <Text fontWeight={"bold"}>ISKCON Mangalore</Text>
                 <Text fontWeight={"bold"} color={"#83009D"} fontStyle={"italic"}>Go to Homepage</Text>
               </VStack>
             </HStack>
           </Link>
 
-
         </VStack>
       </Box>
     </Box>
-    
+    <Box w="100%" h="6px" bgGradient="linear(to-r, #D4AF37, #FFD700, #D4AF37)" />
     <Image
       src={Banner}
     />

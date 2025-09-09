@@ -27,7 +27,7 @@ const PaymentPage = () => {
   };
   console.log("Order ID, paymentData from url", id, paymentData);
   const [orderConfirmId, setOrderConfirmId] = useState(null)
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const Toast = useToast();
   const navigate = useNavigate();
   const [paymentStatus, setPaymentStatus] = useState('');
@@ -60,7 +60,7 @@ const PaymentPage = () => {
       const options = {
         key: process.env.REACT_APP_RZP_KEY,
         currency: "INR",
-        name: "ISKCON Hubli-Dharwad",
+        name: "ISKCON Mangalore Govardhana Hills",
         description: "Mandir Nirmana Seva",
         order_id: id,
         handler: function (response) {
@@ -69,7 +69,7 @@ const PaymentPage = () => {
           // navigate(`/single/${paymentData.campaignsid}`);
 
           // Commenting the postPaymentSuccess dispatch - as this is handling from Pabbly connect
-          // dispatch(postPaymentSuccess({ paymentId: response.razorpay_payment_id, orderid: id, isanonymous: paymentData.isanonymous, campaignid: paymentData.campaignsid  }));
+          dispatch(postPaymentSuccess({ paymentId: response.razorpay_payment_id, orderid: id, isanonymous: paymentData.isanonymous, campaignid: paymentData.campaignsid  }));
           Toast({
             title: "Payment Successful",
             description: "Your payment was successful. Thank you!",
@@ -159,9 +159,9 @@ const PaymentPage = () => {
             {`Your payment was successful!`}
           </Text>
           <Text mt={4} fontSize="xl" fontWeight="bold" textAlign="center" color="white">
-            {`Your payment has been successfully received. Thank you for your generous support towards ${paymentData?.campainerName? `${paymentData?.campainerName}'s`:''} campaign to build a magnificent Sri Radha Krishna Temple and Cultural Complex in Hubli-Dharwad, Karnataka.`}
+            {`Your payment has been successfully received. Thank you for your generous support towards ${paymentData?.campainerName? `${paymentData?.campainerName}'s`:''} campaign to build a magnificent Sri Radha Krishna Temple and Cultural Complex in Mangalore, Karnataka.`}
           </Text>
-          <Button mt={6} background="#144544" color='white' size="lg" fontWeight="bold" onClick={() => navigate(`/single/${paymentData.campaignsid}`)}>
+          <Button mt={6} background="#144544" color='white' size="lg" fontWeight="bold" onClick={() => navigate(`/single/${paymentData.campaignsId}`)}>
             Go Back
           </Button>
         </Box>

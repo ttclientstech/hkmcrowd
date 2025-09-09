@@ -1,16 +1,17 @@
 import { Flex, Image, Box, Text, useColorModeValue } from "@chakra-ui/react";
-import logo from "../../assets/images/newlogo.png";
+import logo from "../../assets/images/logo.png";
 
 import { IskconFontColor, IskconBgColor, banner } from "../utils.jsx";
 
 const HeadingBanner = () => {
     // const bgColor = '#54956e';
     // const textColor = useColorModeValue("white", "gray.200");
-    const bgColor = '#d582f0';  //'#f4c430'; //'#f4c430';
-    const textColor = '#444444'; //useColorModeValue("#444444", "gray.200")
+    const bgColor = '#4B0000';  //'#f4c430'; //'#f4c430';
+    const textColor = '#FFFFFF'; //useColorModeValue("#444444", "gray.200")
 
     return (
         <>
+        <Box w="100%" h="6px" bgGradient="linear(to-r, #D4AF37, #FFD700, #D4AF37)" />
         <Flex
             maxW="1200px"
             justifyContent='space-between'
@@ -39,14 +40,15 @@ const HeadingBanner = () => {
             />
             <Box textAlign="left" flex="1" >
                 <Text fontSize={["xs", "sm", "lg"]} fontWeight="bold" color={textColor} >
-                    CONCERNED DEVOTEES OF LORD SHRI KRISHNA COMING TOGETHER TO BUILD NORTH KARNATAKA'S BIGGEST MAGNIFICENT SRI RADHA KRISHNA TEMPLE AND CULTURAL COMPLEX
+                    IF YOU BUILD A TEMPLE OF LORD KRISHNA IN THIS WORLD, KRISHNA WILL BUILD A PALACE FOR YOU IN THE SPIRITUAL WORLD - VAIKUNTHA
                 </Text>
             </Box>
             
         </Flex>
+        <Box w="100%" h="6px" bgGradient="linear(to-r, #D4AF37, #FFD700, #D4AF37)" />
         <Box display={"block"} marginBottom='5px' maxW="1200px" w="100%" mt="-1px" mb="8px" textAlign={"end"}>
             <Text fontSize={["xs", "sm", "lg"]} color={textColor} bg={bgColor}>
-                <i>If you build a temple of Krishna, you will be liberated. <span>&nbsp;&nbsp;</span><br/><b>- Srila Prabhupada </b><span>&nbsp;&nbsp;</span></i>
+{/*                 <i>If you build a temple of Krishna, you will be liberated. <span>&nbsp;&nbsp;</span><br/><b>- Srila Prabhupada </b><span>&nbsp;&nbsp;</span></i> */}
             </Text>
         </Box>
        

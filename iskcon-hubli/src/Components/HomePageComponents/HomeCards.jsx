@@ -161,20 +161,23 @@ const HomeCards = ({
                       </>}
                     </Box>
                     <CardBody bg="gray.100" px="7px">
-                      <Text fontSize="1.1rem" textTransform='uppercase' fontWeight="700" mb={2} color="gray.700">
-                        {user.campaignName.toUpperCase()}'S CAMPAIGN TO BUILD A
-                        MAGNIFICENT SRI RADHA KRISHNA TEMPLE AND CULTURAL COMPLEX IN
-                        HUBLI-DHARWAD, KARNATAKA.
+                      <Text fontSize="1.1rem"  fontWeight="700" mb={2} color="gray.700">
+                        {user.campaignName.toUpperCase()}'S Campaign to build a
+                        magnificent {' '}
+                        <span style={{ color: '#6A1B9A' }}>
+                            Sri Radha Krishna Temple AND Cultural Complex
+                          </span>{' '}
+                        in Mangalore, Karnataka.
                       </Text>
                       <Text fontSize="0.9rem" mb={2} color="gray.600">{user.desc}</Text>
                       <HStack fontSize="0.8rem" py="0.5rem" color="gray.500">
-                        <Box color="red.500">ISKCON HUBLI-DHARWAD</Box>{" "}
+                        <Box color="red.500">ISKCON Mangalore</Box>{" "}
                         <Box>|</Box>
                         <HStack>
                           <Box color="red.500">
                             <FaLocationDot />
                           </Box>
-                          <Box>Hubli-Dharwad</Box>
+                          <Box>Benjanapadavu, Govardhan Hills</Box>
                         </HStack>
                       </HStack>
 

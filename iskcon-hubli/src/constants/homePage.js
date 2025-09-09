@@ -1,11 +1,13 @@
-import front_view from "../assets/images/001_temple_front_view.jpg";
-import night_view from "../assets/images/002_temple_night_view.jpg";
-import side_view from "../assets/images/003_temple_side_view.jpg";
+import front_view from "../assets/images/001_temple_front_view.jpeg";
+import night_view from "../assets/images/002_temple_night_view.jpeg";
+import side_view from "../assets/images/003_temple_side_view.jpeg";
 import footfall from "../assets/images/004_footfall.jpg";
 import procession from "../assets/images/005_RK_Procession.jpg";
 import cost_breakup from "../assets/images/006_cost_breakup.jpg";
 import wall_of_gratitude from "../assets/images/007_wall_of_gratitude.jpeg";
-import construction_img from "../assets/images/008_Construction_of_the_temple_phase1.png";
+import construction_img from "../assets/images/Front_View_from_AP.jpg";
+import land_img from "../assets/images/Top_Valley_View.jpg";
+import land_img2 from "../assets/images/Top_View.jpg";
 import impact_img from "../assets/images/009_impact.jpeg";
 import image1 from "../assets/images/image1.jpg";
 import image2 from "../assets/images/image2.jpg";
@@ -30,7 +32,7 @@ import image19 from "../assets/images/image19.png";
 export const campaign = {
   front_view,
   context:
-    "Join me in supporting the creation of a magnificent spiritual and cultural hub— the Sri Radha Krishna Temple and Cultural Complex in Hubli-Dharwad, Karnataka. This project, envisioned as the largest temple complex in North Karnataka, will serve as a beacon of spiritual learning and community. Through this crowdfunding campaign, we aim to raise INR 10 Crores to complete Phase 1 of the construction.",
+    "Join me in supporting the creation of a magnificent spiritual and cultural hub— the Sri Radha Krishna Temple and Cultural Complex in Mangalore, Karnataka. This project, envisioned as the largest temple complex in North Karnataka, will serve as a beacon of spiritual learning and community. Through this crowdfunding campaign, we aim to raise INR 10 Crores to complete Phase 1 of the construction.",
   night_view,
   background1:
     "Architect’s rendition of the stunning temple complex illuminated at night. In the foreground stands the Sri Srinivasa temple, while atop the hillock in the background rests the majestic Sri Radha Krishna temple.",
@@ -50,6 +52,8 @@ export const campaign = {
   wall_of_gratitude,
   ongoing: "Currently, a makeshift temple of Sri Sri Krishna Balaram, exists at the site and has already become a spiritual destination. With your support, the new temple will further enhance this space, drawing millions of pilgrims and devotees annually.",
   construction_img,
+  land_img,
+  land_img2,
 
 
 
@@ -108,7 +112,7 @@ export const campaign = {
   taxBenfits: image19,
 };
 
-export const BE_API_URL = 'https://razor.tech-iskconhubli.workers.dev'
+export const BE_API_URL = 'https://razor.vedicsciencecenter-clt.workers.dev'
 
 export const donorTitles = [
   "Seva Shiromani",

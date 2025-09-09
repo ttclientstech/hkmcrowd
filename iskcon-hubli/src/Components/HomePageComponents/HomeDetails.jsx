@@ -34,20 +34,17 @@ const HomeDetails = () => {
             <Tr>
               <Td fontWeight={"bold"}>Address:</Td>
               <Td>
-                ISKCON Sri Sri Krishna Balarama Temple, Hubballi-Dharwad Road,
-                Rayapur, Dharwad 580009, Karnataka, India
+                ISKCON Sri Krishna Balaram Mandir PVS Kalakunj Mangalore 575003
               </Td>
             </Tr>
             <Tr>
               <Td fontWeight={"bold"}>Location:</Td>
-              <Td>Hubli-Dharwad, Karnataka, India</Td>
+              <Td>Mangalore, Karnataka, India</Td>
             </Tr>
             <Tr>
               <Td fontWeight={"bold"}>About the org:</Td>
               <Td>
-                The International Society for Krishna Consciousness, abbreviated
-                as ISKCON, known colloquially as the Movement of Hare Krishna,
-                is a Gaudiya Vaishnava Hindu religious organization.
+                About the organisation: ISKCON (International Society for Krishna Consciousness) is a global spiritual movement founded in 1966 by His Divine Grace A. C. Bhaktivedanta Swami Prabhupāda to spread the teachings of Lord Krishna as presented in the Bhagavad-gītā and Śrīmad-Bhāgavatam. It promotes bhakti-yoga through chanting the Hare Krishna mahā-mantra, deity worship, prasadam distribution, and the study of Vedic scriptures.
               </Td>
             </Tr>
             <Tr>

@@ -5,7 +5,7 @@ const Fotter = () => {
     return (
         <Box as="footer" className="footer" p={4} bg="gray.800" color="white" textAlign="center" w={'full'} >
             <Text>
-                Copyright © 2025 - <Link href="https://campaigns.iskconhubli.org/" isExternal color="teal.200">www.iskconhubli.org</Link> - All Rights Reserved.
+                Copyright © 2025 - <Link href="https://campaigns.iskconmangalore.org/" isExternal color="teal.200">www.iskconmangalore.org</Link> - All Rights Reserved.
             </Text>
             <Text mt={2}>
                 <Link href="https://www.iskconhubli.org/privacy-policy/" color="teal.200">Privacy Policy</Link> | 
