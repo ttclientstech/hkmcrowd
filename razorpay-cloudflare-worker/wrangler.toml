@@ -5,6 +5,9 @@ compatibility_date = "2025-01-02"
 routes = [
     "campaigns.iskconmangalore.org/single/*"
 ]
+#[[routes]]
+#pattern = "campaigns.iskconmangalore.com/*"
+#zone_name = "iskconmangalore.org"
 
 compatibility_flags = [ "nodejs_compat" ]
 

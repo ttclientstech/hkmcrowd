@@ -161,7 +161,7 @@ const PaymentPage = () => {
           <Text mt={4} fontSize="xl" fontWeight="bold" textAlign="center" color="white">
             {`Your payment has been successfully received. Thank you for your generous support towards ${paymentData?.campainerName? `${paymentData?.campainerName}'s`:''} campaign to build a magnificent Sri Radha Krishna Temple and Cultural Complex in Mangalore, Karnataka.`}
           </Text>
-          <Button mt={6} background="#144544" color='white' size="lg" fontWeight="bold" onClick={() => navigate(`/single/${paymentData.campaignsId}`)}>
+          <Button mt={6} background="#144544" color='white' size="lg" fontWeight="bold" onClick={() => navigate(`/single/${paymentData.campaignsid}`)}>
             Go Back
           </Button>
         </Box>

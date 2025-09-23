@@ -133,7 +133,19 @@ const razorpay = new Razorpay({
 
 
 
-app.get("/campaign/:id", async (c) => {
+app.get(
+    '/campaign/:id',
+    cors({
+        origin: [
+          "http://localhost:3000",
+          "https://iskcon-hubli.vercel.app",
+          "https://campaigns.iskconmangalore.org"
+        ],
+        allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
+        credentials: true,
+      }),
+    async (c) => {
   const db = c.get("db");
   const campaignId = Number(c.req.param("id"));
 
@@ -593,10 +605,5 @@ app.get("/show", async (c)=> {
   const res = await db.select().from(paymentTable).then((res)=>res);
   return c.json(res)
 })
-
-
-
-
-
 
 export default app
