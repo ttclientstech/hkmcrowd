@@ -32,7 +32,7 @@ const DetailPageHeader = ({ themeColor, getSingleUser, image16 }) => {
         >
           {getSingleUser?.campaignDetails?.campaignName}'s campaign to build a
           magnificent Sri Radha Krishna Temple AND Cultural Complex in
-          Mangalore-Govardhana Hills, Karnataka.
+          Mangalore, Govardhana Hills, Karnataka.
         </Text>
         <VStack alignItems={"flex-start"} gap={"1rem"} mt={"1rem"} >
           <HStack>
