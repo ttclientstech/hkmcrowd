@@ -29,6 +29,7 @@ const PhotoWithDescription = ({ imageError, avatar, getSingleUser, handleImageEr
                 />
             </Box>
             <Box
+            textAlign="justify"
                 bgColor="#EDEAEA"
                 mt="1rem"
                 p="1rem"

@@ -150,7 +150,7 @@ const CapaignerProgressBox = ({
                         <Box w={"100%"}>
                             {/* --- 4. NEW DROPDOWN ADDED HERE --- */}
                                                         <Select
-                                                            placeholder="choose a Seva option"
+                                                            placeholder="Choose a Seva option"
                                                             onChange={handleDropdownChange}
                                                             h={"50px"}
                                                             mb={"1rem"}

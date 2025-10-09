@@ -68,7 +68,9 @@ const CampaignMoreDetails = ({ campaign, getSingleUser, themeColor, handleImageE
                     >
                         About the Campaign:
                     </Box>
-                    <Box>{campaign.context}</Box>
+                    <Box textAlign="justify">
+                            {campaign.context}
+                        </Box>
                 </VStack>
 
                 {/* Image 2 */}
@@ -85,7 +87,7 @@ const CampaignMoreDetails = ({ campaign, getSingleUser, themeColor, handleImageE
                     >
                         THE BACKGROUND:
                     </Box> */}
-                    <Box>{campaign.background1}</Box>
+                    <Box textAlign="justify">{campaign.background1}</Box>
                 </VStack>
 
                 {/* Image 3 */}
@@ -104,7 +106,7 @@ const CampaignMoreDetails = ({ campaign, getSingleUser, themeColor, handleImageE
                     >
                         The Vision:
                     </Box>
-                    <Box>{campaign.vision}</Box>
+                    <Box textAlign="justify">{campaign.vision}</Box>
                 </VStack>
 
                 {/* About the temple complex */}
@@ -116,7 +118,7 @@ const CampaignMoreDetails = ({ campaign, getSingleUser, themeColor, handleImageE
                     >
                         About the Temple Complex:
                     </Box>
-                    <Box>{campaign.temple_complex}</Box>
+                    <Box textAlign="justify">{campaign.temple_complex}</Box>
                 </VStack>
 
                 {/* Footfall */}
@@ -133,7 +135,7 @@ const CampaignMoreDetails = ({ campaign, getSingleUser, themeColor, handleImageE
                     >
                         The Impact:
                     </Box>
-                    <Box>{campaign.impact}</Box>
+                    <Box textAlign="justify">{campaign.impact}</Box>
                 </VStack>
 
                 {/* Procession image */}
@@ -150,7 +152,7 @@ const CampaignMoreDetails = ({ campaign, getSingleUser, themeColor, handleImageE
                     >
                         The Need:
                     </Box>
-                    <Box>{campaign.need}</Box>
+                    <Box textAlign="justify">{campaign.need}</Box>
                 </VStack>
 
                 {/* cost break up */}
@@ -166,7 +168,7 @@ const CampaignMoreDetails = ({ campaign, getSingleUser, themeColor, handleImageE
                     >
                         Your Contribution:
                     </Box>
-                    <Box>{campaign.your_contrinution}</Box>
+                    <Box textAlign="justify">{campaign.your_contrinution}</Box>
 
                     <Box
                         fontSize={"1.5rem"}
@@ -219,7 +221,7 @@ const CampaignMoreDetails = ({ campaign, getSingleUser, themeColor, handleImageE
                     >
                         Aerial View of our Temple Land:
                     </Box>
-                    <Box>{campaign.ongoing}</Box>
+                    <Box textAlign="justify">{campaign.ongoing}</Box>
                 </VStack>
 
                 {/* Construction */}

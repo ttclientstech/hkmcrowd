@@ -20,7 +20,7 @@ import image9 from "../assets/images/image9.jpg";
 import image10 from "../assets/images/image10.jpg";
 import image12 from "../assets/images/image12.jpg";
 import image13 from "../assets/images/image13.jpg";
-import image14 from "../assets/images/image14.jpg";
+import image14 from "../assets/images/image14.png";
 import image15 from "../assets/images/image15.jpg";
 import image16 from "../assets/images/image16.jpg";
 import image17 from "../assets/images/image17.jpg";

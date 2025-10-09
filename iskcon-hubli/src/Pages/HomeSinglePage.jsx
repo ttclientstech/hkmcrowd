@@ -315,7 +315,7 @@ const HomeSinglePage = () => {
       ) : (
         <Funders getSingleUser={getSingleUser} />
       )}
-
+        <ProjectVedio />
       <Fotter />
     </Box>
   );
