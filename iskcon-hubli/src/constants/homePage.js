@@ -3,12 +3,12 @@ import night_view from "../assets/images/002_temple_night_view.jpeg";
 import side_view from "../assets/images/003_temple_side_view.jpeg";
 import footfall from "../assets/images/004_footfall.jpg";
 import procession from "../assets/images/005_RK_Procession.jpg";
-import cost_breakup from "../assets/images/006_cost_breakup.jpg";
+import cost_breakup from "../assets/images/006_cost_breakup.png";
 import wall_of_gratitude from "../assets/images/007_wall_of_gratitude.jpeg";
 import construction_img from "../assets/images/Front_View_from_AP.jpg";
 import land_img from "../assets/images/Top_Valley_View.jpg";
 import land_img2 from "../assets/images/Top_View.jpg";
-import impact_img from "../assets/images/009_impact.jpeg";
+import impact_img from "../assets/images/009_impact.png";
 import image1 from "../assets/images/image1.jpg";
 import image2 from "../assets/images/image2.jpg";
 import image3 from "../assets/images/image3.jpg";
@@ -32,25 +32,24 @@ import image19 from "../assets/images/image19.png";
 export const campaign = {
   front_view,
   context:
-    "Join me in supporting the creation of a magnificent spiritual and cultural hub— the Sri Radha Krishna Temple and Cultural Complex in Mangalore, Karnataka. This project, envisioned as the largest temple complex in North Karnataka, will serve as a beacon of spiritual learning and community. Through this crowdfunding campaign, we aim to raise INR 10 Crores to complete Phase 1 of the construction.",
+    "Join me in supporting the creation of a magnificent spiritual and cultural hub— Sri Radha Krishna Temple and Cultural Complex in Mangalore, Karnataka. This project, envisioned as the Grandest temple complex in Coastal Karnataka, will serve as a beacon of spiritual learning and community. Through this crowdfunding campaign, we aim to raise INR 22 Crores to complete Phase 1 of the construction.",
   night_view,
   background1:
-    "Architect’s rendition of the stunning temple complex illuminated at night. In the foreground stands the Sri Srinivasa temple, while atop the hillock in the background rests the majestic Sri Radha Krishna temple.",
+    "Architect’s rendition of the stunning temple complex illuminated at night.",
   vision:
     "ISKCON (International Society for Krishna Consciousness), founded by A.C. Bhaktivedanta Swami Prabhupada, promotes spiritual growth and a life of unconditional love. This temple and cultural complex will further ISKCON’s mission to educate and uplift people of all backgrounds through spiritual practices and cultural activities.",
   temple_complex:
-    "The Sri Radha Krishna Temple and Cultural Complex, strategically located on a hillock along the Bengaluru-Pune national highway, will span 5.5 acres and encompass a total built-up area of 2,25,000 square feet. The complex will house the main Radha Krishna Temple, Sri Srinivasa Govinda Temple, a multimedia cultural theatre, value education classrooms, a ghosala, guesthouses, a marriage hall, and much more. With an estimated 20 million visitors in the first 10 years, it will become a major spiritual and cultural destination for the region.",
+    "The Sri Radha Krishna Temple and Cultural Complex, strategically located on a hillock called Govardhana Hills, Benjanapadavu, will span 11 acres. The complex will house the main Radha Krishna Temple, a multi purpose cultural theatre, value education classrooms, a Gaushala, guesthouses, a marriage hall, yoga center, wellness center cottages and much more. It will become a major spiritual and cultural destination for the region.",
   side_view,
-  footfall,
   impact: "This complex will be a hub for spiritual education and will provide an immersive cultural experience. It will feature traditional rituals, festivals, multimedia performances, and educational programs designed to deepen the connection to inner values. The temple will also provide nourishment through prasadam (sanctified food), creating a nurturing environment for visitors.",
   impact_img,
   procession,
-  need: "The total estimated cost of Phase 1 is INR 25 Crores. With INR 15 Crores already raised, we need an additional INR 10 Crores to complete this phase. Construction is underway, and we aim to finish Phase 1 by year 2025.",
+  need: "The total estimated cost of Phase 1 is INR 25 Crores. With INR 3 Crores already raised, we need an additional INR 22 Crores to complete this phase. Construction is going to start from November 8, 2025 onwards",
   cost_breakup,
   your_contrinution: "Every contribution, no matter the size, will help bring this vision to life. Donations are eligible for tax benefits under Section 80G of the Income Tax Act. We will recognise major donors on the Wall of Gratitude.",
   join_us: "Join us in creating a temple that will serve as a beacon of spirituality and culture for millions. Together, we can make this dream a reality.",
   wall_of_gratitude,
-  ongoing: "Currently, a makeshift temple of Sri Sri Krishna Balaram, exists at the site and has already become a spiritual destination. With your support, the new temple will further enhance this space, drawing millions of pilgrims and devotees annually.",
+  ongoing: "With your support, the new temple will further enhance this space, drawing millions of pilgrims and devotees annually.",
   construction_img,
   land_img,
   land_img2,

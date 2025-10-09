@@ -1,5 +1,5 @@
-import React from 'react';
-import { Box, Button, HStack, VStack, Input, Badge, Flex } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { Box, Button, HStack, VStack, Input, Badge, Flex, Select } from '@chakra-ui/react';
 import { calculatePercentage, formatCurrency, getDaysDifference } from '../utils';
 import ProgressBar from './ProgressBar';
 
@@ -7,6 +7,7 @@ import { IskconBgColor, IskconFontColor } from '../utils';
 
 const CapaignerProgressBox = ({
     getSingleUser,
+    amount,
     setAmount,
     handleClick,
     errorMessage
@@ -15,6 +16,30 @@ const CapaignerProgressBox = ({
     const raisedAmount = getSingleUser?.raisedFund || 0;
     const isTargetReached = raisedAmount >= targetAmount;
     const currentPercentage = calculatePercentage(targetAmount, raisedAmount);
+    const sevaOptions = [
+            { label: "Brick Seva", value: 2101},
+            { label: "1 Square ft Seva", value: 5001 },
+            { label: "Pravachana mandir Seva", value: 10001 },
+            { label: "Annadana Kitchen Seva", value: 25001 },
+            { label: "Mukhya Mandira Seva", value: 55001 },
+            { label: "Life PatronShip Seva", value: 75001}
+        ];
+    const [showCustomInput, setShowCustomInput] = useState(false);
+
+        // 3. Handle dropdown changes
+    const handleDropdownChange = (e) => {
+            const selectedValue = e.target.value;
+
+            if (selectedValue === "custom") {
+                // If user selects "Custom", show the input and clear the amount
+                setShowCustomInput(true);
+                setAmount("");
+            } else {
+                // If user selects a Seva, hide the input and set the amount
+                setShowCustomInput(false);
+                setAmount(selectedValue);
+            }
+        };
     return (
         <Box
             w={["97%", "97%", "97%", "50%"]}
@@ -123,14 +148,33 @@ const CapaignerProgressBox = ({
                         </Box>
                     ) : (
                         <Box w={"100%"}>
-                            <Input
-                                type="number"
-                                placeholder="Enter Amount"
-                                onChange={(e) => setAmount(e.target.value)}
-                                h={"50px"}
-                                focusBorderColor="#d481f0"
-                                border="4px solid #d481f0"
-                            />
+                            {/* --- 4. NEW DROPDOWN ADDED HERE --- */}
+                                                        <Select
+                                                            placeholder="choose a Seva option"
+                                                            onChange={handleDropdownChange}
+                                                            h={"50px"}
+                                                            mb={"1rem"}
+                                                            focusBorderColor="#d481f0"
+                                                            border="2px solid #d481f0"
+                                                        >
+                                                            {sevaOptions.map((option) => (
+                                                                <option key={option.label} value={option.value}>
+                                                                    {`${option.label} - ${formatCurrency(option.value)}`}
+                                                                </option>
+                                                            ))}
+                                                         <option value="custom">Enter Your Amount</option>
+                                                        </Select>
+                            {showCustomInput && (
+                                                            <Input
+                                                                type="number"
+                                                                placeholder="Enter Your Amount here"
+                                                                value={amount}
+                                                                onChange={(e) => setAmount(e.target.value)}
+                                                                h={"50px"}
+                                                                focusBorderColor="#d481f0"
+                                                                border="4px solid #d481f0"
+                                                            />
+                                                        )}
                         </Box>
                     )}
                     <Button

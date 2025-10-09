@@ -54,9 +54,9 @@ const HomeDetails = () => {
                   <Link href={cor} target="_blank" rel="noopener noreferrer" color="blue.500" textDecoration="underline">
                     Certificate of Registration
                   </Link>
-                  <Link href={csr} target="_blank" rel="noopener noreferrer" color="blue.500" textDecoration="underline">
-                    ISKCON CSR
-                  </Link>
+{/*                   <Link href={csr} target="_blank" rel="noopener noreferrer" color="blue.500" textDecoration="underline"> */}
+{/*                     ISKCON CSR */}
+{/*                   </Link> */}
                   <Link href={g} target="_blank" rel="noopener noreferrer" color="blue.500" textDecoration="underline">
                     80G Certificate
                   </Link>

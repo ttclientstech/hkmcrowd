@@ -9,7 +9,7 @@ import HeadingBanner from '../Components/HomePageComponents/HeadingBannerNew'
 import { BE_API_URL } from '../constants/homePage'
 import Fotter from '../Components/HomePageComponents/Fotter'
 
-import Banner from "../assets/images/mandir_nirman_seva_banner.jpeg";
+import Banner from "../assets/images/mandir_nirman_seva_banner.png";
 
 import { IskconFontColor, IskconBgColor } from "../Components/utils.jsx";
 

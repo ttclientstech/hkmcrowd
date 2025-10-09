@@ -177,7 +177,7 @@ const CampaignMoreDetails = ({ campaign, getSingleUser, themeColor, handleImageE
                     </Box>
                     <ul>
                         <li>Donations can be made online through the link</li>
-                        <li>Donations via cheque can be made to ISKCON HUBLI and sent to P.B Road, Rayapur, Dharwad-580009.</li>
+                        <li>Donations via cheque can be made to ISKCON Mangalore and sent to PVS KalaKunja, Kodialbail, Mangalore-575003.</li>
                     </ul>
 
                     <Box
@@ -217,7 +217,7 @@ const CampaignMoreDetails = ({ campaign, getSingleUser, themeColor, handleImageE
                         fontWeight={"semibold"}
                         color={"red.500"}
                     >
-                        The ongoing work:
+                        Aerial View of our Temple Land:
                     </Box>
                     <Box>{campaign.ongoing}</Box>
                 </VStack>

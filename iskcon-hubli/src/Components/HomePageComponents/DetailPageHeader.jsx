@@ -3,7 +3,7 @@ import React from 'react';
 import { FaLocationDot } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 
-import Banner from "../../assets/images/mandir_nirman_seva_banner.jpeg";
+import Banner from "../../assets/images/mandir_nirman_seva_banner.png";
 
 import { IskconGradientLight, IskconFontColor, IskconGradientDark } from '../utils';
 
@@ -63,7 +63,7 @@ const DetailPageHeader = ({ themeColor, getSingleUser, image16 }) => {
               </Box>
               <VStack alignItems={"flex-start"} gap={"2px"}>
                 <Text fontWeight={"bold"}>ISKCON Mangalore</Text>
-                <Text fontWeight={"bold"} color={"#83009D"} fontStyle={"italic"}>Go to Homepage</Text>
+                <Text fontWeight={"bold"} color={"#FFD700"} fontStyle={"italic"}>Go to Homepage</Text>
               </VStack>
             </HStack>
           </Link>

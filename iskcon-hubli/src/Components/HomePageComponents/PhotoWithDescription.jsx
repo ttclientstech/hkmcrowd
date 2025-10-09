@@ -1,4 +1,4 @@
-import { Box, Image } from '@chakra-ui/react';
+import { Box, Image, Text } from '@chakra-ui/react';
 import React from 'react';
 
 const PhotoWithDescription = ({ imageError, avatar, getSingleUser, handleImageError }) => {
@@ -9,6 +9,17 @@ const PhotoWithDescription = ({ imageError, avatar, getSingleUser, handleImageEr
                 h={["400px", "450px", "400px", "400px", "500px"]}
                 overflow="hidden"
             >
+            <Text
+                  as="h2"
+                  fontSize={["xl", "2xl", "2xl", "3xl"]}
+                  fontWeight="bold"
+                  textAlign="center"
+                  mb="0.5rem"
+                  color="#2E2E2E"
+                  fontFamily="'Merriweather', serif"
+                >
+                  Sri {getSingleUser?.campaignDetails?.campaignName}
+                </Text>
                 <Image
                     w="100%"
                     h="100%"
