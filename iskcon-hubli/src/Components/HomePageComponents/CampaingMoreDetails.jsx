@@ -116,7 +116,7 @@ const CampaignMoreDetails = ({ campaign, getSingleUser, themeColor, handleImageE
                         fontWeight={"semibold"}
                         color={"red.500"}
                     >
-                        About the Temple Complex:
+                        About the Temple:
                     </Box>
                     <Box textAlign="justify">{campaign.temple_complex}</Box>
                 </VStack>

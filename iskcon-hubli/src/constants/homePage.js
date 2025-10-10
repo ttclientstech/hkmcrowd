@@ -32,16 +32,16 @@ import image19 from "../assets/images/image19.png";
 export const campaign = {
   front_view,
   context:
-    "Join me in supporting the creation of a magnificent spiritual and cultural hub— Sri Radha Krishna Temple and Cultural Complex in Mangalore, Karnataka. This project, envisioned as the Grandest temple complex in Coastal Karnataka, will serve as a beacon of spiritual learning and community. Through this crowdfunding campaign, we aim to raise INR 22 Crores to complete Phase 1 of the construction.",
+    "Join me in supporting the creation of a magnificent spiritual and cultural hub— Sri Radha Krishna Temple and centre for culture and education in Mangalore, Karnataka. This project, envisioned as the Grandest temple in Coastal Karnataka, will serve as a beacon of spiritual learning and community. Through this crowdfunding campaign, we aim to raise INR 22 Crores to complete Phase 1 of the construction.",
   night_view,
   background1:
-    "Architect’s rendition of the stunning temple complex illuminated at night.",
+    "Architect’s rendition of the stunning temple illuminated at night.",
   vision:
-    "ISKCON (International Society for Krishna Consciousness), founded by A.C. Bhaktivedanta Swami Prabhupada, promotes spiritual growth and a life of unconditional love. This temple and cultural complex will further ISKCON’s mission to educate and uplift people of all backgrounds through spiritual practices and cultural activities.",
+    "ISKCON (International Society for Krishna Consciousness), founded by A.C. Bhaktivedanta Swami Prabhupada, promotes spiritual growth and a life of unconditional love. This temple and cultural center will further fuels ISKCON’s mission to educate and uplift people of all backgrounds through spiritual practices and cultural activities.",
   temple_complex:
-    "The Sri Radha Krishna Temple and Cultural Complex, strategically located on a hillock called Govardhana Hills, Benjanapadavu, will span 11 acres. The complex will house the main Radha Krishna Temple, a multi purpose cultural theatre, value education classrooms, a Gaushala, guesthouses, a marriage hall, yoga center, wellness center cottages and much more. It will become a major spiritual and cultural destination for the region.",
+    "The Sri Radha Krishna Temple and Cultural center, strategically located on a hillock called Govardhana Hills, Benjanapadavu, will span 11 acres. The center will house the main Radha Krishna Temple, a multi purpose cultural theatre, value education classrooms, a Gaushala, guesthouses, a marriage hall, yoga center, wellness center cottages and much more. It will become a major spiritual and cultural destination for the region.",
   side_view,
-  impact: "This complex will be a hub for spiritual education and will provide an immersive cultural experience. It will feature traditional rituals, festivals, multimedia performances, and educational programs designed to deepen the connection to inner values. The temple will also provide nourishment through prasadam (sanctified food), creating a nurturing environment for visitors.",
+  impact: "This center will be a hub for spiritual education and will provide an immersive cultural experience. It will feature traditional rituals, festivals, multimedia performances, and educational programs designed to deepen the connection to inner values. The temple will also provide nourishment through prasadam (sanctified food), creating a nurturing environment for visitors.",
   impact_img,
   procession,
   need: "The total estimated cost of Phase 1 is INR 25 Crores. With INR 3 Crores already raised, we need an additional INR 22 Crores to complete this phase. Construction is going to start from November 8, 2025 onwards",
@@ -57,9 +57,9 @@ export const campaign = {
 
 
   image3Matter:
-    "Picture : Architect’s rendition of how this magnificent temple complex will look at night. In the foreground is the Sri Srinivasa temple and at the back of the hillock is perched the Sri Radha Krishna temple.",
+    "Picture : Architect’s rendition of how this magnificent temple will look at night. In the foreground is the Sri Srinivasa temple and at the back of the hillock is perched the Sri Radha Krishna temple.",
   image4Para1:
-    "The construction cost for the overall complex is estimated at INR 67.5 Crore. In the first phase of construction, a cost of INR 19.77 Crores has been budgeted. Approximately INR 10.4 Crore has already been raised and paid to suppliers as advance to get work started (Read the full story for all the details).",
+    "The construction cost for the overall center is estimated at INR 67.5 Crore. In the first phase of construction, a cost of INR 19.77 Crores has been budgeted. Approximately INR 10.4 Crore has already been raised and paid to suppliers as advance to get work started (Read the full story for all the details).",
   image4Heading:
     "There is a need to raise another INR 9.37 Crores to complete the 1st phase.",
   image4para2:

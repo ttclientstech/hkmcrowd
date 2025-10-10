@@ -39,7 +39,7 @@ const PhotoWithDescription = ({ imageError, avatar, getSingleUser, handleImageEr
             >
                 As a devoted well-wisher, I am leading this sacred campaign to support 
                 the creation of a magnificent ISKCON Sri Radha Krishna Temple and 
-                Cultural Complex in the Mangalore region of Karnataka.
+                Centre for culture and education.  in the Mangalore region of Karnataka.
             </Box>
         </Box>
     );

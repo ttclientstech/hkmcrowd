@@ -165,7 +165,7 @@ const HomeCards = ({
                         {user.campaignName.toUpperCase()}'S Campaign to build a
                         magnificent {' '}
                         <span style={{ color: '#6A1B9A' }}>
-                            Sri Radha Krishna Temple AND Cultural Complex
+                            Sri Radha Krishna Temple and centre for culture and education
                           </span>{' '}
                         in Mangalore, Karnataka.
                       </Text>
