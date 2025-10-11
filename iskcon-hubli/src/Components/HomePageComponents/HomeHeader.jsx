@@ -8,7 +8,7 @@ const HomeHeader = () => {
              <Box w={'200px'} h={'200px'} overflow={'hidden'} borderRadius={"50%"}>
                 <Img w={'100%'} h={'100%'} objectFit={'cover'}  src='https://fadcdn.s3.ap-south-1.amazonaws.com/media/organization/logo_ISKCON.png' alt='icon' />
              </Box>
-             <Box fontWeight={'extrabold'} textColor={'white'}>ISKCON HUBLI-DHARWAD</Box>
+             <Box fontWeight={'extrabold'} textColor={'white'}>ISKCON Mangalore - Govardhan Hills</Box>
         </VStack>
     </Box>
   )
