@@ -31,7 +31,7 @@ const DetailPageHeader = ({ themeColor, getSingleUser, image16 }) => {
           lineHeight={"2.2rem"}
         >
           {getSingleUser?.campaignDetails?.campaignName}'s campaign to build a
-          magnificent Sri Radha Krishna Temple AND Centre for culture and education.  in
+          magnificent Sri Radha Krishna Temple and Centre for Culture and education in
           Mangalore, Govardhana Hills, Karnataka.
         </Text>
         <VStack alignItems={"flex-start"} gap={"1rem"} mt={"1rem"} >
