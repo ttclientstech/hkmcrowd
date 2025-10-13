@@ -23,7 +23,7 @@ const CapaignerProgressBox = ({
             { label: "Annadana Kitchen Seva", value: 25001 },
             { label: "Mukhya Mandira Seva", value: 55001 },
             { label: "Life PatronShip Seva", value: 75001},
-            { label: "Dharma Sevak Seva (Life Patron)", value: Rs 108000}
+            { label: "Dharma Sevak Seva (Life Patron)", value: 108000}
         ];
     const [showCustomInput, setShowCustomInput] = useState(false);
 
