@@ -1,5 +1,5 @@
-import { Box, Checkbox, FormLabel, HStack, Input, VStack } from '@chakra-ui/react';
-import React from 'react';
+import { Box, Checkbox, FormLabel, HStack, Input, VStack, Spinner } from '@chakra-ui/react';
+import React, { useState, useCallback, useRef } from 'react';
 import { IskconBgColor } from '../utils';
 
 const PaymentModal = ({
@@ -11,6 +11,35 @@ const PaymentModal = ({
     formData,
     errors
 }) => {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const lastSubmitTimeRef = useRef(0);
+
+    const debouncedHandleSubmit = useCallback((e) => {
+        e.preventDefault();
+
+        const now = Date.now();
+        const timeSinceLastSubmit = now - lastSubmitTimeRef.current;
+
+        // If already submitting or clicked too recently (within 2 seconds), prevent submission
+        if (isSubmitting || timeSinceLastSubmit < 2000) {
+            return;
+        }
+
+        // Update last submit time
+        lastSubmitTimeRef.current = now;
+
+        // Set submitting state
+        setIsSubmitting(true);
+
+        // Call the original handleSubmit
+        handleSubmit(e);
+
+        // Reset submitting state after a delay
+        setTimeout(() => {
+            setIsSubmitting(false);
+        }, 2000);
+
+    }, [handleSubmit, isSubmitting]);
 
     return (
         <Box
@@ -55,7 +84,7 @@ const PaymentModal = ({
                     overflow={"hidden"}
                     transition="height 0.3s ease-in-out"
                 >
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={debouncedHandleSubmit}>
                         <Input
                             onChange={handleOnChange}
                             name="username"
@@ -195,16 +224,23 @@ const PaymentModal = ({
 
                         <Input
                             type="submit"
-                            value={"Pay Now"}
-                            bgColor={IskconBgColor}
+                            value={isSubmitting ? "Processing..." : "Pay Now"}
+                            bgColor={isSubmitting ? "gray.400" : IskconBgColor}
                             my={"1rem"}
                             fontWeight={"bold"}
                             color={"white"}
                             w={"auto"}
                             mx={"auto"}
                             display={"block"}
-                            cursor={"pointer"}
+                            cursor={isSubmitting ? "not-allowed" : "pointer"}
+                            disabled={isSubmitting}
+                            opacity={isSubmitting ? 0.7 : 1}
                         />
+                        {isSubmitting && (
+                            <Box textAlign="center" mt="0.5rem">
+                                <Spinner size="sm" color={IskconBgColor} />
+                            </Box>
+                        )}
                     </form>
                 </Box>
             </Box>
