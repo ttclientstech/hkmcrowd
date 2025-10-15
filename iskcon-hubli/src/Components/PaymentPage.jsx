@@ -12,18 +12,25 @@ const PaymentPage = () => {
   const location = useLocation(); // Access the state passed via navigation
   // const paymentData = location.state || {};
   const query = new URLSearchParams(location.search);
+
+  // Helper function to safely get and validate URL parameters
+  const getParam = (key, defaultValue = '') => {
+    const value = query.get(key);
+    return value !== null ? value : defaultValue;
+  };
+
   const paymentData = {
-    name: query.get('name'),
-    phone: query.get('phone'),
-    email: query.get('email'),
-    seva: query.get('seva'),
-    address: query.get('address'),
-    pan_number: query.get('pan_number'),
-    send_confirmation_message_to_preacher: query.get('send_confirmation_message_to_preacher'),
-    campaignsid: query.get('campaignsid'),
-    preacher_name: query.get('preacher_name'),
-    isanonymous:query.get('isanonymous')==='true',
-    campainerName: query.get('campainerName')
+    name: getParam('name'),
+    phone: getParam('phone'),
+    email: getParam('email'),
+    seva: getParam('seva', 'Mandir Nirmana Seva'),
+    address: getParam('address'),
+    pan_number: getParam('pan_number'),
+    send_confirmation_message_to_preacher: getParam('send_confirmation_message_to_preacher'),
+    campaignsid: getParam('campaignsid'),
+    preacher_name: getParam('preacher_name'),
+    isanonymous: getParam('isanonymous') === 'true',
+    campainerName: getParam('campainerName')
   };
   console.log("Order ID, paymentData from url", id, paymentData);
   const [orderConfirmId, setOrderConfirmId] = useState(null)
@@ -79,21 +86,21 @@ const PaymentPage = () => {
           });
         },
         prefill: {
-          name: paymentData.name,
-          email: paymentData.email,
-          contact: paymentData.phone,
+          name: paymentData.name || '',
+          email: paymentData.email || '',
+          contact: paymentData.phone || '',
         },
 
         notes: {
-          name: paymentData.name,
-          phone: paymentData.phone,
-          email: paymentData.email,
-          seva: "Mandir Nirmana Seva",
-          address: paymentData.address,
-          pan_number: paymentData.pan_number,
-          send_confirmation_message_to_preacher: paymentData.send_confirmation_message_to_preacher,
-          isanonymous: paymentData.isanonymous,
-          campaignsid: paymentData.campaignsid
+          name: paymentData.name || '',
+          phone: paymentData.phone || '',
+          email: paymentData.email || '',
+          seva: paymentData.seva || "Mandir Nirmana Seva",
+          address: paymentData.address || '',
+          pan_number: paymentData.pan_number || '',
+          send_confirmation_message_to_preacher: paymentData.send_confirmation_message_to_preacher || '',
+          isanonymous: paymentData.isanonymous || false,
+          campaignsid: paymentData.campaignsid || ''
         },
         theme: {
           color: "#3399cc",
