@@ -9,6 +9,7 @@ import { bearerAuth } from 'hono/bearer-auth'
 import { cors } from 'hono/cors'
 import Razorpay from 'razorpay'
 import { basicAuth } from 'hono/basic-auth'
+import crypto from 'crypto'
 declare module "hono"{
   interface ContextVariableMap{
     db:NeonHttpDatabase<Record<string, never>> & {
@@ -21,6 +22,114 @@ declare module "hono"{
 
 
 const app = new Hono();
+
+app.post("/webhook/razorpay", async (c) => {
+  const WEBHOOK_SECRET = "agtsp@cnagS1"; // Your Razorpay Webhook Secret
+  const db = c.get("db"); // Use the db connection from middleware
+  console.log(`inside webhook call logging hare krishna`)
+  try {
+    const signature = c.req.header("x-razorpay-signature");
+    const body = await c.req.text(); // Get the raw body as text for verification
+
+    // 1. Verify the signature to ensure the request is from Razorpay
+    const expectedSignature = crypto
+      .createHmac("sha256", WEBHOOK_SECRET)
+      .update(body)
+      .digest("hex");
+
+    if (signature !== expectedSignature) {
+      console.error("Webhook signature validation failed.");
+      return c.json({ error: "Invalid signature" }, 400);
+    }
+
+    const event = JSON.parse(body);
+
+    // 2. Use a switch statement on the event type
+//     switch (event.event) {
+      console.log(` Webhook received: ${event.event} and ${event.payload.payment.entity} and ${event}`);
+//       // --- CASE 1: PAYMENT WAS CAPTURED (SUCCESS) ---
+//       case "payment.captured": {
+//         const paymentEntity = event.payload.payment.entity;
+//         const orderId = paymentEntity.order_id;
+//         const amountInRupees = Number(paymentEntity.amount) / 100;
+//         let { campaignid, orderid } = paymentEntity.notes;
+//
+//         console.log(`Webhook received: Payment captured for Order ID ${orderId}`);
+//
+//         // 3. Use an ATOMIC TRANSACTION to prevent double counting
+//         await db.transaction(async (tx) => {
+//           // Lock the payment row to prevent race conditions
+//           const payment = await tx.select({
+//               status: paymentTable.paymentstatus,
+//               id: paymentTable.campaignsid
+//             })
+//             .from(paymentTable)
+//             .where(eq(paymentTable.orderid, orderId))
+//             .for('update'); // This locks the row
+//
+//           // 4. Check if the payment is already processed
+//           if (payment.length > 0 && payment[0].status === false) {
+//             console.log(`Processing Order ID ${orderId} for the first time (via webhook).`);
+//
+//             // Update payment status to true
+//             await tx.update(paymentTable)
+//               .set({
+//                 paymentstatus: true,
+//                 finalpaymentstatus: "captured" // Update final status
+//               })
+//               .where(eq(paymentTable.orderid, orderId));
+//
+//             // If campaignid wasn't in notes, get it from the payment table
+//             if (!campaignid) {
+//               campaignid = payment[0].id;
+//             }
+//
+//             // Update campaign totals
+//             if (campaignid) {
+//               await tx.update(campaigns).set({
+//                 raisedtotal: sql`${campaigns.raisedtotal} + ${amountInRupees}`,
+//                 funderstotal: sql`${campaigns.funderstotal} + 1`
+//               }).where(eq(campaigns.id, campaignid));
+//             }
+//           } else {
+//             console.log(`Order ID ${orderId} was already processed. Skipping update.`);
+//           }
+//         });
+//         break;
+//       }
+//
+//       // --- CASE 2: PAYMENT FAILED ---
+//       case "payment.failed": {
+//         const paymentEntity = event.payload.payment.entity;
+//         const orderId = paymentEntity.order_id;
+//
+//         console.log(`Webhook received: Payment failed for Order ID ${orderId}`);
+//
+//         // Update the finalpaymentstatus field as requested
+//         await db.update(paymentTable)
+//           .set({
+//             finalpaymentstatus: "failed" // Set the final status to "failed"
+//           })
+//           .where(eq(paymentTable.orderid, orderId));
+//
+//         break;
+//       }
+//
+//       // Default case for any other events you don't handle
+//       default: {
+//         console.log(`Webhook received: Unhandled event type: ${event.event}`);
+//       }
+//     }
+
+    // 5. Send a 200 OK response to Razorpay to acknowledge the webhook
+//     return c.json({ status: "ok" });
+
+  } catch (error) {
+    console.error("Error processing Razorpay webhook:", error);
+    return c.json({ error: "Webhook processing failed", message: error.message }, 500);
+  }
+});
+
 app.post("/checkpayment", cors({
   origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -28,10 +137,10 @@ app.post("/checkpayment", cors({
   credentials:false
 }),async (c) => {
   try {
-    const RAZ_ID = "rzp_test_qaL0Ut9tGYaofw";
-const RAZ_SECRET = "mLb9fg1zqQQKeOm0XezFJton";
+    const RAZ_ID = "rzp_live_RS5awYYnZU5kXP";
+const RAZ_SECRET = "JmcO5clUFLbPQnbYaPW8N7RR";
 
-const DATABASE_URL = "postgresql://neondb_owner:npg_Y8anjoCb3kWV@ep-raspy-bush-a18madzu-pooler.ap-southeast-1.aws.neon.tech/neondb?options=-c%20search_path%3Dgh_campaign&branch=development&sslmode=require&channel_binding=require"
+const DATABASE_URL = "postgresql://neondb_owner:npg_Y8anjoCb3kWV@ep-dry-haze-a1n99ua3-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 const sqlneon = neon(DATABASE_URL);
 
 
@@ -107,10 +216,10 @@ const token = "iskonhublicampaign";
 app.use('*', async (c, next) => {
   try {
 
-const RAZ_ID = "rzp_test_qaL0Ut9tGYaofw";
-const RAZ_SECRET = "mLb9fg1zqQQKeOm0XezFJton";
+const RAZ_ID = "rzp_live_RS5awYYnZU5kXP";
+const RAZ_SECRET = "JmcO5clUFLbPQnbYaPW8N7RR";
 
-const DATABASE_URL = "postgresql://neondb_owner:npg_Y8anjoCb3kWV@ep-raspy-bush-a18madzu-pooler.ap-southeast-1.aws.neon.tech/neondb?options=-c%20search_path%3Dgh_campaign&branch=development&sslmode=require&channel_binding=require";
+const DATABASE_URL = "postgresql://neondb_owner:npg_Y8anjoCb3kWV@ep-dry-haze-a1n99ua3-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
 const { AUTH_TOKEN } = env<{
   AUTH_TOKEN: string;
 }>(c);

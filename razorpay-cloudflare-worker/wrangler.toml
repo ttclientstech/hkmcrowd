@@ -2,9 +2,9 @@ name = "razor"
 main = "src/index.ts"
 compatibility_date = "2025-01-02"
 
-routes = [
-    "campaigns.iskconmangalore.org/single/*"
-]
+#routes = [
+#    "campaigns.iskconmangalore.org/single/*"
+#]
 #[[routes]]
 #pattern = "campaigns.iskconmangalore.com/*"
 #zone_name = "iskconmangalore.org"
@@ -13,9 +13,9 @@ compatibility_flags = [ "nodejs_compat" ]
 
 [vars]
 # MY_VAR = "my-variable"
-DATABASE_URL = "postgresql://neondb_owner:npg_Y8anjoCb3kWV@ep-raspy-bush-a18madzu-pooler.ap-southeast-1.aws.neon.tech/neondb?options=-c%20search_path%3Dgh_campaign&branch=development&sslmode=require&channel_binding=require"
-RAZ_ID = "rzp_test_qaL0Ut9tGYaofw"
-RAZ_SECRET = "mLb9fg1zqQQKeOm0XezFJton"
+DATABASE_URL = "postgresql://neondb_owner:npg_Y8anjoCb3kWV@ep-dry-haze-a1n99ua3-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+RAZ_ID = "rzp_live_RS5awYYnZU5kXP"
+RAZ_SECRET = "JmcO5clUFLbPQnbYaPW8N7RR"
 
 [logs]
 level = "info"
