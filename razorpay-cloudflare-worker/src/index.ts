@@ -24,7 +24,7 @@ declare module "hono"{
 const app = new Hono();
 
 app.post("/webhook/razorpay", async (c) => {
-  const WEBHOOK_SECRET = "webhook-secret"; // Your Razorpay Webhook Secret
+  const WEBHOOK_SECRET = "agtsp@cnagS1"; // Your Razorpay Webhook Secret
   const db = c.get("db"); // Use the db connection from middleware
   // console.log(`inside webhook call logging hare krishna`)
   try {
@@ -99,7 +99,7 @@ app.post("/webhook/razorpay", async (c) => {
           // 3. Check if payment exists and get current status
           const payment = await db.select({
               status: paymentTable.paymentstatus,
-              id: paymentTable.campaignsid
+              campaignsid: paymentTable.campaignsid
             })
             .from(paymentTable)
             .where(eq(paymentTable.orderid, orderId));
@@ -117,8 +117,8 @@ app.post("/webhook/razorpay", async (c) => {
               .where(eq(paymentTable.orderid, orderId));
 
             // If campaignid wasn't in notes, get it from the payment table
-            if (!campaignid && payment[0].id) {
-              campaignid = payment[0].id;
+            if (!campaignid && payment[0].campaignsid) {
+              campaignid = payment[0].campaignsid;
               console.log(`Campaign ID from payment table: ${campaignid}`);
             }
 
@@ -197,10 +197,10 @@ app.post("/checkpayment", cors({
   credentials:false
 }),async (c) => {
   try {
-    const RAZ_ID = "random-raz-id";
-const RAZ_SECRET = "random-raz-secret";
+    const RAZ_ID = "rzp_live_RS5awYYnZU5kXP";
+const RAZ_SECRET = "JmcO5clUFLbPQnbYaPW8N7RR";
 
-const DATABASE_URL = "postgresql://neondb_owner:testtest@ep-dry-haze-a1n99ua3-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+const DATABASE_URL = "postgresql://neondb_owner:npg_Y8anjoCb3kWV@ep-dry-haze-a1n99ua3-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 const sqlneon = neon(DATABASE_URL);
 
 

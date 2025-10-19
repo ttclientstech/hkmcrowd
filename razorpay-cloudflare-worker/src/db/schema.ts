@@ -18,6 +18,7 @@ export const paymentTable = pgTable("userpayment",
         campaignsid:integer("campaign_id").references(()=>campaigns.id),
         createdate:timestamp("created_at").notNull().defaultNow(),
         paymentstatus:boolean("payment_status").notNull().default(false),
+        finalpaymentstatus: varchar("final_payment_status",{length:255}).notNull().default("created"),
         orderid:varchar('order_id',{
           length:255
         }).notNull(),
