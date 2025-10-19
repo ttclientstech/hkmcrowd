@@ -24,8 +24,12 @@ declare module "hono"{
 const app = new Hono();
 
 app.post("/webhook/razorpay", async (c) => {
-  const WEBHOOK_SECRET = "agtsp@cnagS1"; // Your Razorpay Webhook Secret
-  const db = c.get("db"); // Use the db connection from middleware
+
+    const DATABASE_URL = "postgresql://neondb_owner:pw@dbname.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+    const sqlneon = neon(DATABASE_URL);
+    const db = drizzle( sqlneon );
+  const WEBHOOK_SECRET = "secret"; // Your Razorpay Webhook Secret
+  //const db = c.get("db"); // Use the db connection from middleware
   // console.log(`inside webhook call logging hare krishna`)
   try {
     const signature = c.req.header("x-razorpay-signature");
@@ -197,10 +201,10 @@ app.post("/checkpayment", cors({
   credentials:false
 }),async (c) => {
   try {
-    const RAZ_ID = "rzp_live_RS5awYYnZU5kXP";
-const RAZ_SECRET = "JmcO5clUFLbPQnbYaPW8N7RR";
+    const RAZ_ID = "rzp id";
+const RAZ_SECRET = "secret";
 
-const DATABASE_URL = "postgresql://neondb_owner:npg_Y8anjoCb3kWV@ep-dry-haze-a1n99ua3-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+const DATABASE_URL = "postgresql://neondb_owner:pwd@dbname.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 const sqlneon = neon(DATABASE_URL);
 
 
@@ -276,10 +280,10 @@ const token = "iskonhublicampaign";
 app.use('*', async (c, next) => {
   try {
 
-const RAZ_ID = "rzp_live_RS5awYYnZU5kXP";
-const RAZ_SECRET = "JmcO5clUFLbPQnbYaPW8N7RR";
+const RAZ_ID = "rzpid";
+const RAZ_SECRET = "secret";
 
-const DATABASE_URL = "postgresql://neondb_owner:npg_Y8anjoCb3kWV@ep-dry-haze-a1n99ua3-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
+const DATABASE_URL = "postgresql://neondb_owner:password@dbname.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
 const { AUTH_TOKEN } = env<{
   AUTH_TOKEN: string;
 }>(c);
