@@ -56,6 +56,12 @@ app.post("/webhook/razorpay", async (c) => {
       // --- CASE 1: PAYMENT WAS CAPTURED (SUCCESS) ---
       case "payment.captured": {
         try {
+          // Validate webhook payload structure
+          if (!event.payload || !event.payload.payment || !event.payload.payment.entity) {
+            console.error('Invalid webhook payload structure:', JSON.stringify(event, null, 2));
+            return c.json({ error: "Invalid webhook payload structure" }, 400);
+          }
+          
           const paymentEntity = event.payload.payment.entity;
           
           // Validate required fields
@@ -90,58 +96,59 @@ app.post("/webhook/razorpay", async (c) => {
 
           console.log(`Webhook received: Payment captured for Order ID ${orderId}, Amount: ${amountInRupees} INR`);
 
-          // 3. Use an ATOMIC TRANSACTION to prevent double counting
-          await db.transaction(async (tx) => {
-            // Lock the payment row to prevent race conditions
-            const payment = await tx.select({
-                status: paymentTable.paymentstatus,
-                id: paymentTable.campaignsid
+          // 3. Check if payment exists and get current status
+          const payment = await db.select({
+              status: paymentTable.paymentstatus,
+              id: paymentTable.campaignsid
+            })
+            .from(paymentTable)
+            .where(eq(paymentTable.orderid, orderId));
+
+          // 4. Check if the payment is already processed
+          if (payment.length > 0 && payment[0].status === false) {
+            console.log(`Processing Order ID ${orderId} for the first time (via webhook).`);
+
+            // Update payment status to true
+            await db.update(paymentTable)
+              .set({
+                paymentstatus: true,
+                finalpaymentstatus: "captured" // Update final status
               })
-              .from(paymentTable)
-              .where(eq(paymentTable.orderid, orderId))
-              .for('update'); // This locks the row
+              .where(eq(paymentTable.orderid, orderId));
 
-            // 4. Check if the payment is already processed
-            if (payment.length > 0 && payment[0].status === false) {
-              console.log(`Processing Order ID ${orderId} for the first time (via webhook).`);
+            // If campaignid wasn't in notes, get it from the payment table
+            if (!campaignid && payment[0].id) {
+              campaignid = payment[0].id;
+              console.log(`Campaign ID from payment table: ${campaignid}`);
+            }
 
-              // Update payment status to true
-              await tx.update(paymentTable)
-                .set({
-                  paymentstatus: true,
-                  finalpaymentstatus: "captured" // Update final status
-                })
-                .where(eq(paymentTable.orderid, orderId));
-
-              // If campaignid wasn't in notes, get it from the payment table
-              if (!campaignid && payment[0].id) {
-                campaignid = payment[0].id;
-                console.log(`Campaign ID from payment table: ${campaignid}`);
-              }
-
-              // Update campaign totals
-              if (campaignid) {
-                console.log(`Updating campaign ${campaignid} with amount ${amountInRupees}`);
-                try {
-                  const updateResult = await tx.update(campaigns).set({
-                    raisedtotal: sql`${campaigns.raisedtotal} + ${amountInRupees}`,
-                    funderstotal: sql`${campaigns.funderstotal} + 1`
-                  }).where(eq(campaigns.id, campaignid));
-                  
-                  console.log(`Campaign ${campaignid} totals updated successfully`);
-                } catch (campaignError) {
-                  console.error(`Error updating campaign ${campaignid}:`, campaignError);
-                  // Don't throw here, just log the error and continue
-                }
-              } else {
-                console.log(`Warning: No campaign ID found for order ${orderId}. Payment will be marked as captured but campaign totals won't be updated.`);
+            // Update campaign totals
+            if (campaignid) {
+              console.log(`Updating campaign ${campaignid} with amount ${amountInRupees}`);
+              try {
+                const updateResult = await db.update(campaigns).set({
+                  raisedtotal: sql`${campaigns.raisedtotal} + ${amountInRupees}`,
+                  funderstotal: sql`${campaigns.funderstotal} + 1`
+                }).where(eq(campaigns.id, campaignid));
+                
+                console.log(`Campaign ${campaignid} totals updated successfully`);
+              } catch (campaignError) {
+                console.error(`Error updating campaign ${campaignid}:`, campaignError);
+                // Don't throw here, just log the error and continue
               }
             } else {
-              console.log(`Order ID ${orderId} was already processed. Skipping update.`);
+              console.log(`Warning: No campaign ID found for order ${orderId}. Payment will be marked as captured but campaign totals won't be updated.`);
             }
-          });
+          } else {
+            console.log(`Order ID ${orderId} was already processed. Skipping update.`);
+          }
         } catch (error) {
           console.error(`Error processing payment.captured for order ${event.payload.payment?.entity?.order_id}:`, error);
+          console.error('Error details:', {
+            message: error.message,
+            stack: error.stack,
+            orderId: event.payload.payment?.entity?.order_id
+          });
           // Don't throw here, just log and continue
         }
         break;
