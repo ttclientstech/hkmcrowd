@@ -24,9 +24,9 @@ declare module "hono"{
 const app = new Hono();
 
 app.post("/webhook/razorpay", async (c) => {
-  const WEBHOOK_SECRET = "agtsp@cnagS1"; // Your Razorpay Webhook Secret
+  const WEBHOOK_SECRET = "webhook-secret"; // Your Razorpay Webhook Secret
   const db = c.get("db"); // Use the db connection from middleware
-  console.log(`inside webhook call logging hare krishna`)
+  // console.log(`inside webhook call logging hare krishna`)
   try {
     const signature = c.req.header("x-razorpay-signature");
     const body = await c.req.text(); // Get the raw body as text for verification
@@ -44,85 +44,138 @@ app.post("/webhook/razorpay", async (c) => {
 
     const event = JSON.parse(body);
 
+    // Validate event structure
+    if (!event.event || !event.payload) {
+      console.error("Invalid webhook event structure");
+      return c.json({ error: "Invalid event structure" }, 400);
+    }
+
     // 2. Use a switch statement on the event type
-//     switch (event.event) {
-      console.log(` Webhook received: ${event.event} and ${event.payload.payment.entity} and ${event}`);
-//       // --- CASE 1: PAYMENT WAS CAPTURED (SUCCESS) ---
-//       case "payment.captured": {
-//         const paymentEntity = event.payload.payment.entity;
-//         const orderId = paymentEntity.order_id;
-//         const amountInRupees = Number(paymentEntity.amount) / 100;
-//         let { campaignid, orderid } = paymentEntity.notes;
-//
-//         console.log(`Webhook received: Payment captured for Order ID ${orderId}`);
-//
-//         // 3. Use an ATOMIC TRANSACTION to prevent double counting
-//         await db.transaction(async (tx) => {
-//           // Lock the payment row to prevent race conditions
-//           const payment = await tx.select({
-//               status: paymentTable.paymentstatus,
-//               id: paymentTable.campaignsid
-//             })
-//             .from(paymentTable)
-//             .where(eq(paymentTable.orderid, orderId))
-//             .for('update'); // This locks the row
-//
-//           // 4. Check if the payment is already processed
-//           if (payment.length > 0 && payment[0].status === false) {
-//             console.log(`Processing Order ID ${orderId} for the first time (via webhook).`);
-//
-//             // Update payment status to true
-//             await tx.update(paymentTable)
-//               .set({
-//                 paymentstatus: true,
-//                 finalpaymentstatus: "captured" // Update final status
-//               })
-//               .where(eq(paymentTable.orderid, orderId));
-//
-//             // If campaignid wasn't in notes, get it from the payment table
-//             if (!campaignid) {
-//               campaignid = payment[0].id;
-//             }
-//
-//             // Update campaign totals
-//             if (campaignid) {
-//               await tx.update(campaigns).set({
-//                 raisedtotal: sql`${campaigns.raisedtotal} + ${amountInRupees}`,
-//                 funderstotal: sql`${campaigns.funderstotal} + 1`
-//               }).where(eq(campaigns.id, campaignid));
-//             }
-//           } else {
-//             console.log(`Order ID ${orderId} was already processed. Skipping update.`);
-//           }
-//         });
-//         break;
-//       }
-//
-//       // --- CASE 2: PAYMENT FAILED ---
-//       case "payment.failed": {
-//         const paymentEntity = event.payload.payment.entity;
-//         const orderId = paymentEntity.order_id;
-//
-//         console.log(`Webhook received: Payment failed for Order ID ${orderId}`);
-//
-//         // Update the finalpaymentstatus field as requested
-//         await db.update(paymentTable)
-//           .set({
-//             finalpaymentstatus: "failed" // Set the final status to "failed"
-//           })
-//           .where(eq(paymentTable.orderid, orderId));
-//
-//         break;
-//       }
-//
-//       // Default case for any other events you don't handle
-//       default: {
-//         console.log(`Webhook received: Unhandled event type: ${event.event}`);
-//       }
-//     }
+    console.log('Webhook Full event:', JSON.stringify(event, null, 2));
+    switch (event.event) {
+      // --- CASE 1: PAYMENT WAS CAPTURED (SUCCESS) ---
+      case "payment.captured": {
+        try {
+          const paymentEntity = event.payload.payment.entity;
+          
+          // Validate required fields
+          if (!paymentEntity || !paymentEntity.order_id || !paymentEntity.amount) {
+            console.error('Invalid payment entity structure:', paymentEntity);
+            return c.json({ error: "Invalid payment entity" }, 400);
+          }
+          
+          const orderId = paymentEntity.order_id;
+          const amountInRupees = Number(paymentEntity.amount) / 100;
+          
+          // Validate amount
+          if (isNaN(amountInRupees) || amountInRupees <= 0) {
+            console.error('Invalid amount:', paymentEntity.amount);
+            return c.json({ error: "Invalid payment amount" }, 400);
+          }
+          
+          // Extract campaignid from notes, handling both string and number types
+          let campaignid = null;
+          if (paymentEntity.notes && paymentEntity.notes.campaignsid) {
+            const rawCampaignId = paymentEntity.notes.campaignsid;
+            campaignid = Number(rawCampaignId);
+            
+            // Validate campaign ID
+            if (isNaN(campaignid) || campaignid <= 0) {
+              console.error('Invalid campaign ID from notes:', rawCampaignId);
+              campaignid = null; // Reset to null if invalid
+            } else {
+              console.log(`Campaign ID from notes: ${campaignid}`);
+            }
+          }
+
+          console.log(`Webhook received: Payment captured for Order ID ${orderId}, Amount: ${amountInRupees} INR`);
+
+          // 3. Use an ATOMIC TRANSACTION to prevent double counting
+          await db.transaction(async (tx) => {
+            // Lock the payment row to prevent race conditions
+            const payment = await tx.select({
+                status: paymentTable.paymentstatus,
+                id: paymentTable.campaignsid
+              })
+              .from(paymentTable)
+              .where(eq(paymentTable.orderid, orderId))
+              .for('update'); // This locks the row
+
+            // 4. Check if the payment is already processed
+            if (payment.length > 0 && payment[0].status === false) {
+              console.log(`Processing Order ID ${orderId} for the first time (via webhook).`);
+
+              // Update payment status to true
+              await tx.update(paymentTable)
+                .set({
+                  paymentstatus: true,
+                  finalpaymentstatus: "captured" // Update final status
+                })
+                .where(eq(paymentTable.orderid, orderId));
+
+              // If campaignid wasn't in notes, get it from the payment table
+              if (!campaignid && payment[0].id) {
+                campaignid = payment[0].id;
+                console.log(`Campaign ID from payment table: ${campaignid}`);
+              }
+
+              // Update campaign totals
+              if (campaignid) {
+                console.log(`Updating campaign ${campaignid} with amount ${amountInRupees}`);
+                try {
+                  const updateResult = await tx.update(campaigns).set({
+                    raisedtotal: sql`${campaigns.raisedtotal} + ${amountInRupees}`,
+                    funderstotal: sql`${campaigns.funderstotal} + 1`
+                  }).where(eq(campaigns.id, campaignid));
+                  
+                  console.log(`Campaign ${campaignid} totals updated successfully`);
+                } catch (campaignError) {
+                  console.error(`Error updating campaign ${campaignid}:`, campaignError);
+                  // Don't throw here, just log the error and continue
+                }
+              } else {
+                console.log(`Warning: No campaign ID found for order ${orderId}. Payment will be marked as captured but campaign totals won't be updated.`);
+              }
+            } else {
+              console.log(`Order ID ${orderId} was already processed. Skipping update.`);
+            }
+          });
+        } catch (error) {
+          console.error(`Error processing payment.captured for order ${event.payload.payment?.entity?.order_id}:`, error);
+          // Don't throw here, just log and continue
+        }
+        break;
+      }
+
+      // // --- CASE 2: PAYMENT FAILED ---
+      case "payment.failed": {
+        try {
+          const paymentEntity = event.payload.payment.entity;
+          const orderId = paymentEntity.order_id;
+
+          console.log(`Webhook received: Payment failed for Order ID ${orderId}`);
+
+          // Update the finalpaymentstatus field as requested
+          await db.update(paymentTable)
+            .set({
+              finalpaymentstatus: "failed" // Set the final status to "failed"
+            })
+            .where(eq(paymentTable.orderid, orderId));
+        } catch (error) {
+          console.error(`Error processing payment.failed for order ${event.payload.payment?.entity?.order_id}:`, error);
+          // Don't throw here, just log and continue
+        }
+        break;
+      }
+
+      // Default case for any other events you don't handle
+      default: {
+        console.log(`Webhook received: Unhandled event type: ${event.event}`);
+      }
+    }
 
     // 5. Send a 200 OK response to Razorpay to acknowledge the webhook
-//     return c.json({ status: "ok" });
+    return c.json({ status: "ok" });
 
   } catch (error) {
     console.error("Error processing Razorpay webhook:", error);
@@ -137,10 +190,10 @@ app.post("/checkpayment", cors({
   credentials:false
 }),async (c) => {
   try {
-    const RAZ_ID = "rzp_live_RS5awYYnZU5kXP";
-const RAZ_SECRET = "JmcO5clUFLbPQnbYaPW8N7RR";
+    const RAZ_ID = "random-raz-id";
+const RAZ_SECRET = "random-raz-secret";
 
-const DATABASE_URL = "postgresql://neondb_owner:npg_Y8anjoCb3kWV@ep-dry-haze-a1n99ua3-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+const DATABASE_URL = "postgresql://neondb_owner:testtest@ep-dry-haze-a1n99ua3-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 const sqlneon = neon(DATABASE_URL);
 
 
