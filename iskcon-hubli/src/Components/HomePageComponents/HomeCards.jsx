@@ -139,7 +139,7 @@ const HomeCards = ({
                       {!searchQuery && <>
                         <BadgeForTopCampaigners name={donorTitles[i]} />
 
-                        {(i + 1) <= 5 && <Badge
+                        {(i + 1) <= 50 && <Badge
                           colorScheme='green'
                           bg='transparent'
                           fontSize='100px'
