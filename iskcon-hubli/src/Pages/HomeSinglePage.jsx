@@ -7,6 +7,8 @@ import {
 } from "../Redux/clientSlices/clientUsers";
 import image16 from "../assets/images/logo.jpeg";
 import avatar from "../assets/images/Avatar-PNG-Image.webp";
+import {CountdownTimer} from '../Components/HomePageComponents/countdownConfetti';
+
 import {
   Box,
   HStack,
@@ -254,6 +256,7 @@ const HomeSinglePage = () => {
             onClick={handleScrollToTop}
           />
         )}
+
         {/* <Box
           color={'green.400'}
           bgColor={"white"}
@@ -315,8 +318,8 @@ const HomeSinglePage = () => {
 
       <AdditionalDetails getSingleUser={getSingleUser} />
 
+          <CountdownTimer />
       <CampaignTabs tab={tab} setTab={setTab} />
-
       {tab === 1 ? (
         <CampaignMoreDetails
           campaign={campaign}
@@ -330,6 +333,7 @@ const HomeSinglePage = () => {
         <Funders getSingleUser={getSingleUser} />
       )}
         <ProjectVedio />
+
       <Fotter />
     </Box>
   );

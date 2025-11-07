@@ -12,6 +12,7 @@ import Fotter from '../Components/HomePageComponents/Fotter'
 import Banner from "../assets/images/mandir_nirman_seva_banner.png";
 
 import { IskconFontColor, IskconBgColor } from "../Components/utils.jsx";
+import {CountdownTimer} from '../Components/HomePageComponents/countdownConfetti';
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -63,6 +64,7 @@ const HomePage = () => {
   return (
     <Box position={'relative'} maxWidth='1200px' display='flex' flexDirection='column' alignItems='center' >
       <HeadingBanner />
+      <CountdownTimer />
       <CampaignProgressDetails
         currentAmount={Number(campaignsData?.totalraisedamt) || 0}
         goalAmount={Number(campaignsData?.totalgoalamt) || 0}
