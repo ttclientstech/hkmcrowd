@@ -72,6 +72,7 @@ export const CountdownTimer = () => {
           borderRadius: '20px',
           padding: isMobile ? '10px 10px' : '18px 30px',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           zIndex: 50
@@ -81,15 +82,16 @@ export const CountdownTimer = () => {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 120 }}
       >
-{/*         <h3 style={{ */}
-{/*           fontSize: isMobile ? '10px' : '12px', */}
-{/*           fontWeight: '600', */}
-{/*           color: '#7B1113', */}
-{/*           textTransform: 'uppercase', */}
-{/*           letterSpacing: '1px' */}
-{/*         }}> */}
-{/*           Campaign Ending In */}
-{/*         </h3> */}
+        <h3 style={{
+          fontSize: isMobile ? '10px' : '12px',
+          fontWeight: '600',
+          color: '#7B1113',
+          textTransform: 'uppercase',
+          letterSpacing: '1px'
+        }}>
+          Campaign Ending In
+        </h3>
+
         {Object.keys(timeLeft).length ? (
           <span style={{
             fontSize: isMobile ? 'clamp(18px, 5vw, 24px)' : '36px',
