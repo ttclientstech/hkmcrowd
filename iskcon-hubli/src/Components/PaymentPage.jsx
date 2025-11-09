@@ -34,6 +34,7 @@ const PaymentPage = () => {
   console.log("Order ID, paymentData from url", id, paymentData);
   const [orderConfirmId, setOrderConfirmId] = useState(null)
 //   const dispatch = useDispatch();
+console.log(orderConfirmId);
   const Toast = useToast();
   const navigate = useNavigate();
   const [paymentStatus, setPaymentStatus] = useState('');

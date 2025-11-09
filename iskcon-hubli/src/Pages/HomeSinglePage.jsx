@@ -51,6 +51,7 @@ const HomeSinglePage = () => {
   const [formToggle, setFormToggle] = useState(false);
   const [errors, setErrors] = useState("");
   const navigate = useNavigate();
+  console.log(formToggle);
 
   const [formData, setFormData] = useState({
     email: "",
