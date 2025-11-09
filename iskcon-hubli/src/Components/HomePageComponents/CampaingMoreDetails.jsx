@@ -1,4 +1,4 @@
-import { AspectRatio, Box, Center, HStack, Image, useToast, VStack } from '@chakra-ui/react';
+import {  Box, HStack, Image, useToast, VStack } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import { formatCurrency, formatTimeAgo } from '../utils';
 import { IskconGradientLight } from '../utils';

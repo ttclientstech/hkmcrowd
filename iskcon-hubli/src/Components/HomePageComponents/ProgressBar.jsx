@@ -1,5 +1,5 @@
-import { Box, Text } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import { Box } from '@chakra-ui/react'
+ import React, { useEffect, useState } from 'react'
 
 import { IskconProgressColor } from "../utils.jsx";
 
@@ -7,7 +7,7 @@ const ProgressBar = ({ currentAmount, goalAmount }) => {
 
   const [bar, setBar] = useState(null);
   const [pointerPosition, setPointerPosition] = useState(0);
-
+  console.log(pointerPosition);
   useEffect(() => {
     const proBar = () => {
       if (currentAmount > goalAmount) {

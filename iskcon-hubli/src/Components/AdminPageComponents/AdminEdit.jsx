@@ -1,13 +1,13 @@
 import { Box, FormLabel, Input, VStack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { fetchSingleUser } from "../../Redux/clientSlices/clientUsers";
 import { adminEditCampaign } from "../../Redux/adminSlice/adminSlice";
 
 const AdminEdit = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+//   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     campaignname: "",
@@ -19,7 +19,7 @@ const AdminEdit = () => {
   });
 
   const dispatch = useDispatch();
-  const { isLoading, isError, getSingleUser } = useSelector(
+  const { getSingleUser } = useSelector(
     (state) => state.clientUsers
   );
 

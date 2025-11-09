@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { postPaymentSuccess } from "../Redux/clientSlices/clientUsers";
+// import { postPaymentSuccess } from "../Redux/clientSlices/clientUsers";
 import { Box, Button, Spinner, Text, useToast } from "@chakra-ui/react";
 
 
@@ -11,30 +10,30 @@ const PaymentPage = () => {
   const { id } = useParams(); // Get order ID from URL
   const location = useLocation(); // Access the state passed via navigation
   // const paymentData = location.state || {};
-  const query = new URLSearchParams(location.search);
+  const query = useMemo(() => new URLSearchParams(location.search), [location.search]);
 
-  // Helper function to safely get and validate URL parameters
-  const getParam = (key, defaultValue = '') => {
-    const value = query.get(key);
-    return value !== null ? value : defaultValue;
-  };
-
-  const paymentData = {
-    name: getParam('name'),
-    phone: getParam('phone'),
-    email: getParam('email'),
-    seva: getParam('seva', 'Mandir Nirmana Seva'),
-    address: getParam('address'),
-    pan_number: getParam('pan_number'),
-    send_confirmation_message_to_preacher: getParam('send_confirmation_message_to_preacher'),
-    campaignsid: getParam('campaignsid'),
-    preacher_name: getParam('preacher_name'),
-    isanonymous: getParam('isanonymous') === 'true',
-    campainerName: getParam('campainerName')
-  };
+  const paymentData = useMemo(() => {
+    const getParam = (key, defaultValue = '') => {
+      const value = query.get(key);
+      return value !== null ? value : defaultValue;
+    };
+    return {
+      name: getParam('name'),
+      phone: getParam('phone'),
+      email: getParam('email'),
+      seva: getParam('seva', 'Mandir Nirmana Seva'),
+      address: getParam('address'),
+      pan_number: getParam('pan_number'),
+      send_confirmation_message_to_preacher: getParam('send_confirmation_message_to_preacher'),
+      campaignsid: getParam('campaignsid'),
+      preacher_name: getParam('preacher_name'),
+      isanonymous: getParam('isanonymous') === 'true',
+      campainerName: getParam('campainerName')
+    };
+  }, [query]);
   console.log("Order ID, paymentData from url", id, paymentData);
   const [orderConfirmId, setOrderConfirmId] = useState(null)
-  const dispatch = useDispatch();
+//   const dispatch = useDispatch();
   const Toast = useToast();
   const navigate = useNavigate();
   const [paymentStatus, setPaymentStatus] = useState('');
@@ -124,7 +123,7 @@ const PaymentPage = () => {
     };
 
     openRazorpay();
-  }, [id]);
+  }, [id, paymentData, Toast, setOrderConfirmId]);
 
 
   if (paymentStatus === 'success') {

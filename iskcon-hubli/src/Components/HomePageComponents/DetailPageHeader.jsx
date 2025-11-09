@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import Banner from "../../assets/images/mandir_nirman_seva_banner.png";
 
-import { IskconGradientLight, IskconFontColor, IskconGradientDark } from '../utils';
+import { IskconGradientLight, IskconGradientDark } from '../utils';
 
 const DetailPageHeader = ({ themeColor, getSingleUser, image16 }) => {
   const { colorMode } = useColorMode();

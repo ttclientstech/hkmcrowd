@@ -1,7 +1,6 @@
 import {
     Box,
     HStack,
-    Image,
     Input,
     Table,
     TableContainer,
@@ -13,11 +12,11 @@ import {
   } from "@chakra-ui/react";
   import React, { useEffect, useState } from "react";
   import { useDispatch, useSelector } from "react-redux";
-  import DottedAnimation from "../DottedAnimation";
+//   import DottedAnimation from "../DottedAnimation";
 import { fetchDonorsList } from "../../Redux/adminSlice/adminSlice";
   
   const AdminDonorsList = () => {
-    const { isLoading,isError, donorsList } = useSelector((state) => state.admin);
+    const { isError, donorsList } = useSelector((state) => state.admin);
     const dispatch = useDispatch();
     const [search,setSearch] = useState("");
   

@@ -13,7 +13,6 @@ import { formatCurrency } from "../utils";
 import CountUp from "react-countup";
 import { keyframes } from "@emotion/react";
 
-import { IskconBgColor } from "../utils.jsx";
 
 const borderAnimation = keyframes`
   0% {
@@ -53,11 +52,11 @@ const CampaignProgressDetails = ({ currentAmount, goalAmount }) => {
     }
   }, [currentAmount, goalAmount]);
 
-  const bgColor = useColorModeValue("gray.800", "gray.700");
-  const progressColor = IskconBgColor; //useColorModeValue("green.400", "green.300");
-  const progressStrokeColor = useColorModeValue("#e3c44e");
+//   const bgColor = useColorModeValue("gray.800", "gray.700");
+//   const progressColor = IskconBgColor; //useColorModeValue("green.400", "green.300");
+//   const progressStrokeColor = useColorModeValue("#e3c44e");
   const trackColor = useColorModeValue("gray.300", "gray.600");
-  const textColor = useColorModeValue("white", "gray.200");
+//   const textColor = useColorModeValue("white", "gray.200");
 
   return (
     <Box

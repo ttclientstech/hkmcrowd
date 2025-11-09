@@ -1,7 +1,7 @@
 import { Box, Input } from '@chakra-ui/react'
 import React, { useState } from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-import { getAdminData } from '../../Redux/adminSlice/adminSlice'
+import { useSelector} from 'react-redux'
+// import { getAdminData } from '../../Redux/adminSlice/adminSlice'
 
 const AdminLogin = () => {
 
@@ -10,7 +10,6 @@ const AdminLogin = () => {
         password:""
     })
 
-    const disptach = useDispatch();
 
     const state = useSelector(state=>state.admin);
 

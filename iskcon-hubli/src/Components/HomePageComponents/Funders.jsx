@@ -1,4 +1,4 @@
-import { Box, HStack, Image, VStack, Button } from '@chakra-ui/react';
+import { Box, HStack, VStack, Button } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { formatCurrency } from '../utils';
 

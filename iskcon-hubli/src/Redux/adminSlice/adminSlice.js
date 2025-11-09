@@ -4,7 +4,7 @@ import { BE_API_URL } from "../../constants/homePage";
 
 const api = BE_API_URL;
 const token = "iskonhublicampaign";
-const api_key = "aXNrb25jYW1wYWlnbmFkbWluOmlza29uY2FtcGFpZ25AMQ==";
+//const api_key = "aXNrb25jYW1wYWlnbmFkbWluOmlza29uY2FtcGFpZ25AMQ==";
 
 export const adminCreateCampaign = createAsyncThunk(
   "createCampaign",
@@ -157,7 +157,7 @@ export async function createCampaigner(id, imageurl) {
     preachername: `dummy-${uuidv4()}`
   };
 
-  const response = await fetch(`${api}/create-campaign`, {
+  await fetch(`${api}/create-campaign`, {
     method: "POST",
     body: JSON.stringify(formData),
     headers: {
@@ -177,7 +177,7 @@ export async function updateCampaigner(id, imageurl) {
     preachername: `dummy-${uuidv4()}`
   };
 
-  const response = await fetch(`${api}/update-campaign/${id}`, {
+  await fetch(`${api}/update-campaign/${id}`, {
     method: "PUT",
     body: JSON.stringify(formData),
     headers: {

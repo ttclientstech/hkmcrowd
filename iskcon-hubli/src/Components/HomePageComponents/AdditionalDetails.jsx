@@ -1,8 +1,8 @@
 import { Box, HStack } from '@chakra-ui/react';
 import React from 'react';
-import { BsPinFill } from 'react-icons/bs';
+// import { BsPinFill } from 'react-icons/bs';
 import { FaCalendarDays } from 'react-icons/fa6';
-import { HiMiniTag } from 'react-icons/hi2';
+// import { HiMiniTag } from 'react-icons/hi2';
 
 const AdditionalDetails = ({ getSingleUser }) => {
     return (

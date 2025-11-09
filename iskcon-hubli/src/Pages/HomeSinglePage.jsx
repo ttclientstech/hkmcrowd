@@ -29,7 +29,7 @@ import PaymentModal from "../Components/HomePageComponents/PaymentModal";
 import PhotoWithDescription from "../Components/HomePageComponents/PhotoWithDescription";
 import AdditionalDetails from "../Components/HomePageComponents/AdditionalDetails";
 import CampaignTabs from "../Components/HomePageComponents/Tabs";
-import { FaArrowUp, FaSquareWhatsapp } from "react-icons/fa6";
+import { FaArrowUp } from "react-icons/fa6";
 import Fotter from "../Components/HomePageComponents/Fotter";
 import { IskconBgColor, IskconFontColor } from "../Components/utils";
 import ProjectVedio from "../Components/HomePageComponents/ProjectVedio";
@@ -40,7 +40,7 @@ const HomeSinglePage = () => {
   const [tab, setTab] = useState(1);
   const [showScrollButton, setShowScrollButton] = useState(false);
 
-  const { isLoading, isError, getSingleUser } = useSelector(
+  const { isLoading, getSingleUser } = useSelector(
     (state) => state.clientUsers
   );
   const dispatch = useDispatch();
@@ -117,7 +117,7 @@ const HomeSinglePage = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const mobileRegex = /^[0]?[6789][0-9]{9}$/;
     const pincodeRegex = /^[0-9]{6}$/;
     const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
@@ -215,13 +215,13 @@ const HomeSinglePage = () => {
     setImageError(true); // Set the state to indicate the image has failed to load
   };
 
-  const shareUrl = `https://campaigns.iskconmangalore.org/single/${id}`;
+//   const shareUrl = `https://campaigns.iskconmangalore.org/single/${id}`;
 
-  const handleShare = () => {
-    const message = `Check this out: ${shareUrl}`;
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, "_blank");
-  };
+//   const handleShare = () => {
+//     const message = `Check this out: ${shareUrl}`;
+//     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+//     window.open(whatsappUrl, "_blank");
+//   };
 
   const handleScrollToTop = () => {
     window.scrollTo({

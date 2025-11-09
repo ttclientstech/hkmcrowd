@@ -1,4 +1,4 @@
-import { Box, Checkbox, FormLabel, HStack, Input, VStack, Spinner } from '@chakra-ui/react';
+import { Box, Checkbox, HStack, Input, VStack, Spinner } from '@chakra-ui/react';
 import React, { useState, useCallback, useRef } from 'react';
 import { IskconBgColor } from '../utils';
 
@@ -144,7 +144,7 @@ const PaymentModal = ({
                                 🎁 Would you like to receive Gifts and Mahaprasad?  (Provide correct address for prasad delivery)
                             </Checkbox>
                         </HStack>}
-                        {amount < 500 && <HStack>
+                        {amount < 1 && <HStack>
                             <Checkbox
                                 onChange={handleOnChange}
                                 name="prasadRequired"
