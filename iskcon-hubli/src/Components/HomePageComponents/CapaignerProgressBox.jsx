@@ -143,7 +143,7 @@ const CapaignerProgressBox = ({
                 <VStack w={"100%"} gap={"1rem"}>
                     {getDaysDifference(
                         getSingleUser?.campaignDetails?.enddate
-                    ) === 0 ? (
+                    ) === 100 ? (
                         <Box fontSize={["md", "lg", "xl"]} color={"green.500"}>
                             Successful
                         </Box>
@@ -190,7 +190,7 @@ const CapaignerProgressBox = ({
                         isDisabled={
                             getDaysDifference(
                                 getSingleUser?.campaignDetails?.enddate
-                            ) === 0
+                            ) === 100
                         }
                     >
                         CONTRIBUTE
