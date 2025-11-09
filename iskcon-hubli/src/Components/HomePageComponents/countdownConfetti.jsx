@@ -89,7 +89,7 @@ export const CountdownTimer = () => {
           textTransform: 'uppercase',
           letterSpacing: '1px'
         }}>
-          Campaign Ending In
+{/*           Campaign Ending In */}
         </h3>
 
         {Object.keys(timeLeft).length ? (
