@@ -30,3 +30,4 @@ const DottedAnimation = () => {
 }
 
 export default DottedAnimation
+
