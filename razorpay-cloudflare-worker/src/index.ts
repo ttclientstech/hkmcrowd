@@ -723,7 +723,6 @@ app.post('/create-campaign',cors({
       campaignName: String(body.campaignname),
       targetAmount: Number(body.targetamount),
       imgurl: String(body.imgurl),
-      startdate: new Date(body.startdate),
       phoneno:String(body.phoneno),
       enddate:new Date(body.enddate),
       preacherName:String(body.preachername)
