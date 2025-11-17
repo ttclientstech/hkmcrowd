@@ -195,7 +195,7 @@ app.post("/webhook/razorpay", async (c) => {
 });
 
 app.post("/checkpayment", cors({
-  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org"],
+  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org","https://hkm-chennai-crowd-funding.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:false
@@ -268,7 +268,7 @@ const razorpay = new Razorpay({
 });
 
 app.use("*", cors({
-  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org"],
+  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org","https://hkm-chennai-crowd-funding.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:false
@@ -312,7 +312,8 @@ app.get(
         origin: [
           "http://localhost:3000",
           "https://iskcon-hubli.vercel.app",
-          "https://campaigns.iskconmangalore.org"
+          "https://campaigns.iskconmangalore.org",
+          "https://hkm-chennai-crowd-funding.vercel.app"
         ],
         allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
@@ -385,7 +386,8 @@ app.post(
     origin: [
       "http://localhost:3000",
       "https://iskcon-hubli.vercel.app",
-      "https://campaigns.iskconmangalore.org","https://campaigns.iskconmangalore.org"
+      "https://campaigns.iskconmangalore.org","https://campaigns.iskconmangalore.org",
+      "https://hkm-chennai-crowd-funding.vercel.app"
     ],
     allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
@@ -575,7 +577,7 @@ console.log("1",totalgoalamts)
 
 
 app.delete('/delete-campaign/:id',cors({
-  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org"],
+  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org","https://hkm-chennai-crowd-funding.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
@@ -632,7 +634,7 @@ app.delete('/delete-campaign/:id',cors({
 
 
 app.put('/update-campaign/:id',cors({
-  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org"],
+  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org","https://hkm-chennai-crowd-funding.vercel.app","https://hkm-chennai-crowd-funding.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
@@ -708,7 +710,7 @@ app.put('/update-campaign/:id',cors({
 
 
 app.post('/create-campaign',cors({
-  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org","https://campaigns.iskconmangalore.org"],
+  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org","https://campaigns.iskconmangalore.org","https://hkm-chennai-crowd-funding.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
