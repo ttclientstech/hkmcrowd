@@ -25,7 +25,7 @@ const app = new Hono();
 
 app.post("/webhook/razorpay", async (c) => {
 
-    const DATABASE_URL = "postgresql://neondb_owner:pw@dbname.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+    const DATABASE_URL = "postgresql://neondb_owner:npg_e0L7DGPyxSlQ@ep-late-frost-adbr6e14-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
     const sqlneon = neon(DATABASE_URL);
     const db = drizzle( sqlneon );
   const WEBHOOK_SECRET = "secret"; // Your Razorpay Webhook Secret
@@ -204,7 +204,7 @@ app.post("/checkpayment", cors({
     const RAZ_ID = "rzp id";
 const RAZ_SECRET = "secret";
 
-const DATABASE_URL = "postgresql://neondb_owner:pwd@dbname.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+const DATABASE_URL = "postgresql://neondb_owner:npg_e0L7DGPyxSlQ@ep-late-frost-adbr6e14-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
 const sqlneon = neon(DATABASE_URL);
 
 
@@ -283,7 +283,7 @@ app.use('*', async (c, next) => {
 const RAZ_ID = "rzpid";
 const RAZ_SECRET = "secret";
 
-const DATABASE_URL = "postgresql://neondb_owner:password@dbname.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
+const DATABASE_URL = "postgresql://neondb_owner:npg_e0L7DGPyxSlQ@ep-late-frost-adbr6e14-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
 const { AUTH_TOKEN } = env<{
   AUTH_TOKEN: string;
 }>(c);

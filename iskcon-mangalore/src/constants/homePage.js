@@ -111,7 +111,7 @@ export const campaign = {
   taxBenfits: image19,
 };
 
-export const BE_API_URL = 'https://razor.vedicsciencecenter-clt.workers.dev'
+export const BE_API_URL = 'https://razor.aneeshm059.workers.dev'
 
 export const donorTitles = [
   "Seva Shiromani",
