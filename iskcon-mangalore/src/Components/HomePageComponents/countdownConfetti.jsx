@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import {useState, useEffect} from 'react'
 
 export const CountdownTimer = () => {
-  const targetDate = '2025-11-08T23:59:59';
+  const targetDate = '2026-01-30T23:59:59';
   const calculateTimeLeft = () => {
     const difference = +new Date(targetDate) - +new Date();
     let timeLeft = {};
