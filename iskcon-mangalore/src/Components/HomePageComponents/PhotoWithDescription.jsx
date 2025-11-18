@@ -38,8 +38,8 @@ const PhotoWithDescription = ({ imageError, avatar, getSingleUser, handleImageEr
                 color="#777777"
             >
                 As a devoted well-wisher, I am leading this sacred campaign to support 
-                the creation of a magnificent ISKCON Sri Radha Krishna Temple and 
-                Centre for culture and education in Mangalore, Karnataka.
+                the creation of a magnificent Dakshina Dwaraka Dham - The cultural complex to preserve and
+                promote Indian heritage in Chennai, Tamil Nadu.
             </Box>
         </Box>
     );

@@ -65,7 +65,6 @@ const HomePage = () => {
   return (
     <Box position={'relative'} maxWidth='1200px' display='flex' flexDirection='column' alignItems='center' >
       <HeadingBanner />
-      <CountdownTimer />
       <CampaignProgressDetails
         currentAmount={Number(campaignsData?.totalraisedamt) || 0}
         goalAmount={Number(campaignsData?.totalgoalamt) || 0}

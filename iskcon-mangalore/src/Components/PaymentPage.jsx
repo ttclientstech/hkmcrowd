@@ -67,7 +67,7 @@ console.log(orderConfirmId);
       const options = {
         key: process.env.REACT_APP_RZP_KEY,
         currency: "INR",
-        name: "ISKCON Mangalore Govardhana Hills",
+        name: "Hare Krishna Movement Chennai",
         description: "Mandir Nirmana Seva",
         order_id: id,
         handler: function (response) {
@@ -166,7 +166,7 @@ console.log(orderConfirmId);
             {`Your payment was successful!`}
           </Text>
           <Text mt={4} fontSize="xl" fontWeight="bold" textAlign="center" color="white">
-            {`Your payment has been successfully received. Thank you for your generous support towards ${paymentData?.campainerName? `${paymentData?.campainerName}'s`:''} campaign to build a magnificent Sri Radha Krishna Temple and centre for culture and education. in Mangalore, Karnataka.`}
+            {`Your payment has been successfully received. Thank you for your generous support towards ${paymentData?.campainerName? `${paymentData?.campainerName}'s`:''} campaign to build a magnificent Dakshina Dwaraka Dham - The cultural complex to preserve and promote Indian heritage in Chennai, Tamil Nadu.`}
           </Text>
           <Button mt={6} background="#144544" color='white' size="lg" fontWeight="bold" onClick={() => navigate(`/single/${paymentData.campaignsid}`)}>
             Go Back

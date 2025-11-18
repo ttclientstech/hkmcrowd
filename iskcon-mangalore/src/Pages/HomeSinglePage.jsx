@@ -319,7 +319,7 @@ const HomeSinglePage = () => {
 
       <AdditionalDetails getSingleUser={getSingleUser} />
 
-          <CountdownTimer />
+
       <CampaignTabs tab={tab} setTab={setTab} />
       {tab === 1 ? (
         <CampaignMoreDetails

@@ -165,19 +165,19 @@ const HomeCards = ({
                         {user.campaignName.toUpperCase()}'S Campaign to build a
                         magnificent {' '}
                         <span style={{ color: '#6A1B9A' }}>
-                            Sri Radha Krishna Temple and Centre for culture and education
+                            Dakshina Dwaraka Dham - The cultural complex to preserve and promote Indian heritage
                           </span>{' '}
-                        in Mangalore, Karnataka.
+                        in Chennai, Tamil Nadu.
                       </Text>
                       <Text fontSize="0.9rem" mb={2} color="gray.600">{user.desc}</Text>
                       <HStack fontSize="0.8rem" py="0.5rem" color="gray.500">
-                        <Box color="red.500">ISKCON Mangalore</Box>{" "}
+                        <Box color="red.500">HKM Chennai</Box>{" "}
                         <Box>|</Box>
                         <HStack>
                           <Box color="red.500">
                             <FaLocationDot />
                           </Box>
-                          <Box>Benjanapadavu, Govardhan Hills</Box>
+                          <Box>Thiruvanmiyur, Chennai</Box>
                         </HStack>
                       </HStack>
 

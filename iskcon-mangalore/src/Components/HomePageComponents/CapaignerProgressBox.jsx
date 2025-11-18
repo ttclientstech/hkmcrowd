@@ -17,13 +17,13 @@ const CapaignerProgressBox = ({
     const isTargetReached = raisedAmount >= targetAmount;
     const currentPercentage = calculatePercentage(targetAmount, raisedAmount);
     const sevaOptions = [
-            { label: "Brick Seva", value: 2101},
-            { label: "1 Square ft Seva", value: 5001 },
-            { label: "Pravachana mandir Seva", value: 10001 },
-            { label: "Annadana Kitchen Seva", value: 25001 },
-            { label: "Mukhya Mandira Seva", value: 55001 },
-            { label: "Life PatronShip Seva", value: 75001},
-            { label: "Dharma Sevak Seva (Life Patron)", value: 108000}
+            { label: "1 Square ft Seva", value: 50001 },
+            { label: "2 Square ft Seva", value: 10001 },
+            { label: "4 Square ft Seva", value: 20001 },
+            { label: "8 Square ft Seva", value: 40001 },
+            { label: "10 Square ft Seva", value: 50001},
+            { label: "15 Square ft Seva", value: 75001},
+            { label: "25 Square ft Seva", value: 125001}
         ];
     const [showCustomInput, setShowCustomInput] = useState(false);
 

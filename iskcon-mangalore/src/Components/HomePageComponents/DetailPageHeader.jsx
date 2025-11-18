@@ -31,15 +31,15 @@ const DetailPageHeader = ({ themeColor, getSingleUser, image16 }) => {
           lineHeight={"2.2rem"}
         >
           {getSingleUser?.campaignDetails?.campaignName}'s campaign to build a
-          magnificent Sri Radha Krishna Temple and Centre for Culture and Education in
-          Mangalore, Govardhana Hills, Karnataka.
+          magnificent Dakshina Dwaraka Dham - The cultural complex to preserve and promote Indian heritage in
+          Thiruvanmiyur, Chennai, Tamil Nadu.
         </Text>
         <VStack alignItems={"flex-start"} gap={"1rem"} mt={"1rem"} >
           <HStack>
             <Box>
               <FaLocationDot />
             </Box>
-            <Text>Benjanapadavu, Mangalore, Karnataka, India</Text>
+            <Text>Thiruvanmiyur, Chennai, Tamil Nadu, India</Text>
           </HStack>
 
 
@@ -62,7 +62,7 @@ const DetailPageHeader = ({ themeColor, getSingleUser, image16 }) => {
                 />
               </Box>
               <VStack alignItems={"flex-start"} gap={"2px"}>
-                <Text fontWeight={"bold"}>ISKCON Mangalore</Text>
+                <Text fontWeight={"bold"}>Hare Krishna Movement Chennai</Text>
                 <Text fontWeight={"bold"} color={"#FFD700"} fontStyle={"italic"}>Go to Homepage</Text>
               </VStack>
             </HStack>
