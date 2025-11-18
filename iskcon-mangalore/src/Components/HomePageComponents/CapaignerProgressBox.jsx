@@ -17,13 +17,13 @@ const CapaignerProgressBox = ({
     const isTargetReached = raisedAmount >= targetAmount;
     const currentPercentage = calculatePercentage(targetAmount, raisedAmount);
     const sevaOptions = [
-            { label: "1 Square ft Seva", value: 50001 },
+            { label: "1 Square ft Seva", value: 5001 },
             { label: "2 Square ft Seva", value: 10001 },
             { label: "4 Square ft Seva", value: 20001 },
             { label: "8 Square ft Seva", value: 40001 },
             { label: "10 Square ft Seva", value: 50001},
             { label: "15 Square ft Seva", value: 75001},
-            { label: "25 Square ft Seva", value: 125001}
+            { label: "20 Square ft Seva", value: 100008}
         ];
     const [showCustomInput, setShowCustomInput] = useState(false);
 

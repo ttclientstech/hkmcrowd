@@ -155,10 +155,10 @@ const CampaignMoreDetails = ({ campaign, getSingleUser, themeColor, handleImageE
                     <Box textAlign="justify">{campaign.need}</Box>
                 </VStack>
 
-                {/* cost break up */}
+                {/* cost break up
                 <Box w={"90%"} h={"auto"} mx={"auto"}>
                     <Image w={"100%"} h={"100%"} src={campaign.cost_breakup} />
-                </Box>
+                </Box> */}
 
                 <VStack w={"90%"} mx={"auto"} alignItems={"flex-start"}>
                     <Box
@@ -179,7 +179,7 @@ const CampaignMoreDetails = ({ campaign, getSingleUser, themeColor, handleImageE
                     </Box>
                     <ul>
                         <li>Donations can be made online through the link</li>
-                        <li>Donations via cheque can be made to ISKCON Mangalore and sent to PVS KalaKunja, Kodialbail, Mangalore-575003.</li>
+                        <li>Donations via cheque can be made to Hare Krishna Movement Chennai and sent to Hare Krishna Movement Chennai, #63, 1st Seaward Road, Valmiki Nagar, Thiruvanmiyur, Chennai – 600041, Tamil Nadu, India,  Mob No: +91 91500 44121.</li>
                     </ul>
 
                     <Box
@@ -190,7 +190,7 @@ const CampaignMoreDetails = ({ campaign, getSingleUser, themeColor, handleImageE
                         FAQs:
                     </Box>
                     <ul>
-                        <li><b>How will I know how my funds are spent?</b><br/> After the funds are collected, updates will be provided on the campaign's progress.</li>
+                        <li><b>How will I know how my funds are spent?</b><br/>Transparency is our commitment. Once the funds are collected, regular updates will be shared on the campaign’s progress, including construction milestones and key developments, so that every donor can see how their contributions are helping bring Dakshina Dwaraka Dham to life.</li>
                         <li><b>When will I receive my receipt?</b><br/>For online donations through the link, you will receive the Receipt immediately. For the donations made through cheque, you will receive the receipt after the realization of the cheque.</li>
                     </ul>
                     <Box fontWeight={"bold"}>{campaign.join_us}</Box>
@@ -200,12 +200,16 @@ const CampaignMoreDetails = ({ campaign, getSingleUser, themeColor, handleImageE
                         fontWeight={"semibold"}
                         color={"red.500"}
                     >
-                        Rewards for Donors:
+                        Donor's Privilege:
                     </Box>
-                    {/* wall of gratitude */}
+                    <ul>
+                        <li><b>For Everyone: </b>80G exemption,  Prasadam from Dakshina Dwaraka dham</li>
+                        <li><b>For certain donor (depending on amount): </b>Puja invites , SB/LP set, Patron card, Name inscription, Guest stay facility (3 days), participation in Brahmotsavam Yajna etc.</li>
+                    </ul>
+                    {/* wall of gratitude
                     <Box w={"90%"} h={"auto"} mx={"auto"}>
                         <Image w={"100%"} h={"100%"} src={campaign.image12} />
-                    </Box>
+                    </Box>*/}
                     {/* <ul>
                         <li><b>INR 10,000:</b> Name in the inaugural souvenir (4x font).</li>
                         <li><b>INR 25,000:</b> Name in the inaugural souvenir (1/6th page).</li>

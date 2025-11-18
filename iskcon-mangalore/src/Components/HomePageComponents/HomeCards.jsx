@@ -171,13 +171,13 @@ const HomeCards = ({
                       </Text>
                       <Text fontSize="0.9rem" mb={2} color="gray.600">{user.desc}</Text>
                       <HStack fontSize="0.8rem" py="0.5rem" color="gray.500">
-                        <Box color="red.500">HKM Chennai</Box>{" "}
+                        <Box color="red.500">Hare Krishna Movement Chennai</Box>{" "}
                         <Box>|</Box>
                         <HStack>
                           <Box color="red.500">
                             <FaLocationDot />
                           </Box>
-                          <Box>Thiruvanmiyur, Chennai</Box>
+                          <Box>Thiruvanmiyur</Box>
                         </HStack>
                       </HStack>
 

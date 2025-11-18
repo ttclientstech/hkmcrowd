@@ -34,12 +34,12 @@ const HomeDetails = () => {
             <Tr>
               <Td fontWeight={"bold"}>Address:</Td>
               <Td>
-                ISKCON Sri Krishna Balaram Mandir PVS Kalakunj Mangalore 575003
+                Hare Krishna Movement Chennai, 1st Seaward Rd, Valmiki Nagar, Thiruvanmiyur, Chennai, Tamil Nadu - 600041
               </Td>
             </Tr>
             <Tr>
               <Td fontWeight={"bold"}>Location:</Td>
-              <Td>Mangalore, Karnataka, India</Td>
+              <Td>Thiruvanmiyur, Tamil Nadu, India</Td>
             </Tr>
             <Tr>
               <Td fontWeight={"bold"}>About the org:</Td>
@@ -47,22 +47,18 @@ const HomeDetails = () => {
                 About the organisation: ISKCON (International Society for Krishna Consciousness) is a global spiritual movement founded in 1966 by His Divine Grace A. C. Bhaktivedanta Swami Prabhupāda to spread the teachings of Lord Krishna as presented in the Bhagavad-gītā and Śrīmad-Bhāgavatam. It promotes bhakti-yoga through chanting the Hare Krishna mahā-mantra, deity worship, prasadam distribution, and the study of Vedic scriptures.
               </Td>
             </Tr>
-            <Tr>
+            {/*<Tr>
               <Td fontWeight="bold">Certificates:</Td>
               <Td>
                 <VStack alignItems={'flex-start'} spacing={2}>
                   <Link href={cor} target="_blank" rel="noopener noreferrer" color="blue.500" textDecoration="underline">
                     Certificate of Registration
-                  </Link>
-{/*                   <Link href={csr} target="_blank" rel="noopener noreferrer" color="blue.500" textDecoration="underline"> */}
-{/*                     ISKCON CSR */}
-{/*                   </Link> */}
                   <Link href={g} target="_blank" rel="noopener noreferrer" color="blue.500" textDecoration="underline">
                     80G Certificate
                   </Link>
                 </VStack>
               </Td>
-            </Tr>
+            </Tr>*/}
           </Tbody>
         </Table>
       </VStack>
