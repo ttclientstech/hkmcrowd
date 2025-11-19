@@ -223,7 +223,7 @@ const CampaignMoreDetails = ({ campaign, getSingleUser, themeColor, handleImageE
                         fontWeight={"semibold"}
                         color={"red.500"}
                     >
-                        Aerial View of our Temple Land:
+                        Witness the Growth: Latest Photos of Our Temple Construction:
                     </Box>
                     <Box textAlign="justify">{campaign.ongoing}</Box>
                 </VStack>
