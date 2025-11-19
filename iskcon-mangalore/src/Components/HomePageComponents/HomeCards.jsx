@@ -126,7 +126,7 @@ const HomeCards = ({
             >
               {filteredSearch(campaigns, searchQuery)?.map((user, i) => (
                 <Link key={user.campaignId} to={`/single/${user.campaignId}`}>
-                  <Card border={'2px solid #E0E0E0'} w="100%" overflow="hidden" h="100%" boxShadow="md" borderRadius="14px">
+                  <Card border={'2px solid #444444'} w="100%" overflow="hidden" h="100%" boxShadow="md" borderRadius="14px">
                     <Box w="100%" h={["250px", "250px", "250px", "300px", "250px"]} position='relative' >
                       <Image
                         w="100%"
@@ -160,21 +160,21 @@ const HomeCards = ({
                         </Badge>}
                       </>}
                     </Box>
-                    <CardBody bg="#FFFFFF" px="7px">
-                      <Text fontSize="1.1rem"  fontWeight="700" mb={2} color="#0A1A33">
+                    <CardBody bg="gray.100" px="7px">
+                      <Text fontSize="1.1rem"  fontWeight="700" mb={2} color="gray.700">
                         {user.campaignName.toUpperCase()}'S Campaign to build a
                         magnificent {' '}
-                        <span style={{ color: '#D4AF37' }}>
+                        <span style={{ color: '#6A1B9A' }}>
                             Dakshina Dwaraka Dham - The cultural complex to preserve and promote Indian heritage
                           </span>{' '}
                         in Chennai, Tamil Nadu.
                       </Text>
-                      <Text fontSize="0.9rem" mb={2} color="#333333">{user.desc}</Text>
-                      <HStack fontSize="0.8rem" py="0.5rem" color="#0A1A33">
-                        <Box>Hare Krishna Movement Chennai</Box>{" "}
+                      <Text fontSize="0.9rem" mb={2} color="gray.600">{user.desc}</Text>
+                      <HStack fontSize="0.8rem" py="0.5rem" color="gray.500">
+                        <Box color="red.500">Hare Krishna Movement Chennai</Box>{" "}
                         <Box>|</Box>
                         <HStack>
-                          <Box color="#0A1A33">
+                          <Box color="red.500">
                             <FaLocationDot />
                           </Box>
                           <Box>Thiruvanmiyur</Box>
@@ -184,7 +184,7 @@ const HomeCards = ({
                     </CardBody>
                     <CardFooter
                       // bgColor="teal.600"
-                      bgColor="#0A1A33"
+                      bgColor={IskconBgColor}
                       display="flex"
                       flexDirection="column"
                       py="5px"
@@ -192,7 +192,7 @@ const HomeCards = ({
                       borderBottomRadius="10px"
                     >
                       <HStack
-                        color="#FFFFFF"
+                        color="white"
                         fontWeight="700"
                         justifyContent="space-between"
                         w="100%"
@@ -205,13 +205,13 @@ const HomeCards = ({
                         goalAmount={user?.targetamt}
                       />
                       <HStack
-                        color="#FFFFFF"
+                        color="white"
                         fontWeight="700"
                         justifyContent="space-between"
                         w="100%"
                       >
                         <Box>{calculatePercentage(user?.targetamt, user?.totalRaisedAmount)}%</Box>
-                        <Box color="#E8C873" fontWeight={900} fontSize={"20px"}>{calculatePercentage(user?.targetamt, user?.totalRaisedAmount) >= 100 ? "Goal Achieved!" : (calculatePercentage(user?.targetamt, user?.totalRaisedAmount) >= 80 ? "Almost there!" : "") }</Box>
+                        <Box color="#d481f0" fontWeight={900} fontSize={"20px"}>{calculatePercentage(user?.targetamt, user?.totalRaisedAmount) >= 100 ? "Goal Achieved!" : (calculatePercentage(user?.targetamt, user?.totalRaisedAmount) >= 80 ? "Almost there!" : "") }</Box>
                         <Box>{getDaysDifference(user?.enddate.split("T")[0])} Days LEFT</Box>
                       </HStack>
                     </CardFooter>

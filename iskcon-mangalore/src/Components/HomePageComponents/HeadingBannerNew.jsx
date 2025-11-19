@@ -6,14 +6,12 @@ import logo from "../../assets/images/logo.png";
 const HeadingBanner = () => {
     // const bgColor = '#54956e';
     // const textColor = useColorModeValue("white", "gray.200");
-    const bgColor = '#0A1A33';  //'#f4c430'; //'#f4c430';
-    const gold = "#D4AF37";
-    const softGold = "#E8C873";
+    const bgColor = '#4B0000';  //'#f4c430'; //'#f4c430';
     const textColor = '#FFFFFF'; //useColorModeValue("#444444", "gray.200")
 
     return (
         <>
-        <Box w="100%" h="6px" bgGradient={`linear(to-r, ${gold}, ${softGold}, ${gold})`} />
+        <Box w="100%" h="6px" bgGradient="linear(to-r, #D4AF37, #FFD700, #D4AF37)" />
         <Flex
             maxW="1200px"
             justifyContent='space-between'
@@ -47,7 +45,7 @@ const HeadingBanner = () => {
             </Box>
             
         </Flex>
-        <Box w="100%" h="6px" bgGradient={`linear(to-r, ${gold}, ${softGold}, ${gold})`} />
+        <Box w="100%" h="6px" bgGradient="linear(to-r, #D4AF37, #FFD700, #D4AF37)" />
         <Box display={"block"} marginBottom='5px' maxW="1200px" w="100%" mt="-1px" mb="8px" textAlign={"end"}>
             <Text fontSize={["xs", "sm", "lg"]} color={textColor} bg={bgColor}>
 {/*                 <i>If you build a temple of Krishna, you will be liberated. <span>&nbsp;&nbsp;</span><br/><b>- Srila Prabhupada </b><span>&nbsp;&nbsp;</span></i> */}
