@@ -101,7 +101,7 @@ const CampaignProgressDetails = ({ currentAmount, goalAmount }) => {
             size={["100px", "130px", "150px"]}
             thickness="10px"
             color={'#D4AF37'}
-            trackColor={'#F3F4F6'}
+            trackColor={trackColor}
             capIsRound={true}
           >
             <CircularProgressLabel
