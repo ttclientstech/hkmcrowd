@@ -65,7 +65,7 @@ const CampaignProgressDetails = ({ currentAmount, goalAmount }) => {
       borderRadius="10px"
       px={'10px'}
       py={'5px'}
-      bgColor="#FAF3E0"
+      bgColor="#F3F4F6"
       boxShadow="dark-lg"
       marginBottom="10px"
       border="6px solid #D4AF37"
@@ -80,16 +80,16 @@ const CampaignProgressDetails = ({ currentAmount, goalAmount }) => {
           align="center"
         >
           <VStack align={["center", "center", "flex-start"]} marginLeft={["0", "0", "3rem"]}>
-            <Flex align="center" gap={2} color={'#3B2F2F'} fontSize={["1.5rem", "2rem", "2rem"]}>
+            <Flex align="center" gap={2} color={'#0A1A33'} fontSize={["1.5rem", "2rem", "2rem"]}>
               <Box fontWeight="semibold">Goal:</Box>
               <Box fontWeight="semibold">{formatCurrency(goalAmount)}</Box>
             </Flex>
 
-            <HStack alignItems="baseline" color={'#B22222'}>
-              <Box fontSize={["2rem", "2.2rem", "2.5rem"]} fontWeight="bold">
+            <HStack alignItems="baseline">
+              <Box fontSize={["2rem", "2.2rem", "2.5rem"]} fontWeight="bold" color={'#D4AF37'}>
                 ₹<CountUp end={currentAmount} start={currentAmount / 2} useIndianSeparators={true} />
               </Box>
-              <Box fontSize={["1.2rem", "1.3rem", "1.5rem"]} fontWeight="bold">
+              <Box fontSize={["1.2rem", "1.3rem", "1.5rem"]} fontWeight="bold" color={'#333333'}>
                 Achieved
               </Box>
             </HStack>
@@ -100,14 +100,14 @@ const CampaignProgressDetails = ({ currentAmount, goalAmount }) => {
             value={progress}
             size={["100px", "130px", "150px"]}
             thickness="10px"
-            color={'#3B2F2F'}
-            trackColor={trackColor}
+            color={'#D4AF37'}
+            trackColor={'#F3F4F6'}
             capIsRound={true}
           >
             <CircularProgressLabel
               fontSize={["1rem", "1.2rem", "1.5rem"]}
               fontWeight="bold"
-              color={'#B22222'}
+              color={'#0A1A33'}
             >
               {progress.toFixed(2)}%
             </CircularProgressLabel>
@@ -115,10 +115,10 @@ const CampaignProgressDetails = ({ currentAmount, goalAmount }) => {
         </Box>
 
         <VStack align={["center", "center", "flex-start"]} mt={[4, 4, "-1rem"]} marginRight={["0", "0", "3rem"]}>
-          <Box fontSize={["1.5rem", "2rem", "2.3rem"]} fontWeight="bold" color={'#B22222'}>
+          <Box fontSize={["1.5rem", "2rem", "2.3rem"]} fontWeight="bold" color={'#0A1A33'}>
             Mandir Nirmana Seva
           </Box>
-          <Box fontSize={["1rem", "1.2rem", "1.5rem"]}   fontWeight="bold" color={'#B22222'} mt={2}>
+          <Box fontSize={["1rem", "1.2rem", "1.5rem"]}   fontWeight="bold" color={'#0A1A33'} mt={2}>
             Be a Part of This Legacy
           </Box>
         </VStack>
