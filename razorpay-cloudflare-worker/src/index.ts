@@ -28,7 +28,7 @@ app.post("/webhook/razorpay", async (c) => {
     const DATABASE_URL = "postgresql://neondb_owner:npg_e0L7DGPyxSlQ@ep-late-frost-adbr6e14-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
     const sqlneon = neon(DATABASE_URL);
     const db = drizzle( sqlneon );
-  const WEBHOOK_SECRET = "secret"; // Your Razorpay Webhook Secret
+  const WEBHOOK_SECRET = "hkmc_chennai_webhook_2025"; // Your Razorpay Webhook Secret
   //const db = c.get("db"); // Use the db connection from middleware
   // console.log(`inside webhook call logging hare krishna`)
   try {
