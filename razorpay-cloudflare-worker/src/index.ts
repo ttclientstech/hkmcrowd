@@ -280,8 +280,8 @@ const token = "iskonhublicampaign";
 app.use('*', async (c, next) => {
   try {
 
-const RAZ_ID = "rzpid";
-const RAZ_SECRET = "secret";
+const RAZ_ID = "rzp_test_h80a9qdKzKl9pm";
+const RAZ_SECRET = "G8oBD7K4CUECcc7GNc0q0vH5";
 
 const DATABASE_URL = "postgresql://neondb_owner:npg_e0L7DGPyxSlQ@ep-late-frost-adbr6e14-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
 const { AUTH_TOKEN } = env<{

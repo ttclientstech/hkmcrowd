@@ -14,8 +14,8 @@ compatibility_flags = [ "nodejs_compat" ]
 [vars]
 # MY_VAR = "my-variable"
 DATABASE_URL = "postgresql://neondb_owner:npg_e0L7DGPyxSlQ@ep-late-frost-adbr6e14-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
-RAZ_ID = "zarpayid"
-RAZ_SECRET = "secret"
+RAZ_ID = "rzp_test_h80a9qdKzKl9pm"
+RAZ_SECRET = "G8oBD7K4CUECcc7GNc0q0vH5"
 
 [logs]
 level = "info"
