@@ -111,9 +111,9 @@ export const campaign = {
   taxBenfits: image19,
 };
 
-export const BE_API_URL = process.env.CLOUD_FLARE_BACKEND_URL;
+export const BE_API_URL = process.env.REACT_APP_CLOUD_FLARE_BACKEND_URL;
 
-export const TOKEN = process.env.AUTH_TOKEN;
+export const TOKEN = process.env.REACT_APP_AUTH_TOKEN;
 
 export const donorTitles = [
   "Seva Shiromani",
