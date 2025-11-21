@@ -1,4 +1,4 @@
-import { Box, Checkbox, HStack, Input, VStack, Spinner } from '@chakra-ui/react';
+import { Box, Checkbox, HStack, Input, VStack, Spinner,Textarea } from '@chakra-ui/react';
 import React, { useState, useCallback, useRef } from 'react';
 import { IskconBgColor } from '../utils';
 
@@ -47,7 +47,7 @@ const PaymentModal = ({
 
             if (checked) {
                 handleOnChange({
-                    target: { name: "gAddress", value: formData.address }
+                    target: { name: "taxAddress", value: formData.address }
                 });
             }
         };
@@ -213,14 +213,14 @@ const PaymentModal = ({
                                 {/* 80G address textbox */}
                                 <Textarea
                                     onChange={handleOnChange}
-                                    name="gAddress"
-                                    value={formData.gAddress}
+                                    name="taxAddress"
+                                    value={formData.taxAddress}
                                     border={"2px solid #CCCCCC"}
                                     placeholder="80G Address*"
                                     size="lg"
                                 />
-                                {errors.gAddress && (
-                                    <Box color="red.500">{errors.gAddress}</Box>
+                                {errors.taxAddress && (
+                                    <Box color="red.500">{errors.taxAddress}</Box>
                                 )}
 
                             </Box>

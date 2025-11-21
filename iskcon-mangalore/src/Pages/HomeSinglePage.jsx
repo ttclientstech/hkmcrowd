@@ -60,6 +60,7 @@ const HomeSinglePage = () => {
     pincode: "",
     panno: "",
     address: "",
+    taxAddress: "",
     amount: amount,
     username: "",
     campaignsid: id,
