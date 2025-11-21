@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { BE_API_URL } from "../../constants/homePage";
+import { BE_API_URL, TOKEN } from "../../constants/homePage";
 
 const api = BE_API_URL;
 // const api = "http://172.236.187.67"
 const be_api = api; //"https://nodebe.ages.fun"
 
-const token = 'iskonhublicampaign'
+const token = TOKEN;
 
 export const fetchUser = createAsyncThunk("getUserList",async(_,{rejectWithValue})=>{
       try {

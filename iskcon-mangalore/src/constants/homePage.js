@@ -111,7 +111,9 @@ export const campaign = {
   taxBenfits: image19,
 };
 
-export const BE_API_URL = 'https://razor.aneeshm059.workers.dev'
+export const BE_API_URL = process.env.CLOUD_FLARE_BACKEND_URL;
+
+export const TOKEN = process.env.AUTH_TOKEN;
 
 export const donorTitles = [
   "Seva Shiromani",

@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
-import { BE_API_URL } from "../../constants/homePage";
+import { BE_API_URL, TOKEN } from "../../constants/homePage";
 
 const api = BE_API_URL;
-const token = "iskonhublicampaign";
+const token = TOKEN;
 //const api_key = "aXNrb25jYW1wYWlnbmFkbWluOmlza29uY2FtcGFpZ25AMQ==";
 
 export const adminCreateCampaign = createAsyncThunk(

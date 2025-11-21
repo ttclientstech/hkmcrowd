@@ -23,12 +23,18 @@ declare module "hono"{
 
 const app = new Hono();
 
+
 app.post("/webhook/razorpay", async (c) => {
 
-    const DATABASE_URL = "postgresql://neondb_owner:npg_e0L7DGPyxSlQ@ep-late-frost-adbr6e14-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
+    const { DATABASE_URL, WEBHOOK_SECRET } = env<{
+        DATABASE_URL: string;
+        WEBHOOK_SECRET: string;
+      }>(c);
+
+    //const DATABASE_URL = "postgresql://neondb_owner:npg_e0L7DGPyxSlQ@ep-late-frost-adbr6e14-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
     const sqlneon = neon(DATABASE_URL);
     const db = drizzle( sqlneon );
-  const WEBHOOK_SECRET = "hkmc_chennai_webhook_2025"; // Your Razorpay Webhook Secret
+ // const WEBHOOK_SECRET = "hkmc_chennai_webhook_2025"; // Your Razorpay Webhook Secret
   //const db = c.get("db"); // Use the db connection from middleware
   // console.log(`inside webhook call logging hare krishna`)
   try {
@@ -195,16 +201,20 @@ app.post("/webhook/razorpay", async (c) => {
 });
 
 app.post("/checkpayment", cors({
-  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org","https://hkm-chennai-crowd-funding.vercel.app"],
+  origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:false
 }),async (c) => {
   try {
-    const RAZ_ID = "rzp id";
-const RAZ_SECRET = "secret";
-
-const DATABASE_URL = "postgresql://neondb_owner:npg_e0L7DGPyxSlQ@ep-late-frost-adbr6e14-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
+   const { DATABASE_URL, RAZ_ID, RAZ_SECRET } = env<{
+        DATABASE_URL: string;
+        RAZ_ID: string;
+        RAZ_SECRET: string;
+      }>(c);
+    //const RAZ_ID = "rzp id";
+//const RAZ_SECRET = "secret";
+//const DATABASE_URL = "postgresql://neondb_owner:npg_e0L7DGPyxSlQ@ep-late-frost-adbr6e14-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
 const sqlneon = neon(DATABASE_URL);
 
 
@@ -268,22 +278,26 @@ const razorpay = new Razorpay({
 });
 
 app.use("*", cors({
-  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org","https://hkm-chennai-crowd-funding.vercel.app"],
+  origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:false
 
 }))
-const token = "iskonhublicampaign";
+//const token = "iskonhublicampaign";
 
 
 app.use('*', async (c, next) => {
   try {
+const { DATABASE_URL, RAZ_ID, RAZ_SECRET } = env<{
+        DATABASE_URL: string;
+        RAZ_ID: string;
+        RAZ_SECRET: string;
+      }>(c);
+//const RAZ_ID = "rzp_test_h80a9qdKzKl9pm";
+//const RAZ_SECRET = "G8oBD7K4CUECcc7GNc0q0vH5";
 
-const RAZ_ID = "rzp_test_h80a9qdKzKl9pm";
-const RAZ_SECRET = "G8oBD7K4CUECcc7GNc0q0vH5";
-
-const DATABASE_URL = "postgresql://neondb_owner:npg_e0L7DGPyxSlQ@ep-late-frost-adbr6e14-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
+//const DATABASE_URL = "postgresql://neondb_owner:npg_e0L7DGPyxSlQ@ep-late-frost-adbr6e14-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
 const { AUTH_TOKEN } = env<{
   AUTH_TOKEN: string;
 }>(c);
@@ -296,6 +310,7 @@ const razorpay = new Razorpay({
   const sql = neon(DATABASE_URL);
   c.set('db', drizzle(sql));
   c.set('razor',razorpay);
+  c.set('authToken', AUTH_TOKEN);
   await next();
   }catch(err){
     console.error("An error occurred while connecting to the database:", err);
@@ -309,12 +324,7 @@ const razorpay = new Razorpay({
 app.get(
     '/campaign/:id',
     cors({
-        origin: [
-          "http://localhost:3000",
-          "https://iskcon-hubli.vercel.app",
-          "https://campaigns.iskconmangalore.org",
-          "https://hkm-chennai-crowd-funding.vercel.app"
-        ],
+        origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app"],
         allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
         credentials: true,
@@ -383,17 +393,14 @@ app.get(
 app.post(
   '/create-payment',
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://iskcon-hubli.vercel.app",
-      "https://campaigns.iskconmangalore.org","https://campaigns.iskconmangalore.org",
-      "https://hkm-chennai-crowd-funding.vercel.app"
-    ],
+    origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app"],
     allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
     credentials: true,
   }),
-  bearerAuth({ token }),
+  bearerAuth({
+      token: (c) => c.get("authToken"),
+    }),
   async (c) => {
     const db = c.get('db');
     const razor = c.get('razor');
@@ -577,7 +584,7 @@ console.log("1",totalgoalamts)
 
 
 app.delete('/delete-campaign/:id',cors({
-  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org","https://hkm-chennai-crowd-funding.vercel.app"],
+  origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
@@ -634,11 +641,13 @@ app.delete('/delete-campaign/:id',cors({
 
 
 app.put('/update-campaign/:id',cors({
-  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org","https://hkm-chennai-crowd-funding.vercel.app","https://hkm-chennai-crowd-funding.vercel.app"],
+  origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
-}),bearerAuth({ token }), async (c) => {
+}),bearerAuth({
+       token: (c) => c.get("authToken"),
+     }), async (c) => {
   const db = c.get('db');
   const body = await c.req.json();
   const campaignId = Number(c.req.param('id'));
@@ -710,7 +719,7 @@ app.put('/update-campaign/:id',cors({
 
 
 app.post('/create-campaign',cors({
-  origin: ["http://localhost:3000","https://iskcon-hubli.vercel.app","https://campaigns.iskconmangalore.org","https://campaigns.iskconmangalore.org","https://hkm-chennai-crowd-funding.vercel.app"],
+  origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
