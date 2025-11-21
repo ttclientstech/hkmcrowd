@@ -13,6 +13,7 @@ const PaymentModal = ({
 }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const lastSubmitTimeRef = useRef(0);
+    const [copyAddress, setCopyAddress] = useState(false);
 
     const debouncedHandleSubmit = useCallback((e) => {
         e.preventDefault();
@@ -40,7 +41,16 @@ const PaymentModal = ({
         }, 2000);
 
     }, [handleSubmit, isSubmitting]);
+     const handleCopyAddress = (e) => {
+            const checked = e.target.checked;
+            setCopyAddress(checked);
 
+            if (checked) {
+                handleOnChange({
+                    target: { name: "gAddress", value: formData.address }
+                });
+            }
+        };
     return (
         <Box
             position={"fixed"}
@@ -99,6 +109,17 @@ const PaymentModal = ({
                             <Box color="red.500">{errors.username}</Box>
                         )}
 
+                        <Textarea
+                            onChange={handleOnChange}
+                            name="address"
+                            value={formData.address}
+                            border={"2px solid #CCCCCC"}
+                            placeholder="Communication Address*"
+                            marginTop={"0.6rem"}
+                            marginBottom={"0.6rem"}
+                            size="lg"
+                        />
+                        {errors.address && (<Box color="red.500">{errors.address}</Box>)}
                         <HStack marginBottom={'0.6rem'}>
                             <VStack alignItems={"flex-start"} gap={"1px"} w={"100%"}>
 
@@ -176,7 +197,34 @@ const PaymentModal = ({
                             </Checkbox>
                         </HStack>
 
+                        {formData.taxExemption && (
+                            <Box mt="1rem" mb="1rem">
 
+                                {/* Checkbox same as communication address */}
+                                <Checkbox
+                                    size="lg"
+                                    isChecked={copyAddress}
+                                    onChange={handleCopyAddress}
+                                    mb="0.5rem"
+                                >
+                                    Same as communication address
+                                </Checkbox>
+
+                                {/* 80G address textbox */}
+                                <Textarea
+                                    onChange={handleOnChange}
+                                    name="gAddress"
+                                    value={formData.gAddress}
+                                    border={"2px solid #CCCCCC"}
+                                    placeholder="80G Address*"
+                                    size="lg"
+                                />
+                                {errors.gAddress && (
+                                    <Box color="red.500">{errors.gAddress}</Box>
+                                )}
+
+                            </Box>
+                        )}
                         {formData.taxExemption && <HStack marginTop={"0.6rem"}>
                             <VStack alignItems={"flex-start"} gap={"1px"} w={"100%"}>
 
