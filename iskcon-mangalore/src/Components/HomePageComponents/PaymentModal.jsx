@@ -49,6 +49,9 @@ const PaymentModal = ({
                 handleOnChange({
                     target: { name: "taxAddress", value: formData.address }
                 });
+                handleOnChange({
+                    target: { name: "taxPincode", value: formData.pincode }
+                });
             }
         };
     return (
@@ -114,12 +117,21 @@ const PaymentModal = ({
                             name="address"
                             value={formData.address}
                             border={"2px solid #CCCCCC"}
-                            placeholder="Communication Address*"
+                            placeholder="Communication Address (Please Enter the complete address)*"
                             marginTop={"0.6rem"}
                             marginBottom={"0.6rem"}
                             size="lg"
                         />
                         {errors.address && (<Box color="red.500">{errors.address}</Box>)}
+                        <Input
+                            onChange={handleOnChange}
+                            name="pincode"
+                            value={formData.pincode}
+                            border={"2px solid #CCCCCC"}
+                            type="text"
+                            placeholder="Pin Code*"
+                        />
+                        {errors.pincode && <Box color="red.500">{errors.pincode}</Box>}
                         <HStack marginBottom={'0.6rem'}>
                             <VStack alignItems={"flex-start"} gap={"1px"} w={"100%"}>
 
@@ -149,7 +161,7 @@ const PaymentModal = ({
                                 name="email"
                                 value={formData.email}
                                 border={"2px solid #CCCCCC"}
-                                placeholder="Enter Email ID (Optional)"
+                                placeholder="Enter Email ID*"
                                 onChange={handleOnChange}
                             />
                             {errors.email && <Box color="red.500">{errors.email}</Box>}
@@ -162,7 +174,7 @@ const PaymentModal = ({
                                 isChecked={formData.prasadRequired}
                                 size={"lg"}
                             >
-                                🎁 Would you like to receive Gifts and Mahaprasad?  (Provide correct address for prasad delivery)
+                                🎁 Would you like to receive Gifts and Mahaprasadam?  (Please note: The communication address provided above will be used for delivery.)
                             </Checkbox>
                         </HStack>}
                         {amount < 1 && <HStack>
@@ -223,6 +235,17 @@ const PaymentModal = ({
                                     <Box color="red.500">{errors.taxAddress}</Box>
                                 )}
 
+                                <Input
+                                    onChange={handleOnChange}
+                                    name="taxPincode"
+                                    value={formData.taxPincode}
+                                    border={"2px solid #CCCCCC"}
+                                    type="text"
+                                    placeholder="80G Pin Code*"
+                                />
+                                {errors.taxPincode && (
+                                    <Box color="red.500">{errors.taxPincode}</Box>
+                                )}
                             </Box>
                         )}
                         {formData.taxExemption && <HStack marginTop={"0.6rem"}>
@@ -240,36 +263,6 @@ const PaymentModal = ({
                                 {errors.panno && <Box color="red.500">{errors.panno}</Box>}
                             </VStack>
                         </HStack>}
-
-
-
-                        {formData.prasadRequired && <>
-                            <Input
-                                onChange={handleOnChange}
-                                name="address"
-                                value={formData.address}
-                                border={"2px solid #CCCCCC"}
-                                type="text"
-                                placeholder="Address, House No., Street Address, Area Name, etc*"
-                                marginTop={"0.6rem"}
-                                marginBottom={"0.6rem"}
-                            />
-                            {errors.address && <Box color="red.500">{errors.address}</Box>}
-
-                            <Input
-                                onChange={handleOnChange}
-                                name="pincode"
-                                value={formData.pincode}
-                                border={"2px solid #CCCCCC"}
-                                type="text"
-                                placeholder="Pin Code*"
-                            />
-                            {errors.pincode && <Box color="red.500">{errors.pincode}</Box>}
-
-                        </>
-                        }
-
-
                         <Input
                             type="submit"
                             value={isSubmitting ? "Processing..." : "Pay Now"}

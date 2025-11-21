@@ -61,6 +61,7 @@ const HomeSinglePage = () => {
     panno: "",
     address: "",
     taxAddress: "",
+    taxPincode: "",
     amount: amount,
     username: "",
     campaignsid: id,
@@ -109,6 +110,8 @@ const HomeSinglePage = () => {
       pincode: "",
       panno: "",
       address: "",
+      taxAddress: "",
+      taxPincode: "",
       amount: amount,
       username: "",
       campaignsid: id,
@@ -153,17 +156,27 @@ const HomeSinglePage = () => {
       newErrors.username = "Username is required";
     }
 
-    if (formData.prasadRequired) {
-      // Address validation
-      if (!formData.address) {
+    //address validation
+    if(!formData.address){
         newErrors.address = "Address is required";
-      }
-      // Pincode validation
-      if (!formData.pincode) {
+    }
+    //pincode validation
+    if (!formData.pincode) {
         newErrors.pincode = "Pincode is required";
       } else if (!pincodeRegex.test(formData.pincode)) {
         newErrors.pincode = "Please enter a valid 6-digit pincode";
       }
+
+    if (formData.taxExemption) {
+      // Address validation
+      if (!formData.taxAddress) {
+        newErrors.taxAddress = "80G Address is required";
+      }
+      if (!formData.taxPincode) {
+          newErrors.taxPincode = "Pincode is required";
+        } else if (!pincodeRegex.test(formData.taxPincode)) {
+          newErrors.taxPincode = "Please enter a valid 6-digit pincode";
+        }
     }
 
     setErrors(newErrors);
