@@ -50,15 +50,11 @@ const PaymentPageFull = ({
 
     if (checked) {
       // Build a single-line tax address from communication address parts
-      const composed =
+      formData.taxAddress =
         (formData?.houseNumber ? formData.houseNumber + ", " : "") +
         (formData?.street ? formData.street + ", " : "") +
         (formData?.city ? formData.city + ", " : "") +
         (formData?.state ? formData.state : "");
-
-      handleOnChange({
-        target: { name: "taxAddress", value: composed },
-      });
 
       handleOnChange({
         target: { name: "taxPincode", value: formData?.pincode || "" },

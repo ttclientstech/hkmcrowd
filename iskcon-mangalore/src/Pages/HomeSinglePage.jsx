@@ -136,6 +136,7 @@ const HomeSinglePage = () => {
     const pincodeRegex = /^[0-9]{6}$/;
     const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
     const amountRegex = /^[0-9]+(\.[0-9]{1,2})?$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     // Mobile number validation
     if (!formData.mobileno) {
@@ -143,6 +144,12 @@ const HomeSinglePage = () => {
     } else if (!mobileRegex.test(formData.mobileno)) {
       newErrors.mobileno = "Please enter a valid 10-digit mobile number";
     }
+
+      if (!formData.email) {
+          newErrors.email = "Email is required";
+      } else if (!emailRegex.test(formData.email)) {
+          newErrors.email = "Please enter a valid Email address";
+      }
 
     // PAN number validation
     if (formData.taxExemption) {
