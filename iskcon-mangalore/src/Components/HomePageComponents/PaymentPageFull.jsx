@@ -16,7 +16,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { IskconBgColor } from '../utils';
-import templeLogo from "../../assets/images/logo.png";
+import HeadingBanner from "./HeadingBannerNew";
 
 const PaymentPageFull = ({
   amount,
@@ -70,51 +70,7 @@ const PaymentPageFull = ({
 
   return (
     <Box w="100%" minH="100vh" bg="#F7F9FC" py={6} px={[4, 6, 10]}>
-        <Box
-            w="100%"
-            bg="#5A0E0E"    // same rich maroon shade as your homepage
-            py={[4, 5]}
-            px={[4, 6, 10]}
-            borderRadius="10px"
-            mb={6}
-        >
-            <HStack justify="space-between" align="center" spacing={4}>
-
-                {/* Left Side: Logo */}
-                <Image
-                    src={templeLogo}
-                    alt="Temple Logo"
-                    boxSize={["60px", "70px", "80px"]}
-                    objectFit="contain"
-                    borderRadius="5px"
-                    bg="white"
-                    p="2"
-                />
-
-                {/* Right Side: Quote */}
-                <VStack align="flex-end" spacing={1} maxW="80%">
-                    <Text
-                        color="white"
-                        fontWeight="bold"
-                        fontSize={["xs", "sm", "md"]}
-                        textAlign="right"
-                        lineHeight="1.3"
-                    >
-                        “One who donates towards construction of a temple is liberated from
-                        all sins and attains the heavenly realms.”
-                    </Text>
-                    <Text
-                        color="gold"
-                        fontSize={["8px", "10px", "11px"]}
-                        fontStyle="italic"
-                        textAlign="right"
-                    >
-                        — Vishnu Purana 3.8.27
-                    </Text>
-                </VStack>
-
-            </HStack>
-        </Box>
+        <HeadingBanner />
       {/* Header */}
       <Box
         bg={IskconBgColor}
