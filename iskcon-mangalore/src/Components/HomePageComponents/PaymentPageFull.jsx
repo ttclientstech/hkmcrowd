@@ -250,7 +250,7 @@ const PaymentPageFull = ({
               >
                 I would like to receive Maha Prasadam (Only within India)
               </Checkbox>
-                {formData?.prasadRequired && ( <Text fontSize="sm" color="#0A1A33" pl={1}> Please note: Above provided communication address will be used for delivery </Text> )}
+                {formData?.prasadRequired && ( <Text fontSize="sm" color="#041ccc" pl={1}> Please note: Above provided communication address will be used for delivery </Text> )}
 
               <Checkbox
                 name="taxExemption"

@@ -429,7 +429,8 @@ app.post(
       isanonymous,
       taxPincode,
       taxAddress,
-      dob
+      dob,
+      prasadRequired
     } = body;
 
     const requiredFields = { mobileno, amount, username };
@@ -491,6 +492,7 @@ app.post(
         isanonymous: isanonymous ? isanonymous : false,
         taxAddress: taxAddress ? String(taxAddress) : null,
         taxPincode: taxPincode ? String(taxPincode) : null,
+        prasadRequired: prasadRequired,
         dob: dob ? String(dob) : null
       });
 
