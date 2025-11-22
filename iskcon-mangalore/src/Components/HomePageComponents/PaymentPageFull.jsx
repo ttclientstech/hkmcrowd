@@ -18,6 +18,8 @@ import {
 import { LuBriefcase } from "react-icons/lu";
 import { IskconBgColor } from '../utils';
 import HeadingBanner from "./HeadingBannerNew";
+import AutoSuggestInput from "./AutoSuggestInput";
+import { IndiaStates, DistrictsByState } from "../../constants/indiaLocations";
 
 const PaymentPageFull = ({
   amount,
@@ -307,29 +309,33 @@ const PaymentPageFull = ({
                               {errors?.street && <Text color="red.500">{errors.street}</Text>}
                           </VStack>
 
+                          {/* STATE Autosuggest */}
                           <VStack align="start" spacing={1}>
-                              <Text fontSize="sm" color="#0A1A33">City *</Text>
-                              <Input
-                                  name="city"
-                                  value={formData?.city || ""}
+                              <Text fontSize="sm" color="#0A1A33">State *</Text>
+                              <AutoSuggestInput
+                                  label="state"
+                                  value={formData.state}
                                   onChange={handleOnChange}
-                                  placeholder="City"
-                                  border="1px solid #CCC"
+                                  suggestions={IndiaStates}
+                              />
+                              {errors?.state && <Text color="red.500">{errors.state}</Text>}
+                          </VStack>
+
+                          {/* DISTRICT Autosuggest */}
+                          <VStack align="start" spacing={1}>
+                              <Text fontSize="sm" color="#0A1A33">District *</Text>
+                              <AutoSuggestInput
+                                  label="district"
+                                  value={formData.city}
+                                  onChange={(e) => {
+                                      // override name “district” to “city”
+                                      handleOnChange({ target: { name: "city", value: e.target.value } });
+                                  }}
+                                  suggestions={DistrictsByState[formData.state] || []}
                               />
                               {errors?.city && <Text color="red.500">{errors.city}</Text>}
                           </VStack>
 
-                          <VStack align="start" spacing={1}>
-                              <Text fontSize="sm" color="#0A1A33">State *</Text>
-                              <Input
-                                  name="state"
-                                  value={formData?.state || ""}
-                                  onChange={handleOnChange}
-                                  placeholder="State"
-                                  border="1px solid #CCC"
-                              />
-                              {errors?.state && <Text color="red.500">{errors.state}</Text>}
-                          </VStack>
 
                           <VStack align="start" spacing={1} gridColumn={["auto", "span 1"]}>
                               <Text fontSize="sm" color="#0A1A33">Pincode *</Text>
@@ -428,7 +434,7 @@ const PaymentPageFull = ({
                         bg="rgba(255,255,255,0.35)"
                         transform="skewX(-20deg)"
                         filter="blur(4px)"
-                        animation="shine 1s infinite"
+                        animation="shine 2s infinite"
                     />
 
                     <style>
