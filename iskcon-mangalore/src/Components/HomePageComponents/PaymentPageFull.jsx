@@ -299,7 +299,10 @@ const PaymentPageFull = ({
                                 <AutoSuggestInput
                                     label="state"
                                     value={formData.state}
-                                    onChange={handleOnChange}
+                                    onChange={(e) => {
+                                        // override name “district” to “city”
+                                        handleOnChange({ target: { name: "state", value: e.target.value } });
+                                    }}
                                     suggestions={IndiaStates}
                                 />
                                 {errors?.state && <Text color="red.500">{errors.state}</Text>}
@@ -383,7 +386,10 @@ const PaymentPageFull = ({
                                 <AutoSuggestInput
                                     label="state"
                                     value={formData.taxState}
-                                    onChange={handleOnChange}
+                                    onChange={(e) => {
+                                        // override name “district” to “city”
+                                        handleOnChange({ target: { name: "taxState", value: e.target.value } });
+                                    }}
                                     suggestions={IndiaStates}
                                 />
                                 {errors?.taxState && <Text color="red.500">{errors.taxState}</Text>}
