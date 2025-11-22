@@ -23,8 +23,8 @@ export const paymentTable = pgTable("userpayment",
           length:255
         }).notNull(),
         isanonymous:boolean("isanonymous").notNull().default(false),
-        taxAddress: text("taxAddress"),
-        taxPincode: varchar("taxPincode", { length: 20 }),
+        taxAddress: text("tax_address"),
+        taxPincode: varchar("tax_pincode", { length: 20 }),
         dob: varchar("dob", { length: 20 })
     }
 );
