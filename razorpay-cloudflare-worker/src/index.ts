@@ -310,7 +310,6 @@ const razorpay = new Razorpay({
   const sql = neon(DATABASE_URL);
   c.set('db', drizzle(sql));
   c.set('razor',razorpay);
-  c.set('authToken', AUTH_TOKEN);
   await next();
   }catch(err){
     console.error("An error occurred while connecting to the database:", err);
@@ -399,7 +398,7 @@ app.post(
     credentials: true,
   }),
   bearerAuth({
-      token: (c) => c.get("authToken"),
+      token: env(c).AUTH_TOKEN,
     }),
   async (c) => {
     const db = c.get('db');
@@ -646,8 +645,8 @@ app.put('/update-campaign/:id',cors({
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
 }),bearerAuth({
-       token: (c) => c.get("authToken"),
-     }), async (c) => {
+    token: env(c).AUTH_TOKEN,
+}), async (c) => {
   const db = c.get('db');
   const body = await c.req.json();
   const campaignId = Number(c.req.param('id'));
