@@ -405,7 +405,7 @@ const PaymentPageFull = ({
                                         // override name “district” to “city”
                                         handleOnChange({ target: { name: "taxCity", value: e.target.value } });
                                     }}
-                                    suggestions={DistrictsByState[formData.state] || []}
+                                    suggestions={DistrictsByState[formData.taxState] || []}
                                 />
                                 {errors?.taxCity && <Text color="red.500">{errors.taxCity}</Text>}
                             </VStack>
