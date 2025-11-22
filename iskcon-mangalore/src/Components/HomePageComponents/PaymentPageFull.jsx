@@ -76,6 +76,11 @@ const PaymentPageFull = ({
   return (
     <Box w="100%" minH="100vh" bg="#F7F9FC" py={6} px={[4, 6, 10]}>
         <HeadingBanner />
+        <Box textAlign="center" mt={2} mb={2}>
+            <Text fontSize="sm" color="gray.600" fontWeight="medium">
+                Please fill the following details to proceed
+            </Text>
+        </Box>
       {/* Header
       <Box
         bg={IskconBgColor}
@@ -423,7 +428,7 @@ const PaymentPageFull = ({
                         bg="rgba(255,255,255,0.35)"
                         transform="skewX(-20deg)"
                         filter="blur(4px)"
-                        animation="shine 2.5s infinite"
+                        animation="shine 1s infinite"
                     />
 
                     <style>
