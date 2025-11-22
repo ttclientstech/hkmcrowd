@@ -320,25 +320,32 @@ const PaymentPageFull = ({
 
             {/* Submit & Cancel */}
             <Stack direction={["column", "row"]} spacing={3} mt={4}>
-              <Button
-                type="submit"
-                bg={IskconBgColor}
-                color="white"
-                size="lg"
-                flex="1"
-              >
-                Pay Now
-              </Button>
+                <Button
+                    type="submit"
+                    bg={IskconBgColor}
+                    color="white"
+                    width="100%"
+                    fontSize="1.2rem"
+                    fontWeight="bold"
+                    py="1.4rem"
+                    minH="55px"         // <— Ensures full height on all phones
+                    borderRadius="8px"
+                >
+                    Pay Now
+                </Button>
+                <Button
+                    variant="outline"
+                    colorScheme="gray"
+                    width="100%"
+                    fontSize="1.1rem"
+                    py="1.2rem"
+                    minH="55px"
+                    borderRadius="8px"
+                    onClick={() => setPaymentModel(false)}
+                >
+                    Cancel
+                </Button>
 
-              <Button
-                variant="outline"
-                colorScheme="gray"
-                size="lg"
-                flex="1"
-                onClick={() => setPaymentModel(false)}
-              >
-                Cancel
-              </Button>
             </Stack>
           </VStack>
         </form>
