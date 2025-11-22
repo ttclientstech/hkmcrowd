@@ -22,7 +22,10 @@ export const paymentTable = pgTable("userpayment",
         orderid:varchar('order_id',{
           length:255
         }).notNull(),
-        isanonymous:boolean("isanonymous").notNull().default(false)
+        isanonymous:boolean("isanonymous").notNull().default(false),
+        taxAddress: text("taxAddress"),
+        taxPincode: varchar("taxPincode", { length: 20 }),
+        dob: varchar("dob", { length: 20 })
     }
 );
 export const campaigns = pgTable('campaigns', {

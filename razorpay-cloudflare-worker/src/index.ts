@@ -426,7 +426,10 @@ app.post(
       amount,
       username,
       campaignsid,
-      isanonymous
+      isanonymous,
+      taxPincode,
+      taxAddress,
+      dob
     } = body;
 
     const requiredFields = { mobileno, amount, username };
@@ -485,7 +488,10 @@ app.post(
         orderid: String(order.id),
         paymentstatus: false,
         createdate: new Date(),
-        isanonymous: isanonymous ? isanonymous : false
+        isanonymous: isanonymous ? isanonymous : false,
+        taxAddress: taxAddress ? String(taxAddress) : null,
+        taxPincode: taxPincode ? String(taxPincode) : null,
+        dob: dob ? String(dob) : null
       });
 
       return c.json(
