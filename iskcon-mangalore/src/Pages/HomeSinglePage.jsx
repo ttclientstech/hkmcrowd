@@ -289,6 +289,7 @@ const HomeSinglePage = () => {
               formData={formData}
               errors={errors}
               setPaymentModel={setPaymentModel} // to allow closing the page
+              setFormData={setFormData}
           />
       );
   }
