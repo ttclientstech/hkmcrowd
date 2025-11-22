@@ -370,7 +370,7 @@ const PaymentPageFull = ({
                     name="taxAddress"
                     value={formData?.taxAddress || ""}
                     onChange={handleOnChange}
-                    placeholder="Enter full address for 80G (this will appear on the 80g receipt)"
+                    placeholder="Enter full address"
                     border="1px solid #CCC"
                     rows={3}
                   />
@@ -447,13 +447,6 @@ const PaymentPageFull = ({
                         `}
                     </style>
                 </Button>
-
-                <HStack justify="center" mt={2} spacing={2}>
-                    <LuBriefcase size={18} color="#6B7280" />
-                    <Text fontSize="sm" color="gray.600">
-                        Secure payment via Razorpay
-                    </Text>
-                </HStack>
                 <Button
                     variant="outline"
                     colorScheme="gray"
@@ -468,6 +461,12 @@ const PaymentPageFull = ({
                 </Button>
 
             </Stack>
+          <HStack justify="center" mt={2} spacing={2}>
+              <LuBriefcase size={18} color="#6B7280" />
+              <Text fontSize="sm" color="gray.600">
+                  Secure payment via Razorpay
+              </Text>
+          </HStack>
           </VStack>
         </form>
       </Box>

@@ -136,7 +136,7 @@ const HomeSinglePage = () => {
 //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const mobileRegex = /^[0]?[6789][0-9]{9}$/;
     const pincodeRegex = /^[0-9]{6}$/;
-    const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+    const panRegex = /^[A-Za-z0-9]{10}$/;
     const amountRegex = /^[0-9]+(\.[0-9]{1,2})?$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -174,28 +174,6 @@ const HomeSinglePage = () => {
       newErrors.username = "Full Name is required";
     }
 
-    //address validation
-    if(!formData.houseNumber){
-        newErrors.houseNumber = "Above field is required";
-    }
-
-      if(!formData.street){
-          newErrors.street = "Street Name is required";
-      }
-
-      if(!formData.city){
-          newErrors.city = "City is required";
-      }
-      if(!formData.state){
-          newErrors.state = "State is required";
-      }
-    //pincode validation
-    if (!formData.pincode) {
-        newErrors.pincode = "Pincode is required";
-      } else if (!pincodeRegex.test(formData.pincode)) {
-        newErrors.pincode = "Please enter a valid 6-digit pincode";
-      }
-
     if (formData.taxExemption) {
       // Address validation
       if (!formData.taxAddress) {
@@ -205,6 +183,30 @@ const HomeSinglePage = () => {
           newErrors.taxPincode = "Pincode is required";
         } else if (!pincodeRegex.test(formData.taxPincode)) {
           newErrors.taxPincode = "Please enter a valid 6-digit pincode";
+        }
+    }
+
+    if(formData.prasadRequired){
+        //address validation
+        if(!formData.houseNumber){
+            newErrors.houseNumber = "Above field is required";
+        }
+
+        if(!formData.street){
+            newErrors.street = "Street Name is required";
+        }
+
+        if(!formData.city){
+            newErrors.city = "City is required";
+        }
+        if(!formData.state){
+            newErrors.state = "State is required";
+        }
+        //pincode validation
+        if (!formData.pincode) {
+            newErrors.pincode = "Pincode is required";
+        } else if (!pincodeRegex.test(formData.pincode)) {
+            newErrors.pincode = "Please enter a valid 6-digit pincode";
         }
     }
 
@@ -227,6 +229,9 @@ const HomeSinglePage = () => {
   const handleSubmit = (e) => {
       e.preventDefault();
       if (validateForm()) {
+      if (formData.panno) {
+          formData.panno = formData.panno.toUpperCase();
+      }
       formData.address = (formData?.houseNumber ? formData.houseNumber + ", " : "") +
           (formData?.street ? formData.street + ", " : "") +
           (formData?.city ? formData.city + ", " : "") +
