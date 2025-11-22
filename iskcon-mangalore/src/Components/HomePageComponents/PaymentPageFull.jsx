@@ -15,6 +15,7 @@ import {
   Image,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import { LuBriefcase } from "react-icons/lu";
 import { IskconBgColor } from '../utils';
 import HeadingBanner from "./HeadingBannerNew";
 
@@ -75,7 +76,7 @@ const PaymentPageFull = ({
   return (
     <Box w="100%" minH="100vh" bg="#F7F9FC" py={6} px={[4, 6, 10]}>
         <HeadingBanner />
-      {/* Header */}
+      {/* Header
       <Box
         bg={IskconBgColor}
         color="white"
@@ -88,7 +89,7 @@ const PaymentPageFull = ({
         <Text fontSize={["lg", "xl"]} fontWeight="bold">
           Offer your seva and receive the blessings of Sri Sri Rukmini Dwarakadish
         </Text>
-      </Box>
+      </Box>*/}
 
       {/* Card */}
       <Box
@@ -345,7 +346,7 @@ const PaymentPageFull = ({
               <>
                 <Divider />
                 <Text fontWeight="bold" fontSize="md" color="#0A1A33">
-                  80G Tax Address
+                    80G Receipt Address
                 </Text>
 
                 {formData?.prasadRequired && ( <Checkbox isChecked={copyTaxAddress} onChange={handleCopyAddress}>
@@ -353,7 +354,7 @@ const PaymentPageFull = ({
                 </Checkbox>)}
 
                 <VStack align="start" spacing={1}>
-                  <Text fontSize="sm" color="#0A1A33">Full 80G Address *</Text>
+                  <Text fontSize="sm" color="#0A1A33">Full Address *</Text>
                   <Textarea
                     name="taxAddress"
                     value={formData?.taxAddress || ""}
@@ -366,7 +367,7 @@ const PaymentPageFull = ({
                 </VStack>
 
                 <VStack align="start" spacing={1} w="200px">
-                  <Text fontSize="sm" color="#0A1A33">80G Pincode *</Text>
+                  <Text fontSize="sm" color="#0A1A33">Pincode *</Text>
                   <Input
                     name="taxPincode"
                     value={formData?.taxPincode || ""}
@@ -400,11 +401,48 @@ const PaymentPageFull = ({
                     fontSize="1.2rem"
                     fontWeight="bold"
                     py="1.4rem"
-                    minH="55px"         // <— Ensures full height on all phones
-                    borderRadius="8px"
+                    minH="55px"
+                    borderRadius="10px"
+                    position="relative"
+                    overflow="hidden"
+                    _hover={{
+                        transform: "translateY(-2px)",
+                        boxShadow: "lg",
+                    }}
+                    transition="all 0.3s ease"
                 >
-                    Pay Now
+                    Donate Now
+
+                    {/* ✨ Shine Effect */}
+                    <Box
+                        position="absolute"
+                        top="0"
+                        left="-150%"
+                        width="50%"
+                        height="100%"
+                        bg="rgba(255,255,255,0.35)"
+                        transform="skewX(-20deg)"
+                        filter="blur(4px)"
+                        animation="shine 2.5s infinite"
+                    />
+
+                    <style>
+                        {`
+                        @keyframes shine {
+                            0% { left: -150%; }
+                            60% { left: 150%; }
+                            100% { left: 150%; }
+                        }
+                        `}
+                    </style>
                 </Button>
+
+                <HStack justify="center" mt={2} spacing={2}>
+                    <LuBriefcase size={18} color="#6B7280" />
+                    <Text fontSize="sm" color="gray.600">
+                        Secure payment via Razorpay
+                    </Text>
+                </HStack>
                 <Button
                     variant="outline"
                     colorScheme="gray"
