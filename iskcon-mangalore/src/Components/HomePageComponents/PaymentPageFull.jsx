@@ -172,7 +172,7 @@ const PaymentPageFull = ({
                 A special Sankalp and Aarti will be performed on your birthday.
               </Text>
             </VStack>
-            {/* Communication Address block */}
+            {/* Communication Address block
             <Text fontWeight="bold" fontSize="md" color="#0A1A33">
               Communication Address
             </Text>
@@ -237,7 +237,7 @@ const PaymentPageFull = ({
                 />
                   {errors?.pincode && <Text color="red.500">{errors.pincode}</Text>}
               </VStack>
-            </SimpleGrid>
+            </SimpleGrid> */}
 
             <Divider />
 
@@ -248,9 +248,9 @@ const PaymentPageFull = ({
                 isChecked={!!formData?.prasadRequired}
                 onChange={handleOnChange}
               >
-                I would like to receive Maha Prasadam (Only within India)
+                I would like to receive Gift & Maha Prasadam (Only within India)
               </Checkbox>
-                {formData?.prasadRequired && ( <Text fontSize="sm" color="#041ccc" pl={1}> Please note: Above provided communication address will be used for delivery </Text> )}
+                {/*formData?.prasadRequired && ( <Text fontSize="sm" color="#041ccc" pl={1}> Please note: Above provided communication address will be used for delivery </Text> )*/}
 
               <Checkbox
                 name="taxExemption"
@@ -269,6 +269,77 @@ const PaymentPageFull = ({
               </Checkbox>
             </VStack>
 
+              {formData?.prasadRequired && (
+                  <>
+                      <Divider />
+                      <Text fontWeight="bold" fontSize="md" color="#0A1A33">
+                        Delivery Address
+                      </Text>
+
+                      <SimpleGrid columns={gridCols} spacing={3}>
+                          <VStack align="start" spacing={1}>
+                              <Text fontSize="sm" color="#0A1A33">House / Apartment / Building Number *</Text>
+                              <Input
+                                  name="houseNumber"
+                                  value={formData?.houseNumber || ""}
+                                  onChange={handleOnChange}
+                                  placeholder="House / Apartment / Building Number"
+                                  border="1px solid #CCC"
+                              />
+                              {errors?.houseNumber && <Text color="red.500">{errors.houseNumber}</Text>}
+                          </VStack>
+
+                          <VStack align="start" spacing={1}>
+                              <Text fontSize="sm" color="#0A1A33">Street / Area *</Text>
+                              <Input
+                                  name="street"
+                                  value={formData?.street || ""}
+                                  onChange={handleOnChange}
+                                  placeholder="Street / Area"
+                                  border="1px solid #CCC"
+                              />
+                              {errors?.street && <Text color="red.500">{errors.street}</Text>}
+                          </VStack>
+
+                          <VStack align="start" spacing={1}>
+                              <Text fontSize="sm" color="#0A1A33">City *</Text>
+                              <Input
+                                  name="city"
+                                  value={formData?.city || ""}
+                                  onChange={handleOnChange}
+                                  placeholder="City"
+                                  border="1px solid #CCC"
+                              />
+                              {errors?.city && <Text color="red.500">{errors.city}</Text>}
+                          </VStack>
+
+                          <VStack align="start" spacing={1}>
+                              <Text fontSize="sm" color="#0A1A33">State *</Text>
+                              <Input
+                                  name="state"
+                                  value={formData?.state || ""}
+                                  onChange={handleOnChange}
+                                  placeholder="State"
+                                  border="1px solid #CCC"
+                              />
+                              {errors?.state && <Text color="red.500">{errors.state}</Text>}
+                          </VStack>
+
+                          <VStack align="start" spacing={1} gridColumn={["auto", "span 1"]}>
+                              <Text fontSize="sm" color="#0A1A33">Pincode *</Text>
+                              <Input
+                                  name="pincode"
+                                  value={formData?.pincode || ""}
+                                  onChange={handleOnChange}
+                                  placeholder="Pincode"
+                                  border="1px solid #CCC"
+                              />
+                              {errors?.pincode && <Text color="red.500">{errors.pincode}</Text>}
+                          </VStack>
+                      </SimpleGrid>
+                  </>
+              )}
+
             {/* Tax address section (visible only when 80G checkbox is checked) */}
             {formData?.taxExemption && (
               <>
@@ -277,9 +348,9 @@ const PaymentPageFull = ({
                   80G Tax Address
                 </Text>
 
-                <Checkbox isChecked={copyTaxAddress} onChange={handleCopyAddress}>
-                  Same as communication address
-                </Checkbox>
+                {formData?.prasadRequired && ( <Checkbox isChecked={copyTaxAddress} onChange={handleCopyAddress}>
+                  Same as above delivery address
+                </Checkbox>)}
 
                 <VStack align="start" spacing={1}>
                   <Text fontSize="sm" color="#0A1A33">Full 80G Address *</Text>
