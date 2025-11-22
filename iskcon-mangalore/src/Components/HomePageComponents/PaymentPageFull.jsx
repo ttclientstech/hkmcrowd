@@ -356,7 +356,7 @@ const PaymentPageFull = ({
                             <VStack align="start" spacing={1}>
                                 <Text fontSize="sm" color="#0A1A33">House / Apartment / Building Number *</Text>
                                 <Input
-                                    name="houseNumber"
+                                    name="taxHouseNumber"
                                     value={formData?.taxHouseNumber || ""}
                                     onChange={handleOnChange}
                                     placeholder="House / Apartment / Building Number"
@@ -368,7 +368,7 @@ const PaymentPageFull = ({
                             <VStack align="start" spacing={1}>
                                 <Text fontSize="sm" color="#0A1A33">Street / Area *</Text>
                                 <Input
-                                    name="street"
+                                    name="taxStreet"
                                     value={formData?.taxStreet || ""}
                                     onChange={handleOnChange}
                                     placeholder="Street / Area"
@@ -397,7 +397,7 @@ const PaymentPageFull = ({
                                     value={formData.taxCity}
                                     onChange={(e) => {
                                         // override name “district” to “city”
-                                        handleOnChange({ target: { name: "city", value: e.target.value } });
+                                        handleOnChange({ target: { name: "taxCity", value: e.target.value } });
                                     }}
                                     suggestions={DistrictsByState[formData.state] || []}
                                 />
@@ -406,7 +406,7 @@ const PaymentPageFull = ({
                             <VStack align="start" spacing={1} gridColumn={["auto", "span 1"]}>
                                 <Text fontSize="sm" color="#0A1A33">Pincode *</Text>
                                 <Input
-                                    name="pincode"
+                                    name="taxPincode"
                                     value={formData?.taxPincode || ""}
                                     onChange={handleOnChange}
                                     placeholder="Pincode"
