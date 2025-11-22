@@ -249,14 +249,26 @@ const HomeSinglePage = () => {
   if (getSingleUser.status === 404) {
     return <PageNotFound />
   }
+  if(paymentModel){
+      return(
+          <PaymentPageFull
+              amount={amount} // same as you passed to modal
+              handleSubmit={handleSubmit} // your existing submit handler in parent
+              handleOnChange={handleOnChange}
+              formData={formData}
+              errors={errors}
+              setPaymentModel={setPaymentModel} // to allow closing the page
+          />
+      );
+  }
 
   return (
-    <Box
-      w={"100%"}
-      position={"relative"}
-      overflow={paymentModel ? "hidden" : "auto"}
-    >
-      {!paymentModel && (<Box display='flex' alignItems='center' position={"fixed"}
+      <Box
+          w={"100%"}
+          position={"relative"}
+          overflow={paymentModel ? "hidden" : "auto"}
+      >
+      <Box display='flex' alignItems='center' position={"fixed"}
         zIndex={"10"}
         fontSize={"3rem"}
         cursor={"pointer"}
@@ -272,18 +284,7 @@ const HomeSinglePage = () => {
             onClick={handleScrollToTop}
           />
         )}
-
-        {/* <Box
-          color={'green.400'}
-          bgColor={"white"}
-          borderRadius={"10px"}
-          onClick={handleShare}
-        >
-          <FaSquareWhatsapp />
-        </Box> */}
       </Box>
-
-
       {/* Loading */}
       {isLoading && (
         <Box
@@ -305,7 +306,7 @@ const HomeSinglePage = () => {
         <PaymentModal themeColor={themeColor} amount={amount} setPaymentModel={setPaymentModel} handleSubmit={handleSubmit} handleOnChange={handleOnChange} formData={formData} errors={errors} />
       )}
       */}
-
+    {/*
       {paymentModel && (
         <PaymentPageFull
           amount={amount} // same as you passed to modal
@@ -315,7 +316,7 @@ const HomeSinglePage = () => {
           errors={errors}
           setPaymentModel={setPaymentModel} // to allow closing the page
         />
-      )}
+      )}*/}
 
       <DetailPageHeader
         themeColor={themeColor}
@@ -362,7 +363,7 @@ const HomeSinglePage = () => {
         <ProjectVedio />
 
       <Fotter />
-    </Box>)}
+    </Box>
   );
 };
 
