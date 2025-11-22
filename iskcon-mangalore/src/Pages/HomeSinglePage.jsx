@@ -256,7 +256,7 @@ const HomeSinglePage = () => {
       position={"relative"}
       overflow={paymentModel ? "hidden" : "auto"}
     >
-      <Box display='flex' alignItems='center' position={"fixed"}
+      {!paymentModel && (<Box display='flex' alignItems='center' position={"fixed"}
         zIndex={"10"}
         fontSize={"3rem"}
         cursor={"pointer"}
@@ -362,7 +362,7 @@ const HomeSinglePage = () => {
         <ProjectVedio />
 
       <Fotter />
-    </Box>
+    </Box>)}
   );
 };
 
