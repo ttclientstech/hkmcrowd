@@ -63,6 +63,10 @@ const HomeSinglePage = () => {
     address: "",
     taxAddress: "",
     taxPincode: "",
+    houseNumber: "",
+      city: "",
+      state: "",
+      street: "",
     amount: amount,
     username: "",
     campaignsid: id,
@@ -113,6 +117,10 @@ const HomeSinglePage = () => {
       address: "",
       taxAddress: "",
       taxPincode: "",
+        houseNumber: "",
+        city: "",
+        state: "",
+        street: "",
       amount: amount,
       username: "",
       campaignsid: id,
@@ -154,13 +162,24 @@ const HomeSinglePage = () => {
 
     // Username validation
     if (!formData.username) {
-      newErrors.username = "Username is required";
+      newErrors.username = "Full Name is required";
     }
 
     //address validation
-    if(!formData.address){
-        newErrors.address = "Address is required";
+    if(!formData.houseNumber){
+        newErrors.houseNumber = "Above field is required";
     }
+
+      if(!formData.street){
+          newErrors.street = "Street Name is required";
+      }
+
+      if(!formData.city){
+          newErrors.city = "City is required";
+      }
+      if(!formData.state){
+          newErrors.state = "State is required";
+      }
     //pincode validation
     if (!formData.pincode) {
         newErrors.pincode = "Pincode is required";
@@ -198,9 +217,11 @@ const HomeSinglePage = () => {
 
   const handleSubmit = (e) => {
       e.preventDefault();
-
       if (validateForm()) {
-
+      formData.address = (formData?.houseNumber ? formData.houseNumber + ", " : "") +
+          (formData?.street ? formData.street + ", " : "") +
+          (formData?.city ? formData.city + ", " : "") +
+          (formData?.state ? formData.state : "");
         dispatch(postPaymentFormData(formData)).then((res) => {
           const orderId = res?.payload?.order?.id;
           if (orderId) {
@@ -211,7 +232,10 @@ const HomeSinglePage = () => {
               email: formData.email || '',
               seva: 'Mandir Nirmana Seva',
               address: formData.address || '',
-              pan_number: formData.panno || '',
+              pincode: formData.pincode || '',
+              taxAddress: formData.taxAddress || '',
+                taxPincode: formData.taxPincode || '',
+                pan_number: formData.panno || '',
               send_confirmation_message_to_preacher: `${getSingleUser?.campaignDetails?.preacherName || ''} - ${getSingleUser?.campaignDetails?.phoneno || ''}`,
               campaignsid: id || '',
               preacher_name: getSingleUser?.campaignDetails?.preacherName || '',

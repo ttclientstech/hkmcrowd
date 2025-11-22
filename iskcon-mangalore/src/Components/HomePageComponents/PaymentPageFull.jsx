@@ -26,7 +26,9 @@ const PaymentPageFull = ({
   errors,
   setPaymentModel,
 }) => {
-  // Local UI state for copy-address checkbox
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }, []);
   const [copyTaxAddress, setCopyTaxAddress] = useState(false);
 
   // Responsive column count for the address grid
@@ -149,6 +151,7 @@ const PaymentPageFull = ({
                 border="1px solid #CCC"
                 type="email"
               />
+                {errors?.email && <Text color="red.500">{errors.email}</Text>}
             </VStack>
 
             {/* DOB */}
@@ -182,6 +185,7 @@ const PaymentPageFull = ({
                   placeholder="House / Apartment / Building Number"
                   border="1px solid #CCC"
                 />
+                  {errors?.houseNumber && <Text color="red.500">{errors.houseNumber}</Text>}
               </VStack>
 
               <VStack align="start" spacing={1}>
@@ -193,6 +197,7 @@ const PaymentPageFull = ({
                   placeholder="Street / Area"
                   border="1px solid #CCC"
                 />
+                  {errors?.street && <Text color="red.500">{errors.street}</Text>}
               </VStack>
 
               <VStack align="start" spacing={1}>
@@ -204,6 +209,7 @@ const PaymentPageFull = ({
                   placeholder="City"
                   border="1px solid #CCC"
                 />
+                  {errors?.city && <Text color="red.500">{errors.city}</Text>}
               </VStack>
 
               <VStack align="start" spacing={1}>
@@ -215,6 +221,7 @@ const PaymentPageFull = ({
                   placeholder="State"
                   border="1px solid #CCC"
                 />
+                  {errors?.state && <Text color="red.500">{errors.state}</Text>}
               </VStack>
 
               <VStack align="start" spacing={1} gridColumn={["auto", "span 1"]}>
@@ -226,6 +233,7 @@ const PaymentPageFull = ({
                   placeholder="Pincode"
                   border="1px solid #CCC"
                 />
+                  {errors?.pincode && <Text color="red.500">{errors.pincode}</Text>}
               </VStack>
             </SimpleGrid>
 
@@ -276,14 +284,15 @@ const PaymentPageFull = ({
                     name="taxAddress"
                     value={formData?.taxAddress || ""}
                     onChange={handleOnChange}
-                    placeholder="Enter full address for 80G (this will appear on the receipt)"
+                    placeholder="Enter full address for 80G (this will appear on the 80g receipt)"
                     border="1px solid #CCC"
                     rows={3}
                   />
+                    {errors?.taxAddress && <Text color="red.500">{errors.taxAddress}</Text>}
                 </VStack>
 
                 <VStack align="start" spacing={1} w="200px">
-                  <Text fontSize="sm" color="#0A1A33">Tax Address Pincode *</Text>
+                  <Text fontSize="sm" color="#0A1A33">80G Pincode *</Text>
                   <Input
                     name="taxPincode"
                     value={formData?.taxPincode || ""}
@@ -291,7 +300,19 @@ const PaymentPageFull = ({
                     placeholder="Pincode"
                     border="1px solid #CCC"
                   />
+                    {errors?.taxPincode && <Text color="red.500">{errors.taxPincode}</Text>}
                 </VStack>
+                  <VStack align="start" spacing={1} w="200px">
+                      <Text fontSize="sm" color="#0A1A33">PAN No. *</Text>
+                      <Input
+                          name="panno"
+                          value={formData?.panno || ""}
+                          onChange={handleOnChange}
+                          placeholder="PAN No."
+                          border="1px solid #CCC"
+                      />
+                      {errors?.panno && <Text color="red.500">{errors.panno}</Text>}
+                  </VStack>
               </>
             )}
 
@@ -304,7 +325,7 @@ const PaymentPageFull = ({
                 size="lg"
                 flex="1"
               >
-                Proceed to Pay
+                Pay Now
               </Button>
 
               <Button
