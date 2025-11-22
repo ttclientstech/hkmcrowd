@@ -14,7 +14,7 @@ import {
   Stack,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { IskconBgColor } from "../Components/utils";
+import { IskconBgColor } from '../utils';
 
 const PaymentPageFull = ({
   amount,
