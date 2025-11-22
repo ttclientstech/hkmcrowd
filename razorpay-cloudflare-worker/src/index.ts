@@ -24,6 +24,12 @@ declare module "hono"{
 const app = new Hono();
 
 
+const authMiddleware = async (c, next) => {
+    const { AUTH_TOKEN } = env(c)
+    return bearerAuth({ token: AUTH_TOKEN })(c, next)
+}
+
+
 app.post("/webhook/razorpay", async (c) => {
 
     const { DATABASE_URL, WEBHOOK_SECRET } = env<{
@@ -397,9 +403,7 @@ app.post(
     allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
     credentials: true,
   }),
-  bearerAuth({
-      token: env(c).AUTH_TOKEN,
-    }),
+    authMiddleware,
   async (c) => {
     const db = c.get('db');
     const razor = c.get('razor');
@@ -644,9 +648,8 @@ app.put('/update-campaign/:id',cors({
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
-}),bearerAuth({
-    token: env(c).AUTH_TOKEN,
-}), async (c) => {
+}),authMiddleware
+    , async (c) => {
   const db = c.get('db');
   const body = await c.req.json();
   const campaignId = Number(c.req.param('id'));
