@@ -61,7 +61,6 @@ const HomeSinglePage = () => {
     pincode: "",
     panno: "",
     address: "",
-    taxAddress: "",
     taxPincode: "",
     houseNumber: "",
       city: "",
@@ -74,6 +73,10 @@ const HomeSinglePage = () => {
     prasadRequired: false,
     taxExemption: false,
     isanonymous: false,
+    taxCity: "",
+    taxState: "",
+    taxHouseNumber: "",
+    taxStreet: "",
   });
 
   useEffect(() => {
@@ -116,7 +119,6 @@ const HomeSinglePage = () => {
       pincode: "",
       panno: "",
       address: "",
-      taxAddress: "",
       taxPincode: "",
         houseNumber: "",
         city: "",
@@ -126,7 +128,11 @@ const HomeSinglePage = () => {
       amount: amount,
       username: "",
       campaignsid: id,
-      preachername: ""
+      preachername: "",
+        taxCity: "",
+        taxState: "",
+        taxHouseNumber: "",
+        taxStreet: "",
     });
     setFormToggle(false);
   };
@@ -176,9 +182,18 @@ const HomeSinglePage = () => {
 
     if (formData.taxExemption) {
       // Address validation
-      if (!formData.taxAddress) {
-        newErrors.taxAddress = "80G Address is required";
+      if (!formData.taxHouseNumber) {
+        newErrors.taxHouseNumber = "Above field is required";
       }
+      if(!formData.taxStreet){
+          newErrors.taxStreet = "Above field is required";
+      }
+      if(!formData.taxState){
+          newErrors.taxState = "State field is required";
+      }
+        if(!formData.taxCity){
+            newErrors.taxCity = "City field is required";
+        }
       if (!formData.taxPincode) {
           newErrors.taxPincode = "Pincode is required";
         } else if (!pincodeRegex.test(formData.taxPincode)) {
@@ -247,7 +262,6 @@ const HomeSinglePage = () => {
               seva: 'Mandir Nirmana Seva',
               address: formData.address || '',
               pincode: formData.pincode || '',
-              taxAddress: formData.taxAddress || '',
                 taxPincode: formData.taxPincode || '',
                 pan_number: formData.panno || '',
                 dob: formData.dob || '',

@@ -428,7 +428,14 @@ app.post(
       campaignsid,
       isanonymous,
       taxPincode,
-      taxAddress,
+        taxCity,
+        taxState,
+        taxHouseNumber,
+        taxStreet,
+        houseNumber,
+        city,
+        state,
+        street,
       dob,
       prasadRequired
     } = body;
@@ -490,9 +497,16 @@ app.post(
         paymentstatus: false,
         createdate: new Date(),
         isanonymous: isanonymous ? isanonymous : false,
-        taxAddress: taxAddress ? String(taxAddress) : null,
         taxPincode: taxPincode ? String(taxPincode) : null,
         prasadRequired: prasadRequired,
+        houseNumber: houseNumber ? String(houseNumber) : null,
+        street: street ? String(street) : null,
+        city: city ? String(city) : null,
+        state: state ? String(state) : null,
+        taxHouseNumber: taxHouseNumber ? String(taxHouseNumber) : null,
+        taxStreet: taxStreet ?  String(taxStreet ) : null,
+        taxCity: taxCity ? String(taxCity) : null,
+        taxState: taxState ? String(taxState) : null,
         dob: dob ? String(dob) : null
       });
 

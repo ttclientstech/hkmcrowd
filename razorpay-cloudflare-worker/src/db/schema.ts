@@ -23,10 +23,17 @@ export const paymentTable = pgTable("userpayment",
           length:255
         }).notNull(),
         isanonymous:boolean("isanonymous").notNull().default(false),
-        taxAddress: text("tax_address"),
         taxPincode: varchar("tax_pincode", { length: 20 }),
         dob: varchar("dob", { length: 20 }),
         prasadRequired: boolean("prasad_required").notNull().default(false),
+        taxCity: text("tax_city"),
+        taxState: text("tax_state"),
+        taxHouseNumber: text("tax_house_number"),
+        taxStreet: text("tax_street"),
+        houseNumber: text("house_number"),
+        city: text("city"),
+        state: text("state"),
+        street: text("street"),
     }
 );
 export const campaigns = pgTable('campaigns', {

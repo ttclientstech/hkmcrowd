@@ -40,8 +40,11 @@ const PaymentPageFull = ({
 
   useEffect(() => {
     // if taxExemption turned off, clear tax fields locally (so parent sees changes)
-    if (!formData?.taxExemption && (formData?.taxAddress || formData?.taxPincode)) {
-      handleOnChange({ target: { name: "taxAddress", value: "" } });
+    if (!formData?.taxExemption) {
+      handleOnChange({ target: { name: "taxHouseNumber", value: "" } });
+      handleOnChange({ target: { name: "taxStreet", value: "" } });
+      handleOnChange({ target: { name: "taxState", value: "" } });
+      handleOnChange({ target: { name: "taxCity", value: "" } });
       handleOnChange({ target: { name: "taxPincode", value: "" } });
       setCopyTaxAddress(false);
     }
@@ -53,23 +56,23 @@ const PaymentPageFull = ({
     setCopyTaxAddress(checked);
 
     if (checked) {
-      // Build a single-line tax address from communication address parts
-      const composed =
-        (formData?.houseNumber ? formData.houseNumber + ", " : "") +
-        (formData?.street ? formData.street + ", " : "") +
-        (formData?.city ? formData.city + ", " : "") +
-        (formData?.state ? formData.state : "");
 
         setFormData((prev) => ({
             ...prev,
-            taxAddress: composed,
+            taxHouseNumber: prev.houseNumber || "",
+            taxStreet: prev.street || "",
+            taxState: prev.state || "",
+            taxCity: prev.city || "",
             taxPincode: prev.pincode || "",
         }));
     } else {
       // clear tax fields when unchecked
         setFormData((prev) => ({
             ...prev,
-            taxAddress: "",
+            taxHouseNumber: "",
+            taxStreet: "",
+            taxState: "",
+            taxCity: "",
             taxPincode: "",
         }));
     }
@@ -259,7 +262,79 @@ const PaymentPageFull = ({
                 I would like to receive Gift & Maha Prasadam (Only within India)
               </Checkbox>
                 {/*formData?.prasadRequired && ( <Text fontSize="sm" color="#041ccc" pl={1}> Please note: Above provided communication address will be used for delivery </Text> )*/}
+                {formData?.prasadRequired && (
+                    <>
+                        <Text fontWeight="bold" fontSize="md" color="#0A1A33">
+                            Delivery Address
+                        </Text>
 
+                        <SimpleGrid columns={gridCols} spacing={3}>
+                            <VStack align="start" spacing={1}>
+                                <Text fontSize="sm" color="#0A1A33">House / Apartment / Building Number *</Text>
+                                <Input
+                                    name="houseNumber"
+                                    value={formData?.houseNumber || ""}
+                                    onChange={handleOnChange}
+                                    placeholder="House / Apartment / Building Number"
+                                    border="1px solid #CCC"
+                                />
+                                {errors?.houseNumber && <Text color="red.500">{errors.houseNumber}</Text>}
+                            </VStack>
+
+                            <VStack align="start" spacing={1}>
+                                <Text fontSize="sm" color="#0A1A33">Street / Area *</Text>
+                                <Input
+                                    name="street"
+                                    value={formData?.street || ""}
+                                    onChange={handleOnChange}
+                                    placeholder="Street / Area"
+                                    border="1px solid #CCC"
+                                />
+                                {errors?.street && <Text color="red.500">{errors.street}</Text>}
+                            </VStack>
+
+                            {/* STATE Autosuggest */}
+                            <VStack align="start" spacing={1}>
+                                <Text fontSize="sm" color="#0A1A33">State *</Text>
+                                <AutoSuggestInput
+                                    label="state"
+                                    value={formData.state}
+                                    onChange={handleOnChange}
+                                    suggestions={IndiaStates}
+                                />
+                                {errors?.state && <Text color="red.500">{errors.state}</Text>}
+                            </VStack>
+
+                            {/* DISTRICT Autosuggest */}
+                            <VStack align="start" spacing={1}>
+                                <Text fontSize="sm" color="#0A1A33">District *</Text>
+                                <AutoSuggestInput
+                                    label="district"
+                                    value={formData.city}
+                                    onChange={(e) => {
+                                        // override name “district” to “city”
+                                        handleOnChange({ target: { name: "city", value: e.target.value } });
+                                    }}
+                                    suggestions={DistrictsByState[formData.state] || []}
+                                />
+                                {errors?.city && <Text color="red.500">{errors.city}</Text>}
+                            </VStack>
+
+
+                            <VStack align="start" spacing={1} gridColumn={["auto", "span 1"]}>
+                                <Text fontSize="sm" color="#0A1A33">Pincode *</Text>
+                                <Input
+                                    name="pincode"
+                                    value={formData?.pincode || ""}
+                                    onChange={handleOnChange}
+                                    placeholder="Pincode"
+                                    border="1px solid #CCC"
+                                />
+                                {errors?.pincode && <Text color="red.500">{errors.pincode}</Text>}
+                            </VStack>
+                        </SimpleGrid>
+                    </>
+                )}
               <Checkbox
                 name="taxExemption"
                 isChecked={!!formData?.taxExemption}
@@ -267,7 +342,92 @@ const PaymentPageFull = ({
               >
                 I would like to avail 80G tax benefits
               </Checkbox>
+                {formData?.taxExemption && (
+                    <>
+                        <Text fontWeight="bold" fontSize="md" color="#0A1A33">
+                            80G Receipt Address
+                        </Text>
 
+                        {formData?.prasadRequired && ( <Checkbox isChecked={copyTaxAddress} onChange={handleCopyAddress}>
+                            Same as above delivery address
+                        </Checkbox>)}
+
+                        <SimpleGrid columns={gridCols} spacing={3}>
+                            <VStack align="start" spacing={1}>
+                                <Text fontSize="sm" color="#0A1A33">House / Apartment / Building Number *</Text>
+                                <Input
+                                    name="houseNumber"
+                                    value={formData?.taxHouseNumber || ""}
+                                    onChange={handleOnChange}
+                                    placeholder="House / Apartment / Building Number"
+                                    border="1px solid #CCC"
+                                />
+                                {errors?.taxHouseNumber && <Text color="red.500">{errors.taxHouseNumber}</Text>}
+                            </VStack>
+
+                            <VStack align="start" spacing={1}>
+                                <Text fontSize="sm" color="#0A1A33">Street / Area *</Text>
+                                <Input
+                                    name="street"
+                                    value={formData?.taxStreet || ""}
+                                    onChange={handleOnChange}
+                                    placeholder="Street / Area"
+                                    border="1px solid #CCC"
+                                />
+                                {errors?.taxStreet && <Text color="red.500">{errors.taxStreet}</Text>}
+                            </VStack>
+
+                            {/* STATE Autosuggest */}
+                            <VStack align="start" spacing={1}>
+                                <Text fontSize="sm" color="#0A1A33">State *</Text>
+                                <AutoSuggestInput
+                                    label="state"
+                                    value={formData.taxState}
+                                    onChange={handleOnChange}
+                                    suggestions={IndiaStates}
+                                />
+                                {errors?.taxState && <Text color="red.500">{errors.taxState}</Text>}
+                            </VStack>
+
+                            {/* DISTRICT Autosuggest */}
+                            <VStack align="start" spacing={1}>
+                                <Text fontSize="sm" color="#0A1A33">District *</Text>
+                                <AutoSuggestInput
+                                    label="district"
+                                    value={formData.taxCity}
+                                    onChange={(e) => {
+                                        // override name “district” to “city”
+                                        handleOnChange({ target: { name: "city", value: e.target.value } });
+                                    }}
+                                    suggestions={DistrictsByState[formData.state] || []}
+                                />
+                                {errors?.taxCity && <Text color="red.500">{errors.taxCity}</Text>}
+                            </VStack>
+                            <VStack align="start" spacing={1} gridColumn={["auto", "span 1"]}>
+                                <Text fontSize="sm" color="#0A1A33">Pincode *</Text>
+                                <Input
+                                    name="pincode"
+                                    value={formData?.taxPincode || ""}
+                                    onChange={handleOnChange}
+                                    placeholder="Pincode"
+                                    border="1px solid #CCC"
+                                />
+                                {errors?.taxPincode && <Text color="red.500">{errors.taxPincode}</Text>}
+                            </VStack>
+                            <VStack align="start" spacing={1} w="200px">
+                                <Text fontSize="sm" color="#0A1A33">PAN No. *</Text>
+                                <Input
+                                    name="panno"
+                                    value={formData?.panno || ""}
+                                    onChange={handleOnChange}
+                                    placeholder="PAN No."
+                                    border="1px solid #CCC"
+                                />
+                                {errors?.panno && <Text color="red.500">{errors.panno}</Text>}
+                            </VStack>
+                        </SimpleGrid>
+                    </>
+                )}
               <Checkbox
                 name="isanonymous"
                 isChecked={!!formData?.isanonymous}
@@ -276,7 +436,7 @@ const PaymentPageFull = ({
                 Make my donation anonymous
               </Checkbox>
             </VStack>
-
+              {/*
               {formData?.prasadRequired && (
                   <>
                       <Divider />
@@ -309,7 +469,6 @@ const PaymentPageFull = ({
                               {errors?.street && <Text color="red.500">{errors.street}</Text>}
                           </VStack>
 
-                          {/* STATE Autosuggest */}
                           <VStack align="start" spacing={1}>
                               <Text fontSize="sm" color="#0A1A33">State *</Text>
                               <AutoSuggestInput
@@ -321,7 +480,6 @@ const PaymentPageFull = ({
                               {errors?.state && <Text color="red.500">{errors.state}</Text>}
                           </VStack>
 
-                          {/* DISTRICT Autosuggest */}
                           <VStack align="start" spacing={1}>
                               <Text fontSize="sm" color="#0A1A33">District *</Text>
                               <AutoSuggestInput
@@ -350,9 +508,9 @@ const PaymentPageFull = ({
                           </VStack>
                       </SimpleGrid>
                   </>
-              )}
+              )}*/}
 
-            {/* Tax address section (visible only when 80G checkbox is checked) */}
+            {/*
             {formData?.taxExemption && (
               <>
                 <Divider />
@@ -364,43 +522,80 @@ const PaymentPageFull = ({
                   Same as above delivery address
                 </Checkbox>)}
 
-                <VStack align="start" spacing={1}>
-                  <Text fontSize="sm" color="#0A1A33">Full Address *</Text>
-                  <Textarea
-                    name="taxAddress"
-                    value={formData?.taxAddress || ""}
-                    onChange={handleOnChange}
-                    placeholder="Enter full address"
-                    border="1px solid #CCC"
-                    rows={3}
-                  />
-                    {errors?.taxAddress && <Text color="red.500">{errors.taxAddress}</Text>}
-                </VStack>
+                  <SimpleGrid columns={gridCols} spacing={3}>
+                      <VStack align="start" spacing={1}>
+                          <Text fontSize="sm" color="#0A1A33">House / Apartment / Building Number *</Text>
+                          <Input
+                              name="houseNumber"
+                              value={formData?.taxHouseNumber || ""}
+                              onChange={handleOnChange}
+                              placeholder="House / Apartment / Building Number"
+                              border="1px solid #CCC"
+                          />
+                          {errors?.taxHouseNumber && <Text color="red.500">{errors.taxHouseNumber}</Text>}
+                      </VStack>
 
-                <VStack align="start" spacing={1} w="200px">
-                  <Text fontSize="sm" color="#0A1A33">Pincode *</Text>
-                  <Input
-                    name="taxPincode"
-                    value={formData?.taxPincode || ""}
-                    onChange={handleOnChange}
-                    placeholder="Pincode"
-                    border="1px solid #CCC"
-                  />
-                    {errors?.taxPincode && <Text color="red.500">{errors.taxPincode}</Text>}
-                </VStack>
-                  <VStack align="start" spacing={1} w="200px">
-                      <Text fontSize="sm" color="#0A1A33">PAN No. *</Text>
-                      <Input
-                          name="panno"
-                          value={formData?.panno || ""}
-                          onChange={handleOnChange}
-                          placeholder="PAN No."
-                          border="1px solid #CCC"
-                      />
-                      {errors?.panno && <Text color="red.500">{errors.panno}</Text>}
-                  </VStack>
+                      <VStack align="start" spacing={1}>
+                          <Text fontSize="sm" color="#0A1A33">Street / Area *</Text>
+                          <Input
+                              name="street"
+                              value={formData?.taxStreet || ""}
+                              onChange={handleOnChange}
+                              placeholder="Street / Area"
+                              border="1px solid #CCC"
+                          />
+                          {errors?.taxStreet && <Text color="red.500">{errors.taxStreet}</Text>}
+                      </VStack>
+
+                      <VStack align="start" spacing={1}>
+                          <Text fontSize="sm" color="#0A1A33">State *</Text>
+                          <AutoSuggestInput
+                              label="state"
+                              value={formData.taxState}
+                              onChange={handleOnChange}
+                              suggestions={IndiaStates}
+                          />
+                          {errors?.taxState && <Text color="red.500">{errors.taxState}</Text>}
+                      </VStack>
+
+                      <VStack align="start" spacing={1}>
+                          <Text fontSize="sm" color="#0A1A33">District *</Text>
+                          <AutoSuggestInput
+                              label="district"
+                              value={formData.taxCity}
+                              onChange={(e) => {
+                                  // override name “district” to “city”
+                                  handleOnChange({ target: { name: "city", value: e.target.value } });
+                              }}
+                              suggestions={DistrictsByState[formData.state] || []}
+                          />
+                          {errors?.taxCity && <Text color="red.500">{errors.taxCity}</Text>}
+                      </VStack>
+                      <VStack align="start" spacing={1} gridColumn={["auto", "span 1"]}>
+                          <Text fontSize="sm" color="#0A1A33">Pincode *</Text>
+                          <Input
+                              name="pincode"
+                              value={formData?.taxPincode || ""}
+                              onChange={handleOnChange}
+                              placeholder="Pincode"
+                              border="1px solid #CCC"
+                          />
+                          {errors?.taxPincode && <Text color="red.500">{errors.taxPincode}</Text>}
+                      </VStack>
+                      <VStack align="start" spacing={1} w="200px">
+                          <Text fontSize="sm" color="#0A1A33">PAN No. *</Text>
+                          <Input
+                              name="panno"
+                              value={formData?.panno || ""}
+                              onChange={handleOnChange}
+                              placeholder="PAN No."
+                              border="1px solid #CCC"
+                          />
+                          {errors?.panno && <Text color="red.500">{errors.panno}</Text>}
+                      </VStack>
+                  </SimpleGrid>
               </>
-            )}
+            )} */}
 
             {/* Submit & Cancel */}
             <Stack direction={["column", "row"]} spacing={3} mt={4}>
