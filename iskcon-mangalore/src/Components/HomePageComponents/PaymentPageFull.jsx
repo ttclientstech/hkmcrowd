@@ -12,6 +12,7 @@ import {
   SimpleGrid,
   Textarea,
   Stack,
+  Image,
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { IskconBgColor } from '../utils';
