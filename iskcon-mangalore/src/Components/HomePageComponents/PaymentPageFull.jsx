@@ -15,6 +15,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { IskconBgColor } from '../utils';
+import templeLogo from "../../assets/images/logo.png";
 
 const PaymentPageFull = ({
   amount,
@@ -68,6 +69,51 @@ const PaymentPageFull = ({
 
   return (
     <Box w="100%" minH="100vh" bg="#F7F9FC" py={6} px={[4, 6, 10]}>
+        <Box
+            w="100%"
+            bg="#5A0E0E"    // same rich maroon shade as your homepage
+            py={[4, 5]}
+            px={[4, 6, 10]}
+            borderRadius="10px"
+            mb={6}
+        >
+            <HStack justify="space-between" align="center" spacing={4}>
+
+                {/* Left Side: Logo */}
+                <Image
+                    src={templeLogo}
+                    alt="Temple Logo"
+                    boxSize={["60px", "70px", "80px"]}
+                    objectFit="contain"
+                    borderRadius="5px"
+                    bg="white"
+                    p="2"
+                />
+
+                {/* Right Side: Quote */}
+                <VStack align="flex-end" spacing={1} maxW="80%">
+                    <Text
+                        color="white"
+                        fontWeight="bold"
+                        fontSize={["xs", "sm", "md"]}
+                        textAlign="right"
+                        lineHeight="1.3"
+                    >
+                        “One who donates towards construction of a temple is liberated from
+                        all sins and attains the heavenly realms.”
+                    </Text>
+                    <Text
+                        color="gold"
+                        fontSize={["8px", "10px", "11px"]}
+                        fontStyle="italic"
+                        textAlign="right"
+                    >
+                        — Vishnu Purana 3.8.27
+                    </Text>
+                </VStack>
+
+            </HStack>
+        </Box>
       {/* Header */}
       <Box
         bg={IskconBgColor}
@@ -79,7 +125,7 @@ const PaymentPageFull = ({
         mb={6}
       >
         <Text fontSize={["lg", "xl"]} fontWeight="bold">
-          Offer your seva and receive the blessings of Sri Rukmini Dwarakadisha
+          Offer your seva and receive the blessings of Sri Sri Rukmini Dwarakadish
         </Text>
       </Box>
 
@@ -95,7 +141,7 @@ const PaymentPageFull = ({
         {/* Amount */}
         <Box textAlign="center" mb={6}>
           <Text fontSize={["xl", "2xl"]} fontWeight="bold" color={IskconBgColor}>
-            ₹ {amount}
+           Donation Amount : ₹ {amount}
           </Text>
         </Box>
 
@@ -136,7 +182,7 @@ const PaymentPageFull = ({
             {/* Email */}
             <VStack align="start" spacing={1}>
               <Text fontWeight="semibold" color="#0A1A33">
-                Email (Optional)
+                Email *
               </Text>
               <Input
                 name="email"
@@ -164,9 +210,6 @@ const PaymentPageFull = ({
                 A special Sankalp and Aarti will be performed on your birthday.
               </Text>
             </VStack>
-
-            <Divider />
-
             {/* Communication Address block */}
             <Text fontWeight="bold" fontSize="md" color="#0A1A33">
               Communication Address
@@ -174,12 +217,12 @@ const PaymentPageFull = ({
 
             <SimpleGrid columns={gridCols} spacing={3}>
               <VStack align="start" spacing={1}>
-                <Text fontSize="sm" color="#0A1A33">House / Flat Number *</Text>
+                <Text fontSize="sm" color="#0A1A33">House / Apartment / Building Number *</Text>
                 <Input
                   name="houseNumber"
                   value={formData?.houseNumber || ""}
                   onChange={handleOnChange}
-                  placeholder="House / Flat No."
+                  placeholder="House / Apartment / Building Number"
                   border="1px solid #CCC"
                 />
               </VStack>
