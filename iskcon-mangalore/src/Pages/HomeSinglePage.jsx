@@ -26,6 +26,7 @@ import { campaign } from "../constants/homePage";
 import CapaignerProgressBox from "../Components/HomePageComponents/CapaignerProgressBox";
 import DetailPageHeader from "../Components/HomePageComponents/DetailPageHeader";
 import PaymentModal from "../Components/HomePageComponents/PaymentModal";
+import PaymentPageFull from "../Components/HomePageComponents/PaymentPageFull";
 import PhotoWithDescription from "../Components/HomePageComponents/PhotoWithDescription";
 import AdditionalDetails from "../Components/HomePageComponents/AdditionalDetails";
 import CampaignTabs from "../Components/HomePageComponents/Tabs";
@@ -299,11 +300,22 @@ const HomeSinglePage = () => {
         </Box>
       )}
 
-      {/* Payment Model */}
+      {/*
       {paymentModel && (
         <PaymentModal themeColor={themeColor} amount={amount} setPaymentModel={setPaymentModel} handleSubmit={handleSubmit} handleOnChange={handleOnChange} formData={formData} errors={errors} />
       )}
-      {/* Header */}
+      */}
+
+      {paymentModel && (
+        <PaymentPageFull
+          amount={amount} // same as you passed to modal
+          handleSubmit={handleSubmit} // your existing submit handler in parent
+          handleOnChange={handleOnChange}
+          formData={formData}
+          errors={errors}
+          setPaymentModel={setPaymentModel} // to allow closing the page
+        />
+      )}
 
       <DetailPageHeader
         themeColor={themeColor}
