@@ -5,9 +5,9 @@ import { fetchSingleUser, postPaymentFormData } from "../Redux/clientSlices/clie
 import image16 from "../assets/images/logo.jpeg";
 import avatar from "../assets/images/Avatar-PNG-Image.webp";
 import {
-    Box, HStack, IconButton, Flex, Button, useBreakpointValue, Text
+    Box, IconButton, Flex, Button, useBreakpointValue, Text, Icon
 } from "@chakra-ui/react";
-import { FaArrowUp } from "react-icons/fa6";
+import { FaArrowUp, FaShieldAlt, FaLandmark, FaOm } from "react-icons/fa";
 
 import DottedAnimation from "../Components/DottedAnimation";
 import { themeColor, IskconBgColor, IskconFontColor } from "../Components/utils";
@@ -23,7 +23,39 @@ import AdditionalDetails from "../Components/HomePageComponents/AdditionalDetail
 import CampaignTabs from "../Components/HomePageComponents/Tabs";
 import ProjectVedio from "../Components/HomePageComponents/ProjectVedio";
 import Fotter from "../Components/HomePageComponents/Fotter";
-import TrustStrip from "../Components/HomePageComponents/TrustStrip"; // Imported the new component
+
+// 1. NEW: The "Trust Strip" Component (Internal definition for ease)
+const TrustStrip = () => (
+    <Box w="100%" bg="#FAF3E0" borderBottom="1px solid #E2E8F0" py={3}>
+        <Flex
+            maxW="1200px"
+            mx="auto"
+            justify={["center", "center", "flex-start"]}
+            gap={[4, 8, 12]}
+            flexWrap="wrap"
+            px={4}
+        >
+            <Flex align="center" gap={2}>
+                <Icon as={FaShieldAlt} color="#D4AF37" />
+                <Text fontSize="xs" fontWeight="bold" color="#5D4037" textTransform="uppercase" letterSpacing="wide">
+                    100% Secure
+                </Text>
+            </Flex>
+            <Flex align="center" gap={2}>
+                <Icon as={FaLandmark} color="#D4AF37" />
+                <Text fontSize="xs" fontWeight="bold" color="#5D4037" textTransform="uppercase" letterSpacing="wide">
+                    80G Tax Exempt
+                </Text>
+            </Flex>
+            <Flex align="center" gap={2}>
+                <Icon as={FaOm} color="#D4AF37" />
+                <Text fontSize="xs" fontWeight="bold" color="#5D4037" textTransform="uppercase" letterSpacing="wide">
+                    Vedic Heritage Project
+                </Text>
+            </Flex>
+        </Flex>
+    </Box>
+);
 
 const HomeSinglePage = () => {
     const { id } = useParams();
@@ -38,7 +70,6 @@ const HomeSinglePage = () => {
     const [errors, setErrors] = useState("");
     const navigate = useNavigate();
 
-    // Detect Mobile for Sticky Button
     const isMobile = useBreakpointValue({ base: true, lg: false });
 
     const [formData, setFormData] = useState({
@@ -49,16 +80,11 @@ const HomeSinglePage = () => {
         taxCity: "", taxState: "", taxHouseNumber: "", taxStreet: "",
     });
 
-    useEffect(() => {
-        dispatch(fetchSingleUser(id));
-    }, [dispatch, id]);
+    useEffect(() => { dispatch(fetchSingleUser(id)); }, [dispatch, id]);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
-        const handleScroll = () => {
-            if (window.scrollY > 300) setShowScrollButton(true);
-            else setShowScrollButton(false);
-        };
+        const handleScroll = () => setShowScrollButton(window.scrollY > 300);
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
@@ -66,56 +92,15 @@ const HomeSinglePage = () => {
     const handleClick = () => {
         if (amount === null) return setErrorMessage("Please enter an amount");
         if (amount < 500) return setErrorMessage("Minimum contribution amount is INR 500");
-
         setErrorMessage("");
         setPaymentModel(true);
-        // Reset necessary form data
-        setFormData(prev => ({
-            ...prev,
-            amount: amount,
-            campaignsid: id,
-        }));
+        setFormData(prev => ({ ...prev, amount: amount, campaignsid: id }));
     };
 
-    // KEEP YOUR EXISTING VALIDATION & SUBMIT LOGIC HERE
-    const validateForm = () => {
-        // ... (Your existing validation logic - copied from previous file)
-        // Since you asked for copy paste, I am assuming you have the validation logic in utils or
-        // I will include a basic pass-through here to ensure it compiles.
-        // Ideally, keep the validateForm function you had in the original file.
-        const newErrors = {};
-        if (!formData.amount) newErrors.amount = "Amount is required";
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
-    const handleOnChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Keep your existing submit logic
-        // Shortened for brevity in this response, but PASTE YOUR ORIGINAL SUBMIT LOGIC HERE
-        if (validateForm()) {
-            dispatch(postPaymentFormData(formData)).then((res) => {
-                const orderId = res?.payload?.order?.id;
-                if (orderId) {
-                    // ... Navigate logic
-                    const params = new URLSearchParams({
-                        name: formData.username || '',
-                        phone: formData.mobileno || '',
-                        email: formData.email || '',
-                        seva: 'Mandir Nirmana Seva',
-                        amount: formData.amount,
-                        order_id: orderId
-                    });
-                    navigate(`/payment/${orderId}?${params.toString()}`);
-                }
-            });
-        }
-    };
+    // Keep existing validation/submit logic...
+    const validateForm = () => { const newErrors = {}; if (!formData.amount) newErrors.amount = "Amount is required"; setErrors(newErrors); return Object.keys(newErrors).length === 0; };
+    const handleOnChange = (e) => { const { name, value, type, checked } = e.target; setFormData({ ...formData, [name]: type === "checkbox" ? checked : value }); };
+    const handleSubmit = (e) => { e.preventDefault(); if (validateForm()) { dispatch(postPaymentFormData(formData)).then((res) => { const orderId = res?.payload?.order?.id; if (orderId) { const params = new URLSearchParams({ name: formData.username || '', phone: formData.mobileno || '', email: formData.email || '', seva: 'Mandir Nirmana Seva', amount: formData.amount, order_id: orderId }); navigate(`/payment/${orderId}?${params.toString()}`); } }); } };
 
     const [imageError, setImageError] = useState(false);
     const handleImageError = () => setImageError(true);
@@ -126,78 +111,62 @@ const HomeSinglePage = () => {
     if(paymentModel){
         return(
             <PaymentPageFull
-                amount={amount}
-                handleSubmit={handleSubmit}
-                handleOnChange={handleOnChange}
-                formData={formData}
-                errors={errors}
-                setPaymentModel={setPaymentModel}
-                setFormData={setFormData}
+                amount={amount} handleSubmit={handleSubmit} handleOnChange={handleOnChange}
+                formData={formData} errors={errors} setPaymentModel={setPaymentModel} setFormData={setFormData}
             />
         );
     }
 
     return (
-        <Box w={"100%"} position={"relative"} bg="#FAFAFA">
+        <Box w={"100%"} position={"relative"} bg="#F9F5F0" minH="100vh">
 
-            {/* --- 1. STICKY MOBILE CTA (New) --- */}
+            {/* Sticky Mobile CTA */}
             {isMobile && !paymentModel && (
                 <Box
                     position="fixed" bottom="0" left="0" w="100%"
-                    bg="white" p={3} borderTop="1px solid #ddd"
-                    zIndex="999" boxShadow="0px -4px 10px rgba(0,0,0,0.1)"
+                    bg="white" p={4} borderTop="1px solid #E2E8F0"
+                    zIndex="999" boxShadow="0px -4px 20px rgba(0,0,0,0.1)"
                 >
                     <Button
-                        w="100%"
-                        h="50px"
+                        w="100%" h="55px"
                         bgGradient="linear(to-r, #D4AF37, #FFD700)"
-                        color="#4B0000"
-                        fontWeight="800"
-                        onClick={() => {
-                            window.scrollTo({ top: 100, behavior: 'smooth' });
-                        }}
+                        color="#2C0A0A"
+                        fontWeight="800" fontSize="lg"
+                        fontFamily="'Cinzel', serif"
+                        onClick={() => window.scrollTo({ top: 100, behavior: 'smooth' })}
+                        _active={{ transform: "scale(0.98)" }}
                     >
-                        CONTRIBUTE NOW
+                        OFFER SEVA NOW
                     </Button>
                 </Box>
             )}
 
-            {/* Scroll To Top */}
             {showScrollButton && (
                 <IconButton
-                    icon={<FaArrowUp />}
-                    position={"fixed"} bottom={["80px", "50px"]} right={"20px"} zIndex={"10"}
-                    background={IskconBgColor} color={IskconFontColor}
-                    onClick={handleScrollToTop}
-                    borderRadius="full" boxShadow="lg"
+                    icon={<FaArrowUp />} position={"fixed"} bottom={["80px", "50px"]} right={"20px"} zIndex={"10"}
+                    bg="#2C0A0A" color="#D4AF37" onClick={handleScrollToTop} borderRadius="full" boxShadow="xl" border="1px solid #D4AF37"
                 />
             )}
 
-            {/* Loading Spinner */}
             {isLoading && (
                 <Box display="flex" justifyContent="center" alignItems="center" height="100vh" position={"fixed"} w={"100%"} bgColor={"rgb(0,0,0,0.6)"} zIndex={10}>
                     <DottedAnimation />
                 </Box>
             )}
 
-            {/* Header */}
             <DetailPageHeader themeColor={themeColor} getSingleUser={getSingleUser} image16={image16} />
 
-            {/* --- 2. TRUST STRIP (New) --- */}
             <TrustStrip />
 
-            {/* --- 3. MAIN SPLIT LAYOUT (New) --- */}
             <Flex
                 w="100%" maxW="1200px" mx="auto" my={["1rem", "2rem"]}
-                direction={["column", "column", "column", "row"]} // Stack on mobile, Row on desktop
-                alignItems="flex-start"
-                px={["0", "1rem", "2rem"]}
-                gap={8}
+                direction={["column", "column", "column", "row"]}
+                alignItems="flex-start" px={["0", "1rem", "2rem"]} gap={8}
             >
-                {/* LEFT COLUMN: Visuals & Story */}
+                {/* LEFT COLUMN */}
                 <Box flex="1.4" w="100%">
-                    {/* Premium Frame for Image */}
-                    <Box borderRadius="xl" overflow="hidden" boxShadow="md" border="1px solid #eee" bg="white">
+                    {/* Image/Video Frame - White Card on Stone Background */}
+                    <Box borderRadius="xl" overflow="hidden" boxShadow="lg" border="1px solid #E2E8F0" bg="white">
                         <PhotoWithDescription getSingleUser={getSingleUser} imageError={imageError} handleImageError={handleImageError} />
                     </Box>
 
@@ -205,23 +174,18 @@ const HomeSinglePage = () => {
                         <AdditionalDetails getSingleUser={getSingleUser} />
                     </Box>
 
-                    {/* Video Section moved up for higher engagement */}
                     <Box mt={6}>
                         <ProjectVedio />
                     </Box>
 
-                    {/* Tabbed Details */}
                     <Box mt={8}>
+                        {/* Tabs container */}
                         <CampaignTabs tab={tab} setTab={setTab} />
-                        <Box bg="white" p={[3, 6]} borderRadius="xl" boxShadow="sm" border="1px solid #f0f0f0" mt={0} borderTopLeftRadius="0">
+                        <Box bg="white" p={[4, 8]} borderRadius="xl" boxShadow="sm" border="1px solid #E2E8F0" mt={0} borderTopLeftRadius="0">
                             {tab === 1 ? (
                                 <CampaignMoreDetails
-                                    campaign={campaign}
-                                    getSingleUser={getSingleUser}
-                                    themeColor={themeColor}
-                                    handleImageError={handleImageError}
-                                    avatar={avatar}
-                                    imageError={imageError}
+                                    campaign={campaign} getSingleUser={getSingleUser} themeColor={themeColor}
+                                    handleImageError={handleImageError} avatar={avatar} imageError={imageError}
                                 />
                             ) : (
                                 <Funders getSingleUser={getSingleUser} />
@@ -230,17 +194,13 @@ const HomeSinglePage = () => {
                     </Box>
                 </Box>
 
-                {/* RIGHT COLUMN: The Sticky Conversion Box */}
-                <Box w={["100%", "100%", "100%", "450px"]} px={["1rem", 0]} mb={20}>
+                {/* RIGHT COLUMN - The Sticky Box */}
+                <Box w={["100%", "100%", "100%", "420px"]} px={["1rem", 0]} mb={24} position="relative">
                     <CapaignerProgressBox
-                        getSingleUser={getSingleUser}
-                        setAmount={setAmount}
-                        handleClick={handleClick}
-                        errorMessage={errorMessage}
-                        amount={amount}
+                        getSingleUser={getSingleUser} setAmount={setAmount} handleClick={handleClick}
+                        errorMessage={errorMessage} amount={amount}
                     />
 
-                    {/* Mobile specific Additional Details (shown below box on mobile) */}
                     <Box mt={6} display={["block", "none"]}>
                         <AdditionalDetails getSingleUser={getSingleUser} />
                     </Box>

@@ -1,204 +1,167 @@
 import React, { useState } from 'react';
-import { Box, Button, HStack, VStack, Input, Badge, Flex, Select } from '@chakra-ui/react';
+import {
+    Box, Button, VStack, Input, Badge, Flex, Text,
+    SimpleGrid, Icon, Divider
+} from '@chakra-ui/react';
 import { calculatePercentage, formatCurrency, getDaysDifference } from '../utils';
 import ProgressBar from './ProgressBar';
-
-import { IskconBgColor, IskconFontColor } from '../utils';
+import { FaHandHoldingHeart, FaCheckCircle, FaRegCreditCard } from "react-icons/fa";
 
 const CapaignerProgressBox = ({
-    getSingleUser,
-    amount,
-    setAmount,
-    handleClick,
-    errorMessage
-}) => {
+                                  getSingleUser, amount, setAmount, handleClick, errorMessage
+                              }) => {
     const targetAmount = getSingleUser?.campaignDetails?.targetAmount || 1000000;
     const raisedAmount = getSingleUser?.raisedFund || 0;
-    const isTargetReached = raisedAmount >= targetAmount;
     const currentPercentage = calculatePercentage(targetAmount, raisedAmount);
+
+    // NEW WORDING: "Construction" instead of just "Seva"
     const sevaOptions = [
-            { label: "1 Square ft Seva", value: 5001 },
-            { label: "2 Square ft Seva", value: 10001 },
-            { label: "4 Square ft Seva", value: 20001 },
-            { label: "8 Square ft Seva", value: 40001 },
-            { label: "10 Square ft Seva", value: 50001},
-            { label: "15 Square ft Seva", value: 75001},
-            { label: "20 Square ft Seva", value: 100008}
-        ];
-    const [showCustomInput, setShowCustomInput] = useState(false);
+        { label: "Sponsor 1 Sq.ft", value: 5001 },
+        { label: "Sponsor 2 Sq.ft", value: 10001 },
+        { label: "Sponsor 5 Sq.ft", value: 25001 },
+        { label: "Sponsor 10 Sq.ft", value: 50001},
+    ];
 
-        // 3. Handle dropdown changes
-    const handleDropdownChange = (e) => {
-            const selectedValue = e.target.value;
+    const [customAmountMode, setCustomAmountMode] = useState(false);
 
-            if (selectedValue === "custom") {
-                // If user selects "Custom", show the input and clear the amount
-                setShowCustomInput(true);
-                setAmount("");
-            } else {
-                // If user selects a Seva, hide the input and set the amount
-                setShowCustomInput(false);
-                setAmount(selectedValue);
-            }
-        };
+    const handleOptionClick = (val) => {
+        setAmount(val);
+        setCustomAmountMode(false);
+    };
+
     return (
         <Box
-            w={["97%", "97%", "97%", "50%"]}
-            mx={"auto"}
-            border="2px solid rgba(0, 0, 0, 0.1)"
-            p="1rem"
-            display="flex"
-            flexDirection="column"
-            justifyContent="space-between"
-            boxShadow="lg"
-            borderRadius="md"
+            w="100%"
+            boxShadow="2xl"
+            borderRadius="xl"
             bg="white"
+            overflow="hidden"
+            border="1px solid #E2E8F0"
+            position={["relative", "relative", "relative", "sticky"]}
+            top={["0", "0", "0", "100px"]}
+            zIndex={9}
         >
-            <Box
-                bgColor={IskconBgColor}
-                color={IskconFontColor}
-                py="1.5rem"
-                px="2rem"
-                display="flex"
-                flexDirection="column"
-                justifyContent="space-between"
-                borderRadius="md"
-            >
-
-                <Flex justifyContent="space-between" alignItems="center">
-                    {isTargetReached && <Badge
-                        fontSize={["2xs", "xs", "x"]}
-                        borderRadius="full"
-                        px="4"
-                        // py="2"
-                        // my={-1}
-                        background={"#ffffff"}
-                        color={"#eb6a26"}
-                        boxShadow="md"
-                        // fontWeight="extrabold"
-                        position="relative"
-                        width={"fit-content"}
-                    >
-                        Star Campaigner !!
-                    </Badge>}
-                    <Box color="#d481f0" fontWeight={900} fontSize={"20px"}>{currentPercentage >= 100 ? "Goal Achieved!" : currentPercentage >= 80 ? "One Step to Victory🔥" : ""}</Box>
+            {/* 1. HEADER: Dark Slate Background */}
+            <Box bg="#2D3748" p={6} color="white" borderBottom="4px solid #D4AF37">
+                <Flex justifyContent="space-between" alignItems="center" mb={3}>
+                    <Text fontSize="xs" fontWeight="bold" letterSpacing="widest" color="gray.400" textTransform="uppercase">
+                        Contribution Milestones
+                    </Text>
+                    <Badge bg="#4B0000" color="white" variant="solid" fontSize="0.7em" px={3} py={1} borderRadius="full">
+                        {getSingleUser?.totalFunders} Patrons
+                    </Badge>
                 </Flex>
 
-                <VStack width="100%" alignItems="flex-start" gap="0.5rem" marginTop={"0.5rem"}>
-                    <HStack>
-                        <Box fontWeight="semibold" fontSize={["xl", "2xl", "3xl"]}>
-                            RAISED
-                        </Box>
-                        <Box fontSize={["3xl", "4xl", "5xl"]} fontWeight="900">
-                            {formatCurrency(getSingleUser?.raisedFund)}
-                        </Box>
-                    </HStack>
+                <Flex align="baseline" gap={2} mb={2}>
+                    <Text fontSize="3xl" fontWeight="900" lineHeight="1" color="#FFD700">
+                        {formatCurrency(raisedAmount)}
+                    </Text>
+                    <Text fontSize="sm" color="gray.300" fontWeight="500">
+                        raised of {formatCurrency(targetAmount)}
+                    </Text>
+                </Flex>
 
-                    <HStack>
-                        <Box fontWeight="semibold" fontSize={["xl", "2xl", "3xl"]}>
-                            GOAL<span>&nbsp;&nbsp;&nbsp;</span>
-                        </Box>
-                        <Box fontSize={["2xl", "3xl", "4xl"]}>
-                            {formatCurrency(getSingleUser?.campaignDetails?.targetAmount)}
-                        </Box>
-                    </HStack>
-
-                </VStack>
-
-                <HStack w={"100%"} justifyContent={"space-between"} my={"1rem"}>
-                    <VStack
-                        fontWeight={"semibold"}
-                        fontSize={["md", "lg", "xl"]}
-                        gap={"2px"}
-                        alignItems={"flex-start"}
-                    >
-                        <Box>DAYS LEFT</Box>
-                        <Box fontSize={["3xl", "4xl", "5xl"]} fontWeight="900">
-                            {getDaysDifference(
-                                getSingleUser?.campaignDetails?.enddate
-                            )}
-                        </Box>
-                    </VStack>
-                    <VStack
-                        fontWeight={"semibold"}
-                        fontSize={["md", "lg", "xl"]}
-                        gap={"2px"}
-                        alignItems={"flex-start"}
-                    >
-                        <Box>FUNDERS</Box>
-                        <Box fontSize={["3xl", "4xl", "5xl"]} fontWeight="900">{getSingleUser?.totalFunders}</Box>
-                    </VStack>
-                </HStack>
-                <Box w="100%">
+                <Box mt={4}>
                     <ProgressBar
-                        currentAmount={getSingleUser?.raisedFund}
-                        goalAmount={getSingleUser?.campaignDetails?.targetAmount}
+                        currentAmount={raisedAmount}
+                        goalAmount={targetAmount}
                     />
+                    <Flex justify="space-between" mt={2} fontSize="xs" color="gray.300" fontWeight="bold">
+                        <Text>{currentPercentage}% Complete</Text>
+                        <Text>{getDaysDifference(getSingleUser?.campaignDetails?.enddate)} Days to go</Text>
+                    </Flex>
                 </Box>
             </Box>
-            <VStack p="1rem" w={"100%"} alignItems={"flex-start"} gap={"1.5rem"}>
-                <Box fontSize={["xs", "sm", "md"]} fontWeight={"semibold"} color="gray.600">
-                    Accepts funds from Indian Passport / ID holders only.
-                </Box>
-                <VStack w={"100%"} gap={"1rem"}>
-                    {getDaysDifference(
-                        getSingleUser?.campaignDetails?.enddate
-                    ) === 100 ? (
-                        <Box fontSize={["md", "lg", "xl"]} color={"green.500"}>
-                            Successful
-                        </Box>
-                    ) : (
-                        <Box w={"100%"}>
-                            {/* --- 4. NEW DROPDOWN ADDED HERE --- */}
-                                                        <Select
-                                                            placeholder="Choose a Seva option"
-                                                            onChange={handleDropdownChange}
-                                                            h={"50px"}
-                                                            mb={"1rem"}
-                                                            focusBorderColor="#d481f0"
-                                                            border="2px solid #d481f0"
-                                                        >
-                                                            {sevaOptions.map((option) => (
-                                                                <option key={option.label} value={option.value}>
-                                                                    {`${option.label} - ${formatCurrency(option.value)}`}
-                                                                </option>
-                                                            ))}
-                                                         <option value="custom">Enter Your Amount</option>
-                                                        </Select>
-                            {showCustomInput && (
-                                                            <Input
-                                                                type="number"
-                                                                placeholder="Enter Your Amount here"
-                                                                value={amount}
-                                                                onChange={(e) => setAmount(e.target.value)}
-                                                                h={"50px"}
-                                                                focusBorderColor="#d481f0"
-                                                                border="4px solid #d481f0"
-                                                            />
-                                                        )}
-                        </Box>
-                    )}
-                    <Button
-                        w={"100%"}
-                        h={"50px"}
-                        // colorScheme='teal'
-                        background={IskconBgColor}
-                        color={IskconFontColor}
-                        fontWeight={"bold"}
-                        fontSize={["md", "lg", "xl"]}
-                        onClick={handleClick}
-                        isDisabled={
-                            getDaysDifference(
-                                getSingleUser?.campaignDetails?.enddate
-                            ) === 100
-                        }
+
+            {/* 2. BODY: White Background */}
+            <VStack p={6} spacing={5} align="stretch" bg="white">
+
+                {/* Value Prop - Light Gold Background */}
+                <Flex bg="#FFF9E5" p={3} borderRadius="md" align="center" gap={3} border="1px solid #F6E05E">
+                    <Icon as={FaCheckCircle} color="#D69E2E" boxSize={5}/>
+                    <Text fontSize="sm" color="#744210" fontWeight="600" lineHeight="1.4">
+                        Join <Text as="span" fontWeight="800">{getSingleUser?.campaignDetails?.campaignName}</Text> in this historic service.
+                    </Text>
+                </Flex>
+
+                <Divider borderColor="#E2E8F0" />
+
+                {/* Selection Grid (Impact Chips) */}
+                <Text fontSize="xs" fontWeight="bold" color="gray.500" textTransform="uppercase" letterSpacing="wide">
+                    Select your Seva:
+                </Text>
+                <SimpleGrid columns={2} spacing={3}>
+                    {sevaOptions.map((opt) => (
+                        <Button
+                            key={opt.value}
+                            h="auto" py={3}
+                            variant="outline"
+                            border="1px solid"
+                            // Selected State Colors
+                            borderColor={amount === opt.value && !customAmountMode ? "#D4AF37" : "#E2E8F0"}
+                            bg={amount === opt.value && !customAmountMode ? "#FFF9C4" : "white"}
+                            color={amount === opt.value && !customAmountMode ? "#4B0000" : "#2D3748"}
+                            _hover={{ borderColor: "#D4AF37", bg: "#FFF9E5", transform: "translateY(-1px)" }}
+                            onClick={() => handleOptionClick(opt.value)}
+                            flexDirection="column"
+                            gap={1}
+                            transition="all 0.2s"
+                            boxShadow={amount === opt.value ? "md" : "none"}
+                        >
+                            <Text fontSize="md" fontWeight="800">{formatCurrency(opt.value)}</Text>
+                            <Text fontSize="xs" fontWeight="normal" opacity={0.8}>{opt.label}</Text>
+                        </Button>
+                    ))}
+                </SimpleGrid>
+
+                {/* Custom Amount Toggle */}
+                {!customAmountMode ? (
+                    <Text
+                        textAlign="center" fontSize="sm" textDecoration="underline" cursor="pointer" color="gray.500"
+                        _hover={{ color: "#D4AF37" }}
+                        onClick={() => { setCustomAmountMode(true); setAmount(""); }}
                     >
-                        CONTRIBUTE
-                    </Button>
-                    <Box fontWeight={"bold"} color={"red.500"}>
-                        {errorMessage}
-                    </Box>
-                </VStack>
+                        Or enter a custom amount
+                    </Text>
+                ) : (
+                    <VStack align="stretch" spacing={1}>
+                        <Flex justify="space-between" align="center">
+                            <Text fontSize="xs" fontWeight="bold" color="gray.500">CUSTOM AMOUNT (INR)</Text>
+                            <Text fontSize="xs" color="blue.500" cursor="pointer" onClick={() => setCustomAmountMode(false)}>Back</Text>
+                        </Flex>
+                        <Input
+                            type="number" placeholder="Ex: 5000" value={amount} onChange={(e) => setAmount(e.target.value)}
+                            h="50px" fontSize="lg" fontWeight="bold" textAlign="center"
+                            focusBorderColor="#D4AF37" borderColor="#CBD5E0"
+                        />
+                    </VStack>
+                )}
+
+                {/* Main CTA - Gold Gradient */}
+                <Button
+                    w={"100%"} h={"55px"}
+                    bgGradient="linear(to-r, #D4AF37, #FFD700)"
+                    color="#2C0A0A"
+                    fontWeight="800" fontSize="lg"
+                    fontFamily="'Cinzel', serif"
+                    letterSpacing="1px"
+                    onClick={handleClick}
+                    _hover={{ transform: "translateY(-2px)", boxShadow: "0px 5px 15px rgba(212, 175, 55, 0.4)" }}
+                    rightIcon={<Icon as={FaHandHoldingHeart} />}
+                >
+                    CONTRIBUTE NOW
+                </Button>
+
+                <Box textAlign="center">
+                    <Text fontSize="xs" color="gray.400" mt={2}>
+                        * All contributions are eligible for 80G Tax Exemption
+                    </Text>
+                    {errorMessage && (
+                        <Text fontSize="sm" color="red.500" fontWeight="bold" mt={2}>
+                            {errorMessage}
+                        </Text>
+                    )}
+                </Box>
             </VStack>
         </Box>
     );
