@@ -180,7 +180,22 @@ const HomeSinglePage = () => {
 
             <UrgencyBar />
 
-            <DetailPageHeader themeColor={themeColor} getSingleUser={getSingleUser} image16={image16} />
+            <Box
+                position="sticky"
+                top="0"
+                zIndex="1000"
+                bg="rgba(255, 255, 255, 0.95)" // 95% Opaque White
+                backdropFilter="blur(10px)"    // The "Premium Glass" effect IT people love
+                borderBottom="1px solid"
+                borderColor="gray.100"
+                boxShadow="sm" // Very subtle shadow
+            >
+                <DetailPageHeader
+                    themeColor="#2C0A0A" // Pass Maroon ONLY as the text/icon color
+                    getSingleUser={getSingleUser}
+                    image16={image16}
+                />
+            </Box>
 
             <TrustStrip />
 
