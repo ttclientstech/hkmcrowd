@@ -1,66 +1,55 @@
 import { Box, Flex, Image, Text, VStack, Icon, Link as ChakraLink } from '@chakra-ui/react';
-import { keyframes } from '@emotion/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaChevronLeft, FaQuoteLeft, FaQuoteRight, FaChevronDown } from 'react-icons/fa';
+import { FaChevronLeft, FaQuoteLeft, FaQuoteRight } from 'react-icons/fa';
 import image16 from "../../assets/images/logo.jpeg";
 
-// Animation for the Scroll Arrow
-const bounce = keyframes`
-    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-    40% {transform: translateY(-10px);}
-    60% {transform: translateY(-5px);}
-`;
-
 const DetailPageHeader = ({ getSingleUser }) => {
-    const campaignerName = getSingleUser?.campaignDetails?.campaignName || "A Cultural Well-wisher";
+    const campaignerName = getSingleUser?.campaignDetails?.campaignName || "A Devotee";
 
     return (
         <Box position="relative" w="100%">
-            {/* Top Gold Border */}
+            {/* Top Gold Border - Adds a 'Roof' to the design */}
             <Box w="100%" h="4px" bgGradient="linear(to-r, #D4AF37, #FFD700, #D4AF37)" />
 
             <Box
                 w="100%"
-                // CHANGED: Removed Image, used Royal Gradient for better text readability
-                bgGradient="linear(to-br, #2C0A0A, #4B0000, #2C0A0A)"
-                color="#F9F5F0"
-                py={["3rem", "4rem"]}
-                px={["1rem", "2rem"]}
+                bg="#2C0A0A" // Deep Mahogany Background
+                color="#F9F5F0" // Off-white text
+                py={["2rem", "2.5rem"]} // Vertical padding
+                px={["1rem", "2rem"]} // Horizontal padding
                 position="relative"
                 overflow="hidden"
-                borderBottom="1px solid #D4AF37"
-                display="flex"
-                flexDirection="column"
-                justifyContent="center"
+                borderBottom="1px solid #4B0000"
             >
-                {/* Background Pattern (Optional - adds texture without noise) */}
+                {/* Background Texture - Subtle Gold Circle Overlay */}
                 <Box
-                    position="absolute" top={0} left={0} w="100%" h="100%"
-                    opacity={0.05}
-                    backgroundImage="radial-gradient(#D4AF37 1px, transparent 1px)"
-                    backgroundSize="20px 20px"
+                    position="absolute" top="-50px" right="-50px"
+                    w="300px" h="300px" borderRadius="full"
+                    bg="#D4AF37" opacity="0.03"
+                    pointerEvents="none"
                 />
 
                 <Flex
-                    maxW="1200px" mx="auto" w="100%"
-                    direction={["column", "column", "row"]}
+                    maxW="1200px" mx="auto"
+                    direction={["column", "column", "row"]} // Mobile: Column, Desktop: Row
                     align="center"
                     justify="space-between"
-                    gap={8}
-                    zIndex={1}
+                    gap={6}
                 >
-                    {/* 1. LEFT SIDE: Brand Identity */}
+                    {/* 1. LEFT SIDE: Brand & Navigation */}
                     <ChakraLink as={Link} to="/" _hover={{ textDecoration: 'none' }} group>
                         <Flex align="center" gap={4} opacity={0.9} _hover={{ opacity: 1, transform: "translateX(5px)" }} transition="all 0.3s">
+                            {/* Logo Box */}
                             <Box
-                                w={["60px", "80px"]} h={["60px", "80px"]}
+                                w={["60px", "70px"]} h={["60px", "70px"]}
                                 borderRadius="full" border="2px solid #D4AF37" overflow="hidden"
-                                boxShadow="0px 0px 25px rgba(212, 175, 55, 0.4)"
+                                boxShadow="0px 0px 20px rgba(212, 175, 55, 0.15)"
                             >
                                 <Image src={image16} w="100%" h="100%" objectFit="cover" />
                             </Box>
 
+                            {/* Text - Hidden on very small screens, Visible on Desktop */}
                             <VStack align="flex-start" spacing={0} display={["flex", "flex"]}>
                                 <Text
                                     fontSize={["xs", "sm"]} color="#D4AF37"
@@ -68,7 +57,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
                                 >
                                     Hare Krishna Movement
                                 </Text>
-                                <Flex align="center" gap={2} color="gray.300">
+                                <Flex align="center" gap={2} color="gray.400">
                                     <Icon as={FaChevronLeft} boxSize={3} />
                                     <Text fontSize="xs" fontWeight="medium">Back to Home</Text>
                                 </Flex>
@@ -76,35 +65,35 @@ const DetailPageHeader = ({ getSingleUser }) => {
                         </Flex>
                     </ChakraLink>
 
-                    {/* 2. RIGHT SIDE: The Emotional Invitation */}
+                    {/* 2. RIGHT SIDE: The "Royal Invitation" */}
                     <VStack
-                        spacing={2}
+                        spacing={1}
                         textAlign={["center", "center", "right"]}
                         align={["center", "center", "flex-end"]}
                         maxW={["100%", "100%", "65%"]}
                         zIndex={2}
                     >
-                        {/* The "Why" */}
+                        {/* The "Why" - Spiritual Hook */}
                         <Text
                             fontFamily="'Cinzel', serif"
                             fontSize={["lg", "xl", "2xl"]}
                             color="#F9F5F0"
-                            lineHeight="1.4"
+                            lineHeight="1.3"
                         >
-                            "Let's join hands to build a <br/>
-                            <span style={{color: "#FFD700"}}>Glorious Cultural Center</span>."
+                            "Join me in building a divine home for <br/>
+                            <span style={{color: "#FFD700"}}>Sri Sri Rukmini Dwarakadhisha</span>"
                         </Text>
 
-                        {/* The "Who" */}
-                        <Flex align="center" gap={3} mt={1}>
+                        {/* The "Who" - Campaigner Name Highlight */}
+                        <Flex align="center" gap={3} mt={2}>
                             <Icon as={FaQuoteLeft} color="#D4AF37" w={3} h={3} opacity={0.6} mb={3}/>
                             <Text
                                 fontSize={["2xl", "3xl", "4xl"]}
                                 fontWeight="800"
-                                color="#D4AF37"
+                                color="#D4AF37" // Metallic Gold
                                 textTransform="capitalize"
                                 letterSpacing="1px"
-                                textShadow="0px 4px 15px rgba(0,0,0,0.6)"
+                                textShadow="0px 4px 10px rgba(0,0,0,0.5)"
                                 fontFamily="'Cinzel', serif"
                             >
                                 {campaignerName}
@@ -112,28 +101,12 @@ const DetailPageHeader = ({ getSingleUser }) => {
                             <Icon as={FaQuoteRight} color="#D4AF37" w={3} h={3} opacity={0.6} mt={3}/>
                         </Flex>
 
-                        {/* The "Action" */}
-                        <Text fontSize={["sm", "md"]} color="gray.200" maxW="500px" fontStyle="italic" lineHeight="1.6">
-                            invites you to <span style={{fontWeight:"bold", color:"white"}}>be a part of this historic legacy</span><br/>
-                            at the Dakshina Dwaraka Cultural Complex.
+                        {/* The "Legacy" Context */}
+                        <Text fontSize={["sm", "md"]} color="gray.400" maxW="500px" fontStyle="italic">
+                            invites you to become a patron of the Dakshina Dwaraka Dham.
                         </Text>
                     </VStack>
                 </Flex>
-
-                {/* 3. SCROLL INDICATOR */}
-                <VStack
-                    position="absolute"
-                    bottom="10px"
-                    left="50%"
-                    transform="translateX(-50%)"
-                    opacity={0.7}
-                    animation={`${bounce} 2s infinite`}
-                    cursor="pointer"
-                    onClick={() => window.scrollTo({ top: 400, behavior: 'smooth' })}
-                >
-                    <Text fontSize="xs" color="#D4AF37" letterSpacing="widest" textTransform="uppercase">Scroll to Support</Text>
-                    <Icon as={FaChevronDown} color="#D4AF37" w={5} h={5} />
-                </VStack>
             </Box>
 
             {/* Bottom Gold Accent */}
