@@ -1,4 +1,5 @@
-import { Box, Flex, Image, Text, VStack, Icon, Link as ChakraLink, keyframes } from '@chakra-ui/react';
+import { Box, Flex, Image, Text, VStack, Icon, Link as ChakraLink } from '@chakra-ui/react';
+import { keyframes } from '@emotion/react'; // <--- FIX: Import keyframes from here
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaChevronLeft, FaQuoteLeft, FaQuoteRight, FaChevronDown } from 'react-icons/fa';
@@ -7,9 +8,9 @@ import Banner from "../../assets/images/mandir_nirman_seva_banner.png";
 
 // Animation for the Scroll Arrow
 const bounce = keyframes`
-  0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-  40% {transform: translateY(-10px);}
-  60% {transform: translateY(-5px);}
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-10px);}
+    60% {transform: translateY(-5px);}
 `;
 
 const DetailPageHeader = ({ getSingleUser }) => {
