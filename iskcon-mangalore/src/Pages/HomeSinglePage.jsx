@@ -19,7 +19,6 @@ import Funders from "../Components/HomePageComponents/Funders";
 import { campaign } from "../constants/homePage";
 import CapaignerProgressBox from "../Components/HomePageComponents/CapaignerProgressBox";
 import DetailPageHeader from "../Components/HomePageComponents/DetailPageHeader";
-import DetailPageHeader from "../Components/HomePageComponents/ImpactHeader";
 import PaymentPageFull from "../Components/HomePageComponents/PaymentPageFull";
 import PhotoWithDescription from "../Components/HomePageComponents/PhotoWithDescription";
 import AdditionalDetails from "../Components/HomePageComponents/AdditionalDetails";
