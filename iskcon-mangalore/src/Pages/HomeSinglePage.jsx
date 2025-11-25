@@ -19,12 +19,14 @@ import Funders from "../Components/HomePageComponents/Funders";
 import { campaign } from "../constants/homePage";
 import CapaignerProgressBox from "../Components/HomePageComponents/CapaignerProgressBox";
 import DetailPageHeader from "../Components/HomePageComponents/DetailPageHeader";
+import DetailPageHeader from "../Components/HomePageComponents/ImpactHeader";
 import PaymentPageFull from "../Components/HomePageComponents/PaymentPageFull";
 import PhotoWithDescription from "../Components/HomePageComponents/PhotoWithDescription";
 import AdditionalDetails from "../Components/HomePageComponents/AdditionalDetails";
 import CampaignTabs from "../Components/HomePageComponents/Tabs";
 import ProjectVedio from "../Components/HomePageComponents/ProjectVedio";
 import Fotter from "../Components/HomePageComponents/Fotter";
+import ImpactHeader from "../Components/HomePageComponents/ImpactHeader";
 
 // 1. MODERN TRUST STRIP (Tech/Startup Vibe)
 const TrustStrip = () => (
@@ -190,7 +192,7 @@ const HomeSinglePage = () => {
                 borderColor="gray.100"
                 boxShadow="sm" // Very subtle shadow
             >
-                <DetailPageHeader
+                <ImpactHeader
                     themeColor="#2C0A0A" // Pass Maroon ONLY as the text/icon color
                     getSingleUser={getSingleUser}
                     image16={image16}
