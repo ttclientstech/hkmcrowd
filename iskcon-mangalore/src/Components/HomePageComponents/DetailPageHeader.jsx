@@ -1,7 +1,10 @@
-import { Box, Flex, Image, Text, VStack, Icon, Link as ChakraLink } from '@chakra-ui/react';
+import { Box, Flex, Image, Text, VStack, Icon, Link as ChakraLink,Badge,HStack,Button } from '@chakra-ui/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaChevronLeft, FaQuoteLeft, FaQuoteRight } from 'react-icons/fa';
+import {
+    FaCheckCircle, FaBuilding, FaHandHoldingHeart, FaShareAlt,
+    FaArrowRight, FaShieldAlt
+} from "react-icons/fa";
 import image16 from "../../assets/images/logo.jpeg";
 import bannerBg from "../../assets/images/002_temple_night_view.jpeg";
 
