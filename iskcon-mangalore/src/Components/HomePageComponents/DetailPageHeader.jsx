@@ -54,7 +54,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
                         boxShadow="0px 0px 40px rgba(212, 175, 55, 0.4)"
                     >
                         <img
-                            src={user?.campaignDetails?.imgurl}
+                            src={getSingleUser?.campaignDetails?.imgurl}
                             alt="Campaigner"
                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             onError={(e) => e.target.src = "https://bit.ly/broken-link"}
@@ -86,25 +86,6 @@ const DetailPageHeader = ({ getSingleUser }) => {
                         "Join me in building <br />
                         <span style={{ color: "#FBD38D" }}>Chennai's New Landmark.</span>"
                     </Text>
-
-                    <HStack spacing={4} pt={2}>
-                        <Button
-                            size="lg" h="55px" px={8}
-                            bgGradient="linear(to-r, #D4AF37, #B7950B)"
-                            color="#2C0A0A" fontWeight="800"
-                            _hover={{ transform: "translateY(-2px)", boxShadow: "xl" }}
-                            onClick={onDonate}
-                        >
-                            SUPPORT MY MISSION
-                        </Button>
-                        <Button
-                            variant="ghost" color="gray.300"
-                            _hover={{ color: "white" }}
-                            onClick={() => document.getElementById('project-video').scrollIntoView({ behavior: 'smooth' })}
-                        >
-                            Watch Video
-                        </Button>
-                    </HStack>
                 </VStack>
             </Flex>
         </Box>
