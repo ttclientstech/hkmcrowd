@@ -12,7 +12,8 @@ const DetailPageHeader = ({ getSingleUser }) => {
     const campaignerName = getSingleUser?.campaignDetails?.campaignName || "A Devotee";
 
     return (
-        <Box position="relative" w="100%" bg="#1A202C" overflow="hidden" pb={["3rem", "5rem"]}>
+        <Box position="relative" w="100%" bg="#2C0A0A" overflow="hidden" pb={["3rem", "5rem"]}>
+            {/*above box prev bg color was #1A202C*/}
             {/* 1. Cinematic Background */}
             <Box
                 position="absolute" top="0" left="0" w="100%" h="100%"
@@ -23,7 +24,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
                 filter="grayscale(100%)"
             />
 
-            {/* 2. Top Nav */}
+            {/* 2. Top Nav
             <Flex justify="space-between" align="center" maxW="1200px" mx="auto" p={6} position="relative" zIndex={2}>
                 <Text color="white" fontWeight="bold" letterSpacing="widest" fontSize="sm">DAKSHINA DWARAKA DHAM</Text>
                 <Button
@@ -32,7 +33,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
                 >
                     Share Campaign
                 </Button>
-            </Flex>
+            </Flex>*/}
 
 
             <Flex
