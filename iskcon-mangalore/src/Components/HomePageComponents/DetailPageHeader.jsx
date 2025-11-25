@@ -1,10 +1,9 @@
 import { Box, Flex, Image, Text, VStack, Icon, Link as ChakraLink } from '@chakra-ui/react';
-import { keyframes } from '@emotion/react'; // <--- FIX: Import keyframes from here
+import { keyframes } from '@emotion/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaChevronLeft, FaQuoteLeft, FaQuoteRight, FaChevronDown } from 'react-icons/fa';
 import image16 from "../../assets/images/logo.jpeg";
-import Banner from "../../assets/images/mandir_nirman_seva_banner.png";
 
 // Animation for the Scroll Arrow
 const bounce = keyframes`
@@ -23,27 +22,33 @@ const DetailPageHeader = ({ getSingleUser }) => {
 
             <Box
                 w="100%"
-                // BACKGROUND IMAGE: Uses the Banner with a Dark Overlay so text pops
-                bgImage={`linear-gradient(to right, rgba(44, 10, 10, 0.90), rgba(44, 10, 10, 0.80)), url(${Banner})`}
-                bgSize="cover"
-                bgPosition="center"
-                bgAttachment="fixed" // Parallax effect
+                // CHANGED: Removed Image, used Royal Gradient for better text readability
+                bgGradient="linear(to-br, #2C0A0A, #4B0000, #2C0A0A)"
                 color="#F9F5F0"
-                py={["3rem", "4rem"]} // Increased height for better impact
+                py={["3rem", "4rem"]}
                 px={["1rem", "2rem"]}
                 position="relative"
                 overflow="hidden"
-                borderBottom="1px solid #4B0000"
+                borderBottom="1px solid #D4AF37"
                 display="flex"
                 flexDirection="column"
                 justifyContent="center"
             >
+                {/* Background Pattern (Optional - adds texture without noise) */}
+                <Box
+                    position="absolute" top={0} left={0} w="100%" h="100%"
+                    opacity={0.05}
+                    backgroundImage="radial-gradient(#D4AF37 1px, transparent 1px)"
+                    backgroundSize="20px 20px"
+                />
+
                 <Flex
                     maxW="1200px" mx="auto" w="100%"
                     direction={["column", "column", "row"]}
                     align="center"
                     justify="space-between"
                     gap={8}
+                    zIndex={1}
                 >
                     {/* 1. LEFT SIDE: Brand Identity */}
                     <ChakraLink as={Link} to="/" _hover={{ textDecoration: 'none' }} group>
@@ -79,7 +84,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
                         maxW={["100%", "100%", "65%"]}
                         zIndex={2}
                     >
-                        {/* The "Why" - Very Simple & Direct */}
+                        {/* The "Why" */}
                         <Text
                             fontFamily="'Cinzel', serif"
                             fontSize={["lg", "xl", "2xl"]}
@@ -90,7 +95,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
                             <span style={{color: "#FFD700"}}>Glorious Cultural Center</span>."
                         </Text>
 
-                        {/* The "Who" - Campaigner Name */}
+                        {/* The "Who" */}
                         <Flex align="center" gap={3} mt={1}>
                             <Icon as={FaQuoteLeft} color="#D4AF37" w={3} h={3} opacity={0.6} mb={3}/>
                             <Text
@@ -107,7 +112,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
                             <Icon as={FaQuoteRight} color="#D4AF37" w={3} h={3} opacity={0.6} mt={3}/>
                         </Flex>
 
-                        {/* The "Action" - Inclusive Language */}
+                        {/* The "Action" */}
                         <Text fontSize={["sm", "md"]} color="gray.200" maxW="500px" fontStyle="italic" lineHeight="1.6">
                             invites you to <span style={{fontWeight:"bold", color:"white"}}>be a part of this historic legacy</span><br/>
                             at the Dakshina Dwaraka Cultural Complex.
@@ -115,7 +120,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
                     </VStack>
                 </Flex>
 
-                {/* 3. SCROLL INDICATOR: Encourages Action */}
+                {/* 3. SCROLL INDICATOR */}
                 <VStack
                     position="absolute"
                     bottom="10px"

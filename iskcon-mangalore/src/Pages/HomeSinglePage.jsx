@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react"; // Added useRef
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchSingleUser, postPaymentFormData } from "../Redux/clientSlices/clientUsers";
 import image16 from "../assets/images/logo.jpeg";
 import avatar from "../assets/images/Avatar-PNG-Image.webp";
+// IMPORT THE BANNER
+import BannerImage from "../assets/images/mandir_nirman_seva_banner.png";
+
 import {
-    Box, IconButton, Flex, Button, useBreakpointValue, Text, Icon
+    Box, IconButton, Flex, Button, useBreakpointValue, Text, Icon, Image
 } from "@chakra-ui/react";
 import { FaArrowUp, FaShieldAlt, FaLandmark, FaOm } from "react-icons/fa";
 
 import DottedAnimation from "../Components/DottedAnimation";
-import { themeColor, IskconBgColor, IskconFontColor } from "../Components/utils";
+import { themeColor } from "../Components/utils";
 import PageNotFound from "../Components/HomePageComponents/PageNotFound";
 import CampaignMoreDetails from "../Components/HomePageComponents/CampaingMoreDetails";
 import Funders from "../Components/HomePageComponents/Funders";
@@ -24,7 +27,7 @@ import CampaignTabs from "../Components/HomePageComponents/Tabs";
 import ProjectVedio from "../Components/HomePageComponents/ProjectVedio";
 import Fotter from "../Components/HomePageComponents/Fotter";
 
-// 1. NEW: The "Trust Strip" Component (Internal definition for ease)
+// 1. Trust Strip Component
 const TrustStrip = () => (
     <Box w="100%" bg="#FAF3E0" borderBottom="1px solid #E2E8F0" py={3}>
         <Flex
@@ -64,6 +67,9 @@ const HomeSinglePage = () => {
     const { isLoading, getSingleUser } = useSelector((state) => state.clientUsers);
     const dispatch = useDispatch();
 
+    // REF FOR MOBILE SCROLLING
+    const donationSectionRef = useRef(null);
+
     const [amount, setAmount] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
     const [paymentModel, setPaymentModel] = useState(false);
@@ -89,6 +95,13 @@ const HomeSinglePage = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    // FIX: Scroll to the Donation Box (ref) instead of top
+    const handleMobileDonateClick = () => {
+        if(donationSectionRef.current) {
+            donationSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
+
     const handleClick = () => {
         if (amount === null) return setErrorMessage("Please enter an amount");
         if (amount < 500) return setErrorMessage("Minimum contribution amount is INR 500");
@@ -97,7 +110,6 @@ const HomeSinglePage = () => {
         setFormData(prev => ({ ...prev, amount: amount, campaignsid: id }));
     };
 
-    // Keep existing validation/submit logic...
     const validateForm = () => { const newErrors = {}; if (!formData.amount) newErrors.amount = "Amount is required"; setErrors(newErrors); return Object.keys(newErrors).length === 0; };
     const handleOnChange = (e) => { const { name, value, type, checked } = e.target; setFormData({ ...formData, [name]: type === "checkbox" ? checked : value }); };
     const handleSubmit = (e) => { e.preventDefault(); if (validateForm()) { dispatch(postPaymentFormData(formData)).then((res) => { const orderId = res?.payload?.order?.id; if (orderId) { const params = new URLSearchParams({ name: formData.username || '', phone: formData.mobileno || '', email: formData.email || '', seva: 'Mandir Nirmana Seva', amount: formData.amount, order_id: orderId }); navigate(`/payment/${orderId}?${params.toString()}`); } }); } };
@@ -133,7 +145,7 @@ const HomeSinglePage = () => {
                         color="#2C0A0A"
                         fontWeight="800" fontSize="lg"
                         fontFamily="'Cinzel', serif"
-                        onClick={() => window.scrollTo({ top: 100, behavior: 'smooth' })}
+                        onClick={handleMobileDonateClick} // CHANGED: Calls the new scroll function
                         _active={{ transform: "scale(0.98)" }}
                     >
                         OFFER SEVA NOW
@@ -154,6 +166,7 @@ const HomeSinglePage = () => {
                 </Box>
             )}
 
+            {/* New Premium Header (No Background Image) */}
             <DetailPageHeader themeColor={themeColor} getSingleUser={getSingleUser} image16={image16} />
 
             <TrustStrip />
@@ -163,23 +176,37 @@ const HomeSinglePage = () => {
                 direction={["column", "column", "column", "row"]}
                 alignItems="flex-start" px={["0", "1rem", "2rem"]} gap={8}
             >
-                {/* LEFT COLUMN */}
+                {/* LEFT COLUMN: Story, Banner, Video */}
                 <Box flex="1.4" w="100%">
-                    {/* Image/Video Frame - White Card on Stone Background */}
-                    <Box borderRadius="xl" overflow="hidden" boxShadow="lg" border="1px solid #E2E8F0" bg="white">
-                        <PhotoWithDescription getSingleUser={getSingleUser} imageError={imageError} handleImageError={handleImageError} />
+
+                    {/* 1. Personal Story Card */}
+                    <Box borderRadius="xl" overflow="hidden" boxShadow="xl" border="1px solid #E2E8F0" bg="white">
+                        <PhotoWithDescription getSingleUser={getSingleUser} imageError={imageError} handleImageError={handleImageError} avatar={avatar} />
                     </Box>
 
+                    {/* 2. Banner Placement (Visual Break) */}
+                    <Box mt={6} borderRadius="xl" overflow="hidden" boxShadow="md">
+                        <Image
+                            src={BannerImage}
+                            w="100%"
+                            alt="Mandir Nirman Seva Banner"
+                            transition="all 0.3s"
+                            _hover={{transform: "scale(1.01)"}}
+                        />
+                    </Box>
+
+                    {/* 3. Additional Details (Visible on Mobile only here) */}
                     <Box mt={6} display={["none", "block"]}>
                         <AdditionalDetails getSingleUser={getSingleUser} />
                     </Box>
 
+                    {/* 4. Video */}
                     <Box mt={6}>
                         <ProjectVedio />
                     </Box>
 
+                    {/* 5. Tabs */}
                     <Box mt={8}>
-                        {/* Tabs container */}
                         <CampaignTabs tab={tab} setTab={setTab} />
                         <Box bg="white" p={[4, 8]} borderRadius="xl" boxShadow="sm" border="1px solid #E2E8F0" mt={0} borderTopLeftRadius="0">
                             {tab === 1 ? (
@@ -194,8 +221,15 @@ const HomeSinglePage = () => {
                     </Box>
                 </Box>
 
-                {/* RIGHT COLUMN - The Sticky Box */}
-                <Box w={["100%", "100%", "100%", "420px"]} px={["1rem", 0]} mb={24} position="relative">
+                {/* RIGHT COLUMN: Donation Box (Sticky on Desktop, Bottom on Mobile) */}
+                {/* Added ref={donationSectionRef} here for the mobile scroll target */}
+                <Box
+                    ref={donationSectionRef}
+                    w={["100%", "100%", "100%", "420px"]}
+                    px={["1rem", 0]}
+                    mb={24}
+                    position="relative"
+                >
                     <CapaignerProgressBox
                         getSingleUser={getSingleUser} setAmount={setAmount} handleClick={handleClick}
                         errorMessage={errorMessage} amount={amount}
