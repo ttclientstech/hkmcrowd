@@ -1,16 +1,15 @@
-import React, { useEffect, useState, useRef } from "react"; // Added useRef
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchSingleUser, postPaymentFormData } from "../Redux/clientSlices/clientUsers";
 import image16 from "../assets/images/logo.jpeg";
 import avatar from "../assets/images/Avatar-PNG-Image.webp";
-// IMPORT THE BANNER
 import BannerImage from "../assets/images/mandir_nirman_seva_banner.png";
 
 import {
-    Box, IconButton, Flex, Button, useBreakpointValue, Text, Icon, Image
+    Box, IconButton, Flex, Button, useBreakpointValue, Text, Icon, Image, Progress, Badge
 } from "@chakra-ui/react";
-import { FaArrowUp, FaShieldAlt, FaLandmark, FaOm } from "react-icons/fa";
+import { FaArrowUp, FaShieldAlt, FaLandmark, FaUserFriends, FaClock } from "react-icons/fa";
 
 import DottedAnimation from "../Components/DottedAnimation";
 import { themeColor } from "../Components/utils";
@@ -27,9 +26,9 @@ import CampaignTabs from "../Components/HomePageComponents/Tabs";
 import ProjectVedio from "../Components/HomePageComponents/ProjectVedio";
 import Fotter from "../Components/HomePageComponents/Fotter";
 
-// 1. Trust Strip Component
+// 1. MODERN TRUST STRIP (Tech/Startup Vibe)
 const TrustStrip = () => (
-    <Box w="100%" bg="#FAF3E0" borderBottom="1px solid #E2E8F0" py={3}>
+    <Box w="100%" bg="white" borderBottom="1px solid #E2E8F0" py={4}>
         <Flex
             maxW="1200px"
             mx="auto"
@@ -38,24 +37,37 @@ const TrustStrip = () => (
             flexWrap="wrap"
             px={4}
         >
+            {/* Using Blue/Grey colors for Trust instead of Gold */}
             <Flex align="center" gap={2}>
-                <Icon as={FaShieldAlt} color="#D4AF37" />
-                <Text fontSize="xs" fontWeight="bold" color="#5D4037" textTransform="uppercase" letterSpacing="wide">
-                    100% Secure
+                <Icon as={FaShieldAlt} color="#2B6CB0" />
+                <Text fontSize="xs" fontWeight="700" color="gray.600" textTransform="uppercase">
+                    Verified Project
                 </Text>
             </Flex>
             <Flex align="center" gap={2}>
-                <Icon as={FaLandmark} color="#D4AF37" />
-                <Text fontSize="xs" fontWeight="bold" color="#5D4037" textTransform="uppercase" letterSpacing="wide">
-                    80G Tax Exempt
+                <Icon as={FaLandmark} color="#2B6CB0" />
+                <Text fontSize="xs" fontWeight="700" color="gray.600" textTransform="uppercase">
+                    Tax Benefits (80G)
                 </Text>
             </Flex>
             <Flex align="center" gap={2}>
-                <Icon as={FaOm} color="#D4AF37" />
-                <Text fontSize="xs" fontWeight="bold" color="#5D4037" textTransform="uppercase" letterSpacing="wide">
-                    Vedic Heritage Project
+                <Icon as={FaUserFriends} color="#2B6CB0" />
+                <Text fontSize="xs" fontWeight="700" color="gray.600" textTransform="uppercase">
+                    5,000+ Supporters
                 </Text>
             </Flex>
+        </Flex>
+    </Box>
+);
+
+// 2. URGENCY NOTIFICATION BAR (Psychological Hack)
+const UrgencyBar = () => (
+    <Box bg="#2D3748" w="100%" py={2} px={4}>
+        <Flex maxW="1200px" mx="auto" justify="center" align="center" gap={2}>
+            <Icon as={FaClock} color="#F97316" /> {/* Urgent Orange */}
+            <Text color="white" fontSize="sm" fontWeight="bold">
+                <Text as="span" color="#F97316">Phase 3 Ending Soon:</Text> Help us place the final bricks before the monsoon.
+            </Text>
         </Flex>
     </Box>
 );
@@ -66,8 +78,6 @@ const HomeSinglePage = () => {
     const [showScrollButton, setShowScrollButton] = useState(false);
     const { isLoading, getSingleUser } = useSelector((state) => state.clientUsers);
     const dispatch = useDispatch();
-
-    // REF FOR MOBILE SCROLLING
     const donationSectionRef = useRef(null);
 
     const [amount, setAmount] = useState(null);
@@ -95,7 +105,6 @@ const HomeSinglePage = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // FIX: Scroll to the Donation Box (ref) instead of top
     const handleMobileDonateClick = () => {
         if(donationSectionRef.current) {
             donationSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -130,9 +139,10 @@ const HomeSinglePage = () => {
     }
 
     return (
-        <Box w={"100%"} position={"relative"} bg="#F9F5F0" minH="100vh">
+        // 3. CLEAN BACKGROUND (Corporate/Modern) - No textures, just clean Grey/White
+        <Box w={"100%"} position={"relative"} bg="#F7FAFC" minH="100vh" fontFamily="system-ui, sans-serif">
 
-            {/* Sticky Mobile CTA */}
+            {/* Sticky Mobile CTA - High Contrast */}
             {isMobile && !paymentModel && (
                 <Box
                     position="fixed" bottom="0" left="0" w="100%"
@@ -141,14 +151,15 @@ const HomeSinglePage = () => {
                 >
                     <Button
                         w="100%" h="55px"
-                        bgGradient="linear(to-r, #D4AF37, #FFD700)"
-                        color="#2C0A0A"
-                        fontWeight="800" fontSize="lg"
-                        fontFamily="'Cinzel', serif"
-                        onClick={handleMobileDonateClick} // CHANGED: Calls the new scroll function
+                        bg="#F97316" // Urgent Orange
+                        color="white"
+                        fontWeight="bold" fontSize="lg"
+                        _hover={{ bg: "#DD6B20" }}
                         _active={{ transform: "scale(0.98)" }}
+                        onClick={handleMobileDonateClick}
+                        boxShadow="0 4px 14px 0 rgba(249, 115, 22, 0.39)"
                     >
-                        OFFER SEVA NOW
+                        SUPPORT THE MISSION
                     </Button>
                 </Box>
             )}
@@ -156,7 +167,8 @@ const HomeSinglePage = () => {
             {showScrollButton && (
                 <IconButton
                     icon={<FaArrowUp />} position={"fixed"} bottom={["80px", "50px"]} right={"20px"} zIndex={"10"}
-                    bg="#2C0A0A" color="#D4AF37" onClick={handleScrollToTop} borderRadius="full" boxShadow="xl" border="1px solid #D4AF37"
+                    bg="gray.800" color="white" onClick={handleScrollToTop} borderRadius="full" boxShadow="xl"
+                    _hover={{ bg: "black" }}
                 />
             )}
 
@@ -166,7 +178,8 @@ const HomeSinglePage = () => {
                 </Box>
             )}
 
-            {/* New Premium Header (No Background Image) */}
+            <UrgencyBar />
+
             <DetailPageHeader themeColor={themeColor} getSingleUser={getSingleUser} image16={image16} />
 
             <TrustStrip />
@@ -176,16 +189,23 @@ const HomeSinglePage = () => {
                 direction={["column", "column", "column", "row"]}
                 alignItems="flex-start" px={["0", "1rem", "2rem"]} gap={8}
             >
-                {/* LEFT COLUMN: Story, Banner, Video */}
+                {/* LEFT COLUMN: Story & Content */}
                 <Box flex="1.4" w="100%">
 
-                    {/* 1. Personal Story Card */}
-                    <Box borderRadius="xl" overflow="hidden" boxShadow="xl" border="1px solid #E2E8F0" bg="white">
+                    {/* 1. Story Card - Clean & Modern (No Gold Borders) */}
+                    <Box
+                        borderRadius="xl"
+                        overflow="hidden"
+                        boxShadow="lg"
+                        bg="white"
+                        transition="transform 0.2s"
+                        _hover={{ boxShadow: "2xl" }}
+                    >
                         <PhotoWithDescription getSingleUser={getSingleUser} imageError={imageError} handleImageError={handleImageError} avatar={avatar} />
                     </Box>
 
-                    {/* 2. Banner Placement (Visual Break) */}
-                    <Box mt={6} borderRadius="xl" overflow="hidden" boxShadow="md">
+                    {/* 2. Banner */}
+                    <Box mt={8} borderRadius="xl" overflow="hidden" boxShadow="md">
                         <Image
                             src={BannerImage}
                             w="100%"
@@ -195,17 +215,14 @@ const HomeSinglePage = () => {
                         />
                     </Box>
 
-                    {/* 3. Additional Details (Visible on Mobile only here) */}
                     <Box mt={6} display={["none", "block"]}>
                         <AdditionalDetails getSingleUser={getSingleUser} />
                     </Box>
 
-                    {/* 4. Video */}
                     <Box mt={6}>
                         <ProjectVedio />
                     </Box>
 
-                    {/* 5. Tabs */}
                     <Box mt={8}>
                         <CampaignTabs tab={tab} setTab={setTab} />
                         <Box bg="white" p={[4, 8]} borderRadius="xl" boxShadow="sm" border="1px solid #E2E8F0" mt={0} borderTopLeftRadius="0">
@@ -221,19 +238,46 @@ const HomeSinglePage = () => {
                     </Box>
                 </Box>
 
-                {/* RIGHT COLUMN: Donation Box (Sticky on Desktop, Bottom on Mobile) */}
-                {/* Added ref={donationSectionRef} here for the mobile scroll target */}
+                {/* RIGHT COLUMN: The "Investment" Deck */}
                 <Box
                     ref={donationSectionRef}
                     w={["100%", "100%", "100%", "420px"]}
                     px={["1rem", 0]}
                     mb={24}
                     position="relative"
+                    zIndex={2}
                 >
-                    <CapaignerProgressBox
-                        getSingleUser={getSingleUser} setAmount={setAmount} handleClick={handleClick}
-                        errorMessage={errorMessage} amount={amount}
-                    />
+                    {/* 4. FLOATING ACTION CARD (High Conversion Design) */}
+                    <Box
+                        position={["static", "static", "static", "sticky"]}
+                        top="20px"
+                        bg="white"
+                        borderRadius="2xl"
+                        boxShadow="0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" // Deep "Float" shadow
+                        border="1px solid"
+                        borderColor="gray.100"
+                        overflow="hidden"
+                    >
+                        {/* Header: Social Proof */}
+                        <Box bg="#EFF6FF" py={3} px={4} borderBottom="1px solid #BFDBFE">
+                            <Text fontSize="xs" fontWeight="bold" color="#1E40AF" letterSpacing="wide">
+                                🚀 TRENDING: 24 people donated this hour
+                            </Text>
+                        </Box>
+
+                        <Box p={2}>
+                            <CapaignerProgressBox
+                                getSingleUser={getSingleUser} setAmount={setAmount} handleClick={handleClick}
+                                errorMessage={errorMessage} amount={amount}
+                            />
+                        </Box>
+
+                        {/* Footer: Security Badge */}
+                        <Flex justify="center" py={3} bg="gray.50" borderTop="1px solid #EDF2F7" gap={2}>
+                            <Icon as={FaShieldAlt} color="green.500" />
+                            <Text fontSize="xs" color="gray.500">Secure Payment • 80G Tax Exempt</Text>
+                        </Flex>
+                    </Box>
 
                     <Box mt={6} display={["block", "none"]}>
                         <AdditionalDetails getSingleUser={getSingleUser} />
