@@ -80,8 +80,8 @@ const DetailPageHeader = ({ getSingleUser }) => {
                             color="#F9F5F0"
                             lineHeight="1.3"
                         >
-                            "Join me in building a divine home for <br/>
-                            <span style={{color: "#FFD700"}}>Sri Sri Rukmini Dwarakadhish</span>"
+                            "Join me in building a magnificient <br/>
+                            <span style={{color: "#FFD700"}}>Dakshina Dwaraka Dham - Cultural Complex</span>"
                         </Text>
 
                         {/* The "Who" - Campaigner Name Highlight */}
@@ -103,7 +103,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
 
                         {/* The "Legacy" Context */}
                         <Text fontSize={["sm", "md"]} color="gray.400" maxW="500px" fontStyle="italic">
-                            invites you to become a patron of the Dakshina Dwaraka Dham.
+                            invited to become a part of this cultural legacy stands for generations.”
                         </Text>
                     </VStack>
                 </Flex>
