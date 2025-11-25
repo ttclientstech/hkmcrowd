@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {
     FaCheckCircle, FaBuilding, FaHandHoldingHeart, FaShareAlt,
-    FaArrowRight, FaShieldAlt
+    FaArrowRight, FaShieldAlt, FaQuoteLeft, FaQuoteRight
 } from "react-icons/fa";
 import image16 from "../../assets/images/logo.jpeg";
 import bannerBg from "../../assets/images/002_temple_night_view.jpeg";
