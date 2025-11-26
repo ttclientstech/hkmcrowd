@@ -23,21 +23,21 @@ const PhotoWithDescription = ({ imageError, avatar, getSingleUser, handleImageEr
                     alt="Campaigner"
                 />
 
-                {/* Refined Gradient Overlay - Smoother transition */}
+                {/* Gradient Overlay */}
                 <Box
-                    position="absolute" bottom="0" left="0" w="100%" h="50%"
-                    bgGradient="linear(to-t, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 50%, transparent 100%)"
+                    position="absolute" bottom="0" left="0" w="100%" h="60%"
+                    bgGradient="linear(to-t, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%)"
                 />
 
                 <Flex
                     direction="column"
                     position="absolute"
-                    bottom="1.5rem"
+                    bottom="3rem"
                     left="1.5rem"
                     right="1.5rem"
                 >
                     <Text
-                        color="#D4AF37" // Gold color for 'Sri'
+                        color="#D4AF37"
                         fontSize="sm"
                         fontWeight="bold"
                         letterSpacing="widest"
@@ -60,59 +60,89 @@ const PhotoWithDescription = ({ imageError, avatar, getSingleUser, handleImageEr
                 </Flex>
             </Box>
 
-            {/* 2. Content Section - Psychological Copy */}
+            {/* 2. Content Section - Floating Card with New Content Structure */}
             <Box
                 bg="white"
-                p={["1.5rem", "2rem", "2.5rem"]}
+                p={["1.5rem", "2rem"]}
                 position="relative"
-                borderTop="4px solid #D4AF37" // Premium Gold Strip connector
+                mx={[4, 6]}
+                mt="-3rem"
+                borderRadius="xl"
+                boxShadow="0px 10px 30px rgba(0,0,0,0.15)"
+                zIndex={2}
             >
                 {/* Watermark Quote Icon */}
                 <Icon
                     as={FaQuoteLeft}
                     color="#D4AF37"
-                    w={12} h={12}
+                    w={10} h={10}
                     opacity={0.15}
                     position="absolute"
-                    top={6}
-                    left={6}
+                    top={4}
+                    left={4}
                 />
 
-                <Text
+                <Box
                     fontSize={["md", "lg"]}
                     fontFamily="'Merriweather', serif"
                     color="#4A5568"
-                    lineHeight="1.85"
-                    textAlign="justify"
+                    lineHeight="1.8"
+                    textAlign="left"
                     position="relative"
                     zIndex={1}
                 >
+                    {/* CHANGED: New Header "A Message from the Campaigner" */}
                     <Text
-                        as="span"
                         fontWeight="bold"
-                        color="#2C0A0A"
-                        fontSize="2xl"
+                        color="#D4AF37" // Gold
+                        fontSize="sm"
+                        textTransform="uppercase"
+                        letterSpacing="wider"
                         fontFamily="'Cinzel', serif"
                         display="block"
-                        mb={4}
+                        mb={3}
+                        borderBottom="1px solid #E2E8F0"
+                        pb={2}
+                        w="fit-content"
                     >
-                        Vanakkam,
+                        A Message from the Campaigner
                     </Text>
 
-                    We are not just constructing a building; we are securing a <Text as="span" fontWeight="bold" color="#D4AF37">spiritual sanctuary</Text> for the generations to come.
-                    <br /><br />
-                    The <strong>Dakshina Dwaraka Cultural Complex</strong> will be a magnificent beacon of our timeless heritage in Chennai—a place where our culture thrives and our children find their roots.
-                    <br /><br />
-                    But a legacy cannot be built by one person; it takes a community. Your contribution today is not just a donation, but a brick in this monument of pride.
-                    <br /><br />
-                    <Text as="span" fontWeight="bold" color="#2C0A0A">
-                        Be the one who helped build it.
+                    {/* ----------------------------------------------------------- */}
+                    {/* CHANGED: HIGHLIGHTED BHAGAVAD GITA SLOKA BOX */}
+                    {/* ----------------------------------------------------------- */}
+                    <Box
+                        my={6}
+                        p={4}
+                        bg="#FFFAF0" // Light Cream Background
+                        borderLeft="4px solid #D4AF37" // Gold Border Left
+                        borderRadius="md"
+                        boxShadow="sm"
+                    >
+                        <Text
+                            fontFamily="'Cinzel', serif"
+                            fontWeight="bold"
+                            color="#2C0A0A"
+                            fontSize="lg"
+                            fontStyle="italic"
+                        >
+                            {/* PASTE THE SLOKA TEXT HERE */}
+                            Lord Krishna says in Bhagavad-Gita 9.27: "Whatever you give in charity - do that as an offering to Me."
+                        </Text>
+                        <Text fontSize="sm" color="#D4AF37" fontWeight="bold" mt={2} textAlign="right">
+                            — Bhagavad Gita 9.27
+                        </Text>
+                    </Box>
+
+                    {/* Closing Text */}
+                    <Text>
+                        I invite you to join me in this noble deed. Your contribution, no matter the size, helps place a brick in this monument of pride.
+                        <br /><br />
+                        <Text as="span" fontWeight="bold" color="#2C0A0A">
+                            Let's build this together!
+                        </Text>
                     </Text>
-                    <br />
-                    <Text as="span" fontStyle="italic" fontSize="md" color="#718096" mt={2} display="block">
-                        — Let's create history together.
-                    </Text>
-                </Text>
+                </Box>
             </Box>
         </Box>
     );

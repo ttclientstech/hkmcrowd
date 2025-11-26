@@ -9,7 +9,7 @@ import BannerImage from "../assets/images/mandir_nirman_seva_banner.png";
 import {
     Box, IconButton, Flex, Button, useBreakpointValue, Text, Icon, Image, Progress, Badge
 } from "@chakra-ui/react";
-import { FaArrowUp, FaShieldAlt, FaLandmark, FaUserFriends, FaClock } from "react-icons/fa";
+import { FaArrowUp, FaShieldAlt, FaLandmark, FaUserFriends, FaClock, FaMapMarkerAlt } from "react-icons/fa";
 
 import DottedAnimation from "../Components/DottedAnimation";
 import { themeColor } from "../Components/utils";
@@ -39,21 +39,21 @@ const TrustStrip = () => (
         >
             {/* Using Blue/Grey colors for Trust instead of Gold */}
             <Flex align="center" gap={2}>
-                <Icon as={FaShieldAlt} color="#2B6CB0" />
+                <Icon as={FaMapMarkerAlt} color="#2B6CB0" />
                 <Text fontSize="xs" fontWeight="700" color="gray.600" textTransform="uppercase">
-                    Verified Project
-                </Text>
-            </Flex>
-            <Flex align="center" gap={2}>
-                <Icon as={FaLandmark} color="#2B6CB0" />
-                <Text fontSize="xs" fontWeight="700" color="gray.600" textTransform="uppercase">
-                    Tax Benefits (80G)
+                    Thiruvanmiyur,Chennai
                 </Text>
             </Flex>
             <Flex align="center" gap={2}>
                 <Icon as={FaUserFriends} color="#2B6CB0" />
                 <Text fontSize="xs" fontWeight="700" color="gray.600" textTransform="uppercase">
                     5,000+ Supporters
+                </Text>
+            </Flex>
+            <Flex align="center" gap={2}>
+                <Icon as={FaLandmark} color="#2B6CB0" />
+                <Text fontSize="xs" fontWeight="700" color="gray.600" textTransform="uppercase">
+                    Tax Benefits (80G)
                 </Text>
             </Flex>
         </Flex>
