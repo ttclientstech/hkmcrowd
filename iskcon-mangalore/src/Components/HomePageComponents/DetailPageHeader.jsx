@@ -1,10 +1,7 @@
-import { Box, Flex, Image, Text, VStack, Icon, Link as ChakraLink,Badge,HStack,Button } from '@chakra-ui/react';
+import { Box, Flex, Image, Text, VStack, Icon, Link as ChakraLink } from '@chakra-ui/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-    FaCheckCircle, FaBuilding, FaHandHoldingHeart, FaShareAlt,
-    FaArrowRight, FaShieldAlt, FaQuoteLeft, FaQuoteRight, FaChevronLeft
-} from "react-icons/fa";
+import { FaChevronLeft } from 'react-icons/fa';
 import image16 from "../../assets/images/logo.jpeg";
 import bannerBg from "../../assets/images/002_temple_night_view.jpeg";
 
@@ -12,41 +9,45 @@ const DetailPageHeader = ({ getSingleUser }) => {
     const campaignerName = getSingleUser?.campaignDetails?.campaignName || "A Devotee";
 
     return (
-        <Box position="relative" w="100%" bg="#2C0A0A" overflow="hidden" pb={["3rem", "5rem"]}>
-            {/*above box prev bg color was #1A202C*/}
-            {/* 1. Cinematic Background */}
+        <Box
+            position="relative"
+            w="100%"
+            bg="#2C0A0A"
+            overflow="hidden"
+            // 1. INCREASED HEIGHT FOR DESKTOP VIEW
+            minH={["500px", "600px", "700px"]}
+            // 2. FLEX COLUMN TO SPACE OUT CONTENT
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+        >
+            {/* Top Gold Border */}
+            <Box w="100%" h="4px" bgGradient="linear(to-r, #D4AF37, #FFD700, #D4AF37)" />
+
+            {/* Background Image */}
             <Box
                 position="absolute" top="0" left="0" w="100%" h="100%"
                 backgroundImage={`url(${bannerBg})`}
                 backgroundSize="cover"
                 backgroundPosition="center"
-                opacity="0.15"
+                opacity="0.25" // Slightly increased opacity for better visibility
                 filter="grayscale(100%)"
             />
 
-            {/* 2. Top Nav
-            <Flex justify="space-between" align="center" maxW="1200px" mx="auto" p={6} position="relative" zIndex={2}>
-                <Text color="white" fontWeight="bold" letterSpacing="widest" fontSize="sm">DAKSHINA DWARAKA DHAM</Text>
-                <Button
-                    size="sm" variant="outline" color="white" _hover={{ bg: "whiteAlpha.200" }}
-                    leftIcon={<FaShareAlt />} borderRadius="full"
-                >
-                    Share Campaign
-                </Button>
-            </Flex>*/}
-
-
+            {/* MAIN CONTENT SECTION (Top) */}
             <Flex
-                maxW="1200px" mx="auto"
-                direction={["column", "column", "row"]} // Mobile: Column, Desktop: Row
+                maxW="1200px" mx="auto" w="100%"
+                direction={["column", "column", "row"]}
                 align="center"
                 justify="space-between"
                 gap={6}
+                pt={["2rem", "3rem"]} // Added Top Padding
+                px={["1rem", "2rem"]}
+                zIndex={2}
             >
                 {/* 1. LEFT SIDE: Brand & Navigation */}
                 <ChakraLink as={Link} to="/" _hover={{ textDecoration: 'none' }} group>
                     <Flex align="center" gap={4} opacity={0.9} _hover={{ opacity: 1, transform: "translateX(5px)" }} transition="all 0.3s">
-                        {/* Logo Box */}
                         <Box
                             w={["60px", "70px"]} h={["60px", "70px"]}
                             borderRadius="full" border="2px solid #D4AF37" overflow="hidden"
@@ -55,10 +56,9 @@ const DetailPageHeader = ({ getSingleUser }) => {
                             <Image src={image16} w="100%" h="100%" objectFit="cover" />
                         </Box>
 
-                        {/* Text - Hidden on very small screens, Visible on Desktop */}
                         <VStack align="flex-start" spacing={0} display={["flex", "flex"]}>
                             <Text
-                                fontSize={["xs", "sm"]} color="white"
+                                fontSize={["xs", "sm"]} color="#D4AF37"
                                 textTransform="uppercase" letterSpacing="widest" fontWeight="bold"
                             >
                                 Hare Krishna Movement Chennai
@@ -71,18 +71,16 @@ const DetailPageHeader = ({ getSingleUser }) => {
                     </Flex>
                 </ChakraLink>
 
-                {/* 2. RIGHT SIDE: The "Cultural Legacy" Invitation */}
+                {/* 2. RIGHT SIDE: Main Headline Only (Subtext moved to bottom) */}
                 <VStack
                     spacing={3}
                     textAlign={["center", "center", "right"]}
                     align={["center", "center", "flex-end"]}
-                    maxW={["100%", "100%", "70%"]} // Increased width for better text flow
-                    zIndex={2}
+                    maxW={["100%", "100%", "70%"]}
                 >
-                    {/* The Hook: Integrated Name & Location */}
                     <Text
                         fontFamily="'Cinzel', serif"
-                        fontSize={["lg", "xl", "2xl"]} // Responsive: Smaller on mobile to prevent overflow
+                        fontSize={["lg", "xl", "2xl"]}
                         color="#F9F5F0"
                         lineHeight={["1.4", "1.3"]}
                         fontWeight="500"
@@ -90,18 +88,24 @@ const DetailPageHeader = ({ getSingleUser }) => {
                         Join <Text as="span" color="#D4AF37" fontWeight="800">{campaignerName}</Text> to build <br/>
                         Chennai's <Text as="span" color="#D4AF37" fontWeight="700">Dakshina Dwaraka Dham - Cultural Complex</Text>
                     </Text>
-
-                    {/* The Action: Emotional & Tangible */}
-                    <Text
-                        fontSize={["sm", "md"]}
-                        color="gray.400"
-                        fontStyle="italic"
-                        maxW="600px"
-                    >
-                        "Create a History.Leave a legacy"
-                    </Text>
                 </VStack>
             </Flex>
+
+            {/* 3. CENTERED BOTTOM SECTION */}
+            <VStack w="100%" spacing={4} pb={4} zIndex={2}>
+                <Text
+                    fontSize={["sm", "md"]}
+                    color="gray.400"
+                    fontStyle="italic"
+                    textAlign="center"
+                    letterSpacing="wide"
+                >
+                    "Create a History. Leave a legacy"
+                </Text>
+
+                {/* The Underline - Placed directly below text */}
+                <Box w="100%" h="1px" bgGradient="linear(to-r, transparent, #D4AF37, transparent)" opacity={0.5} />
+            </VStack>
         </Box>
     );
 };
