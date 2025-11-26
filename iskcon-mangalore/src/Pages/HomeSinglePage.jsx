@@ -203,46 +203,44 @@ const HomeSinglePage = () => {
                         <PhotoWithDescription getSingleUser={getSingleUser} imageError={imageError} handleImageError={handleImageError} avatar={avatar} />
                     </Box>
 
-                    {/* 2. Banner */}
-                    {/* 2. Banner Placement with Text Overlay */}
+                    {/* 2. Banner Placement with Top Header */}
                     <Box
                         mt={8}
+                        borderRadius="xl"
                         overflow="hidden"
                         boxShadow="xl"
-                        position="relative" // Required for absolute positioning of text
+                        bg="#2C0A0A" // Ensures consistent background
                     >
+                        {/* 1. Solid Top Text Strip (Placed Above Image) */}
+                        <Box
+                            bg="#2C0A0A" // Deep Mahogany to match Header/Theme
+                            py={3}
+                            px={4}
+                            textAlign="center"
+                            borderBottom="1px solid #D4AF37" // Subtle Gold separator line
+                        >
+                            <Text
+                                color="#F9F5F0"
+                                fontSize={["xs", "sm", "md"]}
+                                fontWeight="500"
+                                letterSpacing="wide"
+                                fontFamily="'Cinzel', serif"
+                                lineHeight="1.5"
+                            >
+                                A fundraising initiative for the construction of Chennai's tallest <br/>
+                                <Text as="span" fontWeight="bold" color="#D4AF37">Cultural Complex & Temple of Lord Sri Krishna</Text>
+                            </Text>
+                        </Box>
+
+                        {/* 2. Banner Image (Placed Below) */}
                         <Image
                             src={BannerImage}
                             w="100%"
                             alt="Mandir Nirman Seva Banner"
                             transition="all 0.5s ease"
-                            _hover={{ transform: "scale(1.02)" }}
+                            _hover={{ transform: "scale(1.01)" }}
+                            display="block" // Prevents image gap
                         />
-
-                        {/* Text Overlay Strip */}
-                        <Box
-                            position="absolute"
-                            bottom="0"
-                            left="0"
-                            w="100%"
-                            bg="rgba(44, 10, 10, 0.9)" // Deep Mahogany with 90% Opacity (Matches Header)
-                            backdropFilter="blur(5px)" // Subtle glass effect for a modern feel
-                            py={3}
-                            px={4}
-                            borderTop="1px solid rgba(255, 255, 255, 0.1)"
-                            textAlign="center"
-                        >
-                            <Text
-                                color="#F9F5F0" // Off-white text
-                                fontSize={["xs", "sm", "md"]}
-                                fontWeight="500"
-                                letterSpacing="wide"
-                                fontFamily="'Cinzel', serif"
-                            >
-                                A fundraising initiative for the construction of Chennai's tallest <br/>
-                                <Text as="span" fontWeight="bold" color="#FFD700">Cultural Complex & Temple of Lord Sri Krishna</Text>
-                            </Text>
-                        </Box>
                     </Box>
 
                     <Box mt={6} display={["none", "block"]}>
