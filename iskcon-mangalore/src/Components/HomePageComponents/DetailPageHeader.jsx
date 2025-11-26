@@ -3,32 +3,24 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaChevronLeft } from 'react-icons/fa';
 import image16 from "../../assets/images/logo.jpeg";
+import bannerBg from "../../assets/images/002_temple_night_view.jpeg";
 
 const DetailPageHeader = ({ getSingleUser }) => {
     const campaignerName = getSingleUser?.campaignDetails?.campaignName || "A Devotee";
 
     return (
-        <Box position="relative" w="100%">
+        <Box position="relative" w="100%" bg="#2C0A0A" overflow="hidden" pb={["3rem", "5rem"]}>
             {/* Top Gold Border - Adds a 'Roof' to the design */}
             <Box w="100%" h="4px" bgGradient="linear(to-r, #D4AF37, #FFD700, #D4AF37)" />
 
             <Box
-                w="100%"
-                bg="#2C0A0A" // Deep Mahogany Background
-                color="#F9F5F0" // Off-white text
-                py={["2rem", "2.5rem"]} // Vertical padding
-                px={["1rem", "2rem"]} // Horizontal padding
-                position="relative"
-                overflow="hidden"
-                borderBottom="1px solid #4B0000"
+                position="absolute" top="0" left="0" w="100%" h="100%"
+                backgroundImage={`url(${bannerBg})`}
+                backgroundSize="cover"
+                backgroundPosition="center"
+                opacity="0.15"
+                filter="grayscale(100%)"
             >
-                {/* Background Texture - Subtle Gold Circle Overlay */}
-                <Box
-                    position="absolute" top="-50px" right="-50px"
-                    w="300px" h="300px" borderRadius="full"
-                    bg="#D4AF37" opacity="0.03"
-                    pointerEvents="none"
-                />
 
                 <Flex
                     maxW="1200px" mx="auto"
