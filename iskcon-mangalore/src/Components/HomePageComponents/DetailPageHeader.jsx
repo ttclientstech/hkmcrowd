@@ -20,7 +20,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
                 backgroundPosition="center"
                 opacity="0.15"
                 filter="grayscale(100%)"
-            >
+            />
 
                 <Flex
                     maxW="1200px" mx="auto"
@@ -88,7 +88,6 @@ const DetailPageHeader = ({ getSingleUser }) => {
                         </Text>
                     </VStack>
                 </Flex>
-            </Box>
 
             {/* Bottom Gold Accent */}
             <Box w="100%" h="1px" bgGradient="linear(to-r, transparent, #D4AF37, transparent)" opacity={0.5} />
