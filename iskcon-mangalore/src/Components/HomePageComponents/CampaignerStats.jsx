@@ -13,7 +13,7 @@ import { FaHandHoldingHeart, FaMapMarkerAlt } from 'react-icons/fa';
 const CampaignerStats = ({ getSingleUser }) => {
     // 1. Logic: Convert Money to Sq. Ft
     const SQ_FT_COST = 5001;
-    const raisedAmount = getSingleUser?.campaignDetails?.raisedAmount || 0;
+    const raisedAmount = getSingleUser?.raisedFund || 0;
     const targetAmount = getSingleUser?.campaignDetails?.targetAmount || 100000; // Fallback target
 
     // Calculate Sq. Ft
