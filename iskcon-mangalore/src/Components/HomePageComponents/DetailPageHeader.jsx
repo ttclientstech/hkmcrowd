@@ -47,7 +47,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
             <ChakraLink
                 as={Link}
                 to="/"
-                style={{ zIndex: 10, position: 'absolute', top: '2rem', right: '2rem' }}
+                style={{ zIndex: 10, position: 'absolute', top: '1.5rem', right: '2rem' }}
                 _hover={{ textDecoration: 'none' }}
             >
                 <Flex align="center" gap={2} color="gray.400">
