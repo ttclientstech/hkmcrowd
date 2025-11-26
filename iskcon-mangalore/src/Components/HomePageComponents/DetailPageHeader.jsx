@@ -2,7 +2,7 @@ import { Box, Flex, Image, Text, VStack, Icon, Link as ChakraLink } from '@chakr
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaChevronLeft } from 'react-icons/fa';
-import image16 from "../../assets/images/logo.jpeg";
+import transparentLogo from "../../assets/images/transparent_logo.png";
 import bannerBg from "../../assets/images/002_temple_night_view.jpeg";
 
 const DetailPageHeader = ({ getSingleUser }) => {
@@ -33,6 +33,17 @@ const DetailPageHeader = ({ getSingleUser }) => {
                 opacity="0.25" // Slightly increased opacity for better visibility
                 filter="grayscale(100%)"
             />
+            <Image
+                src={transparentLogo}
+                alt="hkm_logo"
+                position="absolute"
+                top={["1rem", "2rem"]}  // Responsive spacing from top
+                left={["1rem", "2rem"]} // Responsive spacing from left
+                w={["100px", "150px"]}  // Responsive size
+                objectFit="contain"
+                zIndex={10}
+                _hover={{ transform: "scale(1.05)", transition: "transform 0.3s" }}
+            />
 
             {/* MAIN CONTENT SECTION (Top) */}
             <Flex
@@ -48,13 +59,13 @@ const DetailPageHeader = ({ getSingleUser }) => {
                 {/* 1. LEFT SIDE: Brand & Navigation */}
                 <ChakraLink as={Link} to="/" _hover={{ textDecoration: 'none' }} group>
                     <Flex align="center" gap={4} opacity={0.9} _hover={{ opacity: 1, transform: "translateX(5px)" }} transition="all 0.3s">
-                        <Box
+                        {/*<Box
                             w={["60px", "70px"]} h={["60px", "70px"]}
                             borderRadius="full" border="2px solid #D4AF37" overflow="hidden"
                             boxShadow="0px 0px 20px rgba(212, 175, 55, 0.15)"
                         >
                             <Image src={image16} w="100%" h="100%" objectFit="cover" />
-                        </Box>
+                        </Box>*/}
 
                         <VStack align="flex-start" spacing={0} display={["flex", "flex"]}>
                             <Text
@@ -64,7 +75,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
                                 Hare Krishna Movement Chennai
                             </Text>
                             <Flex align="center" gap={2} color="gray.400">
-                                <Icon as={FaChevronLeft} boxSize={3} />
+                                {/*<Icon as={FaChevronLeft} boxSize={3} />*/}
                                 <Text fontSize="xs" fontWeight="medium">Back to Home</Text>
                             </Flex>
                         </VStack>
