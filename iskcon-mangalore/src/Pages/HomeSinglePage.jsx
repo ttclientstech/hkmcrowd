@@ -66,7 +66,7 @@ const UrgencyBar = () => (
         <Flex maxW="1200px" mx="auto" justify="center" align="center" gap={2}>
             <Icon as={FaClock} color="#F97316" /> {/* Urgent Orange */}
             <Text color="white" fontSize="sm" fontWeight="bold">
-                <Text as="span" color="#F97316">Phase 2 Ending Soon:</Text> Help us place the final bricks..
+                Donate<Text as="span" color="#F97316">1 SQFT</Text> & Receive Maha Prasadam at your home
             </Text>
         </Flex>
     </Box>

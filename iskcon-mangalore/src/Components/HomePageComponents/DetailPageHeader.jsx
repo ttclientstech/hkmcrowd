@@ -101,7 +101,8 @@ const DetailPageHeader = ({ getSingleUser }) => {
                         lineHeight={["1.4", "1.3"]}
                         fontWeight="500"
                     >
-                        Join <Text as="span" color="#D4AF37" fontWeight="800">{campaignerName}</Text> to build <br/>
+                        <Text as="span" color="#D4AF37" fontWeight="800">{campaignerName}</Text> needs your support<br/>
+                        to raise <Text as="span" color="#D4AF37" fontWeight="800">1000</Text> Square Feet for <br/>
                         Chennai's <Text as="span" color="#D4AF37" fontWeight="700">Dakshina Dwaraka Dham - Cultural Complex</Text>
                     </Text>
                 </VStack>
