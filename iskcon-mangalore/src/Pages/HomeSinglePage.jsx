@@ -25,6 +25,7 @@ import AdditionalDetails from "../Components/HomePageComponents/AdditionalDetail
 import CampaignTabs from "../Components/HomePageComponents/Tabs";
 import ProjectVedio from "../Components/HomePageComponents/ProjectVedio";
 import Fotter from "../Components/HomePageComponents/Fotter";
+import CampaignerStats from "../Components/HomePageComponents/CampaignerStats";
 
 // 1. MODERN TRUST STRIP (Tech/Startup Vibe)
 const TrustStrip = () => (
@@ -202,11 +203,10 @@ const HomeSinglePage = () => {
                     >
                         <PhotoWithDescription getSingleUser={getSingleUser} imageError={imageError} handleImageError={handleImageError} avatar={avatar} />
                     </Box>
-
+                    <CampaignerStats getSingleUser={getSingleUser} />
                     {/* 2. Banner Placement with Top Header */}
                     <Box
                         mt={8}
-                        borderRadius="xl"
                         overflow="hidden"
                         boxShadow="xl"
                         bg="#2C0A0A" // Ensures consistent background
