@@ -44,6 +44,17 @@ const DetailPageHeader = ({ getSingleUser }) => {
                 zIndex={10}
                 _hover={{ transform: "scale(1.05)", transition: "transform 0.3s" }}
             />
+            <ChakraLink
+                as={Link}
+                to="/"
+                style={{ zIndex: 10, position: 'absolute', top: '2rem', right: '2rem' }}
+                _hover={{ textDecoration: 'none' }}
+            >
+                <Flex align="center" gap={2} color="gray.400">
+                    {/*<Icon as={FaChevronLeft} boxSize={3} />*/}
+                    <Text fontSize="xs" fontWeight="medium">Home Page</Text>
+                </Flex>
+            </ChakraLink>
 
             {/* MAIN CONTENT SECTION (Top) */}
             <Flex
@@ -57,7 +68,6 @@ const DetailPageHeader = ({ getSingleUser }) => {
                 zIndex={2}
             >
                 {/* 1. LEFT SIDE: Brand & Navigation */}
-                <ChakraLink as={Link} to="/" _hover={{ textDecoration: 'none' }} group>
                     <Flex align="center" gap={4} opacity={0.9} _hover={{ opacity: 1, transform: "translateX(5px)" }} transition="all 0.3s">
                         {/*<Box
                             w={["60px", "70px"]} h={["60px", "70px"]}
@@ -74,13 +84,8 @@ const DetailPageHeader = ({ getSingleUser }) => {
                             >
                                 Hare Krishna Movement Chennai
                             </Text>
-                            <Flex align="center" gap={2} color="gray.400">
-                                {/*<Icon as={FaChevronLeft} boxSize={3} />*/}
-                                <Text align="center" fontSize="xs" fontWeight="medium">Back to Home</Text>
-                            </Flex>
                         </VStack>
                     </Flex>
-                </ChakraLink>
 
                 {/* 2. RIGHT SIDE: Main Headline Only (Subtext moved to bottom) */}
                 <VStack
