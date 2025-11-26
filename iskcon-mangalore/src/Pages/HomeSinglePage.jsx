@@ -28,7 +28,7 @@ import Fotter from "../Components/HomePageComponents/Fotter";
 
 // 1. MODERN TRUST STRIP (Tech/Startup Vibe)
 const TrustStrip = () => (
-    <Box w="100%" bg="white" borderBottom="1px solid #E2E8F0" py={4}>
+    <Box w="100%" bg="#fff9e5" borderBottom="1px solid #E2E8F0" py={4}>
         <Flex
             maxW="1200px"
             mx="auto"

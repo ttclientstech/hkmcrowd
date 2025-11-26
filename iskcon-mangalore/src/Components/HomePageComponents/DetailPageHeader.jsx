@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Text, VStack, Icon, Link as ChakraLink } from '@chakra-ui/react';
+import { Box, Flex, Image, Text, VStack, Icon, Button, Link as ChakraLink } from '@chakra-ui/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaChevronLeft } from 'react-icons/fa';
@@ -55,6 +55,35 @@ const DetailPageHeader = ({ getSingleUser }) => {
                     <Text fontSize="xs" fontWeight="medium">Home Page</Text>
                 </Flex>
             </ChakraLink>
+
+            <Button
+                position="absolute"
+                top="1.5rem"
+                right="2rem"
+                zIndex={10}
+                bg="#D4AF37"       // Gold Background
+                color="#2C0A0A"    // Dark Text
+                size={["sm", "md"]} // Responsive Size
+                px={8}
+                fontSize="sm"
+                fontWeight="800"
+                letterSpacing="widest"
+                borderRadius="full"
+                boxShadow="0px 0px 15px rgba(212, 175, 55, 0.4)" // Gold Glow
+                _hover={{
+                    bg: "#FFD700",
+                    transform: "scale(1.05)",
+                    boxShadow: "0px 0px 25px rgba(212, 175, 55, 0.6)"
+                }}
+                _active={{ transform: "scale(0.95)" }}
+                onClick={() => {
+                    // Scrolls to donation section if it exists on the page
+                    const donationSection = document.getElementById('donation-section');
+                    if(donationSection) donationSection.scrollIntoView({ behavior: 'smooth' });
+                }}
+            >
+                Donate
+            </Button>
 
             {/* MAIN CONTENT SECTION (Top) */}
             <Flex
