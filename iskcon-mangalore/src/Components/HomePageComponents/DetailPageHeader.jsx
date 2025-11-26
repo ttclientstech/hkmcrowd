@@ -15,7 +15,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
             bg="#2C0A0A"
             overflow="hidden"
             // 1. INCREASED HEIGHT FOR DESKTOP VIEW
-            minH={["500px", "600px", "700px"]}
+            minH={["300px", "400px", "500px"]}
             // 2. FLEX COLUMN TO SPACE OUT CONTENT
             display="flex"
             flexDirection="column"
