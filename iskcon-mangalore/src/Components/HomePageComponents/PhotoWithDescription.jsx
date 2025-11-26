@@ -127,7 +127,7 @@ const PhotoWithDescription = ({ imageError, avatar, getSingleUser, handleImageEr
                             fontStyle="italic"
                         >
                             {/* PASTE THE SLOKA TEXT HERE */}
-                            Lord Krishna says in Bhagavad-Gita 9.27: "Whatever you give in charity - do that as an offering to Me."
+                            Lord Krishna says in Bhagavad-Gita: "Whatever you give in charity - do that as an offering to Me."
                         </Text>
                         <Text fontSize="sm" color="#D4AF37" fontWeight="bold" mt={2} textAlign="right">
                             — Bhagavad Gita 9.27
