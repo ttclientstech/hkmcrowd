@@ -39,7 +39,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
                 position="absolute"
                 top={["1rem", "2rem"]}  // Responsive spacing from top
                 left={["1rem", "2rem"]} // Responsive spacing from left
-                w={["100px", "150px"]}  // Responsive size
+                w={["80px", "150px"]}  // Responsive size
                 objectFit="contain"
                 zIndex={10}
                 _hover={{ transform: "scale(1.05)", transition: "transform 0.3s" }}
@@ -76,7 +76,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
                             </Text>
                             <Flex align="center" gap={2} color="gray.400">
                                 {/*<Icon as={FaChevronLeft} boxSize={3} />*/}
-                                <Text fontSize="xs" fontWeight="medium">Back to Home</Text>
+                                <Text align="center" fontSize="xs" fontWeight="medium">Back to Home</Text>
                             </Flex>
                         </VStack>
                     </Flex>
