@@ -178,7 +178,7 @@ const HomeSinglePage = () => {
             <TrustStrip />*/}
 
             {/* HERO - main top section exactly like screenshot */}
-            <Box as="section" pt={[8, 10, 14]} pb={[6, 10]} >
+            <Box as="section" pt={[4, 10, 14]} pb={[8, 10]} >
                 <Flex direction="column" align="center" maxW="1200px" mx="auto" px={[4,6]}>
                     {/* The heading line: NAME (coral) + rest (sky) + goal number highlight */}
 
@@ -187,7 +187,7 @@ const HomeSinglePage = () => {
                         textAlign="center"
                         fontFamily="'Poppins', sans-serif"
                         fontSize={["xl", "2xl", "3xl", "26px"]}
-                        lineHeight="41px"
+                        lineHeight={["25px","40px"]}
                         color={headingColor}
                         px={[2, 4]}
                     >
@@ -202,7 +202,7 @@ const HomeSinglePage = () => {
                             Square Feet for
                         </Text>
                         <Box>
-                            <Text as="span" color={sky} fontWeight={700} display="block" mt={2}>
+                            <Text as="span" color={sky} fontWeight={700} display="block">
                                 Chennai's Dhakshina Dwaraka Dham
                             </Text>
                         </Box>
