@@ -1,9 +1,7 @@
-// HomeSinglePage.jsx
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchSingleUser, postPaymentFormData } from "../Redux/clientSlices/clientUsers";
-import image16 from "../assets/images/logo.jpeg";
 import avatar from "../assets/images/Avatar-PNG-Image.webp";
 import {
     Box,
@@ -33,7 +31,7 @@ import { FaArrowUp, FaShieldAlt, FaLandmark, FaOm, FaShareAlt, FaPhoneAlt } from
 
 import DottedAnimation from "../Components/DottedAnimation";
 import PageNotFound from "../Components/HomePageComponents/PageNotFound";
-import CampaignMoreDetails from "../Components/HomePageComponents/CampaingMoreDetails";
+import DetailPageHeader from "../Components/HomePageComponents/DetailPageHeader";
 import Funders from "../Components/HomePageComponents/Funders";
 import { campaign } from "../constants/homePage";
 import CapaignerProgressBox from "../Components/HomePageComponents/CapaignerProgressBox";
@@ -46,9 +44,13 @@ import Fotter from "../Components/HomePageComponents/Fotter";
 // Fonts inserted for Merriweather (serif) and Inter (sans) and Cinzel for CTA
 const FontLinks = () => (
     <>
-        <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@300;400;600;700&family=Cinzel:wght@700&display=swap" rel="stylesheet" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+            rel="stylesheet"
+        />
     </>
 );
+
 
 const HomeSinglePage = () => {
     const { id } = useParams();
@@ -131,48 +133,15 @@ const HomeSinglePage = () => {
     const headingColor = "#0b2340";
 
     return (
-        <Box w="100%" minH="100vh" bg={heroBg} fontFamily="'Inter', sans-serif" position="relative">
+        <Box w="100%" minH="100vh" bg={heroBg} fontFamily="'Poppins', sans-serif" position="relative">
             <FontLinks />
 
-            {/* Top Header (VCM style) */}
-            <Box bg={headerBg} color="white" py={3} boxShadow="sm">
-                <Flex maxW="1200px" mx="auto" align="center" px={[4, 6]} justify="space-between">
-                    <HStack spacing={4} align="center">
-                        {/* Logo left - use your image16 if available, else text */}
-                        <HStack spacing={3} align="center">
-                            <Image src={image16} alt="logo" boxSize="44px" objectFit="contain" />
-                            <Box lineHeight="1">
-                                <Text fontSize="sm" fontWeight={700} letterSpacing="wide">Vrindavan Chandrodhaya Mandir</Text>
-                                <Text fontSize="xs" color="rgba(255,255,255,0.85)">The Divine Mission of Vrindavan</Text>
-                            </Box>
-                        </HStack>
-                    </HStack>
-
-                    <HStack spacing={4}>
-                        <Button
-                            bg={donateYellow}
-                            color="#111"
-                            _hover={{ bg: "#ffd400" }}
-                            fontWeight={800}
-                            fontFamily="'Cinzel', serif"
-                            px={6}
-                            py={3}
-                        >
-                            Donate
-                        </Button>
-
-                        <HStack bg="rgba(255,255,255,0.95)" px={3} py={2} borderRadius="md" color="#111" spacing={2}>
-                            <Icon as={FaPhoneAlt} />
-                            <Text fontWeight={700} fontSize="sm">+91-7210873108</Text>
-                        </HStack>
-                    </HStack>
-                </Flex>
-            </Box>
+            <DetailPageHeader getSingleUser={getSingleUser} />
 
             {/* HERO - main top section exactly like screenshot */}
             <Box as="section" pt={[8, 10, 14]} pb={[6, 10]} >
                 <Flex direction="column" align="center" maxW="1200px" mx="auto" px={[4,6]}>
-                    {/* The heading line: NAME (coral) + rest (sky) + goal number highlight */}
+                    {/* The heading line: NAME (coral) + rest (sky) + goal number highlight
                     <Heading
                         as="h1"
                         textAlign="center"
@@ -198,7 +167,7 @@ const HomeSinglePage = () => {
                                 Vrindavan Chandrodhaya Mandir
                             </Text>
                         </Box>
-                    </Heading>
+                    </Heading> */}
 
                     {/* Campaigner image (circle) + message box to the right on desktop, stacked on mobile */}
                     <Grid templateColumns={["1fr", "1fr", "1fr", "250px 1fr"]} gap={8} alignItems="center" w="100%" mb={[6,8]}>
@@ -236,11 +205,11 @@ const HomeSinglePage = () => {
                                 bg="transparent"
                                 minH="120px"
                             >
-                                {/* left quote mark */}
-                                <Text position="absolute" left={4} top={-3} fontSize="3xl" color="#F28A7E">“</Text>
+                                {/* left quote mark
+                                <Text position="absolute" left={4} top={-3} fontSize="3xl" color="#F28A7E">“</Text>*/}
 
                                 <Text
-                                    fontFamily="'Merriweather', serif"
+                                    fontFamily="'Poppins', sans-serif"
                                     fontSize={["md","lg"]}
                                     color="#111827"
                                     fontStyle="italic"
@@ -249,12 +218,12 @@ const HomeSinglePage = () => {
                                     Lord Krishna says in Bhagavad-Gita 9.27: "Whatever you give in charity - do that as an offering to Me."
                                 </Text>
 
-                                {/* right bottom quote mark */}
-                                <Text position="absolute" right={4} bottom={-3} fontSize="3xl" color="#F28A7E">”</Text>
+                                {/* right bottom quote mark
+                                <Text position="absolute" right={4} bottom={-3} fontSize="3xl" color="#F28A7E">”</Text>*/}
                             </Box>
 
                             <Text color={muted} mt={4} fontSize="md" textAlign="left">
-                                {cd.campaignerMessage || "Please donate for square feet seva and support the construction of this grand temple."}
+                                {cd.campaignerMessage || "I invite you to join me in this noble deed. Your contribution, no matter the size, helps place a brick in this monument of pride."}
                             </Text>
                         </Box>
                     </Grid>
@@ -294,7 +263,7 @@ const HomeSinglePage = () => {
 
                     {/* Percentage text / raised info (large, blue) like screenshot */}
                     <Box mt={6} textAlign="center">
-                        <Text fontFamily="'Merriweather', serif" fontSize={["lg","2xl","3xl"]} color={sky} fontWeight={800}>
+                        <Text fontFamily="'Poppins', sans-serif" fontSize={["lg","2xl","3xl"]} color={sky} fontWeight={800}>
                             {percent}% ({raisedSqft.toLocaleString()} Square Feet) of {goalSqft.toLocaleString()} Square Feet raised
                         </Text>
                     </Box>
