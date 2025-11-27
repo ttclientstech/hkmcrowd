@@ -23,7 +23,7 @@ const VCMTopHeaderTab = () => {
             <HStack spacing={4} align="center">
                 {/* Logo left - use your image16 if available, else text */}
                 <HStack spacing={3} align="center">
-                    <Image src={image16} alt="logo" w={["40px", "85px"]} h={["25px", "40px"]} objectFit="contain" />
+                    <Image src={image16} alt="logo" w={["40px", "85px"]} h={["40px", "40px"]} objectFit="contain" />
                 </HStack>
             </HStack>
 
@@ -35,6 +35,8 @@ const VCMTopHeaderTab = () => {
                     fontWeight={800}
                     px={6}
                     py={3}
+                    transform="scale(0.7)"
+                    transformOrigin="left center"
                 >
                     Donate
                 </Button>

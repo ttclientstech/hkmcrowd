@@ -209,7 +209,7 @@ const HomeSinglePage = () => {
                     </Heading>
 
                     {/* Campaigner image (circle) + message box to the right on desktop, stacked on mobile */}
-                    <Grid templateColumns={["1fr", "1fr", "1fr", "250px 1fr"]} gap={8} alignItems="center" w="100%" mb={[4,8]}>
+                    <Grid templateColumns={["1fr", "1fr", "1fr", "250px 1fr"]} gap={8} alignItems="center" w="100%" mb={[4,8]} mt="4px">
                         {/* image */}
                         <Box display="flex" justifyContent={["center", "center", "center", "flex-end"]}>
                             <Box
@@ -270,9 +270,9 @@ const HomeSinglePage = () => {
 
                     {/* GOAL label + custom progress bar with knob similar to screenshot */}
                     <Box w="100%" mt={[6,8]} px={[0,4]}>
-                        <Stack direction={["column", "row"]} align="center" spacing={4} w="100%">
+                        <Stack direction={["column", "row"]} align="center" spacing={4} w={["100%", "80%", "60%"]}>
                             <Text fontWeight={800} color={sky} fontSize="sm" textAlign="center">GOAL:</Text>
-                            <Box flex="1">
+                            <Box flex="1"  w="100%">
                                 {/* Outer track */}
                                 <Box align="center" bg="#FDEEE8" borderRadius="40px" height="16px" position="relative" overflow="hidden">
                                     {/* inner fill */}
