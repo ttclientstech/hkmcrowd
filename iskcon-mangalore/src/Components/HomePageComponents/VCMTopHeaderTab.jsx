@@ -1,4 +1,4 @@
-import image16 from "../assets/images/transparent_logo.png";
+import image16 from "../../assets/images/transparent_logo.png";
 import {
     Box,
     Flex,
