@@ -19,7 +19,7 @@ const VCMTopHeaderTab = () => {
     return (
     <Box bg={headerBg} fontFamily="'Poppins', sans-serif" color="white" py={3} boxShadow="sm">
         <PoppinFont />
-        <Flex maxW="1200px" mx="auto" align="center" px={[4, 6]} justify="space-between">
+        <Flex maxW="1200px" mx="auto" align="center" px={[2, 6]} justify="space-between">
             <HStack spacing={4} align="center">
                 {/* Logo left - use your image16 if available, else text */}
                 <HStack spacing={3} align="center">
@@ -27,21 +27,21 @@ const VCMTopHeaderTab = () => {
                 </HStack>
             </HStack>
 
-            <HStack spacing={2} align="center">
+            <HStack spacing={[1, 2]} align="center">
                 <Button
                     bg={donateYellow}
                     color="#111"
                     _hover={{ bg: "#ffd400" }}
                     fontWeight={800}
-                    px={6}
-                    py={3}
+                    px={[3,6]}
+                    py={[2,3]}
                     transform="scale(0.7)"
                     transformOrigin="right center"
                 >
                     Donate
                 </Button>
 
-                <HStack bg="rgba(255,255,255,0.95)" px={3} py={2} borderRadius="md" color="#111" spacing={2} transform="scale(0.7)" transformOrigin="right center">
+                <HStack bg="rgba(255,255,255,0.95)" px={[2,3]} py={2} borderRadius="md" color="#111" spacing={2} transform="scale(0.7)" transformOrigin="right center" whiteSpace="nowrap">
                     <Icon as={FaPhoneAlt} />
                     <Text fontWeight={700} fontSize="sm">+91-6282408924</Text>
                 </HStack>
