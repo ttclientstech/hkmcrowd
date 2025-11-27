@@ -186,7 +186,7 @@ const HomeSinglePage = () => {
                         as="h1"
                         textAlign="center"
                         fontFamily="'Poppins', sans-serif"
-                        fontSize={["2xl", "3xl", "4xl", "48px"]}
+                        fontSize={["xl", "2xl", "3xl", "26px"]}
                         lineHeight="1.05"
                         color={headingColor}
                         mb={8}
@@ -210,15 +210,15 @@ const HomeSinglePage = () => {
                     </Heading>
 
                     {/* Campaigner image (circle) + message box to the right on desktop, stacked on mobile */}
-                    <Grid templateColumns={["1fr", "1fr", "1fr", "250px 1fr"]} gap={8} alignItems="center" w="100%" mb={[6,8]}>
+                    <Grid templateColumns={["1fr", "1fr", "1fr", "250px 1fr"]} gap={8} alignItems="center" w="100%" mb={[4,8]}>
                         {/* image */}
                         <Box display="flex" justifyContent={["center", "center", "center", "flex-end"]}>
                             <Box
-                                w={["130px", "160px", "180px", "220px"]}
-                                h={["130px", "160px", "180px", "220px"]}
+                                w={["160px", "160px", "180px", "220px"]}
+                                h={["160px", "160px", "180px", "220px"]}
                                 borderRadius="full"
                                 overflow="hidden"
-                                border="6px solid rgba(255,255,255,0.9)"
+                                border="4px solid rgba(255,255,255,0.9)"
                                 boxShadow="0 8px 30px rgba(0,0,0,0.12)"
                                 bg="white"
                             >
@@ -235,7 +235,7 @@ const HomeSinglePage = () => {
 
                         {/* message box */}
                         <Box>
-                            <Text color={sky} fontWeight={700} mb={3} fontSize={["md","md","lg"]}>A message from the campaigner</Text>
+                            <Text color={sky} fontWeight={500} mb={5} align="center" fontSize={["md","md","lg"]}>A message from the campaigner</Text>
 
                             <Box
                                 borderRadius="12px"
@@ -254,6 +254,7 @@ const HomeSinglePage = () => {
                                     color="#111827"
                                     fontStyle="italic"
                                     pr={[0,0,4]}
+                                    textAlign="center"
                                 >
                                     Lord Krishna says in Bhagavad-Gita 9.27: "Whatever you give in charity - do that as an offering to Me."
                                 </Text>
@@ -262,7 +263,7 @@ const HomeSinglePage = () => {
                                 <Text position="absolute" right={4} bottom={-3} fontSize="3xl" color="#F28A7E">”</Text>*/}
                             </Box>
 
-                            <Text color={muted} mt={4} fontSize="md" textAlign="left">
+                            <Text color="#111827" mt={4} fontSize="md" textAlign="center">
                                 {cd.campaignerMessage || "I invite you to join me in this noble deed. Your contribution, no matter the size, helps place a brick in this monument of pride."}
                             </Text>
                         </Box>
@@ -271,10 +272,10 @@ const HomeSinglePage = () => {
                     {/* GOAL label + custom progress bar with knob similar to screenshot */}
                     <Box w="100%" mt={[6,8]} px={[0,4]}>
                         <HStack align="center" spacing={4}>
-                            <Text fontWeight={800} color={sky} fontSize="sm">GOAL:</Text>
+                            <Text fontWeight={800} color={sky} fontSize="sm" textAlign="center">GOAL:</Text><br />
                             <Box flex="1">
                                 {/* Outer track */}
-                                <Box bg="#FDEEE8" borderRadius="40px" height="16px" position="relative" overflow="hidden">
+                                <Box align="center" bg="#FDEEE8" borderRadius="40px" height="16px" position="relative" overflow="hidden">
                                     {/* inner fill */}
                                     <Box
                                         bg="linear-gradient(90deg, #FF6A00, #FFA87A)"
