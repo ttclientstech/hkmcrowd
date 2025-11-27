@@ -1,155 +1,417 @@
-import React, { useState } from 'react';
-import { Box, Flex, Text, Heading, Progress, Button, Input, InputGroup, SimpleGrid, Image, Stack, Icon } from '@chakra-ui/react';
-import { FaLock } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
+// HomeSinglePage.jsx
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { fetchSingleUser, postPaymentFormData } from "../Redux/clientSlices/clientUsers";
+import image16 from "../assets/images/logo.jpeg";
+import avatar from "../assets/images/Avatar-PNG-Image.webp";
+import {
+    Box,
+    IconButton,
+    Flex,
+    Button,
+    useBreakpointValue,
+    Text,
+    Icon,
+    Heading,
+    Stack,
+    VStack,
+    HStack,
+    Progress,
+    Grid,
+    Image,
+    Divider,
+    Badge,
+    Link,
+    List,
+    ListItem,
+    Avatar,
+    useColorModeValue,
+    Spacer,
+} from "@chakra-ui/react";
+import { FaArrowUp, FaShieldAlt, FaLandmark, FaOm, FaShareAlt, FaPhoneAlt } from "react-icons/fa";
+
+import DottedAnimation from "../Components/DottedAnimation";
+import PageNotFound from "../Components/HomePageComponents/PageNotFound";
+import CampaignMoreDetails from "../Components/HomePageComponents/CampaingMoreDetails";
+import Funders from "../Components/HomePageComponents/Funders";
+import { campaign } from "../constants/homePage";
+import CapaignerProgressBox from "../Components/HomePageComponents/CapaignerProgressBox";
+import PaymentPageFull from "../Components/HomePageComponents/PaymentPageFull";
+import AdditionalDetails from "../Components/HomePageComponents/AdditionalDetails";
+import CampaignTabs from "../Components/HomePageComponents/Tabs";
+import ProjectVedio from "../Components/HomePageComponents/ProjectVedio";
+import Fotter from "../Components/HomePageComponents/Fotter";
+
+// Fonts inserted for Merriweather (serif) and Inter (sans) and Cinzel for CTA
+const FontLinks = () => (
+    <>
+        <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@300;400;600;700&family=Cinzel:wght@700&display=swap" rel="stylesheet" />
+    </>
+);
 
 const HomeSinglePage = () => {
     const { id } = useParams();
-   // const { data: user, isLoading } = useQuery(['user', id], () => getSingleUser(id));
-   // if (isLoading || !user) {
-       // return <Text>Loading...</Text>;
-   // }
+    const [tab, setTab] = useState(1);
+    const [showScrollButton, setShowScrollButton] = useState(false);
+    const { isLoading, getSingleUser } = useSelector((state) => state.clientUsers);
+    const dispatch = useDispatch();
 
-    // Destructure campaigner data (field names should match your API)
-    const campaignerName = "Aneesh";
-    const campaignerImage = "https://i.postimg.cc/x8LFpFHJ/Krishna-wallpaper-for-Home-710x488.jpg";
-    const campaignerMessage = "my personal message";
-    const raised = 1000;
-    const goal = 5000;
+    const [amount, setAmount] = useState(null);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [paymentModel, setPaymentModel] = useState(false);
+    const [errors, setErrors] = useState("");
+    const navigate = useNavigate();
 
-    // Donation calculation: 1 Sq Ft = ₹5001
-    const costPerSqFt = 5001;
-    const [sqft, setSqft] = useState(1);
-    const [customSqFt, setCustomSqFt] = useState('');
+    const isMobile = useBreakpointValue({ base: true, lg: false });
 
-    const handlePreset = (value) => {
-        setSqft(value);
-        setCustomSqFt('');
+    const [formData, setFormData] = useState({
+        email: "", mobileno: "", country: "Indian", pincode: "", panno: "",
+        address: "", taxPincode: "", houseNumber: "", city: "", state: "",
+        street: "", dob: "", amount: amount, username: "", campaignsid: id,
+        prasadRequired: false, taxExemption: false, isanonymous: false,
+        taxCity: "", taxState: "", taxHouseNumber: "", taxStreet: "",
+    });
+
+    useEffect(() => { dispatch(fetchSingleUser(id)); }, [dispatch, id]);
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        const handleScroll = () => setShowScrollButton(window.scrollY > 300);
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    const handleClick = () => {
+        if (amount === null) return setErrorMessage("Please enter an amount");
+        if (amount < 500) return setErrorMessage("Minimum contribution amount is INR 500");
+        setErrorMessage("");
+        setPaymentModel(true);
+        setFormData(prev => ({ ...prev, amount: amount, campaignsid: id }));
     };
-    const handleCustomChange = (e) => {
-        setCustomSqFt(e.target.value);
-        setSqft(0);
-    };
-    const selectedSqFt = customSqFt ? Number(customSqFt) : sqft;
-    const donationAmount = selectedSqFt * costPerSqFt;
+
+    const validateForm = () => { const newErrors = {}; if (!formData.amount) newErrors.amount = "Amount is required"; setErrors(newErrors); return Object.keys(newErrors).length === 0; };
+    const handleOnChange = (e) => { const { name, value, type, checked } = e.target; setFormData({ ...formData, [name]: type === "checkbox" ? checked : value }); };
+    const handleSubmit = (e) => { e.preventDefault(); if (validateForm()) { dispatch(postPaymentFormData(formData)).then((res) => { const orderId = res?.payload?.order?.id; if (orderId) { const params = new URLSearchParams({ name: formData.username || '', phone: formData.mobileno || '', email: formData.email || '', seva: 'Mandir Nirmana Seva', amount: formData.amount, order_id: orderId }); navigate(`/payment/${orderId}?${params.toString()}`); } }); } };
+
+    const [imageError, setImageError] = useState(false);
+    const handleImageError = () => setImageError(true);
+    const handleScrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+    if (getSingleUser?.status === 404) return <PageNotFound />;
+
+    if (paymentModel) {
+        return (
+            <PaymentPageFull
+                amount={amount} handleSubmit={handleSubmit} handleOnChange={handleOnChange}
+                formData={formData} errors={errors} setPaymentModel={setPaymentModel} setFormData={setFormData}
+            />
+        );
+    }
+
+    // Campaign details
+    const cd = getSingleUser?.campaignDetails || {};
+    const PRICE_PER_SQFT = 5001; // as specified
+    const goalAmount = cd.targetAmount || 0;
+    const raisedAmount = cd.raisedtotal || 0;
+    const percent = goalAmount ? Math.min(100, Math.round((raisedAmount / goalAmount) * 100)) : 0;
+    const goalSqft = PRICE_PER_SQFT ? Math.round(goalAmount / PRICE_PER_SQFT) : 0;
+    const raisedSqft = PRICE_PER_SQFT ? Math.round(raisedAmount / PRICE_PER_SQFT) : 0;
+
+    const recentDonors = getSingleUser?.top10paymentDetails || getSingleUser?.userList || [];
+    const totalFunders = getSingleUser?.totalFunders || getSingleUser?.funderstotal || 0;
+
+    // colors and typography matching screenshot
+    const headerBg = "#2F3F51"; // deep bluish header in screenshot
+    const donateYellow = "#FFD400";
+    const heroBg = "#fffefe";
+    const coral = "#f48b87";
+    const sky = "#5eb0ff";
+    const muted = "#6b7280";
+    const headingColor = "#0b2340";
 
     return (
-        <Box>
-            {/* Top Navigation - fixed over banner */}
-            <Flex as="nav" position="fixed" top="0" w="100%" p={4} align="center" justify="space-between" bg="whiteAlpha.900" boxShadow="md" zIndex="overlay">
-                <Flex align="center" gap={4}>
-                    <Button variant="link" color="teal.600">Donate</Button>
-                    <Button variant="link" color="teal.600">Contact</Button>
+        <Box w="100%" minH="100vh" bg={heroBg} fontFamily="'Inter', sans-serif" position="relative">
+            <FontLinks />
+
+            {/* Top Header (VCM style) */}
+            <Box bg={headerBg} color="white" py={3} boxShadow="sm">
+                <Flex maxW="1200px" mx="auto" align="center" px={[4, 6]} justify="space-between">
+                    <HStack spacing={4} align="center">
+                        {/* Logo left - use your image16 if available, else text */}
+                        <HStack spacing={3} align="center">
+                            <Image src={image16} alt="logo" boxSize="44px" objectFit="contain" />
+                            <Box lineHeight="1">
+                                <Text fontSize="sm" fontWeight={700} letterSpacing="wide">Vrindavan Chandrodhaya Mandir</Text>
+                                <Text fontSize="xs" color="rgba(255,255,255,0.85)">The Divine Mission of Vrindavan</Text>
+                            </Box>
+                        </HStack>
+                    </HStack>
+
+                    <HStack spacing={4}>
+                        <Button
+                            bg={donateYellow}
+                            color="#111"
+                            _hover={{ bg: "#ffd400" }}
+                            fontWeight={800}
+                            fontFamily="'Cinzel', serif"
+                            px={6}
+                            py={3}
+                        >
+                            Donate
+                        </Button>
+
+                        <HStack bg="rgba(255,255,255,0.95)" px={3} py={2} borderRadius="md" color="#111" spacing={2}>
+                            <Icon as={FaPhoneAlt} />
+                            <Text fontWeight={700} fontSize="sm">+91-7210873108</Text>
+                        </HStack>
+                    </HStack>
                 </Flex>
-                <Image src="/temple-logo.png" alt="Temple Logo" boxSize="50px" objectFit="contain" />
-            </Flex>
+            </Box>
 
-            {/* Campaigner Info and Donation Section */}
-            <Box pt={24} px={4} bgGradient="linear(to-b, teal.50, teal.100)">
-                <Flex direction={{ base: 'column', md: 'row' }} align="start" maxW="6xl" mx="auto" py={10} px={4} gap={8}>
-                    {/* Campaigner Section */}
-                    <Box flex="1" textAlign="center">
-                        <Heading as="h2" size="xl" color="teal.700">
-                            {campaignerName} needs your support to raise {goal} Square Feet
-                        </Heading>
-                        <Box mt={4} borderRadius="full" overflow="hidden" boxSize="150px" mx="auto">
-                            <Image src={campaignerImage} alt={campaignerName} objectFit="cover" />
-                        </Box>
-                        <Text mt={4} fontSize="lg" color="gray.700">
-                            {campaignerMessage}
+            {/* HERO - main top section exactly like screenshot */}
+            <Box as="section" pt={[8, 10, 14]} pb={[6, 10]} >
+                <Flex direction="column" align="center" maxW="1200px" mx="auto" px={[4,6]}>
+                    {/* The heading line: NAME (coral) + rest (sky) + goal number highlight */}
+                    <Heading
+                        as="h1"
+                        textAlign="center"
+                        fontFamily="'Merriweather', serif"
+                        fontSize={["2xl", "3xl", "4xl", "48px"]}
+                        lineHeight="1.05"
+                        color={headingColor}
+                        mb={8}
+                        px={[2, 4]}
+                    >
+                        <Text as="span" color={coral} fontWeight={800} mr={2}>
+                            {cd.campaignName || "Campaigner Name"}
                         </Text>
-                        <Text mt={2} fontSize="md" color="gray.600">
-                            Please donate for square feet seva and support the construction of this grand temple.
+                        <Text as="span" color={sky} fontWeight={800}>
+                            needs your support to raise{" "}
+                            <Text as="span" color={coral} fontWeight={900}>
+                                {goalSqft.toLocaleString()}
+                            </Text>{" "}
+                            Square Feet for
                         </Text>
-                    </Box>
-
-                    {/* Donation Box */}
-                    <Box flex="1" bg="white" borderRadius="lg" boxShadow="xl" p={6}>
-                        <Heading as="h3" size="md" color="teal.600" textAlign="center">
-                            Donation Progress
-                        </Heading>
-                        <Text mt={2} fontSize="md" textAlign="center" color="gray.600">
-                            {((raised / goal) * 100).toFixed(2)}% ({raised} Sq Ft) of {goal} Sq Ft raised
-                        </Text>
-                        <Progress value={(raised / goal) * 100} size="lg" colorScheme="teal" mt={3} borderRadius="md" />
-
-                        <Stack mt={6} spacing={4}>
-                            <Heading as="h4" size="sm" color="gray.700" textAlign="center">
-                                Select Square Feet
-                            </Heading>
-                            <Flex wrap="wrap" justify="center" gap={2}>
-                                {[1, 5, 11, 25].map((num) => (
-                                    <Button
-                                        key={num}
-                                        colorScheme={sqft === num ? 'teal' : 'gray'}
-                                        variant={sqft === num ? 'solid' : 'outline'}
-                                        onClick={() => handlePreset(num)}
-                                    >
-                                        {num} Sq Ft
-                                    </Button>
-                                ))}
-                            </Flex>
-                            <InputGroup>
-                                <Input
-                                    type="number"
-                                    placeholder="Custom Sq Ft"
-                                    value={customSqFt}
-                                    onChange={handleCustomChange}
-                                    textAlign="center"
-                                    focusBorderColor="teal.400"
-                                />
-                            </InputGroup>
-                            <Text fontSize="lg" fontWeight="bold" textAlign="center">
-                                Amount: ₹{donationAmount.toLocaleString()}
+                        <Box>
+                            <Text as="span" color={sky} fontWeight={800} display="block" mt={2}>
+                                Vrindavan Chandrodhaya Mandir
                             </Text>
-                            <Button colorScheme="teal" size="lg" leftIcon={<Icon as={FaLock} />} width="100%">
-                                Secure Payment
-                            </Button>
-                        </Stack>
+                        </Box>
+                    </Heading>
+
+                    {/* Campaigner image (circle) + message box to the right on desktop, stacked on mobile */}
+                    <Grid templateColumns={["1fr", "1fr", "1fr", "250px 1fr"]} gap={8} alignItems="center" w="100%" mb={[6,8]}>
+                        {/* image */}
+                        <Box display="flex" justifyContent={["center", "center", "center", "flex-end"]}>
+                            <Box
+                                w={["130px", "160px", "180px", "220px"]}
+                                h={["130px", "160px", "180px", "220px"]}
+                                borderRadius="full"
+                                overflow="hidden"
+                                border="6px solid rgba(255,255,255,0.9)"
+                                boxShadow="0 8px 30px rgba(0,0,0,0.12)"
+                                bg="white"
+                            >
+                                <Image
+                                    src={imageError ? avatar : (cd.imgurl || avatar)}
+                                    alt={cd.campaignName || "campaign image"}
+                                    objectFit="cover"
+                                    w="100%"
+                                    h="100%"
+                                    onError={handleImageError}
+                                />
+                            </Box>
+                        </Box>
+
+                        {/* message box */}
+                        <Box>
+                            <Text color={sky} fontWeight={700} mb={3} fontSize={["md","md","lg"]}>A message from the campaigner</Text>
+
+                            <Box
+                                borderRadius="12px"
+                                border="2px solid #F28A7E"
+                                p={[4,5]}
+                                position="relative"
+                                bg="transparent"
+                                minH="120px"
+                            >
+                                {/* left quote mark */}
+                                <Text position="absolute" left={4} top={-3} fontSize="3xl" color="#F28A7E">“</Text>
+
+                                <Text
+                                    fontFamily="'Merriweather', serif"
+                                    fontSize={["md","lg"]}
+                                    color="#111827"
+                                    fontStyle="italic"
+                                    pr={[0,0,4]}
+                                >
+                                    Lord Krishna says in Bhagavad-Gita 9.27: "Whatever you give in charity - do that as an offering to Me."
+                                </Text>
+
+                                {/* right bottom quote mark */}
+                                <Text position="absolute" right={4} bottom={-3} fontSize="3xl" color="#F28A7E">”</Text>
+                            </Box>
+
+                            <Text color={muted} mt={4} fontSize="md" textAlign="left">
+                                {cd.campaignerMessage || "Please donate for square feet seva and support the construction of this grand temple."}
+                            </Text>
+                        </Box>
+                    </Grid>
+
+                    {/* GOAL label + custom progress bar with knob similar to screenshot */}
+                    <Box w="100%" mt={[6,8]} px={[0,4]}>
+                        <HStack align="center" spacing={4}>
+                            <Text fontWeight={800} color={sky} fontSize="sm">GOAL:</Text>
+                            <Box flex="1">
+                                {/* Outer track */}
+                                <Box bg="#FDEEE8" borderRadius="40px" height="16px" position="relative" overflow="hidden">
+                                    {/* inner fill */}
+                                    <Box
+                                        bg="linear-gradient(90deg, #FF6A00, #FFA87A)"
+                                        width={`${percent}%`}
+                                        height="100%"
+                                        transition="width 0.8s ease"
+                                        position="relative"
+                                    />
+                                    {/* white knob */}
+                                    <Box
+                                        position="absolute"
+                                        left={`calc(${percent}% - 10px)`}
+                                        top="50%"
+                                        transform="translateY(-50%)"
+                                        width="20px"
+                                        height="20px"
+                                        bg="white"
+                                        borderRadius="full"
+                                        boxShadow="0 3px 8px rgba(0,0,0,0.12)"
+                                        border="4px solid #FF6A00"
+                                    />
+                                </Box>
+                            </Box>
+                        </HStack>
+                    </Box>
+
+                    {/* Percentage text / raised info (large, blue) like screenshot */}
+                    <Box mt={6} textAlign="center">
+                        <Text fontFamily="'Merriweather', serif" fontSize={["lg","2xl","3xl"]} color={sky} fontWeight={800}>
+                            {percent}% ({raisedSqft.toLocaleString()} Square Feet) of {goalSqft.toLocaleString()} Square Feet raised
+                        </Text>
                     </Box>
                 </Flex>
             </Box>
 
-            {/* Testimonials Section */}
-            <Box bg="gray.50" py={10}>
-                <Heading as="h3" size="lg" textAlign="center" mb={8} color="teal.700">
-                    Testimonials
-                </Heading>
-                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8} maxW="5xl" mx="auto">
-                    <Box bg="white" p={6} borderRadius="md" boxShadow="lg">
-                        <Text fontStyle="italic">
-                            “I am delighted to learn that... Vrindavan Chandrodaya Mandir is taking shape in the sacred land of Vrindavan.”
-                        </Text>
-                        <Text fontWeight="bold" mt={4} textAlign="right">
-                            — Sri Narendra Modi, Prime Minister of India:contentReference
-                        </Text>
+            {/* After hero: original page content continues (tabs, details, etc.)  */}
+            <Box maxW="1200px" mx="auto" px={[4,6]} mt={[6,8]}>
+                <Flex direction={["column", "column", "column", "row"]} gap={8} align="flex-start">
+                    {/* LEFT: rest of content (keep your original components) */}
+                    <Box flex="1.4" w="100%">
+                        <Box mt={6} display={["block", "block"]}>
+                            <AdditionalDetails getSingleUser={getSingleUser} />
+                        </Box>
+
+                        <Box mt={6}>
+                            <ProjectVedio />
+                        </Box>
+
+                        <Box mt={8}>
+                            <CampaignTabs tab={tab} setTab={setTab} />
+                            <Box bg="white" p={[4, 8]} borderRadius="xl" boxShadow="sm" border="1px solid #E2E8F0" mt={0} borderTopLeftRadius="0">
+                                {tab === 1 ? (
+                                    <CampaignMoreDetails
+                                        campaign={campaign} getSingleUser={getSingleUser} themeColor={themeColor}
+                                        handleImageError={handleImageError} avatar={avatar} imageError={imageError}
+                                    />
+                                ) : (
+                                    <Funders getSingleUser={getSingleUser} />
+                                )}
+                            </Box>
+                        </Box>
                     </Box>
-                    <Box bg="white" p={6} borderRadius="md" boxShadow="lg">
-                        <Text fontStyle="italic">
-                            “This is not just a building but a symbol of faith & devotion of thousands of devotees. Everyone should donate one square feet.”
-                        </Text>
-                        <Text fontWeight="bold" mt={4} textAlign="right">
-                            — Devi Chitralekha, Renowned Spiritual Speaker:contentReference
-                        </Text>
+
+                    {/* RIGHT: donate card & top contributors */}
+                    <Box w={["100%", "100%", "100%", "420px"]} px={[0,0,0]} mb={24}>
+                        <Box position={["static", "static", "static", "sticky"]} top="24px">
+                            <Box bg="white" p={5} borderRadius="md" boxShadow="md" border="1px solid #E2E8F0">
+                                <HStack justify="space-between" align="center">
+                                    <HStack>
+                                        <Avatar src={cd.imgurl || avatar} name={cd.campaignName || "Campaign"} />
+                                        <Box>
+                                            <Text fontSize="sm" color={muted}>Campaign by</Text>
+                                            <Text fontWeight={700} fontSize="md" color={headingColor}>{cd.preacherName || cd.campaignerName || cd.campaignName}</Text>
+                                        </Box>
+                                    </HStack>
+                                    <Badge colorScheme="yellow">Featured</Badge>
+                                </HStack>
+
+                                <Divider my={3} />
+
+                                <Text fontSize="sm" color={muted}>Goal</Text>
+                                <Text fontWeight={700} fontSize="lg">₹ {goalAmount.toLocaleString()}</Text>
+                                <Text fontSize="sm" color={muted} mb={3}>{goalSqft.toLocaleString()} square feet (₹ {PRICE_PER_SQFT.toLocaleString()} / sqft)</Text>
+
+                                <Progress value={percent} size="sm" colorScheme="orange" borderRadius="sm" mb={3} />
+
+                                <Box mb={3}>
+                                    <CapaignerProgressBox
+                                        getSingleUser={getSingleUser} setAmount={setAmount} handleClick={handleClick}
+                                        errorMessage={errorMessage} amount={amount}
+                                    />
+                                </Box>
+
+                                <List spacing={2} mt={3}>
+                                    <ListItem><Text fontSize="sm"><strong>Prasadam & Puja access</strong> for donors</Text></ListItem>
+                                    <ListItem><Text fontSize="sm"><strong>Digital Certificate</strong> & donor recognition</Text></ListItem>
+                                    <ListItem><Text fontSize="sm"><strong>80G tax benefit</strong> (if eligible)</Text></ListItem>
+                                </List>
+
+                                <Divider my={3} />
+
+                                <Box>
+                                    <Text fontWeight={700} mb={3}>Top Contributors</Text>
+                                    <VStack align="stretch" spacing={2}>
+                                        {getSingleUser?.top10paymentDetails?.slice(0,4)?.map((t, i) => (
+                                            <HStack key={i} justify="space-between">
+                                                <Text fontSize="sm">{t.username}</Text>
+                                                <Text fontWeight={700}>₹ {t.amount?.toLocaleString?.()}</Text>
+                                            </HStack>
+                                        )) || <Text fontSize="sm" color={muted}>No contributors yet</Text>}
+                                    </VStack>
+                                </Box>
+                            </Box>
+                        </Box>
                     </Box>
-                    <Box bg="white" p={6} borderRadius="md" boxShadow="lg">
-                        <Text fontStyle="italic">
-                            “I felt blissful taking part in the temple's wonderful activities...Everyone should donate.”
-                        </Text>
-                        <Text fontWeight="bold" mt={4} textAlign="right">
-                            — Sonu Sood, Actor:contentReference[oaicite:10]
-                        </Text>
-                    </Box>
-                    <Box bg="white" p={6} borderRadius="md" boxShadow="lg">
-                        <Text fontStyle="italic">
-                            “It's an amazing project and I think you should all donate for this.”
-                        </Text>
-                        <Text fontWeight="bold" mt={4} textAlign="right">
-                            — Anupam Kher, Actor:contentReference[oaicite:11]
-                        </Text>
-                    </Box>
-                </SimpleGrid>
+                </Flex>
             </Box>
+
+            <Fotter />
+
+            {/* mobile sticky donate CTA (keeps original behavior you had) */}
+            {isMobile && (
+                <Box position="fixed" bottom="0" left="0" w="100%" bg="white" p={3} borderTop="1px solid #E2E8F0" zIndex={60}>
+                    <Flex maxW="1200px" mx="auto" px={4} gap={3} align="center">
+                        <Button flex="1" bg={donateYellow} color="#111" fontFamily="'Cinzel', serif" fontWeight={800} onClick={() => window.scrollTo({ top: 300, behavior: 'smooth' })}>
+                            Donate
+                        </Button>
+                        <Button variant="outline" onClick={() => window.open(`tel:+917210873108`)}>
+                            <Icon as={FaPhoneAlt} mr={2} /> Call
+                        </Button>
+                    </Flex>
+                </Box>
+            )}
+
+            {showScrollButton && (
+                <IconButton
+                    icon={<FaArrowUp />} position={"fixed"} bottom={["80px","60px"]} right={"20px"} zIndex={"999"}
+                    bg="#2C0A0A" color="#D4AF37" onClick={handleScrollToTop} borderRadius="full" boxShadow="xl" border="1px solid #D4AF37"
+                />
+            )}
+
+            {isLoading && (
+                <Box display="flex" justifyContent="center" alignItems="center" height="100vh" position={"fixed"} w={"100%"} bgColor={"rgb(0,0,0,0.6)"} zIndex={999}>
+                    <DottedAnimation />
+                </Box>
+            )}
         </Box>
     );
 };
