@@ -43,7 +43,7 @@ const VCMTopHeaderTab = () => {
 
                 <HStack bg="rgba(255,255,255,0.95)" px={3} py={2} borderRadius="md" color="#111" spacing={2}>
                     <Icon as={FaPhoneAlt} />
-                    <Text fontWeight={700} fontSize="sm">+91-6282408921</Text>
+                    <Text fontWeight={700} fontSize="sm">+91-6282408924</Text>
                 </HStack>
             </HStack>
         </Flex>
