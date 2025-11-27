@@ -29,7 +29,6 @@ const CampaignerStats = ({ getSingleUser }) => {
             mt={6}
             bg="white"
             p={5}
-            borderRadius="xl"
             boxShadow="sm"
             border="1px solid #E2E8F0"
         >
