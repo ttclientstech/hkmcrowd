@@ -9,7 +9,9 @@ import bgImage from "../assets/images/002_temple_night_view.jpeg";
 import {
     Box, Button, Text, Icon, Image,
     Modal, ModalOverlay, ModalContent, ModalBody, ModalCloseButton, useDisclosure,
-    Progress, Flex, IconButton
+    Progress, Flex, IconButton,
+    useBreakpointValue, // <--- ADDED THIS IMPORT
+    SimpleGrid
 } from "@chakra-ui/react";
 import { FaHandHoldingHeart, FaCheckCircle, FaArrowUp } from "react-icons/fa";
 
