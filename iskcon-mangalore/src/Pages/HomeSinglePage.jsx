@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Flex, Text, Heading, Progress, Button, Input, InputGroup, SimpleGrid, Image, Stack, Icon } from '@chakra-ui/react';
 import { FaLock } from 'react-icons/fa';
-import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 const HomeSinglePage = () => {
