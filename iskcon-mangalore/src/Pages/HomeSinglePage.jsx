@@ -7,7 +7,7 @@ const HomeSinglePage = () => {
     const { id } = useParams();
    // const { data: user, isLoading } = useQuery(['user', id], () => getSingleUser(id));
    // if (isLoading || !user) {
-        return <Text>Loading...</Text>;
+       // return <Text>Loading...</Text>;
    // }
 
     // Destructure campaigner data (field names should match your API)
