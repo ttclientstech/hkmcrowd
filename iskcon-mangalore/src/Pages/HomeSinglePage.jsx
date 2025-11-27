@@ -187,23 +187,22 @@ const HomeSinglePage = () => {
                         textAlign="center"
                         fontFamily="'Poppins', sans-serif"
                         fontSize={["xl", "2xl", "3xl", "26px"]}
-                        lineHeight="1.05"
+                        lineHeight="41px"
                         color={headingColor}
-                        mb={8}
                         px={[2, 4]}
                     >
-                        <Text as="span" color={coral} fontWeight={800} mr={2}>
+                        <Text as="span" color={coral} fontWeight={700} mr={2}>
                             {cd.campaignName || "Campaigner Name"}
                         </Text>
-                        <Text as="span" color={sky} fontWeight={800}>
+                        <Text as="span" color={sky} fontWeight={700}>
                             needs your support to raise{" "}
-                            <Text as="span" color={coral} fontWeight={900}>
+                            <Text as="span" color={coral} fontWeight={700}>
                                 {goalSqft.toLocaleString()}
                             </Text>{" "}
                             Square Feet for
                         </Text>
                         <Box>
-                            <Text as="span" color={sky} fontWeight={800} display="block" mt={2}>
+                            <Text as="span" color={sky} fontWeight={700} display="block" mt={2}>
                                 Chennai's Dhakshina Dwaraka Dham
                             </Text>
                         </Box>
@@ -214,8 +213,8 @@ const HomeSinglePage = () => {
                         {/* image */}
                         <Box display="flex" justifyContent={["center", "center", "center", "flex-end"]}>
                             <Box
-                                w={["160px", "160px", "180px", "220px"]}
-                                h={["160px", "160px", "180px", "220px"]}
+                                w={["220px", "220px", "220px", "220px"]}
+                                h={["220px", "220px", "220px", "220px"]}
                                 borderRadius="full"
                                 overflow="hidden"
                                 border="4px solid rgba(255,255,255,0.9)"
