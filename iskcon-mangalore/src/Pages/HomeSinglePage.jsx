@@ -314,7 +314,7 @@ const HomeSinglePage = () => {
                             <ProjectVedio />
                         </Box>
 
-                        <Box mt={8}>
+                        {/*<Box mt={8}>
                             <CampaignTabs tab={tab} setTab={setTab} />
                             <Box bg="white" p={[4, 8]} borderRadius="xl" boxShadow="sm" border="1px solid #E2E8F0" mt={0} borderTopLeftRadius="0">
                                 {tab === 1 ? (
@@ -326,7 +326,7 @@ const HomeSinglePage = () => {
                                     <Funders getSingleUser={getSingleUser} />
                                 )}
                             </Box>
-                        </Box>
+                        </Box>*/}
                     </Box>
 
                     {/* RIGHT: donate card & top contributors */}
