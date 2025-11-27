@@ -41,6 +41,7 @@ import CampaignTabs from "../Components/HomePageComponents/Tabs";
 import ProjectVedio from "../Components/HomePageComponents/ProjectVedio";
 import Fotter from "../Components/HomePageComponents/Fotter";
 import PoppinFont from "../Components/HomePageComponents/PoppinFont";
+import VCMTopHeaderTab from "../Components/HomePageComponents/VCMTopHeaderTab";
 
 
 const TrustStrip = () => (
@@ -172,18 +173,19 @@ const HomeSinglePage = () => {
     return (
         <Box w="100%" minH="100vh" bg={heroBg} fontFamily="'Poppins', sans-serif" position="relative">
             <PoppinFont />
-            <UrgencyBar />
-            <DetailPageHeader getSingleUser={getSingleUser} />
-            <TrustStrip />
+            <VCMTopHeaderTab />
+            {/*<DetailPageHeader getSingleUser={getSingleUser} />
+            <TrustStrip />*/}
 
             {/* HERO - main top section exactly like screenshot */}
             <Box as="section" pt={[8, 10, 14]} pb={[6, 10]} >
                 <Flex direction="column" align="center" maxW="1200px" mx="auto" px={[4,6]}>
-                    {/* The heading line: NAME (coral) + rest (sky) + goal number highlight
+                    {/* The heading line: NAME (coral) + rest (sky) + goal number highlight */}
+
                     <Heading
                         as="h1"
                         textAlign="center"
-                        fontFamily="'Merriweather', serif"
+                        fontFamily="'Poppins', sans-serif"
                         fontSize={["2xl", "3xl", "4xl", "48px"]}
                         lineHeight="1.05"
                         color={headingColor}
@@ -202,10 +204,10 @@ const HomeSinglePage = () => {
                         </Text>
                         <Box>
                             <Text as="span" color={sky} fontWeight={800} display="block" mt={2}>
-                                Vrindavan Chandrodhaya Mandir
+                                Chennai's Dhakshina Dwaraka Dham
                             </Text>
                         </Box>
-                    </Heading> */}
+                    </Heading>
 
                     {/* Campaigner image (circle) + message box to the right on desktop, stacked on mobile */}
                     <Grid templateColumns={["1fr", "1fr", "1fr", "250px 1fr"]} gap={8} alignItems="center" w="100%" mb={[6,8]}>
