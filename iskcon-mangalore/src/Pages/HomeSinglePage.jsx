@@ -186,7 +186,7 @@ const HomeSinglePage = () => {
                         as="h1"
                         textAlign="center"
                         fontFamily="'Poppins', sans-serif"
-                        fontSize={["xl", "2xl", "3xl", "26px"]}
+                        fontSize={["lg", "2xl", "3xl", "26px"]}
                         lineHeight={["25px","40px"]}
                         color={headingColor}
                         px={[2, 4]}
@@ -272,7 +272,7 @@ const HomeSinglePage = () => {
                     <Box w="100%" mt={[6,8]} px={[0,4]}>
                         <Stack direction={["column", "row"]} align="center" spacing={4} w={["100%", "80%", "60%"]}>
                             <Text fontWeight={800} color={sky} fontSize="sm" textAlign="center">GOAL:</Text>
-                            <Box flex="1"  w="100%">
+                            <Box align="center" flex="1"  w="100%">
                                 {/* Outer track */}
                                 <Box align="center" bg="#FDEEE8" borderRadius="40px" height="16px" position="relative" overflow="hidden">
                                     {/* inner fill */}

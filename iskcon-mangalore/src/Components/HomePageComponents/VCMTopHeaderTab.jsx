@@ -23,11 +23,11 @@ const VCMTopHeaderTab = () => {
             <HStack spacing={4} align="center">
                 {/* Logo left - use your image16 if available, else text */}
                 <HStack spacing={3} align="center">
-                    <Image src={image16} alt="logo" w={["40px", "85px"]} h={["40px", "40px"]} objectFit="contain" />
+                    <Image src={image16} alt="logo" w={["85px", "85px"]} h={["85px", "40px"]} objectFit="contain" />
                 </HStack>
             </HStack>
 
-            <HStack spacing={4}>
+            <HStack spacing={2} align="center">
                 <Button
                     bg={donateYellow}
                     color="#111"
@@ -36,12 +36,12 @@ const VCMTopHeaderTab = () => {
                     px={6}
                     py={3}
                     transform="scale(0.7)"
-                    transformOrigin="left center"
+                    transformOrigin="right center"
                 >
                     Donate
                 </Button>
 
-                <HStack bg="rgba(255,255,255,0.95)" px={3} py={2} borderRadius="md" color="#111" spacing={2}>
+                <HStack bg="rgba(255,255,255,0.95)" px={3} py={2} borderRadius="md" color="#111" spacing={2} transform="scale(0.7)" transformOrigin="right center">
                     <Icon as={FaPhoneAlt} />
                     <Text fontWeight={700} fontSize="sm">+91-6282408924</Text>
                 </HStack>
