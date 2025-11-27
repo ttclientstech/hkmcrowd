@@ -22,9 +22,7 @@ const VCMTopHeaderTab = () => {
         <Flex maxW="1200px" mx="auto" align="center" px={[2, 6]} justify="space-between">
             <HStack spacing={4} align="center">
                 {/* Logo left - use your image16 if available, else text */}
-                <HStack spacing={3} align="center">
                     <Image src={image16} alt="logo" w={["85px", "85px"]} h={["85px", "40px"]} objectFit="contain" />
-                </HStack>
             </HStack>
 
             <HStack spacing={[1, 2]} align="center">
