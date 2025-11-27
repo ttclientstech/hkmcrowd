@@ -27,7 +27,7 @@ import {
     useColorModeValue,
     Spacer,
 } from "@chakra-ui/react";
-import { FaArrowUp, FaShieldAlt, FaLandmark, FaOm, FaShareAlt, FaPhoneAlt } from "react-icons/fa";
+import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaPhoneAlt, FaClock } from "react-icons/fa";
 
 import DottedAnimation from "../Components/DottedAnimation";
 import PageNotFound from "../Components/HomePageComponents/PageNotFound";
@@ -40,16 +40,53 @@ import AdditionalDetails from "../Components/HomePageComponents/AdditionalDetail
 import CampaignTabs from "../Components/HomePageComponents/Tabs";
 import ProjectVedio from "../Components/HomePageComponents/ProjectVedio";
 import Fotter from "../Components/HomePageComponents/Fotter";
+import PoppinFont from "../Components/HomePageComponents/PoppinFont";
 
-// Fonts inserted for Merriweather (serif) and Inter (sans) and Cinzel for CTA
-const FontLinks = () => (
-    <>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-            rel="stylesheet"
-        />
-    </>
+
+const TrustStrip = () => (
+    <Box w="100%" bg="#fff9e5" borderBottom="1px solid #E2E8F0" py={4}>
+        <Flex
+            maxW="1200px"
+            mx="auto"
+            justify={["center", "center", "flex-start"]}
+            gap={[4, 8, 12]}
+            flexWrap="wrap"
+            px={4}
+        >
+            {/* Using Blue/Grey colors for Trust instead of Gold */}
+            <Flex align="center" gap={2}>
+                <Icon as={FaMapMarkerAlt} color="#2B6CB0" />
+                <Text fontSize="xs" fontWeight="700" color="gray.600" textTransform="uppercase">
+                    Thiruvanmiyur,Chennai
+                </Text>
+            </Flex>
+            <Flex align="center" gap={2}>
+                <Icon as={FaUserFriends} color="#2B6CB0" />
+                <Text fontSize="xs" fontWeight="700" color="gray.600" textTransform="uppercase">
+                    5,000+ Supporters
+                </Text>
+            </Flex>
+            <Flex align="center" gap={2}>
+                <Icon as={FaLandmark} color="#2B6CB0" />
+                <Text fontSize="xs" fontWeight="700" color="gray.600" textTransform="uppercase">
+                    Tax Benefits (80G)
+                </Text>
+            </Flex>
+        </Flex>
+    </Box>
 );
+
+const UrgencyBar = () => (
+    <Box bg="#2D3748" w="100%" py={2} px={4}>
+        <Flex maxW="1200px" mx="auto" justify="center" align="center" gap={2}>
+            <Icon as={FaClock} color="#F97316" /> {/* Urgent Orange */}
+            <Text color="white" fontSize="sm" fontWeight="bold">
+                Donate <Text as="span" color="#F97316">1 SQFT</Text> & Receive Maha Prasadam at your home
+            </Text>
+        </Flex>
+    </Box>
+);
+
 
 
 const HomeSinglePage = () => {
@@ -134,9 +171,10 @@ const HomeSinglePage = () => {
 
     return (
         <Box w="100%" minH="100vh" bg={heroBg} fontFamily="'Poppins', sans-serif" position="relative">
-            <FontLinks />
-
+            <PoppinFont />
+            <UrgencyBar />
             <DetailPageHeader getSingleUser={getSingleUser} />
+            <TrustStrip />
 
             {/* HERO - main top section exactly like screenshot */}
             <Box as="section" pt={[8, 10, 14]} pb={[6, 10]} >

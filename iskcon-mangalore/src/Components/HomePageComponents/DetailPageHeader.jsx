@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import transparentLogo from "../../assets/images/transparent_logo.png";
 import bannerBg from "../../assets/images/002_temple_night_view.jpeg";
+import PoppinFont from "./PoppinFont";
 
 const DetailPageHeader = ({ getSingleUser }) => {
     const campaignerName = getSingleUser?.campaignDetails?.campaignName || "A Devotee";
@@ -18,7 +19,9 @@ const DetailPageHeader = ({ getSingleUser }) => {
             flexDirection="column"
             justifyContent="space-between"
             boxShadow="2xl" // Adds depth at the bottom
+            fontFamily="'Poppins', sans-serif"
         >
+            <PoppinFont />
             {/* Top Gold Border */}
             <Box w="100%" h="4px" bgGradient="linear(to-r, #D4AF37, #FFD700, #D4AF37)" zIndex={10} />
 
@@ -111,7 +114,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
                     maxW={["100%", "750px"]}
                 >
                     <Text
-                        fontFamily="'Cinzel', serif"
+                        fontFamily="'Poppins', sans-serif"
                         fontSize={["xl", "2xl", "4xl"]} // Larger font for impact
                         color="#F9F5F0"
                         lineHeight="1.2"
