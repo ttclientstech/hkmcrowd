@@ -270,8 +270,8 @@ const HomeSinglePage = () => {
 
                     {/* GOAL label + custom progress bar with knob similar to screenshot */}
                     <Box w="100%" mt={[6,8]} px={[0,4]}>
-                        <HStack align="center" spacing={4}>
-                            <Text fontWeight={800} color={sky} fontSize="sm" textAlign="center">GOAL:</Text><br />
+                        <Stack direction={["column", "row"]} align="center" spacing={4} w="100%">
+                            <Text fontWeight={800} color={sky} fontSize="sm" textAlign="center">GOAL:</Text>
                             <Box flex="1">
                                 {/* Outer track */}
                                 <Box align="center" bg="#FDEEE8" borderRadius="40px" height="16px" position="relative" overflow="hidden">
@@ -298,7 +298,7 @@ const HomeSinglePage = () => {
                                     />
                                 </Box>
                             </Box>
-                        </HStack>
+                        </Stack>
                     </Box>
 
                     {/* Percentage text / raised info (large, blue) like screenshot */}
