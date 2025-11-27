@@ -1,149 +1,100 @@
-import { Box, Image, Text, Flex, Icon } from '@chakra-ui/react';
+import { Box, Image, Text, VStack, Heading, Icon, Flex, Badge } from '@chakra-ui/react';
 import React from 'react';
 import { FaQuoteLeft } from 'react-icons/fa';
 
 const PhotoWithDescription = ({ imageError, avatar, getSingleUser, handleImageError }) => {
+    // 1. DYNAMIC HEADLINE (VCM STYLE)
+    const campaignerName = getSingleUser?.campaignDetails?.campaignName || "The Campaigner";
+    const targetSqFt = "1,000"; // Or dynamic calculation
+
     return (
-        <Box w="100%" mx="auto" position="relative">
-            {/* 1. Image Section - Full Width */}
-            <Box
-                w="100%"
-                h={["300px", "400px", "450px"]}
-                overflow="hidden"
-                position="relative"
-            >
-                <Image
-                    w="100%"
-                    h="100%"
-                    objectFit="cover"
-                    src={imageError ? avatar : getSingleUser?.campaignDetails?.imgurl}
-                    onError={handleImageError}
-                    transition="transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
-                    _hover={{ transform: "scale(1.03)" }}
-                    alt="Campaigner"
-                />
+        <Box
+            w="100%"
+            mx="auto"
+            position="relative"
+            // VCM GLASS CARD STYLE
+            bg="rgba(20, 20, 20, 0.75)"
+            backdropFilter="blur(15px)"
+            borderRadius="xl"
+            border="1px solid rgba(255, 255, 255, 0.1)"
+            boxShadow="0 8px 32px 0 rgba(0, 0, 0, 0.5)"
+            p={[6, 8]}
+            color="white"
+            textAlign="center"
+        >
+            <VStack spacing={6}>
 
-                {/* Gradient Overlay */}
-                <Box
-                    position="absolute" bottom="0" left="0" w="100%" h="60%"
-                    bgGradient="linear(to-t, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%)"
-                />
-
-                <Flex
-                    direction="column"
-                    position="absolute"
-                    bottom="3rem"
-                    left="1.5rem"
-                    right="1.5rem"
-                >
-                    <Text
-                        color="#D4AF37"
-                        fontSize="sm"
-                        fontWeight="bold"
-                        letterSpacing="widest"
-                        textTransform="uppercase"
+                {/* 2. VCM HEADLINE - "Needs your support" */}
+                <Box borderBottom="1px solid rgba(255,255,255,0.1)" pb={4} w="100%">
+                    <Heading
                         fontFamily="'Cinzel', serif"
-                        mb={1}
-                    >
-                        Campaigner
-                    </Text>
-                    <Text
+                        fontSize={["xl", "2xl", "3xl"]}
+                        fontWeight="700"
                         color="white"
-                        fontSize={["xl", "2xl"]}
-                        fontWeight="bold"
-                        fontFamily="'Cinzel', serif"
-                        textShadow="0px 2px 4px rgba(0,0,0,0.8)"
-                        lineHeight="1.2"
+                        lineHeight="1.3"
                     >
-                        Sri {getSingleUser?.campaignDetails?.campaignName}
-                    </Text>
-                </Flex>
-            </Box>
+                        <Text as="span" color="#D4AF37">{campaignerName}</Text> needs your support to raise <Text as="span" color="#D4AF37">{targetSqFt} Square Feet</Text> for <br />
+                        <Text as="span" fontSize={["lg", "xl"]} fontWeight="400">Dakshina Dwaraka Dham</Text>
+                    </Heading>
 
-            {/* 2. Content Section - Floating Card with New Content Structure */}
-            <Box
-                bg="white"
-                p={["1.5rem", "2rem"]}
-                position="relative"
-                mx={[4, 6]}
-                mt="-3rem"
-                borderRadius="xl"
-                boxShadow="0px 10px 30px rgba(0,0,0,0.15)"
-                zIndex={2}
-            >
-                {/* Watermark Quote Icon */}
-                <Icon
-                    as={FaQuoteLeft}
-                    color="#D4AF37"
-                    w={10} h={10}
-                    opacity={0.15}
-                    position="absolute"
-                    top={4}
-                    left={4}
-                />
-
-                <Box
-                    fontSize={["md", "lg"]}
-                    fontFamily="'Merriweather', serif"
-                    color="#4A5568"
-                    lineHeight="1.8"
-                    textAlign="left"
-                    position="relative"
-                    zIndex={1}
-                >
-                    {/* CHANGED: New Header "A Message from the Campaigner" */}
-                    <Text
-                        fontWeight="bold"
-                        color="#D4AF37" // Gold
-                        fontSize="sm"
-                        textTransform="uppercase"
-                        letterSpacing="wider"
-                        fontFamily="'Cinzel', serif"
-                        display="block"
-                        mb={3}
-                        borderBottom="1px solid #E2E8F0"
-                        pb={2}
-                        w="fit-content"
-                    >
-                        A Message from the Campaigner
-                    </Text>
-
-                    {/* ----------------------------------------------------------- */}
-                    {/* CHANGED: HIGHLIGHTED BHAGAVAD GITA SLOKA BOX */}
-                    {/* ----------------------------------------------------------- */}
-                    <Box
-                        my={6}
-                        p={4}
-                        bg="#FFFAF0" // Light Cream Background
-                        borderLeft="4px solid #D4AF37" // Gold Border Left
-                        borderRadius="md"
-                        boxShadow="sm"
-                    >
-                        <Text
-                            fontFamily="'Cinzel', serif"
-                            fontWeight="bold"
-                            color="#2C0A0A"
-                            fontSize="lg"
-                            fontStyle="italic"
-                        >
-                            {/* PASTE THE SLOKA TEXT HERE */}
-                            Lord Krishna says in Bhagavad-Gita: "Whatever you give in charity - do that as an offering to Me."
-                        </Text>
-                        <Text fontSize="sm" color="#D4AF37" fontWeight="bold" mt={2} textAlign="right">
-                            — Bhagavad Gita 9.27
-                        </Text>
-                    </Box>
-
-                    {/* Closing Text */}
-                    <Text>
-                        I invite you to join me in this noble deed. Your contribution, no matter the size, helps place a brick in this monument of pride.
-                        <br /><br />
-                        <Text as="span" fontWeight="bold" color="#2C0A0A">
-                            Let's build this together!
-                        </Text>
+                    <Text fontSize="sm" color="gray.400" mt={2} letterSpacing="wide" textTransform="uppercase">
+                        A fundraising initiative for the construction of Chennai's Tallest Cultural Complex
                     </Text>
                 </Box>
-            </Box>
+
+                {/* 3. CAMPAIGNER IMAGE */}
+                <Box position="relative" display="inline-block">
+                    <Box
+                        p={1}
+                        borderRadius="full"
+                        border="2px solid #D4AF37"
+                        boxShadow="0 0 30px rgba(212, 175, 55, 0.3)"
+                    >
+                        <Image
+                            w={["130px", "160px"]}
+                            h={["130px", "160px"]}
+                            borderRadius="full"
+                            objectFit="cover"
+                            src={imageError ? avatar : getSingleUser?.campaignDetails?.imgurl}
+                            onError={handleImageError}
+                            alt="Campaigner"
+                        />
+                    </Box>
+                    <Badge
+                        position="absolute" bottom="-10px" left="50%" transform="translateX(-50%)"
+                        bg="#D4AF37" color="black" px={3} py={1} borderRadius="full"
+                        fontSize="xs" fontWeight="800" textTransform="uppercase"
+                    >
+                        Campaigner
+                    </Badge>
+                </Box>
+
+                {/* 4. CAMPAIGNER MESSAGE - "I have taken a pledge" */}
+                <Box maxW="800px" textAlign="left">
+                    <Flex align="flex-start" gap={2} mb={2}>
+                        <Icon as={FaQuoteLeft} color="#D4AF37" w={6} h={6} opacity={0.8} mt={1} />
+                        <Text
+                            fontSize={["md", "lg"]}
+                            color="white"
+                            lineHeight="1.8"
+                            fontFamily="'Merriweather', serif"
+                            fontWeight="300"
+                        >
+                            "I have taken a pledge to raise <Text as="span" color="#D4AF37" fontWeight="bold">Square Feet</Text> for Dakshina Dwaraka Dham.
+
+                            <br/><br/>
+                            Lord Krishna says in Bhagavad-Gita 9.27: <Text as="span" fontStyle="italic" color="#FBD38D">'Whatever you give in charity - do that as an offering to Me.'</Text>
+                            <br/><br/>
+                            This is not just a temple; it is a spiritual legacy. I cannot do this alone. I invite you to join me and place a brick in this monument of pride."
+                        </Text>
+                    </Flex>
+
+                    <Text textAlign="right" fontFamily="'Cinzel', serif" color="#D4AF37" fontWeight="bold" mt={4}>
+                        — {campaignerName}
+                    </Text>
+                </Box>
+
+            </VStack>
         </Box>
     );
 };
