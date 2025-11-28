@@ -43,12 +43,12 @@ import ProjectVedio from "../Components/HomePageComponents/ProjectVedio";
 import Fotter from "../Components/HomePageComponents/Fotter";
 import PoppinFont from "../Components/HomePageComponents/PoppinFont";
 import VCMTopHeaderTab from "../Components/HomePageComponents/VCMTopHeaderTab";
-import img_annadanam from "../assets/images/annadanam_hall.png";
-import img_festival from "../assets/images/festival_hall.png";
-import img_kalamadhuryam from "../assets/images/kalamadhuryam.png";
-import img_harinam from "../assets/images/harinaam_mandap.png";
-import img_icvk from "../assets/images/icvk.png";
-import img_gitalife from "../assets/images/gita_life.png";
+import img_annadanam from "../assets/images/annadanam_hall_1.png";
+import img_festival from "../assets/images/festival_hall_1.png";
+import img_kalamadhuryam from "../assets/images/kalamadhuryam_1.png";
+import img_harinam from "../assets/images/harinaam_mandap_1.png";
+import img_icvk from "../assets/images/icvk_1.png";
+import img_gitalife from "../assets/images/gita_life_1.png";
 
 
 
@@ -580,7 +580,7 @@ const HomeSinglePage = () => {
                         src={templeImages[currentIndex]}
                         alt="Temple Feature"
                         w="100%"
-                        h={["260px", "300px", "350px", "450px"]}
+                        h="auto"
                         transition="opacity 0.6s ease"
                         opacity={isFading ? 0 : 1}
                     />
