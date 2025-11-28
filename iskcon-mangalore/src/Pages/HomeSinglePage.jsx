@@ -212,6 +212,52 @@ const HomeSinglePage = () => {
     }, []);
 
 
+    // Temple Feature Images (replace with your actual image paths)
+    const templeImages = [
+        "../assets/images/annadanam_hall.png",
+        "../assets/images/festival_hall.png",
+        "../assets/images/kalamadhuryam.png",
+        "../assets/images/harinaam_mandap.png",
+        "../assets/images/icvk.png",
+        "../assets/images/gita_life.png"
+    ];
+
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [isFading, setIsFading] = useState(false);
+
+// Auto-slide every 3 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setIsFading(true);
+            setTimeout(() => {
+                setCurrentIndex(prev => (prev + 1) % templeImages.length);
+                setIsFading(false);
+            }, 500);
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+// Navigation
+    const nextSlide = () => {
+        setIsFading(true);
+        setTimeout(() => {
+            setCurrentIndex((prev) => (prev + 1) % templeImages.length);
+            setIsFading(false);
+        }, 400);
+    };
+
+    const prevSlide = () => {
+        setIsFading(true);
+        setTimeout(() => {
+            setCurrentIndex((prev) =>
+                prev === 0 ? templeImages.length - 1 : prev - 1
+            );
+            setIsFading(false);
+        }, 400);
+    };
+
+
     // colors and typography matching screenshot
     const headerBg = "#2F3F51"; // deep bluish header in screenshot
     const donateYellow = "#FFD400";
@@ -453,7 +499,7 @@ const HomeSinglePage = () => {
                     <Box flex="1" w="100%">
                         <Text
                             fontSize={["2xl", "3xl"]}
-                            fontWeight="800"
+                            fontWeight="700"
                             color="#5eb0ff"
                             fontFamily="'Poppins', sans-serif"
                             mb={4}
@@ -489,6 +535,99 @@ const HomeSinglePage = () => {
                     </Box>
                 </Flex>
             </Box>
+
+
+            {/* ============================================================
+     TEMPLE FEATURES – AUTO SLIDE CAROUSEL (VCM STYLE)
+   ============================================================ */}
+
+            <Box
+                w="100%"
+                maxW="1200px"
+                mx="auto"
+                mt={12}
+                px={[4, 6]}
+                fontFamily="'Poppins', sans-serif"
+            >
+
+                {/* SECTION TITLE */}
+                <Text
+                    fontSize={["2xl", "3xl"]}
+                    fontWeight="800"
+                    color="#5eb0ff"
+                    textAlign="center"
+                    mb={6}
+                >
+                    Temple Features
+                </Text>
+
+                {/* CAROUSEL */}
+                <Box
+                    position="relative"
+                    overflow="hidden"
+                    borderRadius="12px"
+                    boxShadow="0 4px 20px rgba(0,0,0,0.25)"
+                >
+                    {/* MAIN IMAGE */}
+                    <Image
+                        src={templeImages[currentIndex]}
+                        alt="Temple Feature"
+                        w="100%"
+                        h="auto"
+                        transition="opacity 0.6s ease"
+                        opacity={isFading ? 0 : 1}
+                    />
+
+                    {/* LEFT ARROW */}
+                    <Box
+                        position="absolute"
+                        top="50%"
+                        left="10px"
+                        transform="translateY(-50%)"
+                        cursor="pointer"
+                        fontSize="2xl"
+                        color="white"
+                        opacity="0.8"
+                        onClick={prevSlide}
+                        _hover={{ opacity: 1 }}
+                    >
+                        ❮
+                    </Box>
+
+                    {/* RIGHT ARROW */}
+                    <Box
+                        position="absolute"
+                        top="50%"
+                        right="10px"
+                        transform="translateY(-50%)"
+                        cursor="pointer"
+                        fontSize="2xl"
+                        color="white"
+                        opacity="0.8"
+                        onClick={nextSlide}
+                        _hover={{ opacity: 1 }}
+                    >
+                        ❯
+                    </Box>
+                </Box>
+
+                {/* DOT INDICATORS */}
+                <Flex justify="center" mt={4} gap={3}>
+                    {templeImages.map((_, i) => (
+                        <Box
+                            key={i}
+                            w="10px"
+                            h="10px"
+                            borderRadius="full"
+                            bg={i === currentIndex ? "#000" : "#d0d0d0"}
+                            border={i === currentIndex ? "2px solid #FFD700" : "none"}
+                            cursor="pointer"
+                            onClick={() => setCurrentIndex(i)}
+                        />
+                    ))}
+                </Flex>
+            </Box>
+
 
 
 
