@@ -115,6 +115,55 @@ const HomeSinglePage = () => {
 
     useEffect(() => { dispatch(fetchSingleUser(id)); }, [dispatch, id]);
 
+    // Animation states
+    const [animatedPercent, setAnimatedPercent] = useState(0);
+    const [animatedSqft, setAnimatedSqft] = useState(0);
+
+// Refs for scroll-trigger
+    const progressRef = useRef(null);
+    const percentRef = useRef(null);
+
+// Animate values on scroll
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    animateProgressAndNumbers();
+                    observer.disconnect(); // Run only once
+                }
+            },
+            { threshold: 0.3 }
+        );
+
+        if (percentRef.current) observer.observe(percentRef.current);
+
+        return () => observer.disconnect();
+    }, [percent, raisedSqft]);
+
+    const animateProgressAndNumbers = () => {
+        let start = 0;
+        let duration = 1500; // 1.5 seconds
+        let fps = 60;
+        let increment = percent / (duration / (1000 / fps));
+
+        const animate = () => {
+            start += increment;
+
+            if (start >= percent) {
+                setAnimatedPercent(percent);
+                setAnimatedSqft(raisedSqft);
+                return;
+            }
+
+            setAnimatedPercent(Math.floor(start));
+            setAnimatedSqft(Math.floor((start / percent) * raisedSqft));
+
+            requestAnimationFrame(animate);
+        };
+
+        requestAnimationFrame(animate);
+    };
+
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
         const handleScroll = () => setShowScrollButton(window.scrollY > 300);
@@ -269,7 +318,7 @@ const HomeSinglePage = () => {
                     </Grid>
 
                     {/* GOAL label + custom progress bar with knob similar to screenshot */}
-                    <Box w="100%" mt={[6,8]} px={[0,4]}>
+                    <Box w="100%" mt={[6,8]} px={[0,4]} ref={progressRef}>
                         <Stack direction={["column", "row"]} align="center" spacing={4} w={["100%", "80%", "60%"]}>
                             <Text fontWeight={800} color={sky} fontSize="sm" textAlign="center">GOAL:</Text>
                             <Box align="center" flex="1"  w="100%">
@@ -277,16 +326,16 @@ const HomeSinglePage = () => {
                                 <Box align="center" bg="#FDEEE8" borderRadius="40px" height="16px" position="relative" overflow="hidden">
                                     {/* inner fill */}
                                     <Box
-                                        bg="linear-gradient(90deg, #FF6A00, #FFA87A)"
-                                        width={`${percent}%`}
+                                        bg="linear-gradient(90deg, #FF6A00, #FF6A00)"
+                                        width={`${animatedPercent}%`}
                                         height="100%"
-                                        transition="width 0.8s ease"
+                                        transition="width 1.5s ease-out"
                                         position="relative"
                                     />
                                     {/* white knob */}
                                     <Box
                                         position="absolute"
-                                        left={`calc(${percent}% - 10px)`}
+                                        left={`calc(${animatedPercent}% - 10px)`}
                                         top="50%"
                                         transform="translateY(-50%)"
                                         width="20px"
@@ -295,6 +344,7 @@ const HomeSinglePage = () => {
                                         borderRadius="full"
                                         boxShadow="0 3px 8px rgba(0,0,0,0.12)"
                                         border="4px solid #FF6A00"
+                                        transition="left 1.5s ease-out"
                                     />
                                 </Box>
                             </Box>
@@ -302,9 +352,9 @@ const HomeSinglePage = () => {
                     </Box>
 
                     {/* Percentage text / raised info (large, blue) like screenshot */}
-                    <Box mt={6} textAlign="center">
+                    <Box mt={6} textAlign="center" ref={percentRef}>
                         <Text fontFamily="'Poppins', sans-serif" fontSize={["lg","2xl","3xl"]} color={sky} fontWeight={800}>
-                            {percent}% ({raisedSqft.toLocaleString()} Square Feet) of {goalSqft.toLocaleString()} Square Feet raised
+                            {animatedPercent}% ({animatedSqft.toLocaleString()} Square Feet) of {goalSqft.toLocaleString()} Square Feet raised
                         </Text>
                     </Box>
                 </Flex>
