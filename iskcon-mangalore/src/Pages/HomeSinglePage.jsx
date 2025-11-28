@@ -303,7 +303,8 @@ const HomeSinglePage = () => {
                                     {/* inner fill */}
                                     <Box
                                         bg="linear-gradient(90deg, #FF6A00, #FF6A00)"
-                                        width={`${animatedPercent}%`}
+                                        width={animatedPercent === 0 ? "0%" : `${animatedPercent}%`}
+                                        transformOrigin="left"
                                         height="100%"
                                         transition="width 1.5s ease-out"
                                     />
