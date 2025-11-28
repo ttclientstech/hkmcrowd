@@ -115,55 +115,6 @@ const HomeSinglePage = () => {
 
     useEffect(() => { dispatch(fetchSingleUser(id)); }, [dispatch, id]);
 
-    // Animation states
-    const [animatedPercent, setAnimatedPercent] = useState(0);
-    const [animatedSqft, setAnimatedSqft] = useState(0);
-
-// Refs for scroll-trigger
-    const progressRef = useRef(null);
-    const percentRef = useRef(null);
-
-// Animate values on scroll
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    animateProgressAndNumbers();
-                    observer.disconnect(); // Run only once
-                }
-            },
-            { threshold: 0.3 }
-        );
-
-        if (percentRef.current) observer.observe(percentRef.current);
-
-        return () => observer.disconnect();
-    }, [percent, raisedSqft]);
-
-    const animateProgressAndNumbers = () => {
-        let start = 0;
-        let duration = 1500; // 1.5 seconds
-        let fps = 60;
-        let increment = percent / (duration / (1000 / fps));
-
-        const animate = () => {
-            start += increment;
-
-            if (start >= percent) {
-                setAnimatedPercent(percent);
-                setAnimatedSqft(raisedSqft);
-                return;
-            }
-
-            setAnimatedPercent(Math.floor(start));
-            setAnimatedSqft(Math.floor((start / percent) * raisedSqft));
-
-            requestAnimationFrame(animate);
-        };
-
-        requestAnimationFrame(animate);
-    };
-
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
         const handleScroll = () => setShowScrollButton(window.scrollY > 300);
@@ -209,6 +160,55 @@ const HomeSinglePage = () => {
 
     const recentDonors = getSingleUser?.top10paymentDetails || getSingleUser?.userList || [];
     const totalFunders = getSingleUser?.totalFunders || getSingleUser?.funderstotal || 0;
+
+    // Animation states
+    const [animatedPercent, setAnimatedPercent] = useState(0);
+    const [animatedSqft, setAnimatedSqft] = useState(0);
+
+    // Refs for scroll-trigger
+    const progressRef = useRef(null);
+    const percentRef = useRef(null);
+
+    // Animate values on scroll
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    animateProgressAndNumbers();
+                    observer.disconnect(); // Run only once
+                }
+            },
+            { threshold: 0.3 }
+        );
+
+        if (percentRef.current) observer.observe(percentRef.current);
+
+        return () => observer.disconnect();
+    }, [percent, raisedSqft]);
+
+    const animateProgressAndNumbers = () => {
+        let start = 0;
+        let duration = 1500; // 1.5 seconds
+        let fps = 60;
+        let increment = percent / (duration / (1000 / fps));
+
+        const animate = () => {
+            start += increment;
+
+            if (start >= percent) {
+                setAnimatedPercent(percent);
+                setAnimatedSqft(raisedSqft);
+                return;
+            }
+
+            setAnimatedPercent(Math.floor(start));
+            setAnimatedSqft(Math.floor((start / percent) * raisedSqft));
+
+            requestAnimationFrame(animate);
+        };
+
+        requestAnimationFrame(animate);
+    };
 
     // colors and typography matching screenshot
     const headerBg = "#2F3F51"; // deep bluish header in screenshot
