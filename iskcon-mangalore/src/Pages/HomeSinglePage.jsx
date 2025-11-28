@@ -152,13 +152,26 @@ const HomeSinglePage = () => {
 
     /* simplified bar-only animation */
     const [animatedPercent, setAnimatedPercent] = useState(0);
+    const progressBarRef = useRef(null);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setAnimatedPercent(percent);
-        }, 300);
+        if (!progressBarRef.current) return;
 
-        return () => clearTimeout(timer);
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setAnimatedPercent(percent); // Smooth fill
+                        observer.disconnect(); // Run only once
+                    }
+                });
+            },
+            { threshold: 0.5 }
+        );
+
+        observer.observe(progressBarRef.current);
+
+        return () => observer.disconnect();
     }, [percent]);
     /* CHANGE END */
 
@@ -281,7 +294,7 @@ const HomeSinglePage = () => {
                     </Grid>
 
                     {/* GOAL label + custom progress bar with knob similar to screenshot */}
-                    <Box w="100%" mt={[6,8]} px={[0,4]} ref={progressRef}>
+                    <Box w="100%" mt={[6,8]} px={[0,4]} ref={progressBarRef}>>
                         <Stack direction={["column", "row"]} align="center" spacing={4} w={["100%", "80%", "60%"]}>
                             <Text fontWeight={800} color={sky} fontSize="sm" textAlign="center">GOAL:</Text>
                             <Box align="center" flex="1"  w="100%">
@@ -293,7 +306,6 @@ const HomeSinglePage = () => {
                                         width={`${animatedPercent}%`}
                                         height="100%"
                                         transition="width 1.5s ease-out"
-                                        position="relative"
                                     />
                                     {/* white knob */}
                                     <Box
@@ -314,9 +326,9 @@ const HomeSinglePage = () => {
                     </Box>
 
                     {/* Percentage text / raised info (large, blue) like screenshot */}
-                    <Box mt={6} textAlign="center" ref={percentRef}>
+                    <Box mt={6} textAlign="center">
                         <Text fontFamily="'Poppins', sans-serif" fontSize={["lg","2xl","3xl"]} color={sky} fontWeight={800}>
-                            {animatedPercent}% ({animatedSqft.toLocaleString()} Square Feet) of {goalSqft.toLocaleString()} Square Feet raised
+                            {percent}% ({raisedSqft.toLocaleString()} Square Feet) of {goalSqft.toLocaleString()} Square Feet raised
                         </Text>
                     </Box>
                 </Flex>
