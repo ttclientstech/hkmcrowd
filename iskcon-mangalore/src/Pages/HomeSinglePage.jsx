@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchSingleUser, postPaymentFormData } from "../Redux/clientSlices/clientUsers";
 import avatar from "../assets/images/Avatar-PNG-Image.webp";
+import ddd_poster_mob from "../assets/images/ddd_poster_mob.png";
 import {
     Box,
     IconButton,
@@ -326,6 +327,54 @@ const HomeSinglePage = () => {
                     </Box>
                 </Flex>
             </Box>
+
+            {/* ================== TEMPLE IMAGE SECTION (MOBILE ONLY) ================== */}
+            <Box
+                w="100%"
+                mt={10}
+                display={{ base: "block", md: "block", lg: "none" }}   // 👈 MOBILE ONLY
+            >
+
+                {/* Yellow ribbon above image */}
+                <Box
+                    bg="#FFE150"
+                    w="100%"
+                    py={[2, 3]}
+                    textAlign="center"
+                    px={3}
+                >
+                    <Text
+                        fontSize={["sm", "md"]}
+                        fontWeight="700"
+                        color="#1A1A1A"
+                        fontFamily="'Poppins', sans-serif"
+                    >
+                        A fundraising initiative for the construction of the
+                        chennai's tallest cultural complex & temple for Lord Sri Krishna
+                    </Text>
+                </Box>
+
+                {/* Temple image */}
+                <Box
+                    display="flex"
+                    justifyContent="center"
+                    bg="#2E2B33"
+                    py={6}
+                    px={[2, 4]}
+                >
+                    <Image
+                        src={ddd_poster_mob}
+                        alt="Dakshina Dwaraka Dham"
+                        maxW="900px"
+                        w="100%"
+                        borderRadius="md"
+                        boxShadow="0 8px 25px rgba(0,0,0,0.35)"
+                    />
+                </Box>
+
+            </Box>
+            {/* ================== END TEMPLE IMAGE SECTION ================== */}
+
 
             {/* After hero: original page content continues (tabs, details, etc.)  */}
             <Box maxW="1200px" mx="auto" px={[4,6]} mt={[6,8]}>
