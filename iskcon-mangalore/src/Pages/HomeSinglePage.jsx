@@ -180,6 +180,38 @@ const HomeSinglePage = () => {
         return () => observer.disconnect();
     }, [finalPercent]);
 
+
+    // ===================== YOUTUBE AUTO-PLAY LOGIC =====================
+
+// Replace with your actual YouTube video ID
+    const YT_VIDEO_ID = "Pzhrmkl4f28";
+
+// Holds final autoplay link once triggered
+    const [videoSrc, setVideoSrc] = useState("");
+
+// Reference to scroll-trigger container
+    const videoRef = useRef(null);
+
+    useEffect(() => {
+        if (!videoRef.current) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    // Load video with autoplay activated
+                    setVideoSrc(`https://www.youtube.com/embed/${YT_VIDEO_ID}?autoplay=1&mute=1`);
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.5 } // User must see 50% of the section
+        );
+
+        observer.observe(videoRef.current);
+
+        return () => observer.disconnect();
+    }, []);
+
+
     // colors and typography matching screenshot
     const headerBg = "#2F3F51"; // deep bluish header in screenshot
     const donateYellow = "#FFD400";
@@ -364,13 +396,100 @@ const HomeSinglePage = () => {
                         alt="Dakshina Dwaraka Dham"
                         maxW="900px"
                         w="100%"
-                        borderRadius="md"
-                        boxShadow="0 8px 25px rgba(0,0,0,0.35)"
                     />
                 </Box>
 
             </Box>
             {/* ================== END TEMPLE IMAGE SECTION ================== */}
+
+            {/* ============================================================
+     TEMPLE VIDEO + INTRO SECTION (Responsive + Auto-Play)
+   ============================================================ */}
+            <Box
+                w="100%"
+                mt={10}
+                px={[4, 6]}
+                maxW="1200px"
+                mx="auto"
+            >
+
+                {/* VIDEO + TEXT FLEX (Responsive: column for mobile, row for desktop) */}
+                <Flex
+                    direction={["column", "column", "column", "row"]}
+                    align="flex-start"
+                    gap={8}
+                >
+
+                    {/* ===================== YOUTUBE VIDEO (AutoPlay on Scroll) ===================== */}
+                    <Box flex="1" w="100%">
+                        <Box
+                            ref={videoRef}
+                            position="relative"
+                            paddingBottom="56.25%"  /* 16:9 ratio */
+                            height="0"
+                            overflow="hidden"
+                            borderRadius="12px"
+                            boxShadow="0 4px 20px rgba(0,0,0,0.3)"
+                        >
+                            <iframe
+                                src={videoSrc}   // auto updates when in view
+                                title="Temple Construction Video"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                                style={{
+                                    position: "absolute",
+                                    top: 0,
+                                    left: 0,
+                                    width: "100%",
+                                    height: "100%",
+                                    borderRadius: "12px"
+                                }}
+                            />
+                        </Box>
+                    </Box>
+
+                    {/* ===================== DESCRIPTION SECTION ===================== */}
+                    <Box flex="1" w="100%">
+                        <Text
+                            fontSize={["2xl", "3xl"]}
+                            fontWeight="800"
+                            color="#5eb0ff"
+                            fontFamily="'Poppins', sans-serif"
+                            mb={4}
+                        >
+                            Dakshina Dwaraka Dham: <br /> Inspiration & Aspiration
+                        </Text>
+
+                        <Text
+                            fontSize="md"
+                            color="#1A1A1A"
+                            lineHeight="1.7"
+                            mb={4}
+                            fontFamily="'Poppins', sans-serif"
+                        >
+                            Nestled along the scenic seashore of the Bay of Bengal in Thiruvanmiyur,
+                            Chennai, the Dakshina Dwaraka Dham Cultural Complex is envisioned as a
+                            magnificent center to promote and preserve India’s timeless spiritual and
+                            cultural heritage. Designed in the traditional Pallava style of architecture,
+                            this will be the second shore temple in Tamil Nadu, reflecting the grandeur
+                            and sacred artistry of India’s ancient temple builders.
+                        </Text>
+
+                        <Text
+                            fontSize="md"
+                            color="#1A1A1A"
+                            lineHeight="1.7"
+                            fontFamily="'Poppins', sans-serif"
+                        >
+                            With a total built-up area of about 40,000 sq. ft., Dakshina Dwaraka Dham
+                            will be a spiritual, educational, and cultural beacon-uniting devotion,
+                            knowledge, and heritage for the upliftment of society.
+                        </Text>
+                    </Box>
+                </Flex>
+            </Box>
+
 
 
             {/* After hero: original page content continues (tabs, details, etc.)  */}
