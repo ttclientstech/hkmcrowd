@@ -150,29 +150,34 @@ const HomeSinglePage = () => {
     const recentDonors = getSingleUser?.top10paymentDetails || getSingleUser?.userList || [];
     const totalFunders = getSingleUser?.totalFunders || getSingleUser?.funderstotal || 0;
 
-    /* simplified bar-only animation */
-    const progressBarRef = useRef(null);         // place near top of component
-    const [animatedPctVar, setAnimatedPctVar] = useState(0); // this drives the CSS var
+    const progressRef = useRef(null);
+    const [progressValue, setProgressValue] = useState(0);
+    const finalPercent =
+        goalSqft > 0
+            ? Math.min(100, Math.round((raisedSqft / goalSqft) * 100))
+            : 0;
 
+// Scroll-triggered fill animation (smooth)
     useEffect(() => {
-        if (!progressBarRef.current) return;
-        const node = progressBarRef.current;
-        const obs = new IntersectionObserver(
-            (entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // Set the CSS variable via React state (single source)
-                        setAnimatedPctVar(percent); // percent is your target integer 0..100
-                        obs.disconnect();
-                    }
-                });
+        if (!progressRef.current) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    // Smooth animation: use CSS transitions, no step logic
+                    requestAnimationFrame(() => {
+                        setProgressValue(finalPercent);
+                    });
+
+                    observer.disconnect();
+                }
             },
-            { threshold: 0.45 } // fire when ~half visible
+            { threshold: 0.4 }
         );
-        obs.observe(node);
-        return () => obs.disconnect();
-    }, [percent]);
-    /* CHANGE END */
+
+        observer.observe(progressRef.current);
+        return () => observer.disconnect();
+    }, [finalPercent]);
 
     // colors and typography matching screenshot
     const headerBg = "#2F3F51"; // deep bluish header in screenshot
@@ -293,51 +298,20 @@ const HomeSinglePage = () => {
                     </Grid>
 
                     {/* GOAL label + custom progress bar with knob similar to screenshot */}
-                    <Box w="100%" mt={[6,8]} px={[0,4]} ref={progressBarRef}>
+                    <Box w="100%" mt={[6,8]} px={[0,4]} ref={progressRef}>
                         <Stack direction={["column", "row"]} align="center" spacing={4} w={["100%", "80%", "60%"]} mx="auto">
                             <Text fontWeight={800} color={sky} fontSize="sm">GOAL:</Text>
 
-                            {/* Outer track */}
-                            <Box
-                                flex="1"
-                                h="16px"
-                                bg="#FDEEE8"
-                                borderRadius="40px"
-                                position="relative"
-                                overflow="hidden"
-                                /* Pass CSS var --pct (0..100) to the DOM element. Use CSS variable for child transforms. */
-                                style={{ ['--pct' /* eslint-disable-line no-undef */]: animatedPctVar }}
-                            >
-                                {/* Fill: full-width element but scaled horizontally from left */}
-                                <Box
-                                    height="100%"
-                                    width="100%"
-                                    bg="linear-gradient(90deg,#FF6A00,#FF6A00)"
-                                    transform="scaleX(0)"
-                                    transformOrigin="left"
-                                    /* use var(--pct) to compute scaleX; transition on transform */
+                            <Box flex="1" w="100%">
+                                <Progress
+                                    value={progressValue}
+                                    size="lg"
+                                    borderRadius="40px"
+                                    bg="#FDEEE8"
                                     sx={{
-                                        transform: `scaleX(calc(var(--pct) / 100))`,
-                                        transition: 'transform 2000ms cubic-bezier(0.22,1,0.36,1)',
-                                        willChange: 'transform'
-                                    }}
-                                />
-
-                                {/* Knob: absolute element that moves using transform (not left) based on the same --pct */}
-                                <Box
-                                    position="absolute"
-                                    top="50%"
-                                    left="0"
-                                    width="20px"
-                                    height="20px"
-                                    bg="white"
-                                    borderRadius="full"
-                                    border="4px solid #FF6A00"
-                                    /* move using translateX based on same var, subtract half knob to center it */
-                                    sx={{
-                                        transform: 'translateY(-50%) translateX(calc(var(--pct) * 1% - 10px))',
-                                        transition: 'transform 2000ms cubic-bezier(0.22,1,0.36,1)',
-                                        willChange: 'transform'
+                                        "& > div": {
+                                            bg: "#FF6A00", // your color
+                                        },
                                     }}
                                 />
                             </Box>
@@ -347,7 +321,7 @@ const HomeSinglePage = () => {
                     {/* Percentage text / raised info (large, blue) like screenshot */}
                     <Box mt={6} textAlign="center">
                         <Text fontFamily="'Poppins', sans-serif" fontSize={["lg","2xl","3xl"]} color={sky} fontWeight={800}>
-                            {percent}% ({raisedSqft.toLocaleString()} Square Feet) of {goalSqft.toLocaleString()} Square Feet raised
+                            {finalPercent}% ({raisedSqft.toLocaleString()} Square Feet) of {goalSqft.toLocaleString()} Square Feet raised
                         </Text>
                     </Box>
                 </Flex>
