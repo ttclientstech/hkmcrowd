@@ -294,7 +294,7 @@ const HomeSinglePage = () => {
                     </Grid>
 
                     {/* GOAL label + custom progress bar with knob similar to screenshot */}
-                    <Box w="100%" mt={[6,8]} px={[0,4]} ref={progressBarRef}>>
+                    <Box w="100%" mt={[6,8]} px={[0,4]} ref={progressBarRef}>
                         <Stack direction={["column", "row"]} align="center" spacing={4} w={["100%", "80%", "60%"]}>
                             <Text fontWeight={800} color={sky} fontSize="sm" textAlign="center">GOAL:</Text>
                             <Box align="center" flex="1"  w="100%">
@@ -303,10 +303,11 @@ const HomeSinglePage = () => {
                                     {/* inner fill */}
                                     <Box
                                         bg="linear-gradient(90deg, #FF6A00, #FF6A00)"
-                                        width={animatedPercent === 0 ? "0%" : `${animatedPercent}%`}
-                                        transformOrigin="left"
                                         height="100%"
-                                        transition="width 1.5s ease-out"
+                                        width="100%"
+                                        transform={`scaleX(${animatedPercent / 100})`}
+                                        transformOrigin="left"
+                                        transition="transform 1.5s ease-out"
                                     />
                                     {/* white knob */}
                                     <Box
