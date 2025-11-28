@@ -173,14 +173,14 @@ const HomeSinglePage = () => {
     return (
         <Box w="100%" minH="100vh" bg={heroBg} fontFamily="'Poppins', sans-serif" position="relative">
             <PoppinFont />
-            <VCMTopHeaderTab />
-            {/*<DetailPageHeader getSingleUser={getSingleUser} />
-            <TrustStrip />*/}
+            {/*<VCMTopHeaderTab />*/}
+            <DetailPageHeader getSingleUser={getSingleUser} />
+            <TrustStrip />
 
             {/* HERO - main top section exactly like screenshot */}
             <Box as="section" pt={[4, 10, 14]} pb={[8, 10]} >
                 <Flex direction="column" align="center" maxW="1200px" mx="auto" px={[4,6]}>
-                    {/* The heading line: NAME (coral) + rest (sky) + goal number highlight */}
+                    {/* The heading line: NAME (coral) + rest (sky) + goal number highlight
 
                     <Heading
                         as="h1"
@@ -206,7 +206,7 @@ const HomeSinglePage = () => {
                                 Chennai's Dhakshina Dwaraka Dham
                             </Text>
                         </Box>
-                    </Heading>
+                    </Heading>*/}
 
                     {/* Campaigner image (circle) + message box to the right on desktop, stacked on mobile */}
                     <Grid templateColumns={["1fr", "1fr", "1fr", "250px 1fr"]} gap={8} alignItems="center" w="100%" mb={[4,8]} mt="4px">
