@@ -307,20 +307,20 @@ const HomeSinglePage = () => {
                                         width="100%"
                                         transform={`scaleX(${animatedPercent / 100})`}
                                         transformOrigin="left"
-                                        transition="transform 1.5s ease-out"
+                                        transition="transform 2s cubic-bezier(0.22, 1, 0.36, 1)"
                                     />
                                     {/* white knob */}
                                     <Box
                                         position="absolute"
-                                        left={`calc(${animatedPercent}% - 10px)`}
                                         top="50%"
-                                        transform="translateY(-50%)"
                                         width="20px"
                                         height="20px"
                                         bg="white"
                                         borderRadius="50%"
                                         border="4px solid #FF6A00"
-                                        transition="left 1.5s ease-out"
+                                        transform={`translate(calc(${animatedPercent}% - 10px), -50%)`}
+                                        transformOrigin="left"
+                                        transition="transform 2s cubic-bezier(0.22, 1, 0.36, 1)"
                                     />
                                 </Box>
                             </Box>
