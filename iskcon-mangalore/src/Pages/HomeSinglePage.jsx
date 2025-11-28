@@ -150,54 +150,17 @@ const HomeSinglePage = () => {
     const recentDonors = getSingleUser?.top10paymentDetails || getSingleUser?.userList || [];
     const totalFunders = getSingleUser?.totalFunders || getSingleUser?.funderstotal || 0;
 
-    // Animation states
+    /* simplified bar-only animation */
     const [animatedPercent, setAnimatedPercent] = useState(0);
-    const [animatedSqft, setAnimatedSqft] = useState(0);
 
-    // Refs for scroll-trigger
-    const progressRef = useRef(null);
-    const percentRef = useRef(null);
-
-    // Animate values on scroll
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    animateProgressAndNumbers();
-                    observer.disconnect(); // Run only once
-                }
-            },
-            { threshold: 0.3 }
-        );
+        const timer = setTimeout(() => {
+            setAnimatedPercent(percent);
+        }, 300);
 
-        if (percentRef.current) observer.observe(percentRef.current);
-
-        return () => observer.disconnect();
-    }, [percent, raisedSqft]);
-
-    const animateProgressAndNumbers = () => {
-        let start = 0;
-        let duration = 1500; // 1.5 seconds
-        let fps = 60;
-        let increment = percent / (duration / (1000 / fps));
-
-        const animate = () => {
-            start += increment;
-
-            if (start >= percent) {
-                setAnimatedPercent(percent);
-                setAnimatedSqft(raisedSqft);
-                return;
-            }
-
-            setAnimatedPercent(Math.floor(start));
-            setAnimatedSqft(Math.floor((start / percent) * raisedSqft));
-
-            requestAnimationFrame(animate);
-        };
-
-        requestAnimationFrame(animate);
-    };
+        return () => clearTimeout(timer);
+    }, [percent]);
+    /* CHANGE END */
 
     // colors and typography matching screenshot
     const headerBg = "#2F3F51"; // deep bluish header in screenshot
@@ -341,8 +304,7 @@ const HomeSinglePage = () => {
                                         width="20px"
                                         height="20px"
                                         bg="white"
-                                        borderRadius="full"
-                                        boxShadow="0 3px 8px rgba(0,0,0,0.12)"
+                                        borderRadius="50%"
                                         border="4px solid #FF6A00"
                                         transition="left 1.5s ease-out"
                                     />
