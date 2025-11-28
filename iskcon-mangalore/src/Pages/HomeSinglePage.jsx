@@ -151,27 +151,26 @@ const HomeSinglePage = () => {
     const totalFunders = getSingleUser?.totalFunders || getSingleUser?.funderstotal || 0;
 
     /* simplified bar-only animation */
-    const [animatedPercent, setAnimatedPercent] = useState(0);
-    const progressBarRef = useRef(null);
+    const progressBarRef = useRef(null);         // place near top of component
+    const [animatedPctVar, setAnimatedPctVar] = useState(0); // this drives the CSS var
 
     useEffect(() => {
         if (!progressBarRef.current) return;
-
-        const observer = new IntersectionObserver(
+        const node = progressBarRef.current;
+        const obs = new IntersectionObserver(
             (entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        setAnimatedPercent(percent); // Smooth fill
-                        observer.disconnect(); // Run only once
+                        // Set the CSS variable via React state (single source)
+                        setAnimatedPctVar(percent); // percent is your target integer 0..100
+                        obs.disconnect();
                     }
                 });
             },
-            { threshold: 0.5 }
+            { threshold: 0.45 } // fire when ~half visible
         );
-
-        observer.observe(progressBarRef.current);
-
-        return () => observer.disconnect();
+        obs.observe(node);
+        return () => obs.disconnect();
     }, [percent]);
     /* CHANGE END */
 
@@ -295,34 +294,52 @@ const HomeSinglePage = () => {
 
                     {/* GOAL label + custom progress bar with knob similar to screenshot */}
                     <Box w="100%" mt={[6,8]} px={[0,4]} ref={progressBarRef}>
-                        <Stack direction={["column", "row"]} align="center" spacing={4} w={["100%", "80%", "60%"]}>
-                            <Text fontWeight={800} color={sky} fontSize="sm" textAlign="center">GOAL:</Text>
-                            <Box align="center" flex="1"  w="100%">
-                                {/* Outer track */}
-                                <Box align="center" bg="#FDEEE8" borderRadius="40px" height="16px" position="relative" overflow="hidden">
-                                    {/* inner fill */}
-                                    <Box
-                                        bg="linear-gradient(90deg, #FF6A00, #FF6A00)"
-                                        height="100%"
-                                        width="100%"
-                                        transform={`scaleX(${animatedPercent / 100})`}
-                                        transformOrigin="left"
-                                        transition="transform 2s cubic-bezier(0.22, 1, 0.36, 1)"
-                                    />
-                                    {/* white knob */}
-                                    <Box
-                                        position="absolute"
-                                        top="50%"
-                                        width="20px"
-                                        height="20px"
-                                        bg="white"
-                                        borderRadius="50%"
-                                        border="4px solid #FF6A00"
-                                        transform={`translate(calc(${animatedPercent}% - 10px), -50%)`}
-                                        transformOrigin="left"
-                                        transition="transform 2s cubic-bezier(0.22, 1, 0.36, 1)"
-                                    />
-                                </Box>
+                        <Stack direction={["column", "row"]} align="center" spacing={4} w={["100%", "80%", "60%"]} mx="auto">
+                            <Text fontWeight={800} color={sky} fontSize="sm">GOAL:</Text>
+
+                            {/* Outer track */}
+                            <Box
+                                flex="1"
+                                h="16px"
+                                bg="#FDEEE8"
+                                borderRadius="40px"
+                                position="relative"
+                                overflow="hidden"
+                                /* Pass CSS var --pct (0..100) to the DOM element. Use CSS variable for child transforms. */
+                                style={{ ['--pct' /* eslint-disable-line no-undef */]: animatedPctVar }}
+                            >
+                                {/* Fill: full-width element but scaled horizontally from left */}
+                                <Box
+                                    height="100%"
+                                    width="100%"
+                                    bg="linear-gradient(90deg,#FF6A00,#FF6A00)"
+                                    transform="scaleX(0)"
+                                    transformOrigin="left"
+                                    /* use var(--pct) to compute scaleX; transition on transform */
+                                    sx={{
+                                        transform: `scaleX(calc(var(--pct) / 100))`,
+                                        transition: 'transform 2000ms cubic-bezier(0.22,1,0.36,1)',
+                                        willChange: 'transform'
+                                    }}
+                                />
+
+                                {/* Knob: absolute element that moves using transform (not left) based on the same --pct */}
+                                <Box
+                                    position="absolute"
+                                    top="50%"
+                                    left="0"
+                                    width="20px"
+                                    height="20px"
+                                    bg="white"
+                                    borderRadius="full"
+                                    border="4px solid #FF6A00"
+                                    /* move using translateX based on same var, subtract half knob to center it */
+                                    sx={{
+                                        transform: 'translateY(-50%) translateX(calc(var(--pct) * 1% - 10px))',
+                                        transition: 'transform 2000ms cubic-bezier(0.22,1,0.36,1)',
+                                        willChange: 'transform'
+                                    }}
+                                />
                             </Box>
                         </Stack>
                     </Box>
