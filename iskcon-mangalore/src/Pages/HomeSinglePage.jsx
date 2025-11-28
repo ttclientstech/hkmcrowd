@@ -43,6 +43,13 @@ import ProjectVedio from "../Components/HomePageComponents/ProjectVedio";
 import Fotter from "../Components/HomePageComponents/Fotter";
 import PoppinFont from "../Components/HomePageComponents/PoppinFont";
 import VCMTopHeaderTab from "../Components/HomePageComponents/VCMTopHeaderTab";
+import img_annadanam from "../assets/images/annadanam_hall.png";
+import img_festival from "../assets/images/festival_hall.png";
+import img_kalamadhuryam from "../assets/images/kalamadhuryam.png";
+import img_harinam from "../assets/images/harinaam_mandap.png";
+import img_icvk from "../assets/images/icvk.png";
+import img_gitalife from "../assets/images/gita_life.png";
+
 
 
 const TrustStrip = () => (
@@ -214,12 +221,12 @@ const HomeSinglePage = () => {
 
     // Temple Feature Images (replace with your actual image paths)
     const templeImages = [
-        "../assets/images/annadanam_hall.png",
-        "../assets/images/festival_hall.png",
-        "../assets/images/kalamadhuryam.png",
-        "../assets/images/harinaam_mandap.png",
-        "../assets/images/icvk.png",
-        "../assets/images/gita_life.png"
+        img_annadanam,
+        img_festival,
+        img_kalamadhuryam,
+        img_harinam,
+        img_icvk,
+        img_gitalife
     ];
 
     const [currentIndex, setCurrentIndex] = useState(0);
