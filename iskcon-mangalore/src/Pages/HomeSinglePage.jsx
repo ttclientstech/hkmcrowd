@@ -138,17 +138,6 @@ const HomeSinglePage = () => {
     const handleImageError = () => setImageError(true);
     const handleScrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
-    if (getSingleUser?.status === 404) return <PageNotFound />;
-
-    if (paymentModel) {
-        return (
-            <PaymentPageFull
-                amount={amount} handleSubmit={handleSubmit} handleOnChange={handleOnChange}
-                formData={formData} errors={errors} setPaymentModel={setPaymentModel} setFormData={setFormData}
-            />
-        );
-    }
-
     // Campaign details
     const cd = getSingleUser?.campaignDetails || {};
     const PRICE_PER_SQFT = 5001; // as specified
@@ -218,6 +207,17 @@ const HomeSinglePage = () => {
     const sky = "#5eb0ff";
     const muted = "#6b7280";
     const headingColor = "#0b2340";
+
+    if (getSingleUser?.status === 404) return <PageNotFound />;
+
+    if (paymentModel) {
+        return (
+            <PaymentPageFull
+                amount={amount} handleSubmit={handleSubmit} handleOnChange={handleOnChange}
+                formData={formData} errors={errors} setPaymentModel={setPaymentModel} setFormData={setFormData}
+            />
+        );
+    }
 
     return (
         <Box w="100%" minH="100vh" bg={heroBg} fontFamily="'Poppins', sans-serif" position="relative">
