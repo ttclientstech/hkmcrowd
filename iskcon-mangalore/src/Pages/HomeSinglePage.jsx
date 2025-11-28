@@ -358,9 +358,6 @@ const HomeSinglePage = () => {
                 <Box
                     display="flex"
                     justifyContent="center"
-                    bg="#2E2B33"
-                    py={6}
-                    px={[2, 4]}
                 >
                     <Image
                         src={ddd_poster_mob}
