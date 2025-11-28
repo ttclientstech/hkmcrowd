@@ -580,7 +580,7 @@ const HomeSinglePage = () => {
                         src={templeImages[currentIndex]}
                         alt="Temple Feature"
                         w="100%"
-                        h="auto"
+                        h={["260px", "300px", "350px", "450px"]}
                         transition="opacity 0.6s ease"
                         opacity={isFading ? 0 : 1}
                     />
