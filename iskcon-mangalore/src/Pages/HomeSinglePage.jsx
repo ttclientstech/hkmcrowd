@@ -52,9 +52,6 @@ import img_kalamadhuryam from "../assets/images/kalamadhuryam_1.png";
 import img_harinam from "../assets/images/harinaam_mandap_1.png";
 import img_icvk from "../assets/images/icvk_1.png";
 import img_gitalife from "../assets/images/gita_life_1.png";
-import temple_main1 from "../assets/images/tc_main1.png";
-import temple_main2 from "../assets/images/tc_main2.png";
-import temple_main3 from "../assets/images/tc_main3.png";
 
 
 
