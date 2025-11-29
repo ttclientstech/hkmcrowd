@@ -5,12 +5,13 @@ import {
     Box,
     Text,
     Flex,
-    IconButton,
     Collapse,
     Divider,
+    IconButton,
 } from "@chakra-ui/react";
-import { AddIcon, MinusIcon } from "@chakra-ui/icons";
+import { FaPlus, FaMinus } from "react-icons/fa";
 
+// FAQ DATA
 const faqData = [
     {
         question: "What is the purpose of the Dakshina Dwaraka Dham project?",
@@ -66,8 +67,7 @@ const FAQComponent = () => {
 
     return (
         <Box w="100%" maxW="900px" mx="auto" mt={16} px={[4, 6]}>
-
-            {/* Title */}
+            {/* TITLE */}
             <Text
                 textAlign="center"
                 fontSize={["2xl", "3xl"]}
@@ -78,7 +78,7 @@ const FAQComponent = () => {
                 Frequently Asked Questions
             </Text>
 
-            {/* FAQ List */}
+            {/* FAQ LIST */}
             {displayedFaqs.map((item, index) => (
                 <Box
                     key={index}
@@ -99,17 +99,23 @@ const FAQComponent = () => {
                             {item.question}
                         </Text>
 
+                        {/* ICON BUTTON USING react-icons */}
                         <IconButton
                             icon={
-                                openIndex === index ? <MinusIcon /> : <AddIcon />
+                                openIndex === index ? (
+                                    <FaMinus size={14} />
+                                ) : (
+                                    <FaPlus size={14} />
+                                )
                             }
                             size="sm"
                             variant="ghost"
                             onClick={() => toggleQuestion(index)}
+                            aria-label="Toggle FAQ"
                         />
                     </Flex>
 
-                    {/* Answer section */}
+                    {/* ANSWER */}
                     <Collapse in={openIndex === index} animateOpacity>
                         <Divider my={3} />
                         <Text
@@ -125,7 +131,7 @@ const FAQComponent = () => {
                 </Box>
             ))}
 
-            {/* Show More / Show Less */}
+            {/* SHOW MORE / LESS */}
             <Flex justify="center" mt={4}>
                 <Text
                     fontSize="md"
