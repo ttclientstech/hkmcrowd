@@ -1,8 +1,5 @@
-import React from "react";
-import { Box, Text, Image, Flex } from "@chakra-ui/react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import React, { useState, useEffect } from "react";
+import { Box, Text, Flex, Image, useBreakpointValue } from "@chakra-ui/react";
 
 // IMPORT YOUR QUOTE IMAGES
 import img1 from "../../assets/images/q1.jpg";
@@ -10,127 +7,161 @@ import img2 from "../../assets/images/q2.jpg";
 import img3 from "../../assets/images/q5.jpg";
 
 // QUOTES DATA
-const quoteData = [
+const quotes = [
     {
-        title: "Mahabharata,Anushasana Parva (13.40)",
-        english:
+        reference: "Mahabharata,Anushasana Parva (13.40)",
+        text:
             "He who donates for the construction of a temple attains great merit and reaches the abode of Lord Vishnu.",
-        img: img1,
+        image: img1,
     },
     {
-        title: "Garuda Purana",
-        english:
+        reference: "Garuda Purana",
+        text:
             "One who contributes to building a temple attains heaven and is honored by all.",
-        img: img2,
+        image: img2,
     },
     {
-        title: "Vamana Purana",
-        english:
+        reference: "Vamana Purana",
+        text:
             "One can attain the spiritual world (Vaikuntha) by helping construct or renovate a temple.",
-        img: img3,
+        image: img3,
     },
 ];
 
-// CAROUSEL SETTINGS
-const settings = {
-    dots: true,
-    infinite: true,
-    speed: 800,
-    autoplay: true,
-    autoplaySpeed: 3500,
-    slidesToShow: 3,   // desktop
-    slidesToScroll: 1,
-    responsive: [
-        {
-            breakpoint: 768, // mobile
-            settings: {
-                slidesToShow: 1,
-            },
-        },
-        {
-            breakpoint: 1024,
-            settings: {
-                slidesToShow: 2,
-            },
-        },
-    ],
-};
-
 const WhyDonateQuotes = () => {
-    return (
-        <Box w="100%" py={12} px={[4, 6]}>
+    const isMobile = useBreakpointValue({ base: true, md: false });
 
-            {/* ====== TITLE ====== */}
+    const itemsToShow = isMobile ? 1 : 3;
+
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [fade, setFade] = useState(false);
+
+    // Auto-slide every 4 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setFade(true);
+
+            setTimeout(() => {
+                setCurrentIndex((prev) =>
+                    (prev + itemsToShow) % quotes.length
+                );
+                setFade(false);
+            }, 400);
+        }, 4000);
+
+        return () => clearInterval(interval);
+    }, [itemsToShow]);
+
+    // Get visible quotes
+    const visibleQuotes = [];
+    for (let i = 0; i < itemsToShow; i++) {
+        visibleQuotes.push(quotes[(currentIndex + i) % quotes.length]);
+    }
+
+    return (
+        <Box
+            w="100%"
+            maxW="1200px"
+            mx="auto"
+            mt={16}
+            px={[4, 6]}
+            fontFamily="'Poppins', sans-serif"
+        >
+            {/* Title */}
             <Text
                 textAlign="center"
-                fontFamily="'Poppins', sans-serif"
                 fontSize={["2xl", "3xl"]}
                 fontWeight="800"
-                mb={10}
-                color="#5EB0FF"
+                color="#5eb0ff"
+                mb={2}
             >
-                Why should one donate for a spiritual cause?
+                Why donate for a spiritual cause?
             </Text>
 
-            {/* ====== CAROUSEL ====== */}
-            <Slider {...settings}>
-                {quoteData.map((item, index) => (
-                    <Box key={index} px={3}>
+            <Text
+                textAlign="center"
+                fontSize={["md", "lg"]}
+                color="#444"
+                mb={8}
+            >
+                Sacred scriptures glorify those who support the Lord’s temple
+            </Text>
+
+            {/* Carousel */}
+            <Flex
+                justify="center"
+                gap={[4, 6]}
+                transition="opacity 0.4s ease"
+                opacity={fade ? 0 : 1}
+            >
+                {visibleQuotes.map((q, index) => (
+                    <Box
+                        key={index}
+                        w={isMobile ? "100%" : "33%"}
+                        borderRadius="12px"
+                        overflow="hidden"
+                        position="relative"
+                        boxShadow="0 6px 25px rgba(0,0,0,0.25)"
+                        h="350px"
+                    >
+                        {/* Background Image */}
+                        <Image
+                            src={q.image}
+                            alt="Quote background"
+                            w="100%"
+                            h="100%"
+                            objectFit="cover"
+                        />
+
+                        {/* Black Gradient Overlay */}
                         <Box
-                            borderRadius="20px"
-                            overflow="hidden"
-                            position="relative"
-                            height="420px"
-                            boxShadow="0 6px 20px rgba(0,0,0,0.2)"
+                            position="absolute"
+                            top="0"
+                            left="0"
+                            w="100%"
+                            h="100%"
+                            bg="rgba(0,0,0,0.55)"
+                            backdropFilter="blur(1px)"
+                        />
+
+                        {/* Text Content */}
+                        <Flex
+                            position="absolute"
+                            bottom="0"
+                            left="0"
+                            w="100%"
+                            direction="column"
+                            p={5}
+                            color="white"
                         >
-                            {/* BACKGROUND IMAGE */}
-                            <Image
-                                src={item.img}
-                                alt={item.title}
-                                w="100%"
-                                h="100%"
-                                objectFit="cover"
-                            />
-
-                            {/* DARK GRADIENT OVERLAY */}
-                            <Box
-                                position="absolute"
-                                top="0"
-                                left="0"
-                                w="100%"
-                                h="100%"
-                                bg="linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.75))"
-                                display="flex"
-                                flexDirection="column"
-                                justifyContent="flex-end"
-                                p={6}
+                            <Text fontSize="sm" opacity={0.9}>
+                                {q.reference}
+                            </Text>
+                            <Text
+                                fontSize={["md", "lg"]}
+                                fontWeight="600"
+                                mt={2}
+                                lineHeight="1.5"
                             >
-                                {/* QUOTE TITLE */}
-                                <Text
-                                    fontFamily="'Poppins', sans-serif"
-                                    fontWeight="700"
-                                    fontSize="lg"
-                                    color="white"
-                                    mb={2}
-                                >
-                                    {item.title}
-                                </Text>
-
-                                {/* QUOTE DESCRIPTION */}
-                                <Text
-                                    fontFamily="'Poppins', sans-serif"
-                                    color="white"
-                                    opacity={0.9}
-                                    fontSize="sm"
-                                    lineHeight="1.5"
-                                >
-                                    {item.english}
-                                </Text>
-                            </Box>
-                        </Box>
+                                {q.text}
+                            </Text>
+                        </Flex>
                     </Box>
                 ))}
-            </Slider>
+            </Flex>
+
+            {/* Dots */}
+            <Flex justify="center" mt={5} gap={3}>
+                {quotes.map((_, i) => (
+                    <Box
+                        key={i}
+                        w="10px"
+                        h="10px"
+                        borderRadius="full"
+                        bg={i === currentIndex ? "#5eb0ff" : "#ccc"}
+                    />
+                ))}
+            </Flex>
         </Box>
     );
 };
