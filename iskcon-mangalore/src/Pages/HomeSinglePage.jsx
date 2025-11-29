@@ -491,8 +491,49 @@ const HomeSinglePage = () => {
             {/* ================== END TEMPLE IMAGE SECTION ================== */}
 
             {/* ============================================================
-     TEMPLE VIDEO + INTRO SECTION (Responsive + Auto-Play)
+     TEMPLE INTRO TITLE + VIDEO + DESCRIPTION  (Premium Section)
    ============================================================ */}
+
+            {/* DARK GRADIENT HEADER */}
+            <Box
+                w="100%"
+                py={[10, 14]}
+                px={4}
+                textAlign="center"
+                bgGradient="linear(to-b, #0A1B2A, #1A2A3A)"
+                color="white"
+                borderRadius="0 0 24px 24px"
+            >
+                <Text
+                    fontSize={["md", "lg"]}
+                    opacity={0.9}
+                    fontFamily="'Poppins', sans-serif"
+                    mb={2}
+                >
+                    That’s why we are building
+                </Text>
+
+                <Text
+                    fontSize={["3xl", "4xl"]}
+                    fontWeight="800"
+                    fontFamily="'Poppins', sans-serif"
+                >
+                    Dakshina Dwaraka Dham
+                </Text>
+
+                <Text
+                    fontSize={["md", "lg"]}
+                    mt={3}
+                    opacity={0.9}
+                    fontFamily="'Poppins', sans-serif"
+                    maxW="600px"
+                    mx="auto"
+                >
+                    A sacred cultural complex to uplift society through devotion, heritage & values.
+                </Text>
+            </Box>
+
+            {/* MAIN CONTENT AREA */}
             <Box
                 w="100%"
                 mt={10}
@@ -501,26 +542,27 @@ const HomeSinglePage = () => {
                 mx="auto"
             >
 
-                {/* VIDEO + TEXT FLEX (Responsive: column for mobile, row for desktop) */}
+                {/* Responsive Layout (video + text) */}
                 <Flex
                     direction={["column", "column", "column", "row"]}
                     align="flex-start"
-                    gap={8}
+                    gap={10}
                 >
 
-                    {/* ===================== YOUTUBE VIDEO (AutoPlay on Scroll) ===================== */}
+                    {/* ===================== VIDEO AUTOPLAY BLOCK ===================== */}
                     <Box flex="1" w="100%">
                         <Box
                             ref={videoRef}
                             position="relative"
-                            paddingBottom="56.25%"  /* 16:9 ratio */
+                            paddingBottom="56.25%"  // 16:9 ratio
                             height="0"
                             overflow="hidden"
-                            borderRadius="12px"
+                            borderRadius="16px"
                             boxShadow="0 4px 20px rgba(0,0,0,0.3)"
+                            bg="#000"
                         >
                             <iframe
-                                src={videoSrc}   // auto updates when in view
+                                src={videoSrc}
                                 title="Temple Construction Video"
                                 frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -531,13 +573,13 @@ const HomeSinglePage = () => {
                                     left: 0,
                                     width: "100%",
                                     height: "100%",
-                                    borderRadius: "12px"
+                                    borderRadius: "16px"
                                 }}
                             />
                         </Box>
                     </Box>
 
-                    {/* ===================== DESCRIPTION SECTION ===================== */}
+                    {/* ===================== DESCRIPTION TEXT ===================== */}
                     <Box flex="1" w="100%">
                         <Text
                             fontSize={["2xl", "3xl"]}
@@ -560,8 +602,7 @@ const HomeSinglePage = () => {
                             Chennai, the Dakshina Dwaraka Dham Cultural Complex is envisioned as a
                             magnificent center to promote and preserve India’s timeless spiritual and
                             cultural heritage. Designed in the traditional Pallava style of architecture,
-                            this will be the second shore temple in Tamil Nadu, reflecting the grandeur
-                            and sacred artistry of India’s ancient temple builders.
+                            this will be the second shore temple in Tamil Nadu.
                         </Text>
 
                         <Text
@@ -571,12 +612,13 @@ const HomeSinglePage = () => {
                             fontFamily="'Poppins', sans-serif"
                         >
                             With a total built-up area of about 40,000 sq. ft., Dakshina Dwaraka Dham
-                            will be a spiritual, educational, and cultural beacon-uniting devotion,
+                            will be a spiritual, educational, and cultural beacon — uniting devotion,
                             knowledge, and heritage for the upliftment of society.
                         </Text>
                     </Box>
                 </Flex>
             </Box>
+
 
 
             {/* ============================================================
