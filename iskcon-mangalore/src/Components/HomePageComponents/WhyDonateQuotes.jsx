@@ -1,6 +1,8 @@
 import React from "react";
 import { Box, Text, Image, Flex } from "@chakra-ui/react";
 import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 // IMPORT YOUR QUOTE IMAGES
 import img1 from "../../assets/images/q1.jpg";
