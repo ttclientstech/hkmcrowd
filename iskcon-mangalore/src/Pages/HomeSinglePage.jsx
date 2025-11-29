@@ -31,7 +31,7 @@ import {
     useColorModeValue,
     Spacer,
 } from "@chakra-ui/react";
-import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaPhoneAlt, FaClock } from "react-icons/fa";
+import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaPhoneAlt, FaClock,FaHandHoldingHeart } from "react-icons/fa";
 
 import DottedAnimation from "../Components/DottedAnimation";
 import PageNotFound from "../Components/HomePageComponents/PageNotFound";
@@ -784,6 +784,19 @@ const HomeSinglePage = () => {
 
             <TestimonialSection />
             <DonorPrivilegeSection />
+            <Button
+                w={"100%"} h={"55px"}
+                bgGradient="linear(to-r, #D4AF37, #FFD700)"
+                color="#2C0A0A"
+                fontWeight="800" fontSize="lg"
+                fontFamily="'Cinzel', serif"
+                letterSpacing="1px"
+                onClick={handleClick}
+                _hover={{ transform: "translateY(-2px)", boxShadow: "0px 5px 15px rgba(212, 175, 55, 0.4)" }}
+                rightIcon={<Icon as={FaHandHoldingHeart} />}
+            >
+                CONTRIBUTE NOW
+            </Button>
             <WhyDonateQuotes />
 
 

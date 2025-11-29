@@ -5,6 +5,7 @@ import { Box, Text, Flex, Image, useBreakpointValue } from "@chakra-ui/react";
 import img1 from "../../assets/images/q1.jpg";
 import img2 from "../../assets/images/q2.jpg";
 import img3 from "../../assets/images/q5.jpg";
+import img4 from "../../assets/images/q3.jpg";
 
 // QUOTES DATA
 const quotes = [
@@ -13,6 +14,12 @@ const quotes = [
         text:
             "He who donates for the construction of a temple attains great merit and reaches the abode of Lord Vishnu.",
         image: img1,
+    },
+    {
+        reference: "Vishnu Purana (3.8.27)",
+        text:
+            "One who donates towards the construction of a temple is liberated from all sins and attains the heavenly realms.",
+        image: img4,
     },
     {
         reference: "Garuda Purana",
@@ -71,11 +78,11 @@ const WhyDonateQuotes = () => {
             <Text
                 textAlign="center"
                 fontSize={["2xl", "3xl"]}
-                fontWeight="800"
+                fontWeight="700"
                 color="#5eb0ff"
                 mb={2}
             >
-                Why donate for a spiritual cause?
+                The Power of Giving for a Holy Purpose
             </Text>
 
             <Text
@@ -84,7 +91,7 @@ const WhyDonateQuotes = () => {
                 color="#444"
                 mb={8}
             >
-                Sacred scriptures glorify those who support the Lord’s temple
+                Sacred scriptures glorify those who support spiritual cause
             </Text>
 
             {/* Carousel */}
@@ -133,7 +140,7 @@ const WhyDonateQuotes = () => {
                             p={5}
                             color="white"
                         >
-                            <Text fontSize="sm" opacity={0.9}>
+                            <Text fontSize="sm" opacity={0.9} color={"#ffc460"}>
                                 {q.reference}
                             </Text>
                             <Text
