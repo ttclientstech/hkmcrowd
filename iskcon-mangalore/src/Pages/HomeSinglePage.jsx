@@ -4,6 +4,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { fetchSingleUser, postPaymentFormData } from "../Redux/clientSlices/clientUsers";
 import avatar from "../assets/images/Avatar-PNG-Image.webp";
 import ddd_poster_mob from "../assets/images/ddd_poster_mob.png";
+import temple_main1 from "../assets/images/Front_View_from_AP.jpg";
+import temple_main2 from "../assets/images/Top_Valley_View.jpg";
+import temple_main3 from "../assets/images/Top_View.jpg";
 import {
     Box,
     IconButton,
@@ -49,6 +52,9 @@ import img_kalamadhuryam from "../assets/images/kalamadhuryam_1.png";
 import img_harinam from "../assets/images/harinaam_mandap_1.png";
 import img_icvk from "../assets/images/icvk_1.png";
 import img_gitalife from "../assets/images/gita_life_1.png";
+import temple_main1 from "../assets/images/tc_main1.png";
+import temple_main2 from "../assets/images/tc_main2.png";
+import temple_main3 from "../assets/images/tc_main3.png";
 
 
 
@@ -634,6 +640,105 @@ const HomeSinglePage = () => {
                     ))}
                 </Flex>
             </Box>
+
+
+
+            {/* ============================================================
+     TEMPLE CONSTRUCTION STATUS — BIG IMAGE + THUMB STRIP
+   ============================================================ */}
+            <Box
+                w="100%"
+                maxW="1200px"
+                mx="auto"
+                mt={12}
+                px={[4, 6]}
+                fontFamily="'Poppins', sans-serif"
+            >
+
+                {/* Title */}
+                <Text
+                    fontSize={["2xl", "3xl"]}
+                    fontWeight="800"
+                    color="#5eb0ff"
+                    textAlign="center"
+                    mb={6}
+                >
+                    Temple Construction Status <br />– As on December 2025
+                </Text>
+
+                {/* IMAGE ARRAYS */}
+                {(() => {
+                    const images = [
+                        temple_main1,
+                        temple_main2,
+                        temple_main3,
+                    ];
+
+                    const [mainIndex, setMainIndex] = React.useState(0);
+
+                    // Auto-rotate every 3 seconds
+                    React.useEffect(() => {
+                        const interval = setInterval(() => {
+                            setMainIndex(prev => (prev + 1) % images.length);
+                        }, 3000);
+
+                        return () => clearInterval(interval);
+                    }, []);
+
+                    return (
+                        <Box>
+
+                            {/* BIG MAIN IMAGE */}
+                            <Box
+                                w="100%"
+                                borderRadius="12px"
+                                overflow="hidden"
+                                boxShadow="0 4px 20px rgba(0,0,0,0.15)"
+                            >
+                                <Image
+                                    src={images[mainIndex]}
+                                    alt="Temple Construction"
+                                    w="100%"
+                                    h={["250px", "350px", "450px"]}
+                                    objectFit="cover"
+                                    transition="opacity 0.6s ease"
+                                />
+                            </Box>
+
+                            {/* THUMBNAILS BELOW */}
+                            <Flex
+                                justify="center"
+                                gap={4}
+                                mt={6}
+                                flexWrap="wrap"
+                            >
+                                {images.map((img, i) => (
+                                    <Box
+                                        key={i}
+                                        borderRadius="8px"
+                                        overflow="hidden"
+                                        cursor="pointer"
+                                        border={i === mainIndex ? "3px solid #5eb0ff" : "2px solid #ddd"}
+                                        onClick={() => setMainIndex(i)}
+                                        transition="all 0.3s ease"
+                                    >
+                                        <Image
+                                            src={img}
+                                            alt={`thumb-${i}`}
+                                            w={["110px", "130px", "150px"]}
+                                            h={["110px", "130px", "150px"]}
+                                            objectFit="cover"
+                                        />
+                                    </Box>
+                                ))}
+                            </Flex>
+
+                        </Box>
+                    );
+                })()}
+
+            </Box>
+
 
 
 
