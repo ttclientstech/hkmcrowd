@@ -8,19 +8,19 @@ import pujaImg from "../../assets/images/puja.jpg";
 const privileges = [
     {
         title: "Gift & Mahaprasadam",
-        desc: "Receive blessed Mahaprasadam and a spiritual gift as divine blessings.",
+        desc: "Donate and receive blessed Mahaprasadam and a spiritual gift as divine blessings.",
         image: giftImg,
         bg: "#E8F3FF",
     },
     {
         title: "80G Tax Exemption",
-        desc: "Eligible donors will receive an 80G certificate for tax exemption.",
+        desc: "Donors will receive an 80G certificate for tax exemption.",
         image: taxImg,
         bg: "#FFF4E5",
     },
     {
         title: "Special Puja",
-        desc: "A special puja will be offered in your name at the temple altar.",
+        desc: "A special puja will be offered in your name at the temple altar on temple inauguration.",
         image: pujaImg,
         bg: "#F3E8FF",
     },
@@ -48,26 +48,29 @@ const DonorPrivilegeSection = () => {
 
             <Box position="relative">
                 {privileges.map((p, i) => {
-                    const topOffset = i * 90; // Controls stacking spacing
+                    const topOffset = i * 90;
 
                     return (
                         <Box
                             key={i}
                             position="sticky"
                             top={`${topOffset}px`}
-                            zIndex={100 - i}
+                            zIndex={i + 1}  // 👈 FIX: Last card gets highest z-index
                             bg={p.bg}
                             borderRadius="22px"
                             p={[5, 7]}
                             mb={6}
                             boxShadow="0 10px 30px rgba(0,0,0,0.12)"
                         >
-                            {/* Title */}
-                            <Text fontSize="xl" fontWeight="700" mb={2} color="#1A1A1A">
+                            <Text
+                                fontSize="xl"
+                                fontWeight="700"
+                                mb={2}
+                                color="#1A1A1A"
+                            >
                                 {p.title}
                             </Text>
 
-                            {/* Description */}
                             <Text
                                 fontSize="md"
                                 color="#333"
@@ -77,7 +80,6 @@ const DonorPrivilegeSection = () => {
                                 {p.desc}
                             </Text>
 
-                            {/* Image */}
                             <Image
                                 src={p.image}
                                 alt={p.title}
