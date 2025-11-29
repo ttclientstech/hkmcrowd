@@ -55,6 +55,7 @@ import img_gitalife from "../assets/images/gita_life_1.png";
 import t1 from "../assets/images/t1.jpeg";
 import t2 from "../assets/images/t2.jpg";
 import TestimonialSection from "../Components/HomePageComponents/TestimonialSection";
+import DonorPrivilegeSection from "../Components/HomePageComponents/DonorPrivilegeSection";
 
 
 
@@ -733,7 +734,7 @@ const HomeSinglePage = () => {
             </Box>
 
             <TestimonialSection />
-
+            <DonorPrivilegeSection />
 
 
 
