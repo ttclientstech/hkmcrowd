@@ -120,8 +120,7 @@ const WhyDonateQuotes = () => {
                             left="0"
                             w="100%"
                             h="100%"
-                            bgGradient="linear(to-b, #0A1B2A, #FFFFFF)"
-                            backdropFilter="blur(1px)"
+                            bgGradient="linear(to-b, rgba(0,0,0,0.1), rgba(0,0,0,0.75))"
                         />
 
                         {/* Text Content */}
