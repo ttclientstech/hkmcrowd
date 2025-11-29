@@ -30,29 +30,38 @@ const quotes = [
 
 const WhyDonateQuotes = () => {
     const isMobile = useBreakpointValue({ base: true, md: false });
-
     const itemsToShow = isMobile ? 1 : 3;
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [fade, setFade] = useState(false);
 
-    // Auto-slide every 4 seconds
+    // Auto-slide
     useEffect(() => {
-        const interval = setInterval(() => {
-            setFade(true);
-
-            setTimeout(() => {
-                setCurrentIndex((prev) =>
-                    (prev + itemsToShow) % quotes.length
-                );
-                setFade(false);
-            }, 400);
-        }, 4000);
-
+        const interval = setInterval(() => nextSlide(), 4000);
         return () => clearInterval(interval);
     }, [itemsToShow]);
 
-    // Get visible quotes
+    const nextSlide = () => {
+        setFade(true);
+        setTimeout(() => {
+            setCurrentIndex((prev) => (prev + itemsToShow) % quotes.length);
+            setFade(false);
+        }, 400);
+    };
+
+    const prevSlide = () => {
+        setFade(true);
+        setTimeout(() => {
+            setCurrentIndex((prev) =>
+                prev === 0
+                    ? quotes.length - itemsToShow
+                    : (prev - itemsToShow + quotes.length) % quotes.length
+            );
+            setFade(false);
+        }, 400);
+    };
+
+    // Decide visible quotes
     const visibleQuotes = [];
     for (let i = 0; i < itemsToShow; i++) {
         visibleQuotes.push(quotes[(currentIndex + i) % quotes.length]);
@@ -66,8 +75,9 @@ const WhyDonateQuotes = () => {
             mt={16}
             px={[4, 6]}
             fontFamily="'Poppins', sans-serif"
+            position="relative"
         >
-            {/* Title */}
+            {/* Heading */}
             <Text
                 textAlign="center"
                 fontSize={["2xl", "3xl"]}
@@ -84,10 +94,42 @@ const WhyDonateQuotes = () => {
                 color="#444"
                 mb={8}
             >
-                Sacred scriptures glorify those who support the Lord’s temple
+                Sacred scriptures glorify supporting the Lord’s temple
             </Text>
 
-            {/* Carousel */}
+            {/* LEFT ARROW */}
+            <Box
+                position="absolute"
+                left="0"
+                top="50%"
+                transform="translateY(-50%)"
+                zIndex={10}
+                cursor="pointer"
+                fontSize="40px"
+                color="#5eb0ff"
+                _hover={{ color: "#2c82e0" }}
+                onClick={prevSlide}
+            >
+                ❮
+            </Box>
+
+            {/* RIGHT ARROW */}
+            <Box
+                position="absolute"
+                right="0"
+                top="50%"
+                transform="translateY(-50%)"
+                zIndex={10}
+                cursor="pointer"
+                fontSize="40px"
+                color="#5eb0ff"
+                _hover={{ color: "#2c82e0" }}
+                onClick={nextSlide}
+            >
+                ❯
+            </Box>
+
+            {/* QUOTE CARDS */}
             <Flex
                 justify="center"
                 gap={[4, 6]}
@@ -98,54 +140,50 @@ const WhyDonateQuotes = () => {
                     <Box
                         key={index}
                         w={isMobile ? "100%" : "33%"}
-                        borderRadius="12px"
+                        borderRadius="14px"
                         overflow="hidden"
-                        position="relative"
-                        boxShadow="0 6px 25px rgba(0,0,0,0.25)"
-                        h="350px"
+                        boxShadow="0 8px 30px rgba(0,0,0,0.25)"
                     >
-                        {/* Background Image */}
-                        <Image
-                            src={q.image}
-                            alt="Quote background"
-                            w="100%"
-                            h="100%"
-                            objectFit="cover"
-                        />
+                        {/* ===== IMAGE SECTION ===== */}
+                        <Box position="relative" h="230px" overflow="hidden">
+                            <Image
+                                src={q.image}
+                                alt="Quote background"
+                                w="100%"
+                                h="100%"
+                                objectFit="cover"
+                            />
 
-                        {/* Black Gradient Overlay */}
+                            {/* Only TOP gradient – bottom stays visible */}
+                            <Box
+                                position="absolute"
+                                top="0"
+                                left="0"
+                                w="100%"
+                                h="40%"   // only top 40%
+                                bg="linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0))"
+                            />
+                        </Box>
+
+                        {/* ===== TEXT SECTION BELOW IMAGE ===== */}
                         <Box
-                            position="absolute"
-                            top="0"
-                            left="0"
-                            w="100%"
-                            h="100%"
-                            bg="rgba(0,0,0,0.55)"
-                            backdropFilter="blur(1px)"
-                        />
-
-                        {/* Text Content */}
-                        <Flex
-                            position="absolute"
-                            bottom="0"
-                            left="0"
-                            w="100%"
-                            direction="column"
+                            bg="white"
                             p={5}
-                            color="white"
+                            minH="150px"
                         >
-                            <Text fontSize="sm" opacity={0.9}>
+                            <Text fontSize="sm" color="#777" mb={2}>
                                 {q.reference}
                             </Text>
+
                             <Text
                                 fontSize={["md", "lg"]}
+                                color="#222"
                                 fontWeight="600"
-                                mt={2}
-                                lineHeight="1.5"
+                                lineHeight="1.6"
                             >
                                 {q.text}
                             </Text>
-                        </Flex>
+                        </Box>
                     </Box>
                 ))}
             </Flex>
