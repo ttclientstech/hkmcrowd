@@ -496,12 +496,13 @@ const HomeSinglePage = () => {
 
             <Box
                 w="100%"
-                bgGradient="linear(to-b, #0A1B2A, #1A2A3A)"
+                bgGradient="linear(to-b, #0A1B2A, #FFFFFF)"
                 color="white"
                 borderRadius="0 0 32px 32px"
                 px={[4, 6]}
                 pt={[10, 14]}
                 pb={[10, 14]}
+                mt={6}
                 textAlign="center"
             >
 
