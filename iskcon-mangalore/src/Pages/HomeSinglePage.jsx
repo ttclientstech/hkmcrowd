@@ -56,6 +56,7 @@ import t1 from "../assets/images/t1.jpeg";
 import t2 from "../assets/images/t2.jpg";
 import TestimonialSection from "../Components/HomePageComponents/TestimonialSection";
 import DonorPrivilegeSection from "../Components/HomePageComponents/DonorPrivilegeSection";
+import WhyDonateQuotes from "../Components/HomePageComponents/WhyDonateQuotes";
 
 
 
@@ -513,7 +514,7 @@ const HomeSinglePage = () => {
                     fontFamily="'Poppins', sans-serif"
                     mb={2}
                 >
-                    That’s why we created
+                    That’s why we build
                 </Text>
 
                 <Text
@@ -783,6 +784,7 @@ const HomeSinglePage = () => {
 
             <TestimonialSection />
             <DonorPrivilegeSection />
+            <WhyDonateQuotes />
 
 
 

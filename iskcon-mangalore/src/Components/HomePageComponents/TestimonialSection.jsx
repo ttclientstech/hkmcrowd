@@ -1,8 +1,16 @@
 import { Box, Text, Image, Grid, Flex } from "@chakra-ui/react";
 import t1 from "../../assets/images/t1.jpeg";
 import t2 from "../../assets/images/t2.jpg";
+import t3 from "../../assets/images/t3.png";
 
 const testimonials = [
+    {
+        name: "Senthil Kumar Mothilal",
+        role: "Founder and Managing Director - itTrident, Chennai",
+        photo: t3,
+        message:
+            "Donating to HKM Chennai has brought a real positive change in my life. When we give to a good purpose and it is used properly, we naturally feel the benefit. Here, every contribution is utilized so well that I feel happy and proud to support this wonderful organization.",
+    },
     {
         name: "Srinivasan V",
         role: "Head -Field Quality - Nissan Motor India (P) Ltd",
