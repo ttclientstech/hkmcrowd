@@ -39,31 +39,18 @@ const WhyDonateQuotes = () => {
     // Auto-slide every 4 seconds
     useEffect(() => {
         const interval = setInterval(() => {
-            nextSlide();
+            setFade(true);
+
+            setTimeout(() => {
+                setCurrentIndex((prev) =>
+                    (prev + itemsToShow) % quotes.length
+                );
+                setFade(false);
+            }, 400);
         }, 4000);
 
         return () => clearInterval(interval);
     }, [itemsToShow]);
-
-    const nextSlide = () => {
-        setFade(true);
-        setTimeout(() => {
-            setCurrentIndex((prev) => (prev + itemsToShow) % quotes.length);
-            setFade(false);
-        }, 400);
-    };
-
-    const prevSlide = () => {
-        setFade(true);
-        setTimeout(() => {
-            setCurrentIndex((prev) =>
-                prev === 0
-                    ? quotes.length - itemsToShow
-                    : (prev - itemsToShow + quotes.length) % quotes.length
-            );
-            setFade(false);
-        }, 400);
-    };
 
     // Get visible quotes
     const visibleQuotes = [];
@@ -79,7 +66,6 @@ const WhyDonateQuotes = () => {
             mt={16}
             px={[4, 6]}
             fontFamily="'Poppins', sans-serif"
-            position="relative"
         >
             {/* Title */}
             <Text
@@ -101,38 +87,6 @@ const WhyDonateQuotes = () => {
                 Sacred scriptures glorify those who support the Lord’s temple
             </Text>
 
-            {/* LEFT Arrow */}
-            <Box
-                position="absolute"
-                left="0"
-                top="50%"
-                transform="translateY(-50%)"
-                zIndex={10}
-                cursor="pointer"
-                fontSize="40px"
-                color="#5eb0ff"
-                _hover={{ color: "#2c82e0" }}
-                onClick={prevSlide}
-            >
-                ❮
-            </Box>
-
-            {/* RIGHT Arrow */}
-            <Box
-                position="absolute"
-                right="0"
-                top="50%"
-                transform="translateY(-50%)"
-                zIndex={10}
-                cursor="pointer"
-                fontSize="40px"
-                color="#5eb0ff"
-                _hover={{ color: "#2c82e0" }}
-                onClick={nextSlide}
-            >
-                ❯
-            </Box>
-
             {/* Carousel */}
             <Flex
                 justify="center"
@@ -144,11 +98,11 @@ const WhyDonateQuotes = () => {
                     <Box
                         key={index}
                         w={isMobile ? "100%" : "33%"}
-                        borderRadius="14px"
+                        borderRadius="12px"
                         overflow="hidden"
                         position="relative"
+                        boxShadow="0 6px 25px rgba(0,0,0,0.25)"
                         h="350px"
-                        boxShadow="0 8px 30px rgba(0,0,0,0.25)"
                     >
                         {/* Background Image */}
                         <Image
@@ -159,17 +113,18 @@ const WhyDonateQuotes = () => {
                             objectFit="cover"
                         />
 
-                        {/* GRADIENT OVERLAY — TOP DARK → BOTTOM LIGHT */}
+                        {/* Black Gradient Overlay */}
                         <Box
                             position="absolute"
                             top="0"
                             left="0"
                             w="100%"
                             h="100%"
-                            bg="linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.25))"
+                            bgGradient="linear(to-b, #0A1B2A, #FFFFFF)"
+                            backdropFilter="blur(1px)"
                         />
 
-                        {/* quote text */}
+                        {/* Text Content */}
                         <Flex
                             position="absolute"
                             bottom="0"
