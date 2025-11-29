@@ -491,133 +491,130 @@ const HomeSinglePage = () => {
             {/* ================== END TEMPLE IMAGE SECTION ================== */}
 
             {/* ============================================================
-     TEMPLE INTRO TITLE + VIDEO + DESCRIPTION  (Premium Section)
+   TEMPLE VIDEO SECTION — EXACT MATCH TO REFERENCE
    ============================================================ */}
 
-            {/* DARK GRADIENT HEADER */}
             <Box
                 w="100%"
-                py={[10, 14]}
-                px={4}
-                textAlign="center"
                 bgGradient="linear(to-b, #0A1B2A, #1A2A3A)"
                 color="white"
-                borderRadius="0 0 24px 24px"
+                borderRadius="0 0 32px 32px"
+                px={[4, 6]}
+                pt={[10, 14]}
+                pb={[10, 14]}
+                textAlign="center"
             >
+
+                {/* TITLE BLOCK */}
                 <Text
                     fontSize={["md", "lg"]}
                     opacity={0.9}
                     fontFamily="'Poppins', sans-serif"
                     mb={2}
                 >
-                    That’s why we are building
+                    That’s why we created
                 </Text>
 
                 <Text
                     fontSize={["3xl", "4xl"]}
                     fontWeight="800"
                     fontFamily="'Poppins', sans-serif"
+                    mb={3}
                 >
                     Dakshina Dwaraka Dham
                 </Text>
 
                 <Text
                     fontSize={["md", "lg"]}
-                    mt={3}
                     opacity={0.9}
                     fontFamily="'Poppins', sans-serif"
                     maxW="600px"
                     mx="auto"
+                    mb={[6, 8]}
                 >
                     A sacred cultural complex to uplift society through devotion, heritage & values.
                 </Text>
+
+                {/* VIDEO BLOCK — INSIDE SAME GRADIENT CONTAINER */}
+                <Box
+                    ref={videoRef}
+                    position="relative"
+                    paddingBottom="56.25%"   // 16:9
+                    height="0"
+                    overflow="hidden"
+                    borderRadius="16px"
+                    boxShadow="0 4px 20px rgba(0,0,0,0.4)"
+                    bg="#000"
+                    maxW="900px"
+                    mx="auto"
+                >
+                    <iframe
+                        src={videoSrc}
+                        title="Temple Construction Video"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            borderRadius: "16px"
+                        }}
+                    />
+                </Box>
+
             </Box>
 
-            {/* MAIN CONTENT AREA */}
+            {/* ============================================================
+   DESCRIPTION SECTION (OUTSIDE THE GRADIENT BLOCK)
+   ============================================================ */}
+
             <Box
                 w="100%"
-                mt={10}
-                px={[4, 6]}
                 maxW="1200px"
                 mx="auto"
+                px={[4, 6]}
+                mt={[10, 12]}
             >
-
-                {/* Responsive Layout (video + text) */}
-                <Flex
-                    direction={["column", "column", "column", "row"]}
-                    align="flex-start"
-                    gap={10}
+                <Text
+                    fontSize={["2xl", "3xl"]}
+                    fontWeight="500"
+                    color="#5eb0ff"
+                    fontFamily="'Poppins', sans-serif"
+                    mb={4}
+                    textAlign="center"
                 >
+                    Dakshina Dwaraka Dham: Inspiration & Aspiration
+                </Text>
 
-                    {/* ===================== VIDEO AUTOPLAY BLOCK ===================== */}
-                    <Box flex="1" w="100%">
-                        <Box
-                            ref={videoRef}
-                            position="relative"
-                            paddingBottom="56.25%"  // 16:9 ratio
-                            height="0"
-                            overflow="hidden"
-                            borderRadius="16px"
-                            boxShadow="0 4px 20px rgba(0,0,0,0.3)"
-                            bg="#000"
-                        >
-                            <iframe
-                                src={videoSrc}
-                                title="Temple Construction Video"
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                                style={{
-                                    position: "absolute",
-                                    top: 0,
-                                    left: 0,
-                                    width: "100%",
-                                    height: "100%",
-                                    borderRadius: "16px"
-                                }}
-                            />
-                        </Box>
-                    </Box>
+                <Text
+                    fontSize="md"
+                    color="#1A1A1A"
+                    lineHeight="1.7"
+                    mb={4}
+                    fontFamily="'Poppins', sans-serif"
+                >
+                    Nestled along the scenic seashore of the Bay of Bengal in Thiruvanmiyur,
+                    Chennai, the Dakshina Dwaraka Dham Cultural Complex is envisioned as a
+                    magnificent center to promote and preserve India’s timeless spiritual and
+                    cultural heritage. Designed in the traditional Pallava style of architecture,
+                    this will be the second shore temple in Tamil Nadu.
+                </Text>
 
-                    {/* ===================== DESCRIPTION TEXT ===================== */}
-                    <Box flex="1" w="100%">
-                        <Text
-                            fontSize={["2xl", "3xl"]}
-                            fontWeight="700"
-                            color="#5eb0ff"
-                            fontFamily="'Poppins', sans-serif"
-                            mb={4}
-                        >
-                            Dakshina Dwaraka Dham: <br /> Inspiration & Aspiration
-                        </Text>
-
-                        <Text
-                            fontSize="md"
-                            color="#1A1A1A"
-                            lineHeight="1.7"
-                            mb={4}
-                            fontFamily="'Poppins', sans-serif"
-                        >
-                            Nestled along the scenic seashore of the Bay of Bengal in Thiruvanmiyur,
-                            Chennai, the Dakshina Dwaraka Dham Cultural Complex is envisioned as a
-                            magnificent center to promote and preserve India’s timeless spiritual and
-                            cultural heritage. Designed in the traditional Pallava style of architecture,
-                            this will be the second shore temple in Tamil Nadu.
-                        </Text>
-
-                        <Text
-                            fontSize="md"
-                            color="#1A1A1A"
-                            lineHeight="1.7"
-                            fontFamily="'Poppins', sans-serif"
-                        >
-                            With a total built-up area of about 40,000 sq. ft., Dakshina Dwaraka Dham
-                            will be a spiritual, educational, and cultural beacon — uniting devotion,
-                            knowledge, and heritage for the upliftment of society.
-                        </Text>
-                    </Box>
-                </Flex>
+                <Text
+                    fontSize="md"
+                    color="#1A1A1A"
+                    lineHeight="1.7"
+                    fontFamily="'Poppins', sans-serif"
+                >
+                    With a total built-up area of about 40,000 sq. ft., Dakshina Dwaraka Dham
+                    will be a spiritual, educational, and cultural beacon — uniting devotion,
+                    knowledge, and heritage for the upliftment of society.
+                </Text>
             </Box>
+
 
 
 
