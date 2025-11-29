@@ -82,7 +82,7 @@ const WhyDonateQuotes = () => {
                 color="#5eb0ff"
                 mb={2}
             >
-                The Power of Giving for a Holy Purpose
+                The Power of Giving
             </Text>
 
             <Text

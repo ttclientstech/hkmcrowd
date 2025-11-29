@@ -57,6 +57,7 @@ import t2 from "../assets/images/t2.jpg";
 import TestimonialSection from "../Components/HomePageComponents/TestimonialSection";
 import DonorPrivilegeSection from "../Components/HomePageComponents/DonorPrivilegeSection";
 import WhyDonateQuotes from "../Components/HomePageComponents/WhyDonateQuotes";
+import FAQComponent from "../Components/HomePageComponents/FAQComponent";
 
 
 
@@ -785,7 +786,7 @@ const HomeSinglePage = () => {
             <TestimonialSection />
             <DonorPrivilegeSection />
             <Button
-                w={"100%"} h={"55px"}
+                h={"55px"}
                 bgGradient="linear(to-r, #D4AF37, #FFD700)"
                 color="#2C0A0A"
                 fontWeight="800" fontSize="lg"
@@ -798,6 +799,7 @@ const HomeSinglePage = () => {
                 CONTRIBUTE NOW
             </Button>
             <WhyDonateQuotes />
+            <FAQComponent />
 
 
 
