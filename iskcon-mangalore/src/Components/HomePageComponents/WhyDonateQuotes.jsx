@@ -30,14 +30,18 @@ const quotes = [
 
 const WhyDonateQuotes = () => {
     const isMobile = useBreakpointValue({ base: true, md: false });
+
     const itemsToShow = isMobile ? 1 : 3;
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [fade, setFade] = useState(false);
 
-    // Auto-slide
+    // Auto-slide every 4 seconds
     useEffect(() => {
-        const interval = setInterval(() => nextSlide(), 4000);
+        const interval = setInterval(() => {
+            nextSlide();
+        }, 4000);
+
         return () => clearInterval(interval);
     }, [itemsToShow]);
 
@@ -61,7 +65,7 @@ const WhyDonateQuotes = () => {
         }, 400);
     };
 
-    // Decide visible quotes
+    // Get visible quotes
     const visibleQuotes = [];
     for (let i = 0; i < itemsToShow; i++) {
         visibleQuotes.push(quotes[(currentIndex + i) % quotes.length]);
@@ -77,7 +81,7 @@ const WhyDonateQuotes = () => {
             fontFamily="'Poppins', sans-serif"
             position="relative"
         >
-            {/* Heading */}
+            {/* Title */}
             <Text
                 textAlign="center"
                 fontSize={["2xl", "3xl"]}
@@ -94,10 +98,10 @@ const WhyDonateQuotes = () => {
                 color="#444"
                 mb={8}
             >
-                Sacred scriptures glorify supporting the Lord’s temple
+                Sacred scriptures glorify those who support the Lord’s temple
             </Text>
 
-            {/* LEFT ARROW */}
+            {/* LEFT Arrow */}
             <Box
                 position="absolute"
                 left="0"
@@ -113,7 +117,7 @@ const WhyDonateQuotes = () => {
                 ❮
             </Box>
 
-            {/* RIGHT ARROW */}
+            {/* RIGHT Arrow */}
             <Box
                 position="absolute"
                 right="0"
@@ -129,7 +133,7 @@ const WhyDonateQuotes = () => {
                 ❯
             </Box>
 
-            {/* QUOTE CARDS */}
+            {/* Carousel */}
             <Flex
                 justify="center"
                 gap={[4, 6]}
@@ -142,48 +146,51 @@ const WhyDonateQuotes = () => {
                         w={isMobile ? "100%" : "33%"}
                         borderRadius="14px"
                         overflow="hidden"
+                        position="relative"
+                        h="350px"
                         boxShadow="0 8px 30px rgba(0,0,0,0.25)"
                     >
-                        {/* ===== IMAGE SECTION ===== */}
-                        <Box position="relative" h="230px" overflow="hidden">
-                            <Image
-                                src={q.image}
-                                alt="Quote background"
-                                w="100%"
-                                h="100%"
-                                objectFit="cover"
-                            />
+                        {/* Background Image */}
+                        <Image
+                            src={q.image}
+                            alt="Quote background"
+                            w="100%"
+                            h="100%"
+                            objectFit="cover"
+                        />
 
-                            {/* Only TOP gradient – bottom stays visible */}
-                            <Box
-                                position="absolute"
-                                top="0"
-                                left="0"
-                                w="100%"
-                                h="40%"   // only top 40%
-                                bg="linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0))"
-                            />
-                        </Box>
-
-                        {/* ===== TEXT SECTION BELOW IMAGE ===== */}
+                        {/* GRADIENT OVERLAY — TOP DARK → BOTTOM LIGHT */}
                         <Box
-                            bg="white"
+                            position="absolute"
+                            top="0"
+                            left="0"
+                            w="100%"
+                            h="100%"
+                            bg="linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.25))"
+                        />
+
+                        {/* quote text */}
+                        <Flex
+                            position="absolute"
+                            bottom="0"
+                            left="0"
+                            w="100%"
+                            direction="column"
                             p={5}
-                            minH="150px"
+                            color="white"
                         >
-                            <Text fontSize="sm" color="#777" mb={2}>
+                            <Text fontSize="sm" opacity={0.9}>
                                 {q.reference}
                             </Text>
-
                             <Text
                                 fontSize={["md", "lg"]}
-                                color="#222"
                                 fontWeight="600"
-                                lineHeight="1.6"
+                                mt={2}
+                                lineHeight="1.5"
                             >
                                 {q.text}
                             </Text>
-                        </Box>
+                        </Flex>
                     </Box>
                 ))}
             </Flex>
