@@ -52,6 +52,10 @@ import img_kalamadhuryam from "../assets/images/kalamadhuryam_1.png";
 import img_harinam from "../assets/images/harinaam_mandap_1.png";
 import img_icvk from "../assets/images/icvk_1.png";
 import img_gitalife from "../assets/images/gita_life_1.png";
+import t1 from "../assets/images/t1.jpeg";
+import t2 from "../assets/images/t2.jpg";
+import TestimonialSection from "../Components/HomePageComponents/TestimonialSection";
+
 
 
 
@@ -728,7 +732,7 @@ const HomeSinglePage = () => {
 
             </Box>
 
-
+            <TestimonialSection />
 
 
 
