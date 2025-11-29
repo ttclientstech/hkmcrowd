@@ -466,17 +466,25 @@ const HomeSinglePage = () => {
                     </Text>
                 </Box>
 
-                {/* Temple image */}
+                {/* Centered premium card */}
                 <Box
-                    display="flex"
-                    justifyContent="center"
+                    px={4}                      // outer padding (space from screen edges)
+                    mt={4}
                 >
-                    <Image
-                        src={ddd_poster_mob}
-                        alt="Dakshina Dwaraka Dham"
-                        maxW="900px"
-                        w="100%"
-                    />
+                    <Box
+                        borderRadius="18px"      // curved corners
+                        overflow="hidden"        // clips image edges to the curve
+                        boxShadow="0px 6px 25px rgba(0,0,0,0.25)" // premium soft shadow
+                        bg="white"
+                    >
+                        <Image
+                            src={ddd_poster_mob}
+                            alt="Dakshina Dwaraka Dham"
+                            w="100%"
+                            h="100%"
+                            objectFit="cover"
+                        />
+                    </Box>
                 </Box>
 
             </Box>
