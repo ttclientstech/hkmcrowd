@@ -268,6 +268,25 @@ const HomeSinglePage = () => {
     };
 
 
+   //Temple construction updates starts
+    const templeStatusImages = [
+        temple_main1,
+        temple_main2,
+        temple_main3,
+    ];
+
+    const [statusIndex, setStatusIndex] = useState(0);
+
+// Auto-cycle every 3 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setStatusIndex((prev) => (prev + 1) % templeStatusImages.length);
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, []);
+    //Temple construction updates end
+
     // colors and typography matching screenshot
     const headerBg = "#2F3F51"; // deep bluish header in screenshot
     const donateYellow = "#FFD400";
@@ -660,81 +679,55 @@ const HomeSinglePage = () => {
                     textAlign="center"
                     mb={6}
                 >
-                    Temple Construction Status <br />– As on December 2025
+                    Temple Construction Status <br />– As on September 2025
                 </Text>
 
-                {/* IMAGE ARRAYS */}
-                {(() => {
-                    const images = [
-                        temple_main1,
-                        temple_main2,
-                        temple_main3,
-                    ];
+                {/* MAIN IMAGE */}
+                <Box
+                    w="100%"
+                    borderRadius="12px"
+                    overflow="hidden"
+                    boxShadow="0 4px 20px rgba(0,0,0,0.15)"
+                >
+                    <Image
+                        src={templeStatusImages[statusIndex]}
+                        alt="Temple Construction"
+                        w="100%"
+                        h={["250px", "350px", "450px"]}
+                        objectFit="cover"
+                        transition="opacity 0.6s ease"
+                    />
+                </Box>
 
-                    const [mainIndex, setMainIndex] = React.useState(0);
-
-                    // Auto-rotate every 3 seconds
-                    React.useEffect(() => {
-                        const interval = setInterval(() => {
-                            setMainIndex(prev => (prev + 1) % images.length);
-                        }, 3000);
-
-                        return () => clearInterval(interval);
-                    }, []);
-
-                    return (
-                        <Box>
-
-                            {/* BIG MAIN IMAGE */}
-                            <Box
-                                w="100%"
-                                borderRadius="12px"
-                                overflow="hidden"
-                                boxShadow="0 4px 20px rgba(0,0,0,0.15)"
-                            >
-                                <Image
-                                    src={images[mainIndex]}
-                                    alt="Temple Construction"
-                                    w="100%"
-                                    h={["250px", "350px", "450px"]}
-                                    objectFit="cover"
-                                    transition="opacity 0.6s ease"
-                                />
-                            </Box>
-
-                            {/* THUMBNAILS BELOW */}
-                            <Flex
-                                justify="center"
-                                gap={4}
-                                mt={6}
-                                flexWrap="wrap"
-                            >
-                                {images.map((img, i) => (
-                                    <Box
-                                        key={i}
-                                        borderRadius="8px"
-                                        overflow="hidden"
-                                        cursor="pointer"
-                                        border={i === mainIndex ? "3px solid #5eb0ff" : "2px solid #ddd"}
-                                        onClick={() => setMainIndex(i)}
-                                        transition="all 0.3s ease"
-                                    >
-                                        <Image
-                                            src={img}
-                                            alt={`thumb-${i}`}
-                                            w={["110px", "130px", "150px"]}
-                                            h={["110px", "130px", "150px"]}
-                                            objectFit="cover"
-                                        />
-                                    </Box>
-                                ))}
-                            </Flex>
-
+                {/* THUMBNAILS */}
+                <Flex
+                    justify="center"
+                    gap={4}
+                    mt={6}
+                    flexWrap="wrap"
+                >
+                    {templeStatusImages.map((img, i) => (
+                        <Box
+                            key={i}
+                            borderRadius="8px"
+                            overflow="hidden"
+                            cursor="pointer"
+                            border={i === statusIndex ? "3px solid #5eb0ff" : "2px solid #ddd"}
+                            onClick={() => setStatusIndex(i)}
+                            transition="all 0.3s ease"
+                        >
+                            <Image
+                                src={img}
+                                w={["110px", "130px", "150px"]}
+                                h={["110px", "130px", "150px"]}
+                                objectFit="cover"
+                            />
                         </Box>
-                    );
-                })()}
+                    ))}
+                </Flex>
 
             </Box>
+
 
 
 
