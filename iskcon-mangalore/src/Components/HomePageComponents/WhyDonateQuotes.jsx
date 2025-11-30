@@ -12,19 +12,19 @@ const quotes = [
         reference: "Vishnu Purana (3.8.27)",
         text:
             "One who donates towards the construction of a temple is liberated from all sins and attains the heavenly realms.",
-        image: vishnu_purana,
+        video: vishnu_purana,
     },
     {
         reference: "Vamana Purana",
         text:
             "One can attain the spiritual world (Vaikuntha) by helping construct or renovate a temple.",
-        image: vamana_purana,
+        video: vamana_purana,
     },
     {
         reference: "Garuda Purana",
         text:
             "One who contributes to building a temple attains heaven and is honored by all.",
-        image: garuda_purana,
+        video: garuda_purana,
     },
 ];
 
