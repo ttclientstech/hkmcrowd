@@ -60,6 +60,7 @@ import WhyDonateQuotes from "../Components/HomePageComponents/WhyDonateQuotes";
 import FAQComponent from "../Components/HomePageComponents/FAQComponent";
 import RecentContributors from "../Components/HomePageComponents/RecentContributors";
 import PrabhupadaSection from "../Components/HomePageComponents/PrabhupadaSection";
+import PrabhupadaQuoteCTA from "../Components/HomePageComponents/PrabhupadaQuoteCTA";
 
 
 
@@ -821,6 +822,7 @@ const HomeSinglePage = () => {
                 </Button>
             </Flex>
             <PrabhupadaSection />
+            <PrabhupadaQuoteCTA />
 
 
 
