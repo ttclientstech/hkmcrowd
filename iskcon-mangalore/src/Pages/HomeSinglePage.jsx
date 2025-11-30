@@ -61,6 +61,7 @@ import FAQComponent from "../Components/HomePageComponents/FAQComponent";
 import RecentContributors from "../Components/HomePageComponents/RecentContributors";
 import PrabhupadaSection from "../Components/HomePageComponents/PrabhupadaSection";
 import PrabhupadaQuoteCTA from "../Components/HomePageComponents/PrabhupadaQuoteCTA";
+import FooterSection from "../Components/HomePageComponents/FooterSection";
 
 
 
@@ -833,43 +834,19 @@ const HomeSinglePage = () => {
             >
                 Got a question? We’d love to hear from you.
                 Call or WhatsApp us at{" "}
-                <Box as="span" color="#ff7a00" fontWeight="600">
-                    +91-6282408921
+                <Box as="span" color="#ff3838" fontWeight="600">
+                    +91-XXXXXXXXXX
                 </Box>{" "}
                 and we’ll respond as soon as possible.
             </Text>
+            <FooterSection />
 
 
-
-            {/* After hero: original page content continues (tabs, details, etc.)  */}
+            {/*
             <Box maxW="1200px" mx="auto" px={[4,6]} mt={[6,8]}>
                 <Flex direction={["column", "column", "column", "row"]} gap={8} align="flex-start">
-                    {/* LEFT: rest of content (keep your original components) */}
-                    <Box flex="1.4" w="100%">
-                        <Box mt={6} display={["block", "block"]}>
-                            <AdditionalDetails getSingleUser={getSingleUser} />
-                        </Box>
 
-                        <Box mt={6}>
-                            <ProjectVedio />
-                        </Box>
 
-                        {/*<Box mt={8}>
-                            <CampaignTabs tab={tab} setTab={setTab} />
-                            <Box bg="white" p={[4, 8]} borderRadius="xl" boxShadow="sm" border="1px solid #E2E8F0" mt={0} borderTopLeftRadius="0">
-                                {tab === 1 ? (
-                                    <CampaignMoreDetails
-                                        campaign={campaign} getSingleUser={getSingleUser} themeColor={themeColor}
-                                        handleImageError={handleImageError} avatar={avatar} imageError={imageError}
-                                    />
-                                ) : (
-                                    <Funders getSingleUser={getSingleUser} />
-                                )}
-                            </Box>
-                        </Box>*/}
-                    </Box>
-
-                    {/* RIGHT: donate card & top contributors */}
                     <Box w={["100%", "100%", "100%", "420px"]} px={[0,0,0]} mb={24}>
                         <Box position={["static", "static", "static", "sticky"]} top="24px">
                             <Box bg="white" p={5} borderRadius="md" boxShadow="md" border="1px solid #E2E8F0">
@@ -922,11 +899,9 @@ const HomeSinglePage = () => {
                         </Box>
                     </Box>
                 </Flex>
-            </Box>
+            </Box>*/}
 
-            <Fotter />
-
-            {/* mobile sticky donate CTA (keeps original behavior you had) */}
+            {/*
             {isMobile && (
                 <Box position="fixed" bottom="0" left="0" w="100%" bg="white" p={3} borderTop="1px solid #E2E8F0" zIndex={60}>
                     <Flex maxW="1200px" mx="auto" px={4} gap={3} align="center">
@@ -938,7 +913,7 @@ const HomeSinglePage = () => {
                         </Button>
                     </Flex>
                 </Box>
-            )}
+            )}*/}
 
             {showScrollButton && (
                 <IconButton
