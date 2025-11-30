@@ -28,6 +28,8 @@ const dummyLeaderboard = [
     { username: "Ramesh Kumar", amount: 50000 },
     { username: "Anita Devi", amount: 35000 },
     { username: "Sunil Gupta", amount: 30000 },
+    { username: "Kiran Prakash", amount: 20000 },
+    { username: "Nirmala S", amount: 10000 },
 ];
 
 const RecentContributors = ({ getSingleUser }) => {

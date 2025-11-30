@@ -59,6 +59,7 @@ import DonorPrivilegeSection from "../Components/HomePageComponents/DonorPrivile
 import WhyDonateQuotes from "../Components/HomePageComponents/WhyDonateQuotes";
 import FAQComponent from "../Components/HomePageComponents/FAQComponent";
 import RecentContributors from "../Components/HomePageComponents/RecentContributors";
+import PrabhupadaSection from "../Components/HomePageComponents/PrabhupadaSection";
 
 
 
@@ -786,20 +787,21 @@ const HomeSinglePage = () => {
 
             <TestimonialSection />
             <DonorPrivilegeSection />
+            <RecentContributors getSingleUser={getSingleUser} />
             <Flex justify="center" mt={2}>
-            <Button
-                h={"55px"}
-                bgGradient="linear(to-r, #D4AF37, #FFD700)"
-                color="#2C0A0A"
-                fontWeight="800" fontSize="lg"
-                fontFamily="'Cinzel', serif"
-                letterSpacing="1px"
-                onClick={handleClick}
-                _hover={{ transform: "translateY(-2px)", boxShadow: "0px 5px 15px rgba(212, 175, 55, 0.4)" }}
-                rightIcon={<Icon as={FaHandHoldingHeart} />}
-            >
-                CONTRIBUTE NOW
-            </Button>
+                <Button
+                    h={"55px"}
+                    bgGradient="linear(to-r, #D4AF37, #FFD700)"
+                    color="#2C0A0A"
+                    fontWeight="800" fontSize="lg"
+                    fontFamily="'Cinzel', serif"
+                    letterSpacing="1px"
+                    onClick={handleClick}
+                    _hover={{ transform: "translateY(-2px)", boxShadow: "0px 5px 15px rgba(212, 175, 55, 0.4)" }}
+                    rightIcon={<Icon as={FaHandHoldingHeart} />}
+                >
+                    CONTRIBUTE NOW
+                </Button>
             </Flex>
             <WhyDonateQuotes />
             <FAQComponent />
@@ -818,7 +820,8 @@ const HomeSinglePage = () => {
                     CONTRIBUTE NOW
                 </Button>
             </Flex>
-            <RecentContributors getSingleUser={getSingleUser} />
+            <PrabhupadaSection />
+
 
 
 
