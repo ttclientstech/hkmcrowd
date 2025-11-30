@@ -1,36 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Box,
     Text,
     Flex,
     HStack,
     VStack,
+    Skeleton,
+    SkeletonCircle,
     Button,
-    Divider,
+    useBreakpointValue,
 } from "@chakra-ui/react";
-import { formatCurrency, formatTimeAgo } from '../utils';
+import { FaUser } from "react-icons/fa";
 
-const dummyLargest = [
-    { username: "Ramesh Kumar", amount: 25001, date: new Date() },
-    { username: "Anita Devi", amount: 20000, date: new Date() },
-    { username: "Suresh Mehta", amount: 18000, date: new Date() },
-    { username: "Krishna Rao", amount: 15000, date: new Date() },
+// Auto-generate consistent avatar colors
+const getAvatarColor = (name) => {
+    const colors = ["#5EB0FF", "#FF8B8B", "#FFD369", "#A88BEB", "#6EE7B7", "#FCA5A5"];
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return colors[Math.abs(hash) % colors.length];
+};
+
+// Dummy leaderboard (until backend is ready)
+const dummyLeaderboard = [
+    { username: "Ramesh Kumar", amount: 50000 },
+    { username: "Anita Devi", amount: 35000 },
+    { username: "Sunil Gupta", amount: 30000 },
 ];
 
-const RecentContributors = ({ latestData = [] }) => {
+const RecentContributors = ({ getSingleUser }) => {
+
     const [tab, setTab] = useState("latest");
-    const contributors = tab === "latest" ? latestData : dummyLargest;
+    const [loading, setLoading] = useState(true);
+
+    const isMobile = useBreakpointValue({ base: true, md: false });
+
+    useEffect(() => {
+        // Simulate load shimmer for 1 sec
+        setTimeout(() => setLoading(false), 1000);
+    }, []);
+
+    // Latest contributors
+    const latestData = getSingleUser?.top10paymentDetails || [];
 
     return (
-        <Box
-            w="100%"
-            maxW="900px"
-            mx="auto"
-            mt={20}
-            px={[4, 6]}
-            fontFamily="'Poppins', sans-serif"
-        >
-            {/* Title */}
+        <Box w="100%" maxW="900px" mx="auto" mt={10} px={4} fontFamily="'Poppins', sans-serif">
+
             <Text
                 textAlign="center"
                 fontSize={["2xl", "3xl"]}
@@ -41,123 +57,160 @@ const RecentContributors = ({ latestData = [] }) => {
                 Respected Contributors
             </Text>
 
-            {/* TABS */}
-            <Flex justify="center" gap={5} mb={8}>
+            {/* TAB SWITCH */}
+            <HStack justify="center" mb={6} gap={4}>
                 <Button
                     onClick={() => setTab("latest")}
                     bg={tab === "latest" ? "#5eb0ff" : "white"}
                     color={tab === "latest" ? "white" : "#5eb0ff"}
-                    borderRadius="30px"
-                    px={10}
-                    py={6}
-                    fontWeight="700"
                     border="2px solid #5eb0ff"
-                    boxShadow={
-                        tab === "latest"
-                            ? "0 5px 20px rgba(94,176,255,0.35)"
-                            : "0 3px 8px rgba(0,0,0,0.08)"
-                    }
-                    _hover={{ transform: "translateY(-3px)" }}
-                    transition="0.25s"
+                    borderRadius="50px"
+                    px={8}
                 >
                     Latest
                 </Button>
 
                 <Button
-                    onClick={() => setTab("largest")}
-                    bg={tab === "largest" ? "#5eb0ff" : "white"}
-                    color={tab === "largest" ? "white" : "#5eb0ff"}
-                    borderRadius="30px"
-                    px={10}
-                    py={6}
-                    fontWeight="700"
+                    onClick={() => setTab("leaderboard")}
+                    bg={tab === "leaderboard" ? "#5eb0ff" : "white"}
+                    color={tab === "leaderboard" ? "white" : "#5eb0ff"}
                     border="2px solid #5eb0ff"
-                    boxShadow={
-                        tab === "largest"
-                            ? "0 5px 20px rgba(94,176,255,0.35)"
-                            : "0 3px 8px rgba(0,0,0,0.08)"
-                    }
-                    _hover={{ transform: "translateY(-3px)" }}
-                    transition="0.25s"
+                    borderRadius="50px"
+                    px={8}
                 >
                     Largest
                 </Button>
-            </Flex>
+            </HStack>
 
             {/* CARD CONTAINER */}
             <Box
-                bg="white"
-                p={[4, 6]}
-                borderRadius="25px"
-                boxShadow="0 10px 40px rgba(0,0,0,0.08)"
+                bg="#F4F2EE"
+                borderRadius="16px"
+                p={5}
+                shadow="md"
             >
-                {contributors.map((user, index) => (
-                    <Box key={index} mb={index === contributors.length - 1 ? 0 : 5}>
-                        <Flex
-                            align="center"
-                            justify="space-between"
-                            p={4}
-                            borderRadius="16px"
-                            bg="#F8FAFE"
-                            boxShadow="0 4px 15px rgba(0,0,0,0.05)"
-                            transition="0.2s"
-                            _hover={{
-                                transform: "translateY(-3px)",
-                                boxShadow: "0 6px 20px rgba(0,0,0,0.10)",
-                            }}
-                        >
-                            {/* LEFT SIDE */}
-                            <HStack spacing={4}>
-                                <Box
-                                    bg="#E4EDFA"
-                                    color="#5eb0ff"
-                                    fontWeight="700"
-                                    w="48px"
-                                    h="48px"
-                                    display="flex"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    borderRadius="50%"
-                                    fontSize="lg"
-                                    boxShadow="inset 0 2px 5px rgba(0,0,0,0.1)"
-                                >
-                                    {(user?.username || "U")[0].toUpperCase()}
-                                </Box>
-
-                                <VStack align="start" spacing={0}>
-                                    <Text fontWeight="700" color="#333">
-                                        {user?.username || "Unknown Donor"}
-                                    </Text>
-                                    <Text color="#666" fontSize="sm">
-                                        donated{" "}
-                                        <Text as="span" fontWeight="700">
-                                            {formatCurrency(user.amount)}
-                                        </Text>
-                                    </Text>
+                {/* LOADING SKELETON */}
+                {loading ? (
+                    <VStack gap={4}>
+                        {[1, 2, 3, 4].map((i) => (
+                            <HStack key={i} w="100%" p={4} bg="white" borderRadius="12px">
+                                <SkeletonCircle size="12" />
+                                <VStack align="flex-start" flex="1">
+                                    <Skeleton height="12px" w="70%" />
+                                    <Skeleton height="12px" w="40%" />
                                 </VStack>
                             </HStack>
+                        ))}
+                    </VStack>
+                ) : (
+                    <>
+                        {/* ===========================
+                           LATEST TAB
+                        ============================ */}
+                        {tab === "latest" && (
+                            <VStack gap={4}>
+                                {latestData.map((user, idx) => {
+                                    const name = user?.isanonymous ? "Anonymous" : user?.username;
+                                    return (
+                                        <HStack
+                                            key={idx}
+                                            w="100%"
+                                            bg="white"
+                                            p={4}
+                                            borderRadius="12px"
+                                            justify="space-between"
+                                        >
+                                            <HStack gap={4}>
+                                                {/* Avatar */}
+                                                <Flex
+                                                    w="48px"
+                                                    h="48px"
+                                                    borderRadius="50%"
+                                                    bg={getAvatarColor(name)}
+                                                    color="white"
+                                                    align="center"
+                                                    justify="center"
+                                                    fontWeight="700"
+                                                    fontSize="lg"
+                                                >
+                                                    {name?.charAt(0)?.toUpperCase()}
+                                                </Flex>
 
-                            {/* TIME */}
-                            <Text fontSize="sm" color="#888" whiteSpace="nowrap">
-                                {formatTimeAgo(user.date)}
-                            </Text>
-                        </Flex>
-                    </Box>
-                ))}
+                                                {/* Text */}
+                                                <VStack align="flex-start" spacing={0}>
+                                                    <Text fontWeight="700">
+                                                        {name}{" "}
+                                                        <Text as="span" fontWeight="500">
+                                                            donated {formatCurrency(user?.amount)}
+                                                        </Text>
+                                                    </Text>
+                                                    <Text fontSize="sm" color="gray.600">
+                                                        {formatTimeAgo(user?.date)}
+                                                    </Text>
+                                                </VStack>
+                                            </HStack>
+                                        </HStack>
+                                    );
+                                })}
+                            </VStack>
+                        )}
+
+                        {/* ===========================
+                           LEADERBOARD TAB
+                        ============================ */}
+                        {tab === "leaderboard" && (
+                            <VStack gap={4}>
+                                {dummyLeaderboard.map((user, idx) => {
+                                    const name = user.username;
+                                    const badgeColors = ["#FFD700", "#C0C0C0", "#CD7F32"]; // Gold/Silver/Bronze
+                                    return (
+                                        <HStack
+                                            key={idx}
+                                            w="100%"
+                                            bg="white"
+                                            p={4}
+                                            borderRadius="12px"
+                                            justify="space-between"
+                                        >
+                                            <HStack gap={4}>
+                                                {/* Avatar */}
+                                                <Flex
+                                                    w="48px"
+                                                    h="48px"
+                                                    borderRadius="50%"
+                                                    bg={getAvatarColor(name)}
+                                                    color="white"
+                                                    align="center"
+                                                    justify="center"
+                                                    fontWeight="700"
+                                                    fontSize="lg"
+                                                >
+                                                    {name[0]}
+                                                </Flex>
+
+                                                <VStack align="flex-start" spacing={0}>
+                                                    <Text fontWeight="700">{name}</Text>
+                                                    <Text fontSize="sm" color="gray.600">
+                                                        Donated {formatCurrency(user.amount)}
+                                                    </Text>
+                                                </VStack>
+                                            </HStack>
+
+                                            {/* Badge instead of Rank Number */}
+                                            <Box
+                                                w="16px"
+                                                h="16px"
+                                                bg={badgeColors[idx]}
+                                                borderRadius="50%"
+                                            />
+                                        </HStack>
+                                    );
+                                })}
+                            </VStack>
+                        )}
+                    </>
+                )}
             </Box>
-
-            {/* Show More */}
-            <Text
-                textAlign="center"
-                mt={6}
-                fontSize="lg"
-                color="#5eb0ff"
-                cursor="pointer"
-                fontWeight="600"
-                _hover={{ opacity: 0.7 }}
-            >
-                Show More
-            </Text>
         </Box>
     );
 };

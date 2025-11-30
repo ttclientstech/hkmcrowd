@@ -818,7 +818,7 @@ const HomeSinglePage = () => {
                     CONTRIBUTE NOW
                 </Button>
             </Flex>
-            <RecentContributors latestData={getSingleUser?.top10paymentDetails || []} />
+            <RecentContributors getSingleUser={getSingleUser} />
 
 
 
