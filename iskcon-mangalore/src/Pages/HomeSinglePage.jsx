@@ -823,7 +823,21 @@ const HomeSinglePage = () => {
             </Flex>
             <PrabhupadaSection />
             <PrabhupadaQuoteCTA />
-
+            <Text
+                textAlign="center"
+                fontSize={["md", "lg"]}
+                color="#444"
+                mt={10}
+                px={4}
+                fontFamily="'Poppins', sans-serif"
+            >
+                Got a question? We’d love to hear from you.
+                Call or WhatsApp us at{" "}
+                <Box as="span" color="#ff7a00" fontWeight="600">
+                    +91-6282408921
+                </Box>{" "}
+                and we’ll respond as soon as possible.
+            </Text>
 
 
 

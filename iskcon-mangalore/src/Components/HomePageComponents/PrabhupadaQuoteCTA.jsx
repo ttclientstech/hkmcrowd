@@ -55,10 +55,9 @@ const PrabhupadaQuoteCTA = () => {
                     px={10}
                     bgColor="#ff3838"
                     color="#ffffff"
-                    fontWeight="800"
+                    fontWeight="700"
                     fontSize="xl"
                     borderRadius="12px"
-                    boxShadow="0 6px 20px rgba(212, 175, 55, 0.4)"
                     _hover={{
                         transform: "translateY(-3px)",
                         boxShadow: "0 10px 28px rgba(212, 175, 55, 0.6)",
