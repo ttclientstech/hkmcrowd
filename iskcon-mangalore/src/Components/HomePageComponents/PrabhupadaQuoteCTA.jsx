@@ -6,7 +6,7 @@ const PrabhupadaQuoteCTA = () => {
     return (
         <Box
             w="100%"
-            bgGradient="linear(to-b, #0b1a2a, #0f2133)"
+            bgColor="#000f1b"
             py={[12, 16]}
             px={[4, 6]}
             textAlign="center"
@@ -41,10 +41,10 @@ const PrabhupadaQuoteCTA = () => {
             {/* DONATE BUTTON */}
             <Flex justify="center">
                 <Button
-                    h={"60px"}
+                    h={"50px"}
                     px={10}
-                    bgGradient="linear(to-r, #D4AF37, #FFD700)"
-                    color="#2C0A0A"
+                    bgColor="#ff3838"
+                    color="#ffffff"
                     fontWeight="800"
                     fontSize="xl"
                     borderRadius="12px"
@@ -54,7 +54,7 @@ const PrabhupadaQuoteCTA = () => {
                         boxShadow: "0 10px 28px rgba(212, 175, 55, 0.6)",
                     }}
                     transition="0.2s ease"
-                    fontFamily="'Cinzel', serif"
+                    fontFamily="'Poppins', sans-serif"
                 >
                     Donate Now
                 </Button>
