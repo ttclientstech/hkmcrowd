@@ -14,9 +14,9 @@ import { FaPlus, FaMinus } from "react-icons/fa";
 // FAQ DATA
 const faqData = [
     {
-        question: "What is the purpose of the Dakshina Dwaraka Dham project?",
+        question: "What is the goal of this campaign?",
         answer:
-            "The project aims to build a grand spiritual and cultural complex in Chennai dedicated to Lord Sri Krishna.",
+            "The goal of the current campaign is to raise donations for Dakshina Dwaraka Dham-Cultural Complex construction in Thiruvanmiyur, Chennai.",
     },
     {
         question: "How does my donation help?",
@@ -24,34 +24,38 @@ const faqData = [
             "Every donation contributes directly to the construction of the temple and spreading spiritual values.",
     },
     {
-        question: "Do I receive any spiritual benefits?",
+        question: "When will I receive Prasadam?",
         answer:
-            "Supporting temple construction is considered one of the highest spiritual services according to scriptures.",
+            "You can expect to receive prasadam within a maximum of one month of your donation. Please note that prasadam will only be sent to donors inside India.",
     },
     {
         question: "Will I get 80G tax exemption?",
         answer:
-            "Yes, eligible donations receive 80G tax exemption as per government regulations.",
+            "Yes, all donations will receive 80G tax exemption as per government regulations.",
     },
     {
-        question: "Can I donate on behalf of someone else?",
+        question: "Who is the inspiration behind this project?",
         answer:
-            "Yes, you can offer your donation in the name of your family, ancestors, or loved ones.",
+            "Srila Prabhupada, Founder-Acarya of Worldwide Hare Krishna Movement, is the inspiration behind this project. He once told:\n" +
+            "\n" +
+            "\"This is Krishna-Conscious vision: Oh! there are so many skyscrapers. Why not construct a nice skyscraper temple for Krishna? This is Krishna Consciousness.\"\n" +
+            "\n" +
+            "This project was conceived following the above instruction.",
     },
     {
-        question: "Will I receive updates about the construction?",
+        question: "Where is Dakshina Dwaraka Dham-Cultural Complex located in Chennai?",
         answer:
-            "Yes, regular progress updates and milestone reports will be shared with all donors.",
+            "Thiruvanmiyur, Chennai. Full Address :  Hare Krishna Movement , 63, 1st Seaward Rd, Valmiki Nagar, Thiruvanmiyur, Chennai, Tamil Nadu 600041",
     },
     {
         question: "Is there a minimum donation amount?",
         answer:
-            "Donations start from ₹5001 per square feet, but supporters may contribute any amount above the minimum.",
+            "Rs 500.",
     },
     {
-        question: "Can international donors contribute?",
+        question: "When will construction will get completed?",
         answer:
-            "Yes, donors from across the world are welcome to contribute to this sacred project.",
+            "If we get the required donation, full phase construction expected to complete on 2026",
     },
 ];
 

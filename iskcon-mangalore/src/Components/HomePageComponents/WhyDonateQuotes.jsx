@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Box, Text, Flex, Image, useBreakpointValue } from "@chakra-ui/react";
+import React from "react";
+import { Box, Text, Flex, Grid, useBreakpointValue } from "@chakra-ui/react";
 
-// IMPORT YOUR QUOTE IMAGES
+// IMPORT YOUR QUOTE VIDEOS
 import vishnu_purana from "../../assets/videos/vishnu_purana.mp4";
 import vamana_purana from "../../assets/videos/vamana_purana.mp4";
 import garuda_purana from "../../assets/videos/garuda_purana.mp4";
@@ -29,35 +29,6 @@ const quotes = [
 ];
 
 const WhyDonateQuotes = () => {
-    const isMobile = useBreakpointValue({ base: true, md: false });
-
-    const itemsToShow = isMobile ? 1 : 3;
-
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [fade, setFade] = useState(false);
-
-    // Auto-slide every 4 seconds
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setFade(true);
-
-            setTimeout(() => {
-                setCurrentIndex((prev) =>
-                    (prev + itemsToShow) % quotes.length
-                );
-                setFade(false);
-            }, 400);
-        }, 4000);
-
-        return () => clearInterval(interval);
-    }, [itemsToShow]);
-
-    // Get visible quotes
-    const visibleQuotes = [];
-    for (let i = 0; i < itemsToShow; i++) {
-        visibleQuotes.push(quotes[(currentIndex + i) % quotes.length]);
-    }
-
     return (
         <Box
             w="100%"
@@ -82,22 +53,23 @@ const WhyDonateQuotes = () => {
                 textAlign="center"
                 fontSize={["md", "lg"]}
                 color="#444"
-                mb={8}
+                mb={10}
             >
-                Sacred scriptures glorify those who support spiritual cause
+                Sacred scriptures glorify those who support spiritual causes
             </Text>
 
-            {/* Carousel */}
-            <Flex
-                justify="center"
-                gap={[4, 6]}
-                transition="opacity 0.4s ease"
-                opacity={fade ? 0 : 1}
+            {/* GRID (No carousel) */}
+            <Grid
+                templateColumns={{
+                    base: "1fr",
+                    md: "repeat(2, 1fr)",
+                    lg: "repeat(3, 1fr)",
+                }}
+                gap={[6, 6, 8]}
             >
-                {visibleQuotes.map((q, index) => (
+                {quotes.map((q, index) => (
                     <Box
                         key={index}
-                        w={isMobile ? "100%" : "33%"}
                         borderRadius="12px"
                         overflow="hidden"
                         position="relative"
@@ -130,7 +102,7 @@ const WhyDonateQuotes = () => {
                             w="100%"
                             h="100%"
                             zIndex={2}
-                            bgGradient="linear(to-b, rgba(0,0,0,0.05), rgba(0,0,0,0.75))"
+                            bgGradient="linear(to-b, rgba(0,0,0,0.25), rgba(0,0,0))"
                         />
 
                         {/* Text */}
@@ -144,7 +116,7 @@ const WhyDonateQuotes = () => {
                             color="white"
                             zIndex={3}
                         >
-                            <Text fontSize="sm" opacity={0.9}>
+                            <Text fontSize="sm" opacity={0.9} color="#ffc460">
                                 {q.reference}
                             </Text>
                             <Text
@@ -158,20 +130,7 @@ const WhyDonateQuotes = () => {
                         </Flex>
                     </Box>
                 ))}
-            </Flex>
-
-            {/* Dots */}
-            <Flex justify="center" mt={5} gap={3}>
-                {quotes.map((_, i) => (
-                    <Box
-                        key={i}
-                        w="10px"
-                        h="10px"
-                        borderRadius="full"
-                        bg={i === currentIndex ? "#5eb0ff" : "#ccc"}
-                    />
-                ))}
-            </Flex>
+            </Grid>
         </Box>
     );
 };
