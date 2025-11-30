@@ -11,6 +11,7 @@ import {
     useBreakpointValue,
 } from "@chakra-ui/react";
 import { FaUser } from "react-icons/fa";
+import { formatCurrency, formatTimeAgo } from '../utils';
 
 // Auto-generate consistent avatar colors
 const getAvatarColor = (name) => {
