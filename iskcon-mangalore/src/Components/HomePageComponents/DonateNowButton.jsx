@@ -3,30 +3,6 @@ import { Box, Text, Button, Flex } from "@chakra-ui/react";
 
 const DonateNowButton = () => {
     return (
-        <Box
-            w="100%"
-            py={[12, 16]}
-            px={[4, 6]}
-            textAlign="center"
-            fontFamily="'Poppins', sans-serif"
-            mt={20}
-            bgGradient="linear(to-b, rgba(255,255,255,0) 0%, #000f1b 40%, #000f1b 60%, rgba(255,255,255,0) 100%)"
-        >
-            {/* SOFT MESSAGE */}
-            <Text
-                fontSize={["lg", "xl"]}
-                mb={6}
-                color="#dbeafe"         // light blue tone
-                fontWeight="300"        // very soft
-                opacity={0.9}
-                maxW="600px"
-                mx="auto"
-                lineHeight="1.6"
-            >
-                Every Square Foot You Donate Lives Forever
-            </Text>
-
-            {/* DONATE BUTTON */}
             <Flex justify="center">
                 <Button
                     h={"50px"}
@@ -45,8 +21,19 @@ const DonateNowButton = () => {
                 >
                     Donate Now
                 </Button>
+                <Text
+                    fontSize={["lg", "xl"]}
+                    mb={6}
+                    color="#000f1b"         // light blue tone
+                    fontWeight="300"        // very soft
+                    opacity={0.9}
+                    maxW="600px"
+                    mx="auto"
+                    lineHeight="1.6"
+                >
+                    Every Square Feet You Donate Lives Forever
+                </Text>
             </Flex>
-        </Box>
     );
 };
 
