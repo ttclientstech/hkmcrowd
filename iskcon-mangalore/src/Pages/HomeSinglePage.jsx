@@ -58,6 +58,7 @@ import TestimonialSection from "../Components/HomePageComponents/TestimonialSect
 import DonorPrivilegeSection from "../Components/HomePageComponents/DonorPrivilegeSection";
 import WhyDonateQuotes from "../Components/HomePageComponents/WhyDonateQuotes";
 import FAQComponent from "../Components/HomePageComponents/FAQComponent";
+import RecentContributors from "../Components/HomePageComponents/RecentContributors";
 
 
 
@@ -817,6 +818,7 @@ const HomeSinglePage = () => {
                     CONTRIBUTE NOW
                 </Button>
             </Flex>
+            <RecentContributors latestData={getSingleUser?.top10paymentDetails || []} />
 
 
 
