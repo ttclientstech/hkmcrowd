@@ -9,6 +9,12 @@ import garuda_purana from "../../assets/videos/garuda_purana.mp4";
 // QUOTES DATA
 const quotes = [
     {
+        reference: "Garuda Purana",
+        text:
+            "One who contributes to building a temple attains heaven and is honored by all.",
+        video: garuda_purana,
+    },
+    {
         reference: "Vishnu Purana (3.8.27)",
         text:
             "One who donates towards the construction of a temple is liberated from all sins and attains the heavenly realms.",

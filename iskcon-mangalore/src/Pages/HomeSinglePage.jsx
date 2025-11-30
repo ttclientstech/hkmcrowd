@@ -785,12 +785,13 @@ const HomeSinglePage = () => {
 
             <TestimonialSection />
             <DonorPrivilegeSection />
+            <Flex justify="center" mt={2}>
             <Button
                 h={"55px"}
                 bgGradient="linear(to-r, #D4AF37, #FFD700)"
                 color="#2C0A0A"
                 fontWeight="800" fontSize="lg"
-                fontFamily="'Cinzel', serif"
+                fontFamily="'Poppins', sans-serif"
                 letterSpacing="1px"
                 onClick={handleClick}
                 _hover={{ transform: "translateY(-2px)", boxShadow: "0px 5px 15px rgba(212, 175, 55, 0.4)" }}
@@ -798,8 +799,24 @@ const HomeSinglePage = () => {
             >
                 CONTRIBUTE NOW
             </Button>
+            </Flex>
             <WhyDonateQuotes />
             <FAQComponent />
+            <Flex justify="center" mt={2}>
+                <Button
+                    h={"55px"}
+                    bgGradient="linear(to-r, #D4AF37, #FFD700)"
+                    color="#2C0A0A"
+                    fontWeight="800" fontSize="lg"
+                    fontFamily="'Poppins', sans-serif"
+                    letterSpacing="1px"
+                    onClick={handleClick}
+                    _hover={{ transform: "translateY(-2px)", boxShadow: "0px 5px 15px rgba(212, 175, 55, 0.4)" }}
+                    rightIcon={<Icon as={FaHandHoldingHeart} />}
+                >
+                    CONTRIBUTE NOW
+                </Button>
+            </Flex>
 
 
 
