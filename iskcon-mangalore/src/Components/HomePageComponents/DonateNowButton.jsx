@@ -9,10 +9,24 @@ const DonateNowButton = () => {
             px={[4, 6]}
             textAlign="center"
             fontFamily="'Poppins', sans-serif"
-            color="white"
             mt={20}
             bgGradient="linear(to-b, rgba(255,255,255,0) 0%, #000f1b 40%, #000f1b 60%, rgba(255,255,255,0) 100%)"
         >
+            {/* SOFT MESSAGE */}
+            <Text
+                fontSize={["lg", "xl"]}
+                mb={6}
+                color="#dbeafe"         // light blue tone
+                fontWeight="300"        // very soft
+                opacity={0.9}
+                maxW="600px"
+                mx="auto"
+                lineHeight="1.6"
+            >
+                Every square foot you contribute becomes a sacred offering
+                that uplifts countless generations.
+            </Text>
+
             {/* DONATE BUTTON */}
             <Flex justify="center">
                 <Button
