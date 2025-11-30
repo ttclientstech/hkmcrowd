@@ -197,13 +197,12 @@ const RecentContributors = ({ getSingleUser }) => {
                                                 </VStack>
                                             </HStack>
 
-                                            {/* Badge instead of Rank Number */}
-                                            <Box
-                                                w="16px"
-                                                h="16px"
-                                                bg={badgeColors[idx]}
-                                                borderRadius="50%"
-                                            />
+                                            <Box fontSize="24px">
+                                            {idx === 0 && "🥇"}
+                                            {idx === 1 && "🥈"}
+                                            {idx === 2 && "🥉"}
+                                            {idx > 2 && <Box w="20px" h="20px" bg="#d0d0d0" borderRadius="50%" />}
+                                            </Box>
                                         </HStack>
                                     );
                                 })}
