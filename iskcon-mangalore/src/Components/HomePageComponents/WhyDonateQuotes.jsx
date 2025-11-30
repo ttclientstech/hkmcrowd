@@ -2,36 +2,29 @@ import React, { useState, useEffect } from "react";
 import { Box, Text, Flex, Image, useBreakpointValue } from "@chakra-ui/react";
 
 // IMPORT YOUR QUOTE IMAGES
-import img1 from "../../assets/images/q1.jpg";
-import img2 from "../../assets/images/q2.jpg";
-import img3 from "../../assets/images/q5.jpg";
-import img4 from "../../assets/images/q3.jpg";
+import vishnu_purana from "../../assets/videos/vishnu_purana.mp4";
+import vamana_purana from "../../assets/videos/vamana_purana.mp4";
+import garuda_purana from "../../assets/videos/garuda_purana.mp4";
 
 // QUOTES DATA
 const quotes = [
     {
-        reference: "Mahabharata,Anushasana Parva (13.40)",
-        text:
-            "He who donates for the construction of a temple attains great merit and reaches the abode of Lord Vishnu.",
-        image: img1,
-    },
-    {
         reference: "Vishnu Purana (3.8.27)",
         text:
             "One who donates towards the construction of a temple is liberated from all sins and attains the heavenly realms.",
-        image: img4,
-    },
-    {
-        reference: "Garuda Purana",
-        text:
-            "One who contributes to building a temple attains heaven and is honored by all.",
-        image: img2,
+        image: vishnu_purana,
     },
     {
         reference: "Vamana Purana",
         text:
             "One can attain the spiritual world (Vaikuntha) by helping construct or renovate a temple.",
-        image: img3,
+        image: vamana_purana,
+    },
+    {
+        reference: "Garuda Purana",
+        text:
+            "One who contributes to building a temple attains heaven and is honored by all.",
+        image: garuda_purana,
     },
 ];
 
@@ -111,13 +104,22 @@ const WhyDonateQuotes = () => {
                         boxShadow="0 6px 25px rgba(0,0,0,0.25)"
                         h="350px"
                     >
-                        {/* Background Image */}
-                        <Image
-                            src={q.image}
-                            alt="Quote background"
-                            w="100%"
-                            h="100%"
-                            objectFit="cover"
+                        {/* Background Video */}
+                        <video
+                            src={q.video}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                zIndex: 1,
+                            }}
                         />
 
                         {/* Black Gradient Overlay */}
@@ -127,10 +129,11 @@ const WhyDonateQuotes = () => {
                             left="0"
                             w="100%"
                             h="100%"
-                            bgGradient="linear(to-b, rgba(0,0,0,0.1), rgba(0,0,0,0.75))"
+                            zIndex={2}
+                            bgGradient="linear(to-b, rgba(0,0,0,0.05), rgba(0,0,0,0.75))"
                         />
 
-                        {/* Text Content */}
+                        {/* Text */}
                         <Flex
                             position="absolute"
                             bottom="0"
@@ -139,15 +142,16 @@ const WhyDonateQuotes = () => {
                             direction="column"
                             p={5}
                             color="white"
+                            zIndex={3}
                         >
-                            <Text fontSize="sm" opacity={0.9} color={"#ffc460"}>
+                            <Text fontSize="sm" opacity={0.9}>
                                 {q.reference}
                             </Text>
                             <Text
                                 fontSize={["md", "lg"]}
                                 fontWeight="600"
                                 mt={2}
-                                lineHeight="1.5"
+                                lineHeight="1.6"
                             >
                                 {q.text}
                             </Text>
