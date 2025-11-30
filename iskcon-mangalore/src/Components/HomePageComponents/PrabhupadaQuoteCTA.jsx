@@ -40,9 +40,7 @@ const PrabhupadaQuoteCTA = () => {
                 fontWeight="500"
                 mb={6}
             >
-                “Whatever you do, whatever you give in charity, whatever you offer—
-                do it as an offering unto Me.
-                When one donates for Krishna’s service, that act becomes eternal.”
+                “Anyone who contributes even the smallest amount for constructing a temple of Krishna, his act is recorded by Krishna, and he becomes blessed eternally.”
             </Text>
 
             {/* AUTHOR */}
