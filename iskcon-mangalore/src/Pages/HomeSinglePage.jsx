@@ -62,6 +62,7 @@ import RecentContributors from "../Components/HomePageComponents/RecentContribut
 import PrabhupadaSection from "../Components/HomePageComponents/PrabhupadaSection";
 import PrabhupadaQuoteCTA from "../Components/HomePageComponents/PrabhupadaQuoteCTA";
 import FooterSection from "../Components/HomePageComponents/FooterSection";
+import DonateNowButton from "../Components/HomePageComponents/DonateNowButton";
 
 
 
@@ -790,7 +791,7 @@ const HomeSinglePage = () => {
             <TestimonialSection />
             <DonorPrivilegeSection />
             <RecentContributors getSingleUser={getSingleUser} />
-            <Flex justify="center" mt={2}>
+            {/*<Flex justify="center" mt={2}>
                 <Button
                     h={"55px"}
                     bgGradient="linear(to-r, #D4AF37, #FFD700)"
@@ -804,24 +805,11 @@ const HomeSinglePage = () => {
                 >
                     CONTRIBUTE NOW
                 </Button>
-            </Flex>
+            </Flex>*/}
+            <DonateNowButton />
             <WhyDonateQuotes />
             <FAQComponent />
-            <Flex justify="center" mt={2}>
-                <Button
-                    h={"55px"}
-                    bgGradient="linear(to-r, #D4AF37, #FFD700)"
-                    color="#2C0A0A"
-                    fontWeight="800" fontSize="lg"
-                    fontFamily="'Cinzel', serif"
-                    letterSpacing="1px"
-                    onClick={handleClick}
-                    _hover={{ transform: "translateY(-2px)", boxShadow: "0px 5px 15px rgba(212, 175, 55, 0.4)" }}
-                    rightIcon={<Icon as={FaHandHoldingHeart} />}
-                >
-                    CONTRIBUTE NOW
-                </Button>
-            </Flex>
+            <DonateNowButton />
             <PrabhupadaSection />
             <PrabhupadaQuoteCTA />
             <Text
