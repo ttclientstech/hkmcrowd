@@ -23,8 +23,7 @@ const DonateNowButton = () => {
                 mx="auto"
                 lineHeight="1.6"
             >
-                Every square foot you contribute becomes a sacred offering
-                that uplifts countless generations.
+                Every Square Foot You Donate Lives Forever
             </Text>
 
             {/* DONATE BUTTON */}
