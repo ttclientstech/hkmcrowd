@@ -26,12 +26,6 @@ const quotes = [
             "One can attain the spiritual world (Vaikuntha) by helping construct or renovate a temple.",
         video: vamana_purana,
     },
-    {
-        reference: "Garuda Purana",
-        text:
-            "One who contributes to building a temple attains heaven and is honored by all.",
-        video: garuda_purana,
-    },
 ];
 
 const WhyDonateQuotes = () => {
