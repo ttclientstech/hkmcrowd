@@ -34,11 +34,11 @@ const DonateNowButton = () => {
 
             {/* SOFT, ITALIC MESSAGE BELOW BUTTON */}
             <Text
-                fontSize="md"
+                fontSize="0.75em"
                 fontStyle="italic"
-                color="#0b2340"           // deep navy blue
+                color="#021f40"           // deep navy blue
                 opacity={0.85}
-                mt={2}
+                mt={1}
             >
                 Every Square Feet You Donate Lives Forever
             </Text>
