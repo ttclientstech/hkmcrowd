@@ -48,7 +48,7 @@ const RecentContributors = ({ getSingleUser }) => {
     const latestData = getSingleUser?.top10paymentDetails || [];
 
     return (
-        <Box w="100%" maxW="900px" mx="auto" mt={10} px={4} fontFamily="'Poppins', sans-serif">
+        <Box w="100%" maxW="900px" mx="auto" mt={12} px={4} fontFamily="'Poppins', sans-serif">
 
             <Text
                 textAlign="center"

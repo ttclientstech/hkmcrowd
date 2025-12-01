@@ -12,7 +12,7 @@ const PrabhupadaQuoteCTA = () => {
             textAlign="center"
             fontFamily="'Poppins', sans-serif"
             color="white"
-            mt={20}
+            mt={12}
         >
             {/* CUSTOM QUOTE ICON (same as reference) */}
             <Flex justify="center" mb={6}>

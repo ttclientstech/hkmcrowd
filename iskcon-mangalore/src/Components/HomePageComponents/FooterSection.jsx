@@ -22,7 +22,7 @@ const FooterSection = () => {
             bg="#0b1a2a"
             color="white"
             py={12}
-            mt={20}
+            mt={12}
             fontFamily="'Poppins', sans-serif"
             borderTop="3px solid #d4af37"
         >

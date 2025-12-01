@@ -579,18 +579,45 @@ const HomeSinglePage = () => {
                 maxW="1200px"
                 mx="auto"
                 px={[4, 6]}
-                mt={[6, 6]}
+                mt={[4, 4]}
             >
-                <Text
-                    fontSize={["2xl", "3xl"]}
-                    fontWeight="500"
-                    color="#5eb0ff"
-                    fontFamily="'Poppins', sans-serif"
-                    mb={4}
-                    textAlign="center"
-                >
-                    Dakshina Dwaraka Dham: Inspiration & <Text as="span" color={coral}>Aspiration</Text>
-                </Text>
+                <Box position="relative" textAlign="center" mb={8}>
+
+                    {/* BACKGROUND QUOTE ICON */}
+                    <Box
+                        position="absolute"
+                        top="50%"
+                        left="50%"
+                        transform="translate(-50%, -50%)"
+                        opacity={0.12}
+                        zIndex={0}
+                    >
+                        {/* SVG QUOTE MARK */}
+                        <svg
+                            width="150"
+                            height="150"
+                            viewBox="0 0 24 24"
+                            fill="#F28A7E"   // coral color
+                        >
+                            <path d="M9.17 6A5 5 0 0 0 4 11v7h7v-7H8.72A3 3 0 0 1 11 8.17 5 5 0 0 0 9.17 6Zm10 0A5 5 0 0 0 14 11v7h7v-7h-2.28A3 3 0 0 1 21 8.17 5 5 0 0 0 19.17 6Z"/>
+                        </svg>
+                    </Box>
+
+                    {/* TITLE */}
+                    <Text
+                        fontSize={["2xl", "3xl"]}
+                        fontWeight="500"
+                        color="#5eb0ff"
+                        fontFamily="'Poppins', sans-serif"
+                        mb={4}
+                        position="relative"
+                        zIndex={1}
+                        lineHeight="1.3"
+                    >
+                        Dakshina Dwaraka Dham: <br />
+                        Inspiration & Aspiration
+                    </Text>
+                </Box>
 
                 <Text
                     fontSize="md"

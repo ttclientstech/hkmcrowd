@@ -10,7 +10,7 @@ const PrabhupadaSection = () => {
             w="100%"
             maxW="1200px"
             mx="auto"
-            mt={20}
+            mt={12}
             px={[4, 6]}
             textAlign="center"
             fontFamily="'Poppins', sans-serif"

@@ -34,7 +34,7 @@ const WhyDonateQuotes = () => {
             w="100%"
             maxW="1200px"
             mx="auto"
-            mt={12}
+            mt={10}
             px={[4, 6]}
             fontFamily="'Poppins', sans-serif"
         >
