@@ -62,7 +62,7 @@ const TestimonialSection = () => {
                 mb={10}
                 lineHeight="1.3"
             >
-                5,000+ Devotees have already <br />
+                5,000+ Supporters have already <br />
                 supported this divine mission
             </Text>
 

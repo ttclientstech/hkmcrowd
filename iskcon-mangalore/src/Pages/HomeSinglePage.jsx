@@ -393,8 +393,6 @@ const HomeSinglePage = () => {
                                 bg="transparent"
                                 minH="120px"
                             >
-                                {/* left quote mark
-                                <Text position="absolute" left={4} top={-3} fontSize="3xl" color="#F28A7E">“</Text>*/}
 
                                 <Text
                                     fontFamily="'Poppins', sans-serif"
@@ -406,9 +404,6 @@ const HomeSinglePage = () => {
                                 >
                                     Lord Krishna says in Bhagavad-Gita 9.27: "Whatever you give in charity - do that as an offering to Me."
                                 </Text>
-
-                                {/* right bottom quote mark
-                                <Text position="absolute" right={4} bottom={-3} fontSize="3xl" color="#F28A7E">”</Text>*/}
                             </Box>
 
                             <Text color="#111827" mt={4} fontSize="md" textAlign="center">
@@ -420,7 +415,7 @@ const HomeSinglePage = () => {
                     {/* GOAL label + custom progress bar with knob similar to screenshot */}
                     <Box w="100%" mt={[6,8]} px={[0,4]} ref={progressRef}>
                         <Stack direction={["column", "row"]} align="center" spacing={4} w={["100%", "80%", "60%"]} mx="auto">
-                            <Text fontWeight={800} color={sky} fontSize="sm">GOAL:</Text>
+                            <Text fontWeight={800} color={sky} fontSize="lg">GOAL:</Text>
 
                             <Box flex="1" w="100%">
                                 <Progress
@@ -441,7 +436,7 @@ const HomeSinglePage = () => {
                     {/* Percentage text / raised info (large, blue) like screenshot */}
                     <Box mt={6} textAlign="center">
                         <Text fontFamily="'Poppins', sans-serif" fontSize={["lg","2xl","3xl"]} color={sky} fontWeight={800}>
-                            {finalPercent}% ({raisedSqft.toLocaleString()} Square Feet) of {goalSqft.toLocaleString()} Square Feet raised
+                            <Text as="span" color={coral}>{finalPercent}%</Text> ({raisedSqft.toLocaleString()} Square Feet) of <Text as="span" color={coral}>{goalSqft.toLocaleString()}</Text> Square Feet raised
                         </Text>
                     </Box>
                 </Flex>
@@ -450,7 +445,7 @@ const HomeSinglePage = () => {
             {/* ================== TEMPLE IMAGE SECTION (MOBILE ONLY) ================== */}
             <Box
                 w="100%"
-                mt={10}
+                mt={8}
                 display={{ base: "block", md: "block", lg: "none" }}   // 👈 MOBILE ONLY
             >
 
@@ -529,7 +524,7 @@ const HomeSinglePage = () => {
                     fontFamily="'Poppins', sans-serif"
                     mb={3}
                 >
-                    Dakshina Dwaraka Dham
+                    Dakshina <Text as="span" color="#fbd38d">Dwaraka</Text> Dham
                 </Text>
 
                 <Text
@@ -584,7 +579,7 @@ const HomeSinglePage = () => {
                 maxW="1200px"
                 mx="auto"
                 px={[4, 6]}
-                mt={[10, 12]}
+                mt={[6, 6]}
             >
                 <Text
                     fontSize={["2xl", "3xl"]}
@@ -594,7 +589,7 @@ const HomeSinglePage = () => {
                     mb={4}
                     textAlign="center"
                 >
-                    Dakshina Dwaraka Dham: Inspiration & Aspiration
+                    Dakshina Dwaraka Dham: Inspiration & <Text as="span" color={coral}>Aspiration</Text>
                 </Text>
 
                 <Text
@@ -602,6 +597,7 @@ const HomeSinglePage = () => {
                     color="#1A1A1A"
                     lineHeight="1.7"
                     mb={4}
+                    textAlign="center"
                     fontFamily="'Poppins', sans-serif"
                 >
                     Nestled along the scenic seashore of the Bay of Bengal in Thiruvanmiyur,
@@ -610,7 +606,7 @@ const HomeSinglePage = () => {
                     cultural heritage. Designed in the traditional Pallava style of architecture,
                     this will be the second shore temple in Tamil Nadu.
                 </Text>
-
+                {/**
                 <Text
                     fontSize="md"
                     color="#1A1A1A"
@@ -620,7 +616,7 @@ const HomeSinglePage = () => {
                     With a total built-up area of about 40,000 sq. ft., Dakshina Dwaraka Dham
                     will be a spiritual, educational, and cultural beacon — uniting devotion,
                     knowledge, and heritage for the upliftment of society.
-                </Text>
+                </Text>**/}
             </Box>
 
 
@@ -647,7 +643,7 @@ const HomeSinglePage = () => {
                     textAlign="center"
                     mb={6}
                 >
-                    Temple Features
+                    Temple <Text as="span" color={coral}>Features</Text>
                 </Text>
 
                 {/* CAROUSEL */}
@@ -739,7 +735,7 @@ const HomeSinglePage = () => {
                     textAlign="center"
                     mb={6}
                 >
-                    Temple Construction Status <br />– As on September 2025
+                    Temple Construction Status <br />– <Text as="span" color={coral}>As on September 2025</Text>
                 </Text>
 
                 {/* MAIN IMAGE */}

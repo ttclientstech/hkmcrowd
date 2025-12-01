@@ -34,7 +34,7 @@ const WhyDonateQuotes = () => {
             w="100%"
             maxW="1200px"
             mx="auto"
-            mt={16}
+            mt={12}
             px={[4, 6]}
             fontFamily="'Poppins', sans-serif"
         >
@@ -46,7 +46,7 @@ const WhyDonateQuotes = () => {
                 color="#5eb0ff"
                 mb={2}
             >
-                The Power of Giving
+                The Power of <Text as="span" color="#f48b87">Giving</Text>
             </Text>
 
             <Text

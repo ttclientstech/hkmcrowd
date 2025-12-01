@@ -32,7 +32,7 @@ const DonorPrivilegeSection = () => {
             w="100%"
             maxW="900px"
             mx="auto"
-            mt={20}
+            mt={12}
             px={[4, 6]}
             fontFamily="'Poppins', sans-serif"
         >
@@ -43,7 +43,7 @@ const DonorPrivilegeSection = () => {
                 color="#5eb0ff"
                 mb={10}
             >
-                Donor Privileges
+                Donor <Text as="span" color="#f48b87">Privileges</Text>
             </Text>
 
             <Box position="relative">

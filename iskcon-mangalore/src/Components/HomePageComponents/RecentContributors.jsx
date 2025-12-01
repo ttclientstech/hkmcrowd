@@ -57,7 +57,7 @@ const RecentContributors = ({ getSingleUser }) => {
                 color="#5eb0ff"
                 mb={6}
             >
-                Respected Contributors
+                Recent <Text as="span" color="#f48b87">Contributors</Text>
             </Text>
 
             {/* TAB SWITCH */}
