@@ -2,6 +2,7 @@ import { Box, Text, Image, Grid, Flex } from "@chakra-ui/react";
 import t1 from "../../assets/images/t1.jpeg";
 import t2 from "../../assets/images/t2.jpg";
 import t3 from "../../assets/images/t3.png";
+import SupporterCount from "./SupporterCount";
 
 const testimonials = [
     {
@@ -53,18 +54,19 @@ const TestimonialSection = () => {
                 </Text>
             </Flex>
 
-            {/* SUB HEADING */}
+            {/* SUB HEADING
             <Text
-                fontSize={["2xl", "3xl"]}
+                fontSize="1.1em"
                 fontWeight="800"
-                color="#f48b87"
+                color="#5eb0ff"
                 textAlign="center"
                 mb={10}
                 lineHeight="1.3"
             >
                 5,000+ Supporters have already <br />
                 supported this divine mission
-            </Text>
+            </Text>*/}
+            <SupporterCount />
 
             {/* GRID - 1 per row mobile, 2 tablet, 3 desktop */}
             <Grid

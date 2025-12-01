@@ -586,7 +586,6 @@ const HomeSinglePage = () => {
                     {/* BACKGROUND QUOTE ICON */}
                     <Box
                         position="absolute"
-                        top="50%"
                         left="50%"
                         transform="translate(-50%, -50%)"
                         opacity={0.12}
@@ -599,7 +598,8 @@ const HomeSinglePage = () => {
                             viewBox="0 0 24 24"
                             fill="#F28A7E"   // coral color
                         >
-                            <path d="M9.17 6A5 5 0 0 0 4 11v7h7v-7H8.72A3 3 0 0 1 11 8.17 5 5 0 0 0 9.17 6Zm10 0A5 5 0 0 0 14 11v7h7v-7h-2.28A3 3 0 0 1 21 8.17 5 5 0 0 0 19.17 6Z"/>
+                            <path d="M20 24C14 24 10 19 10 14C10 8 14 4 20 4C26 4 30 8 30 14C30 20 27 28 20 36C18.5 37.5 16 36 16 34C16 31 20 28 20 24Z" />
+                            <path d="M44 24C38 24 34 19 34 14C34 8 38 4 44 4C50 4 54 8 54 14C54 20 51 28 44 36C42.5 37.5 40 36 40 34C40 31 44 28 44 24Z" />
                         </svg>
                     </Box>
 
@@ -624,7 +624,6 @@ const HomeSinglePage = () => {
                     color="#1A1A1A"
                     lineHeight="1.7"
                     mb={4}
-                    textAlign="center"
                     fontFamily="'Poppins', sans-serif"
                 >
                     Nestled along the scenic seashore of the Bay of Bengal in Thiruvanmiyur,
@@ -838,7 +837,7 @@ const HomeSinglePage = () => {
             <Text
                 textAlign="center"
                 fontSize={["md", "lg"]}
-                color="#444"
+                color="black"
                 mt={10}
                 px={4}
                 fontFamily="'Poppins', sans-serif"
