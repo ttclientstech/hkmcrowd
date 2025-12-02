@@ -10,20 +10,14 @@ import {
     Button,
     useBreakpointValue,
 } from "@chakra-ui/react";
-import { FaUser } from "react-icons/fa";
 import { formatCurrency, formatTimeAgo } from '../utils';
 
-// Auto-generate consistent avatar colors
-const getAvatarColor = (name) => {
-    const colors = ["#5EB0FF", "#FF8B8B", "#FFD369", "#A88BEB", "#6EE7B7", "#FCA5A5"];
-    let hash = 0;
-    for (let i = 0; i < name.length; i++) {
-        hash = name.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    return colors[Math.abs(hash) % colors.length];
-};
+// ★ CHANGE START — removed random avatar colors
+const avatarBG = "#E8EEF9";
+const avatarText = "#1A3353";
+// ★ CHANGE END
 
-// Dummy leaderboard (until backend is ready)
+// Dummy leaderboard
 const dummyLeaderboard = [
     { username: "Ramesh Kumar", amount: 50000 },
     { username: "Anita Devi", amount: 35000 },
@@ -40,11 +34,9 @@ const RecentContributors = ({ getSingleUser }) => {
     const isMobile = useBreakpointValue({ base: true, md: false });
 
     useEffect(() => {
-        // Simulate load shimmer for 1 sec
         setTimeout(() => setLoading(false), 1000);
     }, []);
 
-    // Latest contributors
     const latestData = getSingleUser?.top10paymentDetails || [];
 
     return (
@@ -92,7 +84,7 @@ const RecentContributors = ({ getSingleUser }) => {
                 p={5}
                 shadow="md"
             >
-                {/* LOADING SKELETON */}
+                {/* Loading Skeleton */}
                 {loading ? (
                     <VStack gap={4}>
                         {[1, 2, 3, 4].map((i) => (
@@ -107,13 +99,12 @@ const RecentContributors = ({ getSingleUser }) => {
                     </VStack>
                 ) : (
                     <>
-                        {/* ===========================
-                           LATEST TAB
-                        ============================ */}
+                        {/* LATEST TAB */}
                         {tab === "latest" && (
                             <VStack gap={4}>
                                 {latestData.map((user, idx) => {
                                     const name = user?.isanonymous ? "Anonymous" : user?.username;
+
                                     return (
                                         <HStack
                                             key={idx}
@@ -124,32 +115,36 @@ const RecentContributors = ({ getSingleUser }) => {
                                             justify="space-between"
                                         >
                                             <HStack gap={4}>
-                                                {/* Avatar */}
+                                                {/* ★ CHANGE START — avatar style updated */}
                                                 <Flex
                                                     w="48px"
                                                     h="48px"
                                                     borderRadius="50%"
-                                                    bg={getAvatarColor(name)}
-                                                    color="white"
+                                                    bg={avatarBG}
+                                                    color={avatarText}
                                                     align="center"
                                                     justify="center"
                                                     fontWeight="700"
                                                     fontSize="lg"
+                                                    border="1px solid #D6DEEA" // soft edge
                                                 >
                                                     {name?.charAt(0)?.toUpperCase()}
                                                 </Flex>
+                                                {/* ★ CHANGE END */}
 
-                                                {/* Text */}
                                                 <VStack align="flex-start" spacing={0}>
-                                                    <Text fontWeight="700">
+                                                    <Text fontWeight="700" color="#1A1A1A">
                                                         {name}{" "}
-                                                        <Text as="span" fontWeight="500">
+                                                        <Text as="span" fontWeight="500" color="#424242">
                                                             donated {formatCurrency(user?.amount)}
                                                         </Text>
                                                     </Text>
-                                                    <Text fontSize="sm" color="gray.600">
+
+                                                    {/* ★ CHANGE START — softer date color */}
+                                                    <Text fontSize="sm" color="#6B7280">
                                                         {formatTimeAgo(user?.date)}
                                                     </Text>
+                                                    {/* ★ CHANGE END */}
                                                 </VStack>
                                             </HStack>
                                         </HStack>
@@ -158,14 +153,12 @@ const RecentContributors = ({ getSingleUser }) => {
                             </VStack>
                         )}
 
-                        {/* ===========================
-                           LEADERBOARD TAB
-                        ============================ */}
+                        {/* LEADERBOARD TAB */}
                         {tab === "leaderboard" && (
                             <VStack gap={4}>
                                 {dummyLeaderboard.map((user, idx) => {
                                     const name = user.username;
-                                    const badgeColors = ["#FFD700", "#C0C0C0", "#CD7F32"]; // Gold/Silver/Bronze
+
                                     return (
                                         <HStack
                                             key={idx}
@@ -176,34 +169,37 @@ const RecentContributors = ({ getSingleUser }) => {
                                             justify="space-between"
                                         >
                                             <HStack gap={4}>
-                                                {/* Avatar */}
+                                                {/* ★ CHANGE START — same unified avatar */}
                                                 <Flex
                                                     w="48px"
                                                     h="48px"
                                                     borderRadius="50%"
-                                                    bg={getAvatarColor(name)}
-                                                    color="white"
+                                                    bg={avatarBG}
+                                                    color={avatarText}
                                                     align="center"
                                                     justify="center"
                                                     fontWeight="700"
                                                     fontSize="lg"
+                                                    border="1px solid #D6DEEA"
                                                 >
-                                                    {name[0]}
+                                                    {name?.charAt(0)?.toUpperCase()}
                                                 </Flex>
+                                                {/* ★ CHANGE END */}
 
                                                 <VStack align="flex-start" spacing={0}>
-                                                    <Text fontWeight="700">{name}</Text>
-                                                    <Text fontSize="sm" color="gray.600">
+                                                    <Text fontWeight="700" color="#1A1A1A">{name}</Text>
+                                                    <Text fontSize="sm" color="#6B7280">
                                                         Donated {formatCurrency(user.amount)}
                                                     </Text>
                                                 </VStack>
                                             </HStack>
 
+                                            {/* Medals unchanged */}
                                             <Box fontSize="24px">
-                                            {idx === 0 && "🥇"}
-                                            {idx === 1 && "🥈"}
-                                            {idx === 2 && "🥉"}
-                                            {idx > 2 && <Box w="20px" h="20px" bg="#d0d0d0" borderRadius="50%" />}
+                                                {idx === 0 && "🥇"}
+                                                {idx === 1 && "🥈"}
+                                                {idx === 2 && "🥉"}
+                                                {idx > 2 && <Box w="20px" h="20px" bg="#d0d0d0" borderRadius="50%" />}
                                             </Box>
                                         </HStack>
                                     );
