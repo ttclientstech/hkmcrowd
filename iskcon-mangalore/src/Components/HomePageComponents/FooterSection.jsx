@@ -19,7 +19,7 @@ import {
 const FooterSection = () => {
     return (
         <Box
-            bg="#0b1a2a"
+            bg="#082032"
             color="white"
             py={12}
             mt={12}
@@ -39,8 +39,8 @@ const FooterSection = () => {
                 <VStack align="flex-start" spacing={3}>
                     <Text
                         fontSize="xl"
-                        fontWeight="700"
-                        color="#5eb0ff"
+                        fontWeight="500"
+                        color="white"
                     >
                         Dakshina Dwaraka Dham
                     </Text>
@@ -58,20 +58,20 @@ const FooterSection = () => {
 
                 {/* Middle Column — Contact */}
                 <VStack align="flex-start" spacing={3}>
-                    <Text fontSize="xl" fontWeight="700" color="#5eb0ff">
+                    <Text fontSize="xl" fontWeight="500" color="white">
                         Contact Us
                     </Text>
 
                     <Text fontSize="md" opacity={0.9}>
                         Phone/WhatsApp:{" "}
-                        <Box as="span" color="#ffd28a" fontWeight="600">
+                        <Box as="span" color="white" fontWeight="500">
                             +91-XXXXXXXXXX
                         </Box>
                     </Text>
 
                     <Text fontSize="md" opacity={0.9}>
                         Email:{" "}
-                        <Box as="span" color="#ffd28a" fontWeight="600">
+                        <Box as="span" color="white" fontWeight="500">
                             info@yourtemple.org
                         </Box>
                     </Text>
@@ -79,7 +79,7 @@ const FooterSection = () => {
 
                 {/* Right Column — Social Media */}
                 <VStack align={["center", "flex-start"]} spacing={4}>
-                    <Text fontSize="xl" fontWeight="700" color="#5eb0ff">
+                    <Text fontSize="xl" fontWeight="500" color="white">
                         Stay Connected
                     </Text>
 

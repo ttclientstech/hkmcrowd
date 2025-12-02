@@ -53,20 +53,20 @@ const RecentContributors = ({ getSingleUser }) => {
             <Text
                 textAlign="center"
                 fontSize={["2xl", "3xl"]}
-                fontWeight="800"
-                color="#5eb0ff"
+                fontWeight="500"
+                color="#082032"
                 mb={6}
             >
-                Recent <Text as="span" color="#f48b87">Contributors</Text>
+                Recent <Text as="span" color="#082032">Contributors</Text>
             </Text>
 
             {/* TAB SWITCH */}
             <HStack justify="center" mb={6} gap={4}>
                 <Button
                     onClick={() => setTab("latest")}
-                    bg={tab === "latest" ? "#5eb0ff" : "white"}
-                    color={tab === "latest" ? "white" : "#5eb0ff"}
-                    border="2px solid #5eb0ff"
+                    bg={tab === "latest" ? "#082032" : "white"}
+                    color={tab === "latest" ? "white" : "#082032"}
+                    border="2px solid #082032"
                     borderRadius="50px"
                     px={8}
                 >
@@ -75,9 +75,9 @@ const RecentContributors = ({ getSingleUser }) => {
 
                 <Button
                     onClick={() => setTab("leaderboard")}
-                    bg={tab === "leaderboard" ? "#5eb0ff" : "white"}
-                    color={tab === "leaderboard" ? "white" : "#5eb0ff"}
-                    border="2px solid #5eb0ff"
+                    bg={tab === "leaderboard" ? "#082032" : "white"}
+                    color={tab === "leaderboard" ? "white" : "#082032"}
+                    border="2px solid #082032"
                     borderRadius="50px"
                     px={8}
                 >

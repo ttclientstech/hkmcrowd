@@ -75,12 +75,12 @@ const FAQComponent = () => {
             <Text
                 textAlign="center"
                 fontSize={["xl", "2xl"]}
-                fontWeight="800"
+                fontWeight="500"
                 mb={8}
-                color="#5eb0ff"
+                color="#082032"
                 fontFamily="'Poppins', sans-serif"
             >
-                Frequently Asked <Text as="span" color="#f48b87">Questions</Text>
+                Frequently Asked <Text as="span" color="#082032">Questions</Text>
             </Text>
 
             {/* FAQ LIST */}

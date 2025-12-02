@@ -3,40 +3,30 @@ import { Box, Text, Button, Flex } from "@chakra-ui/react";
 
 const DonateNowButton = () => {
     return (
-        <Box
-            w="100%"
-            py={[6, 10]}
-            px={[4, 6]}
-            textAlign="center"
-            fontFamily="'Poppins', sans-serif"
-            mt={4}
-        >
-            {/* DONATE BUTTON */}
-            <Flex justify="center" mb={4}>
-                <Button
-                    h={"50px"}
-                    px={10}
-                    bgColor="#ff3838"
-                    color="#ffffff"
-                    fontWeight="700"
-                    fontSize="xl"
-                    borderRadius="12px"
-                    _hover={{
-                        transform: "translateY(-3px)",
-                        boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
-                    }}
-                    transition="0.25s ease"
-                    fontFamily="'Poppins', sans-serif"
-                >
-                    Donate Now
-                </Button>
-            </Flex>
-
+            <Box maxW="1200px" mx="auto" px={[4,6]} mt={8} mb={6}>
+                <Flex justify="center">
+                    <Button
+                        h={"55px"}
+                        bg="#fdec03" /* THEME CHANGE: solid urgent red */
+                        color="#fff"
+                        fontWeight="500"
+                        fontSize="lg"
+                        fontFamily="'Poppins', sans-serif"
+                        letterSpacing="0.6px"
+                        onClick={handleClick}
+                        _hover={{ transform: "translateY(-2px)", boxShadow: `0px 8px 30px rgba(230,57,70,0.22)` }}
+                        rightIcon={<Icon as={FaHandHoldingHeart} />}
+                        px={8}
+                        borderRadius="12px"
+                    >
+                        CONTRIBUTE NOW
+                    </Button>
+                </Flex>
             {/* SOFT, ITALIC MESSAGE BELOW BUTTON */}
             <Text
                 fontSize="0.75em"
                 fontStyle="italic"
-                color="#021f40"           // deep navy blue
+                color="#082032"           // deep navy blue
                 opacity={0.85}
                 mt={1}
             >

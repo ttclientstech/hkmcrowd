@@ -72,7 +72,7 @@ import DonationBottomBar from "../Components/HomePageComponents/DonationBottomBa
    - Text colors: TEXT_DARK, TEXT_MUTED
 */
 const NAVY = "#082032";        /* THEME CHANGE */
-const BEIGE = "#FFF3D6";       /* THEME CHANGE */
+const BEIGE = "#FFFFFF";       /* THEME CHANGE */
 const GOLD = "#D4AF37";        /* THEME CHANGE */
 const CORAL = "#F28A7E";       /* THEME CHANGE */
 const URGENT_RED = "#E63946";  /* THEME CHANGE */
@@ -431,7 +431,7 @@ const HomeSinglePage = () => {
                 </Text>
 
                 <Text fontSize={["3xl", "4xl"]} fontWeight="800" fontFamily="'Poppins', sans-serif" mb={3} color={BEIGE}>
-                    Dakshina <Text as="span" color={GOLD}>Dwaraka</Text> Dham
+                    Dakshina Dwaraka Dham
                 </Text>
 
                 <Text fontSize={["md", "lg"]} opacity={0.95} fontFamily="'Poppins', sans-serif" maxW="600px" mx="auto" mb={[6, 8]}>
@@ -483,8 +483,8 @@ const HomeSinglePage = () => {
 
             {/* TEMPLE FEATURES */}
             <Box w="100%" maxW="1200px" mx="auto" mt={12} px={[4, 6]} fontFamily="'Poppins', sans-serif">
-                <Text fontSize={["2xl", "3xl"]} fontWeight="800" color={NAVY} textAlign="center" mb={6}>
-                    Temple <Text as="span" color={CORAL}>Features</Text>
+                <Text fontSize={["2xl", "3xl"]} fontWeight="500" color={NAVY} textAlign="center" mb={6}>
+                    Features
                 </Text>
 
                 <Box position="relative" overflow="hidden" borderRadius="12px" boxShadow="0 4px 20px rgba(0,0,0,0.25)">
@@ -502,8 +502,8 @@ const HomeSinglePage = () => {
 
             {/* TEMPLE CONSTRUCTION STATUS */}
             <Box w="100%" maxW="1200px" mx="auto" mt={12} px={[4, 6]} fontFamily="'Poppins', sans-serif">
-                <Text fontSize={["2xl", "3xl"]} fontWeight="800" color={NAVY} textAlign="center" mb={6}>
-                    Temple Construction Status <br />– <Text as="span" color={CORAL}>As on September 2025</Text>
+                <Text fontSize={["2xl", "3xl"]} fontWeight="500" color={NAVY} textAlign="center" mb={6}>
+                    Construction Status <br /> <Text as="span" color={CORAL} fontSize={["xl", "2xl"]}>As on September 2025</Text>
                 </Text>
 
                 <Box w="100%" borderRadius="12px" overflow="hidden" boxShadow="0 4px 20px rgba(0,0,0,0.15)">
@@ -523,29 +523,6 @@ const HomeSinglePage = () => {
             <TestimonialSection />
             <DonorPrivilegeSection />
             <RecentContributors getSingleUser={getSingleUser} />
-
-            {/* Floating / centered urgent CTA */}
-            <Box maxW="1200px" mx="auto" px={[4,6]} mt={8} mb={6}>
-                <Flex justify="center">
-                    <Button
-                        h={"55px"}
-                        bg={URGENT_RED} /* THEME CHANGE: solid urgent red */
-                        color="#fff"
-                        fontWeight="800"
-                        fontSize="lg"
-                        fontFamily="'Poppins', sans-serif"
-                        letterSpacing="0.6px"
-                        onClick={handleClick}
-                        _hover={{ transform: "translateY(-2px)", boxShadow: `0px 8px 30px rgba(230,57,70,0.22)` }}
-                        rightIcon={<Icon as={FaHandHoldingHeart} />}
-                        px={8}
-                        borderRadius="12px"
-                    >
-                        CONTRIBUTE NOW
-                    </Button>
-                </Flex>
-            </Box>
-
             <DonateNowButton />
             <WhyDonateQuotes />
             <FAQComponent />
@@ -553,7 +530,7 @@ const HomeSinglePage = () => {
             <PrabhupadaSection />
             <PrabhupadaQuoteCTA />
 
-            <Text textAlign="center" fontSize={["md", "lg"]} color={TEXT_DARK} mt={10} px={4} fontFamily="'Poppins', sans-serif">
+            <Text textAlign="center" fontSize={["md", "lg"]} color={NAVY} mt={10} px={4} fontFamily="'Poppins', sans-serif">
                 Got a question? We’d love to hear from you.
                 Call or WhatsApp us at{" "}
                 <Box as="span" color={URGENT_RED} fontWeight="600">

@@ -43,14 +43,14 @@ const TestimonialSection = () => {
                 <Text
                     fontSize="sm"
                     fontWeight="700"
-                    bg="#FCECE8"
+                    bg="#082032"
                     px={6}
                     py={2}
                     borderRadius="full"
                     color="#444"
                     letterSpacing="2px"
                 >
-                    TESTIMONIALS
+                    <Text as="span" color="#FFFFFF">TESTIMONIALS</Text>
                 </Text>
             </Flex>
 

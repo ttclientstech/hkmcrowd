@@ -42,17 +42,17 @@ const WhyDonateQuotes = () => {
             <Text
                 textAlign="center"
                 fontSize={["2xl", "3xl"]}
-                fontWeight="700"
-                color="#5eb0ff"
+                fontWeight="500"
+                color="#082032"
                 mb={2}
             >
-                The Power of <Text as="span" color="#f48b87">Giving</Text>
+                The Power of <Text as="span" color="#082032">Giving</Text>
             </Text>
 
             <Text
                 textAlign="center"
                 fontSize={["md", "lg"]}
-                color="#444"
+                color="#082032"
                 mb={10}
             >
                 Sacred scriptures glorify those who support spiritual causes

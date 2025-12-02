@@ -39,11 +39,11 @@ const DonorPrivilegeSection = () => {
             <Text
                 textAlign="center"
                 fontSize={["2xl", "3xl"]}
-                fontWeight="800"
-                color="#5eb0ff"
+                fontWeight="500"
+                color="#082032"
                 mb={10}
             >
-                Donor <Text as="span" color="#f48b87">Privileges</Text>
+                Donor <Text as="span" color="#082032">Privileges</Text>
             </Text>
 
             <Box position="relative">

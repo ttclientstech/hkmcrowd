@@ -18,8 +18,8 @@ const PrabhupadaSection = () => {
             {/* SECTION TITLE */}
             <Text
                 fontSize={["2xl", "3xl", "4xl"]}
-                fontWeight="800"
-                color="#5eb0ff"
+                fontWeight="500"
+                color="#082032"
             >
                 Our Founder & Acharya
             </Text>

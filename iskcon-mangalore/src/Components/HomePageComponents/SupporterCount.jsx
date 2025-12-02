@@ -43,12 +43,12 @@ const SupporterCount = () => {
             ref={ref}
             fontSize="1.1em"
             fontWeight="800"
-            color="#5eb0ff"
+            color="#082032"
             textAlign="center"
             mb={10}
             lineHeight="1.3"
         >
-            <Text as="span" color="#f48b87">{count.toLocaleString()}+ Supporters</Text> have already <br />
+            <Text as="span" color="#E63946">{count.toLocaleString()}+ Supporters</Text> have already <br />
             contributed to this divine mission
         </Text>
     );
