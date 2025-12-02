@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Text, Button, Flex } from "@chakra-ui/react";
+import { Box, Text, Button, Flex, Icon } from "@chakra-ui/react";
+import { FaHandHoldingHeart } from "react-icons/fa";
 
 const DonateNowButton = () => {
     return (
@@ -13,7 +14,6 @@ const DonateNowButton = () => {
                         fontSize="lg"
                         fontFamily="'Poppins', sans-serif"
                         letterSpacing="0.6px"
-                        onClick={handleClick}
                         _hover={{ transform: "translateY(-2px)", boxShadow: `0px 8px 30px rgba(230,57,70,0.22)` }}
                         rightIcon={<Icon as={FaHandHoldingHeart} />}
                         px={8}
