@@ -8,8 +8,8 @@ const DonateNowButton = () => {
                 <Flex justify="center">
                     <Button
                         h={"55px"}
-                        bg="#fdec03" /* THEME CHANGE: solid urgent red */
-                        color="#fff"
+                        bg="#F97316" /* THEME CHANGE: solid urgent red */
+                        color="#ffffff"
                         fontWeight="500"
                         fontSize="lg"
                         fontFamily="'Poppins', sans-serif"

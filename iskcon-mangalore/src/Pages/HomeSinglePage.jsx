@@ -503,7 +503,7 @@ const HomeSinglePage = () => {
             {/* TEMPLE CONSTRUCTION STATUS */}
             <Box w="100%" maxW="1200px" mx="auto" mt={12} px={[4, 6]} fontFamily="'Poppins', sans-serif">
                 <Text fontSize={["2xl", "3xl"]} fontWeight="500" color={NAVY} textAlign="center" mb={6}>
-                    Construction Status <br /> <Text as="span" color={CORAL} fontSize={["xl", "2xl"]}>As on September 2025</Text>
+                    Construction Status <br /> <Text as="span" color={URGENT_RED} fontSize={["xs", "xs"]}>As on September 2025</Text>
                 </Text>
 
                 <Box w="100%" borderRadius="12px" overflow="hidden" boxShadow="0 4px 20px rgba(0,0,0,0.15)">

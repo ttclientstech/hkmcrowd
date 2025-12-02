@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Text, Button, Flex } from "@chakra-ui/react";
-import { FaQuoteLeft } from "react-icons/fa";
+import DonateNowButton from "./DonateNowButton";
 
 const PrabhupadaQuoteCTA = () => {
     return (
@@ -50,23 +50,7 @@ const PrabhupadaQuoteCTA = () => {
 
             {/* DONATE BUTTON */}
             <Flex justify="center">
-                <Button
-                    h={"50px"}
-                    px={10}
-                    bgColor="#ff3838"
-                    color="#ffffff"
-                    fontWeight="700"
-                    fontSize="xl"
-                    borderRadius="12px"
-                    _hover={{
-                        transform: "translateY(-3px)",
-                        boxShadow: "0 10px 28px rgba(212, 175, 55, 0.6)",
-                    }}
-                    transition="0.2s ease"
-                    fontFamily="'Poppins', sans-serif"
-                >
-                    Donate Now
-                </Button>
+                <DonateNowButton />
             </Flex>
         </Box>
     );
