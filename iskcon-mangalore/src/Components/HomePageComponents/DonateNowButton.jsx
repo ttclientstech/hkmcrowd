@@ -8,16 +8,14 @@ const DonateNowButton = () => {
                 <Flex justify="center">
                     <Button
                         h={"55px"}
-                        bg="#F97316" /* THEME CHANGE: solid urgent red */
-                        color="#ffffff"
+                        bgGradient="linear(to-r, #D4AF37, #FFD700)"
+                        color="#082032"
                         fontWeight="500"
                         fontSize="lg"
                         fontFamily="'Poppins', sans-serif"
-                        letterSpacing="0.6px"
-                        _hover={{ transform: "translateY(-2px)", boxShadow: `0px 8px 30px rgba(230,57,70,0.22)` }}
+                        letterSpacing="1px"
+                        _hover={{ transform: "translateY(-2px)", boxShadow: "0px 5px 15px rgba(212, 175, 55, 0.4)" }}
                         rightIcon={<Icon as={FaHandHoldingHeart} />}
-                        px={8}
-                        borderRadius="12px"
                     >
                         CONTRIBUTE NOW
                     </Button>
@@ -28,6 +26,7 @@ const DonateNowButton = () => {
                 fontStyle="italic"
                 color="#082032"           // deep navy blue
                 opacity={0.85}
+                textAlign="center"
                 mt={1}
             >
                 Every Square Feet You Donate Lives Forever
