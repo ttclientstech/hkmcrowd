@@ -1,3 +1,4 @@
+// src/Pages/HomeSinglePage.jsx
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,7 +16,6 @@ import {
     useBreakpointValue,
     Text,
     Icon,
-    Heading,
     Stack,
     VStack,
     HStack,
@@ -24,14 +24,12 @@ import {
     Image,
     Divider,
     Badge,
-    Link,
     List,
     ListItem,
     Avatar,
-    useColorModeValue,
     Spacer,
 } from "@chakra-ui/react";
-import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaPhoneAlt, FaClock,FaHandHoldingHeart } from "react-icons/fa";
+import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaPhoneAlt, FaClock, FaHandHoldingHeart } from "react-icons/fa";
 
 import DottedAnimation from "../Components/DottedAnimation";
 import PageNotFound from "../Components/HomePageComponents/PageNotFound";
@@ -52,8 +50,6 @@ import img_kalamadhuryam from "../assets/images/kalamadhuryam_1.png";
 import img_harinam from "../assets/images/harinaam_mandap_1.png";
 import img_icvk from "../assets/images/icvk_1.png";
 import img_gitalife from "../assets/images/gita_life_1.png";
-import t1 from "../assets/images/t1.jpeg";
-import t2 from "../assets/images/t2.jpg";
 import TestimonialSection from "../Components/HomePageComponents/TestimonialSection";
 import DonorPrivilegeSection from "../Components/HomePageComponents/DonorPrivilegeSection";
 import WhyDonateQuotes from "../Components/HomePageComponents/WhyDonateQuotes";
@@ -65,11 +61,26 @@ import FooterSection from "../Components/HomePageComponents/FooterSection";
 import DonateNowButton from "../Components/HomePageComponents/DonateNowButton";
 import DonationBottomBar from "../Components/HomePageComponents/DonationBottomBar";
 
-
-
+/* =========================
+   THEME CONSTANTS (CHANGED)
+   =========================
+   - Deep Temple Navy: NAVY
+   - Soft Divine Beige: BEIGE
+   - Gold accent: GOLD
+   - Coral: CORAL (used sparingly)
+   - Urgent Red CTA: URGENT_RED
+   - Text colors: TEXT_DARK, TEXT_MUTED
+*/
+const NAVY = "#082032";        /* THEME CHANGE */
+const BEIGE = "#FFF3D6";       /* THEME CHANGE */
+const GOLD = "#D4AF37";        /* THEME CHANGE */
+const CORAL = "#F28A7E";       /* THEME CHANGE */
+const URGENT_RED = "#E63946";  /* THEME CHANGE */
+const TEXT_DARK = "#1A1A1A";   /* THEME CHANGE */
+const TEXT_MUTED = "#444444";  /* THEME CHANGE */
 
 const TrustStrip = () => (
-    <Box w="100%" bg="#fff9e5" borderBottom="1px solid #E2E8F0" py={4}>
+    <Box w="100%" bg={BEIGE} borderBottom="1px solid rgba(0,0,0,0.06)" py={3}> {/* THEME CHANGE */}
         <Flex
             maxW="1200px"
             mx="auto"
@@ -78,22 +89,21 @@ const TrustStrip = () => (
             flexWrap="wrap"
             px={4}
         >
-            {/* Using Blue/Grey colors for Trust instead of Gold */}
             <Flex align="center" gap={2}>
-                <Icon as={FaMapMarkerAlt} color="#2B6CB0" />
-                <Text fontSize="xs" fontWeight="700" color="gray.600" textTransform="uppercase">
-                    Thiruvanmiyur,Chennai
+                <Icon as={FaMapMarkerAlt} color={NAVY} />
+                <Text fontSize="xs" fontWeight="700" color={TEXT_MUTED} textTransform="uppercase">
+                    Thiruvanmiyur, Chennai
                 </Text>
             </Flex>
             <Flex align="center" gap={2}>
-                <Icon as={FaUserFriends} color="#2B6CB0" />
-                <Text fontSize="xs" fontWeight="700" color="gray.600" textTransform="uppercase">
+                <Icon as={FaUserFriends} color={NAVY} />
+                <Text fontSize="xs" fontWeight="700" color={TEXT_MUTED} textTransform="uppercase">
                     5,000+ Supporters
                 </Text>
             </Flex>
             <Flex align="center" gap={2}>
-                <Icon as={FaLandmark} color="#2B6CB0" />
-                <Text fontSize="xs" fontWeight="700" color="gray.600" textTransform="uppercase">
+                <Icon as={FaLandmark} color={NAVY} />
+                <Text fontSize="xs" fontWeight="700" color={TEXT_MUTED} textTransform="uppercase">
                     Tax Benefits (80G)
                 </Text>
             </Flex>
@@ -102,17 +112,15 @@ const TrustStrip = () => (
 );
 
 const UrgencyBar = () => (
-    <Box bg="#2D3748" w="100%" py={2} px={4}>
+    <Box bg={NAVY} w="100%" py={2} px={4}>
         <Flex maxW="1200px" mx="auto" justify="center" align="center" gap={2}>
-            <Icon as={FaClock} color="#F97316" /> {/* Urgent Orange */}
+            <Icon as={FaClock} color={URGENT_RED} />
             <Text color="white" fontSize="sm" fontWeight="bold">
-                Donate <Text as="span" color="#F97316">1 SQFT</Text> & Receive Maha Prasadam at your home
+                Donate <Text as="span" color={URGENT_RED}>1 SQFT</Text> & Receive Maha Prasadam at your home
             </Text>
         </Flex>
     </Box>
 );
-
-
 
 const HomeSinglePage = () => {
     const { id } = useParams();
@@ -181,7 +189,7 @@ const HomeSinglePage = () => {
             ? Math.min(100, Math.round((raisedSqft / goalSqft) * 100))
             : 0;
 
-// Scroll-triggered fill animation (smooth)
+    // Scroll-triggered fill animation (smooth)
     useEffect(() => {
         if (!progressRef.current) return;
 
@@ -203,16 +211,9 @@ const HomeSinglePage = () => {
         return () => observer.disconnect();
     }, [finalPercent]);
 
-
     // ===================== YOUTUBE AUTO-PLAY LOGIC =====================
-
-// Replace with your actual YouTube video ID
     const YT_VIDEO_ID = "Pzhrmkl4f28";
-
-// Holds final autoplay link once triggered
     const [videoSrc, setVideoSrc] = useState("");
-
-// Reference to scroll-trigger container
     const videoRef = useRef(null);
 
     useEffect(() => {
@@ -221,21 +222,18 @@ const HomeSinglePage = () => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    // Load video with autoplay activated
                     setVideoSrc(`https://www.youtube.com/embed/${YT_VIDEO_ID}?autoplay=1&mute=1`);
                     observer.disconnect();
                 }
             },
-            { threshold: 0.5 } // User must see 50% of the section
+            { threshold: 0.5 }
         );
 
         observer.observe(videoRef.current);
-
         return () => observer.disconnect();
     }, []);
 
-
-    // Temple Feature Images (replace with your actual image paths)
+    // Temple Feature Images
     const templeImages = [
         img_annadanam,
         img_festival,
@@ -248,7 +246,7 @@ const HomeSinglePage = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isFading, setIsFading] = useState(false);
 
-// Auto-slide every 3 seconds
+    // Auto-slide every 3 seconds
     useEffect(() => {
         const interval = setInterval(() => {
             setIsFading(true);
@@ -261,7 +259,6 @@ const HomeSinglePage = () => {
         return () => clearInterval(interval);
     }, []);
 
-// Navigation
     const nextSlide = () => {
         setIsFading(true);
         setTimeout(() => {
@@ -280,8 +277,7 @@ const HomeSinglePage = () => {
         }, 400);
     };
 
-
-   //Temple construction updates starts
+    // Temple construction updates
     const templeStatusImages = [
         temple_main1,
         temple_main2,
@@ -290,7 +286,6 @@ const HomeSinglePage = () => {
 
     const [statusIndex, setStatusIndex] = useState(0);
 
-// Auto-cycle every 3 seconds
     useEffect(() => {
         const interval = setInterval(() => {
             setStatusIndex((prev) => (prev + 1) % templeStatusImages.length);
@@ -298,16 +293,6 @@ const HomeSinglePage = () => {
 
         return () => clearInterval(interval);
     }, []);
-    //Temple construction updates end
-
-    // colors and typography matching screenshot
-    const headerBg = "#2F3F51"; // deep bluish header in screenshot
-    const donateYellow = "#FFD400";
-    const heroBg = "#fffefe";
-    const coral = "#f48b87";
-    const sky = "#5eb0ff";
-    const muted = "#6b7280";
-    const headingColor = "#0b2340";
 
     if (getSingleUser?.status === 404) return <PageNotFound />;
 
@@ -321,53 +306,22 @@ const HomeSinglePage = () => {
     }
 
     return (
-        <Box w="100%" minH="100vh" bg={heroBg} fontFamily="'Poppins', sans-serif" position="relative">
+        <Box w="100%" minH="100vh" bg={BEIGE} fontFamily="'Poppins', sans-serif" position="relative"> {/* THEME CHANGE */}
             <PoppinFont />
-            {/*<VCMTopHeaderTab />*/}
             <DetailPageHeader getSingleUser={getSingleUser} />
             <TrustStrip />
 
-            {/* HERO - main top section exactly like screenshot */}
-            <Box as="section" pt={[4, 10, 14]} pb={[8, 10]} >
-                <Flex direction="column" align="center" maxW="1200px" mx="auto" px={[4,6]}>
-                    {/* The heading line: NAME (coral) + rest (sky) + goal number highlight
-
-                    <Heading
-                        as="h1"
-                        textAlign="center"
-                        fontFamily="'Poppins', sans-serif"
-                        fontSize={["lg", "2xl", "3xl", "26px"]}
-                        lineHeight={["25px","40px"]}
-                        color={headingColor}
-                        px={[2, 4]}
-                    >
-                        <Text as="span" color={coral} fontWeight={700} mr={2}>
-                            {cd.campaignName || "Campaigner Name"}
-                        </Text>
-                        <Text as="span" color={sky} fontWeight={700}>
-                            needs your support to raise{" "}
-                            <Text as="span" color={coral} fontWeight={700}>
-                                {goalSqft.toLocaleString()}
-                            </Text>{" "}
-                            Square Feet for
-                        </Text>
-                        <Box>
-                            <Text as="span" color={sky} fontWeight={700} display="block">
-                                Chennai's Dhakshina Dwaraka Dham
-                            </Text>
-                        </Box>
-                    </Heading>*/}
-
-                    {/* Campaigner image (circle) + message box to the right on desktop, stacked on mobile */}
-                    <Grid templateColumns={["1fr", "1fr", "1fr", "250px 1fr"]} gap={8} alignItems="center" w="100%" mb={[4,8]} mt="4px">
-                        {/* image */}
+            {/* HERO */}
+            <Box as="section" pt={[4, 10, 14]} pb={[8, 10]}>
+                <Flex direction="column" align="center" maxW="1200px" mx="auto" px={[4, 6]}>
+                    <Grid templateColumns={["1fr", "1fr", "1fr", "250px 1fr"]} gap={8} alignItems="center" w="100%" mb={[4, 8]} mt="4px">
                         <Box display="flex" justifyContent={["center", "center", "center", "flex-end"]}>
                             <Box
                                 w={["220px", "220px", "220px", "220px"]}
                                 h={["220px", "220px", "220px", "220px"]}
                                 borderRadius="full"
                                 overflow="hidden"
-                                border="4px solid rgba(255,255,255,0.9)"
+                                border={`4px solid rgba(255,255,255,0.9)`}
                                 boxShadow="0 8px 30px rgba(0,0,0,0.12)"
                                 bg="white"
                             >
@@ -384,122 +338,86 @@ const HomeSinglePage = () => {
 
                         {/* message box */}
                         <Box>
-                            <Text color={sky} fontWeight={500} mb={5} align="center" fontSize={["md","md","lg"]}>A message from the campaigner</Text>
+                            <Text color={NAVY} fontWeight={500} mb={5} align="center" fontSize={["md", "md", "lg"]}>A message from the campaigner</Text>
 
                             <Box
                                 borderRadius="12px"
-                                border="2px solid #F28A7E"
-                                p={[4,5]}
+                                border={`2px solid ${CORAL}`}
+                                p={[4, 5]}
                                 position="relative"
-                                bg="transparent"
+                                bg="white" /* keep white for clarity */
                                 minH="120px"
                             >
-
                                 <Text
                                     fontFamily="'Poppins', sans-serif"
-                                    fontSize={["md","lg"]}
-                                    color="#111827"
+                                    fontSize={["md", "lg"]}
+                                    color={TEXT_DARK}
                                     fontStyle="italic"
-                                    pr={[0,0,4]}
+                                    pr={[0, 0, 4]}
                                     textAlign="center"
                                 >
                                     Lord Krishna says in Bhagavad-Gita 9.27: "Whatever you give in charity - do that as an offering to Me."
                                 </Text>
                             </Box>
 
-                            <Text color="#111827" mt={4} fontSize="md" textAlign="center">
+                            <Text color={TEXT_DARK} mt={4} fontSize="md" textAlign="center">
                                 {cd.campaignerMessage || "I invite you to join me in this noble deed. Your contribution, no matter the size, helps place a brick in this monument of pride."}
                             </Text>
                         </Box>
                     </Grid>
 
-                    {/* GOAL label + custom progress bar with knob similar to screenshot */}
-                    <Box w="100%" mt={[6,8]} px={[0,4]} ref={progressRef}>
+                    {/* PROGRESS */}
+                    <Box w="100%" mt={[6, 8]} px={[0, 4]} ref={progressRef}>
                         <Stack direction={["column", "row"]} align="center" spacing={4} w={["100%", "80%", "60%"]} mx="auto">
-                            <Text fontWeight={800} color={sky} fontSize="lg">GOAL:</Text>
+                            <Text fontWeight={800} color={NAVY} fontSize="lg">GOAL:</Text>
 
                             <Box flex="1" w="100%">
                                 <Progress
                                     value={progressValue}
                                     size="lg"
                                     borderRadius="40px"
-                                    bg="#FDEEE8"
+                                    bg="rgba(0,0,0,0.04)"
                                     sx={{
                                         "& > div": {
-                                            bg: "#FF6A00", // your color
+                                            bg: URGENT_RED, /* THEME CHANGE: urgent red fill */
                                         },
                                     }}
+                                    transition="width 1.6s ease-out"
                                 />
                             </Box>
                         </Stack>
                     </Box>
 
-                    {/* Percentage text / raised info (large, blue) like screenshot */}
+                    {/* PERCENT / SQFT */}
                     <Box mt={6} textAlign="center">
-                        <Text fontFamily="'Poppins', sans-serif" fontSize={["lg","2xl","3xl"]} color={sky} fontWeight={800}>
-                            <Text as="span" color={coral}>{finalPercent}%</Text> ({raisedSqft.toLocaleString()} Square Feet) of <Text as="span" color={coral}>{goalSqft.toLocaleString()}</Text> Square Feet raised
+                        <Text fontFamily="'Poppins', sans-serif" fontSize={["lg", "2xl", "3xl"]} color={TEXT_DARK} fontWeight={800}>
+                            <Text as="span" color={URGENT_RED}>{finalPercent}%</Text> ({raisedSqft.toLocaleString()} Square Feet) of <Text as="span" color={URGENT_RED}>{goalSqft.toLocaleString()}</Text> Square Feet raised
                         </Text>
                     </Box>
                 </Flex>
             </Box>
 
             {/* ================== TEMPLE IMAGE SECTION (MOBILE ONLY) ================== */}
-            <Box
-                w="100%"
-                mt={8}
-                display={{ base: "block", md: "block", lg: "none" }}   // 👈 MOBILE ONLY
-            >
-
-                {/* Yellow ribbon above image */}
-                <Box
-                    bg="#FFE150"
-                    w="100%"
-                    py={[2, 3]}
-                    textAlign="center"
-                    px={3}
-                >
-                    <Text
-                        fontSize={["sm", "md"]}
-                        fontWeight="700"
-                        color="#1A1A1A"
-                        fontFamily="'Poppins', sans-serif"
-                    >
-                        A fundraising initiative for the construction of the
-                        chennai's tallest cultural complex & temple for Lord Sri Krishna
+            <Box w="100%" mt={8} display={{ base: "block", md: "block", lg: "none" }}>
+                <Box bg="#FFE150" w="100%" py={[2, 3]} textAlign="center" px={3}>
+                    <Text fontSize={["sm", "md"]} fontWeight="700" color={TEXT_DARK} fontFamily="'Poppins', sans-serif">
+                        A fundraising initiative for the construction of Chennai's tallest cultural complex & temple for Lord Sri Krishna
                     </Text>
                 </Box>
 
-                {/* Centered premium card */}
-                <Box
-                    px={4}                      // outer padding (space from screen edges)
-                    mt={4}
-                >
-                    <Box
-                        borderRadius="18px"      // curved corners
-                        overflow="hidden"        // clips image edges to the curve
-                        boxShadow="0px 6px 25px rgba(0,0,0,0.25)" // premium soft shadow
-                        bg="white"
-                    >
-                        <Image
-                            src={ddd_poster_mob}
-                            alt="Dakshina Dwaraka Dham"
-                            w="100%"
-                            h="100%"
-                            objectFit="cover"
-                        />
+                <Box px={4} mt={4}>
+                    <Box borderRadius="18px" overflow="hidden" boxShadow="0px 6px 25px rgba(0,0,0,0.25)" bg="white">
+                        <Image src={ddd_poster_mob} alt="Dakshina Dwaraka Dham" w="100%" h="100%" objectFit="cover" />
                     </Box>
                 </Box>
-
             </Box>
-            {/* ================== END TEMPLE IMAGE SECTION ================== */}
 
             {/* ============================================================
-   TEMPLE VIDEO SECTION — EXACT MATCH TO REFERENCE
-   ============================================================ */}
-
+               TEMPLE VIDEO + TITLE (IN SAME GRADIENT BLOCK)
+               ============================================================ */}
             <Box
                 w="100%"
-                bgGradient="linear(to-b, #0A1B2A, #FFFFFF)"
+                bgGradient={`linear(to-b, ${NAVY}, rgba(8,32,50,0.03))`} /* THEME CHANGE */
                 color="white"
                 borderRadius="0 0 32px 32px"
                 px={[4, 6]}
@@ -508,50 +426,19 @@ const HomeSinglePage = () => {
                 mt={6}
                 textAlign="center"
             >
-
-                {/* TITLE BLOCK */}
-                <Text
-                    fontSize={["md", "lg"]}
-                    opacity={0.9}
-                    fontFamily="'Poppins', sans-serif"
-                    mb={2}
-                >
+                <Text fontSize={["md", "lg"]} opacity={0.95} fontFamily="'Poppins', sans-serif" mb={2}>
                     That’s why we build
                 </Text>
 
-                <Text
-                    fontSize={["3xl", "4xl"]}
-                    fontWeight="800"
-                    fontFamily="'Poppins', sans-serif"
-                    mb={3}
-                >
-                    Dakshina <Text as="span" color="#fbd38d">Dwaraka</Text> Dham
+                <Text fontSize={["3xl", "4xl"]} fontWeight="800" fontFamily="'Poppins', sans-serif" mb={3} color={BEIGE}>
+                    Dakshina <Text as="span" color={GOLD}>Dwaraka</Text> Dham
                 </Text>
 
-                <Text
-                    fontSize={["md", "lg"]}
-                    opacity={0.9}
-                    fontFamily="'Poppins', sans-serif"
-                    maxW="600px"
-                    mx="auto"
-                    mb={[6, 8]}
-                >
+                <Text fontSize={["md", "lg"]} opacity={0.95} fontFamily="'Poppins', sans-serif" maxW="600px" mx="auto" mb={[6, 8]}>
                     A sacred cultural complex to uplift society through devotion, heritage & values.
                 </Text>
 
-                {/* VIDEO BLOCK — INSIDE SAME GRADIENT CONTAINER */}
-                <Box
-                    ref={videoRef}
-                    position="relative"
-                    paddingBottom="56.25%"   // 16:9
-                    height="0"
-                    overflow="hidden"
-                    borderRadius="16px"
-                    boxShadow="0 4px 20px rgba(0,0,0,0.4)"
-                    bg="#000"
-                    maxW="900px"
-                    mx="auto"
-                >
+                <Box ref={videoRef} position="relative" paddingBottom="56.25%" height="0" overflow="hidden" borderRadius="16px" boxShadow="0 4px 20px rgba(0,0,0,0.4)" bg="#000" maxW="900px" mx="auto">
                     <iframe
                         src={videoSrc}
                         title="Temple Construction Video"
@@ -568,367 +455,129 @@ const HomeSinglePage = () => {
                         }}
                     />
                 </Box>
-
             </Box>
 
-            {/* ============================================================
-   DESCRIPTION SECTION (OUTSIDE THE GRADIENT BLOCK)
-   ============================================================ */}
-
-            <Box
-                w="100%"
-                maxW="1200px"
-                mx="auto"
-                px={[4, 6]}
-                mt={[4, 4]}
-            >
+            {/* DESCRIPTION */}
+            <Box w="100%" maxW="1200px" mx="auto" px={[4, 6]} mt={[4, 4]}>
                 <Box position="relative" textAlign="center" mb={8}>
-
-                    {/* BACKGROUND QUOTE ICON */}
-                    <Box
-                        position="absolute"
-                        left="50%"
-                        transform="translate(-50%, -50%)"
-                        opacity={0.12}
-                        zIndex={0}
-                    >
-                        {/* SVG QUOTE MARK */}
-                        <svg
-                            width="150"
-                            height="150"
-                            viewBox="0 0 24 24"
-                            fill="#F28A7E"   // coral color
-                        >
-                            <path d="M9.17 6A5 5 0 0 0 4 11v7h7v-7H8.72A3 3 0 0 1 11 8.17 5 5 0 0 0 9.17 6Zm10 0A5 5 0 0 0 14 11v7h7v-7h-2.28A3 3 0 0 1 21 8.17 5 5 0 0 0 19.17 6Z"/>                        </svg>
+                    <Box position="absolute" left="50%" transform="translate(-50%, -50%)" opacity={0.08} zIndex={0}>
+                        <svg width="150" height="150" viewBox="0 0 24 24" fill={CORAL}>
+                            <path d="M9.17 6A5 5 0 0 0 4 11v7h7v-7H8.72A3 3 0 0 1 11 8.17 5 5 0 0 0 9.17 6Zm10 0A5 5 0 0 0 14 11v7h7v-7h-2.28A3 3 0 0 1 21 8.17 5 5 0 0 0 19.17 6Z"/>
+                        </svg>
                     </Box>
 
-                    {/* TITLE */}
-                    <Text
-                        fontSize={["2xl", "3xl"]}
-                        fontWeight="500"
-                        color="#5eb0ff"
-                        fontFamily="'Poppins', sans-serif"
-                        mb={4}
-                        position="relative"
-                        zIndex={1}
-                        lineHeight="1.3"
-                    >
+                    <Text fontSize={["2xl", "3xl"]} fontWeight="500" color={NAVY} fontFamily="'Poppins', sans-serif" mb={4} position="relative" zIndex={1} lineHeight="1.3">
                         Dakshina Dwaraka Dham: <br />
                         Inspiration & Aspiration
                     </Text>
                 </Box>
 
-                <Text
-                    fontSize="md"
-                    color="#1A1A1A"
-                    lineHeight="1.7"
-                    mb={4}
-                    fontFamily="'Poppins', sans-serif"
-                >
+                <Text fontSize="md" color={TEXT_DARK} lineHeight="1.7" mb={4} fontFamily="'Poppins', sans-serif">
                     Nestled along the scenic seashore of the Bay of Bengal in Thiruvanmiyur,
                     Chennai, the Dakshina Dwaraka Dham Cultural Complex is envisioned as a
                     magnificent center to promote and preserve India’s timeless spiritual and
                     cultural heritage. Designed in the traditional Pallava style of architecture,
                     this will be the second shore temple in Tamil Nadu.
                 </Text>
-                {/**
-                <Text
-                    fontSize="md"
-                    color="#1A1A1A"
-                    lineHeight="1.7"
-                    fontFamily="'Poppins', sans-serif"
-                >
-                    With a total built-up area of about 40,000 sq. ft., Dakshina Dwaraka Dham
-                    will be a spiritual, educational, and cultural beacon — uniting devotion,
-                    knowledge, and heritage for the upliftment of society.
-                </Text>**/}
             </Box>
 
-
-
-
-            {/* ============================================================
-     TEMPLE FEATURES – AUTO SLIDE CAROUSEL (VCM STYLE)
-   ============================================================ */}
-
-            <Box
-                w="100%"
-                maxW="1200px"
-                mx="auto"
-                mt={12}
-                px={[4, 6]}
-                fontFamily="'Poppins', sans-serif"
-            >
-
-                {/* SECTION TITLE */}
-                <Text
-                    fontSize={["2xl", "3xl"]}
-                    fontWeight="800"
-                    color="#5eb0ff"
-                    textAlign="center"
-                    mb={6}
-                >
-                    Temple <Text as="span" color={coral}>Features</Text>
+            {/* TEMPLE FEATURES */}
+            <Box w="100%" maxW="1200px" mx="auto" mt={12} px={[4, 6]} fontFamily="'Poppins', sans-serif">
+                <Text fontSize={["2xl", "3xl"]} fontWeight="800" color={NAVY} textAlign="center" mb={6}>
+                    Temple <Text as="span" color={CORAL}>Features</Text>
                 </Text>
 
-                {/* CAROUSEL */}
-                <Box
-                    position="relative"
-                    overflow="hidden"
-                    borderRadius="12px"
-                    boxShadow="0 4px 20px rgba(0,0,0,0.25)"
-                >
-                    {/* MAIN IMAGE */}
-                    <Image
-                        src={templeImages[currentIndex]}
-                        alt="Temple Feature"
-                        w="100%"
-                        h="auto"
-                        transition="opacity 0.6s ease"
-                        opacity={isFading ? 0 : 1}
-                    />
-
-                    {/* LEFT ARROW */}
-                    <Box
-                        position="absolute"
-                        top="50%"
-                        left="10px"
-                        transform="translateY(-50%)"
-                        cursor="pointer"
-                        fontSize="2xl"
-                        color="white"
-                        opacity="0.8"
-                        onClick={prevSlide}
-                        _hover={{ opacity: 1 }}
-                    >
-                        ❮
-                    </Box>
-
-                    {/* RIGHT ARROW */}
-                    <Box
-                        position="absolute"
-                        top="50%"
-                        right="10px"
-                        transform="translateY(-50%)"
-                        cursor="pointer"
-                        fontSize="2xl"
-                        color="white"
-                        opacity="0.8"
-                        onClick={nextSlide}
-                        _hover={{ opacity: 1 }}
-                    >
-                        ❯
-                    </Box>
+                <Box position="relative" overflow="hidden" borderRadius="12px" boxShadow="0 4px 20px rgba(0,0,0,0.25)">
+                    <Image src={templeImages[currentIndex]} alt="Temple Feature" w="100%" h="auto" transition="opacity 0.6s ease" opacity={isFading ? 0 : 1} />
+                    <Box position="absolute" top="50%" left="10px" transform="translateY(-50%)" cursor="pointer" fontSize="2xl" color="white" opacity="0.8" onClick={prevSlide} _hover={{ opacity: 1 }}>❮</Box>
+                    <Box position="absolute" top="50%" right="10px" transform="translateY(-50%)" cursor="pointer" fontSize="2xl" color="white" opacity="0.8" onClick={nextSlide} _hover={{ opacity: 1 }}>❯</Box>
                 </Box>
 
-                {/* DOT INDICATORS */}
                 <Flex justify="center" mt={4} gap={3}>
                     {templeImages.map((_, i) => (
-                        <Box
-                            key={i}
-                            w="10px"
-                            h="10px"
-                            borderRadius="full"
-                            bg={i === currentIndex ? "#000" : "#d0d0d0"}
-                            border={i === currentIndex ? "2px solid #FFD700" : "none"}
-                            cursor="pointer"
-                            onClick={() => setCurrentIndex(i)}
-                        />
+                        <Box key={i} w="10px" h="10px" borderRadius="full" bg={i === currentIndex ? NAVY : "#d0d0d0"} border={i === currentIndex ? `2px solid ${GOLD}` : "none"} cursor="pointer" onClick={() => setCurrentIndex(i)} />
                     ))}
                 </Flex>
             </Box>
 
-
-
-            {/* ============================================================
-     TEMPLE CONSTRUCTION STATUS — BIG IMAGE + THUMB STRIP
-   ============================================================ */}
-            <Box
-                w="100%"
-                maxW="1200px"
-                mx="auto"
-                mt={12}
-                px={[4, 6]}
-                fontFamily="'Poppins', sans-serif"
-            >
-
-                {/* Title */}
-                <Text
-                    fontSize={["2xl", "3xl"]}
-                    fontWeight="800"
-                    color="#5eb0ff"
-                    textAlign="center"
-                    mb={6}
-                >
-                    Temple Construction Status <br />– <Text as="span" color={coral}>As on September 2025</Text>
+            {/* TEMPLE CONSTRUCTION STATUS */}
+            <Box w="100%" maxW="1200px" mx="auto" mt={12} px={[4, 6]} fontFamily="'Poppins', sans-serif">
+                <Text fontSize={["2xl", "3xl"]} fontWeight="800" color={NAVY} textAlign="center" mb={6}>
+                    Temple Construction Status <br />– <Text as="span" color={CORAL}>As on September 2025</Text>
                 </Text>
 
-                {/* MAIN IMAGE */}
-                <Box
-                    w="100%"
-                    borderRadius="12px"
-                    overflow="hidden"
-                    boxShadow="0 4px 20px rgba(0,0,0,0.15)"
-                >
-                    <Image
-                        src={templeStatusImages[statusIndex]}
-                        alt="Temple Construction"
-                        w="100%"
-                        h={["250px", "350px", "450px"]}
-                        objectFit="cover"
-                        transition="opacity 0.6s ease"
-                    />
+                <Box w="100%" borderRadius="12px" overflow="hidden" boxShadow="0 4px 20px rgba(0,0,0,0.15)">
+                    <Image src={templeStatusImages[statusIndex]} alt="Temple Construction" w="100%" h={["250px", "350px", "450px"]} objectFit="cover" transition="opacity 0.6s ease" />
                 </Box>
 
-                {/* THUMBNAILS */}
-                <Flex
-                    justify="center"
-                    gap={4}
-                    mt={6}
-                    flexWrap="wrap"
-                >
+                <Flex justify="center" gap={4} mt={6} flexWrap="wrap">
                     {templeStatusImages.map((img, i) => (
-                        <Box
-                            key={i}
-                            borderRadius="8px"
-                            overflow="hidden"
-                            cursor="pointer"
-                            border={i === statusIndex ? "3px solid #5eb0ff" : "2px solid #ddd"}
-                            onClick={() => setStatusIndex(i)}
-                            transition="all 0.3s ease"
-                        >
-                            <Image
-                                src={img}
-                                w={["110px", "130px", "150px"]}
-                                h={["110px", "130px", "150px"]}
-                                objectFit="cover"
-                            />
+                        <Box key={i} borderRadius="8px" overflow="hidden" cursor="pointer" border={i === statusIndex ? `3px solid ${NAVY}` : "2px solid #ddd"} onClick={() => setStatusIndex(i)} transition="all 0.3s ease">
+                            <Image src={img} w={["110px", "130px", "150px"]} h={["110px", "130px", "150px"]} objectFit="cover" />
                         </Box>
                     ))}
                 </Flex>
-
             </Box>
 
+            {/* Reused sections (kept intact) */}
             <TestimonialSection />
             <DonorPrivilegeSection />
             <RecentContributors getSingleUser={getSingleUser} />
-            {/*<Flex justify="center" mt={2}>
-                <Button
-                    h={"55px"}
-                    bgGradient="linear(to-r, #D4AF37, #FFD700)"
-                    color="#2C0A0A"
-                    fontWeight="800" fontSize="lg"
-                    fontFamily="'Cinzel', serif"
-                    letterSpacing="1px"
-                    onClick={handleClick}
-                    _hover={{ transform: "translateY(-2px)", boxShadow: "0px 5px 15px rgba(212, 175, 55, 0.4)" }}
-                    rightIcon={<Icon as={FaHandHoldingHeart} />}
-                >
-                    CONTRIBUTE NOW
-                </Button>
-            </Flex>*/}
+
+            {/* Floating / centered urgent CTA */}
+            <Box maxW="1200px" mx="auto" px={[4,6]} mt={8} mb={6}>
+                <Flex justify="center">
+                    <Button
+                        h={"55px"}
+                        bg={URGENT_RED} /* THEME CHANGE: solid urgent red */
+                        color="#fff"
+                        fontWeight="800"
+                        fontSize="lg"
+                        fontFamily="'Poppins', sans-serif"
+                        letterSpacing="0.6px"
+                        onClick={handleClick}
+                        _hover={{ transform: "translateY(-2px)", boxShadow: `0px 8px 30px rgba(230,57,70,0.22)` }}
+                        rightIcon={<Icon as={FaHandHoldingHeart} />}
+                        px={8}
+                        borderRadius="12px"
+                    >
+                        CONTRIBUTE NOW
+                    </Button>
+                </Flex>
+            </Box>
+
             <DonateNowButton />
             <WhyDonateQuotes />
             <FAQComponent />
             <DonateNowButton />
             <PrabhupadaSection />
             <PrabhupadaQuoteCTA />
-            <Text
-                textAlign="center"
-                fontSize={["md", "lg"]}
-                color="black"
-                mt={10}
-                px={4}
-                fontFamily="'Poppins', sans-serif"
-            >
+
+            <Text textAlign="center" fontSize={["md", "lg"]} color={TEXT_DARK} mt={10} px={4} fontFamily="'Poppins', sans-serif">
                 Got a question? We’d love to hear from you.
                 Call or WhatsApp us at{" "}
-                <Box as="span" color="#ff3838" fontWeight="600">
+                <Box as="span" color={URGENT_RED} fontWeight="600">
                     +91-XXXXXXXXXX
                 </Box>{" "}
                 and we’ll respond as soon as possible.
             </Text>
+
             <FooterSection />
             <DonationBottomBar />
 
-
-            {/*
-            <Box maxW="1200px" mx="auto" px={[4,6]} mt={[6,8]}>
-                <Flex direction={["column", "column", "column", "row"]} gap={8} align="flex-start">
-
-
-                    <Box w={["100%", "100%", "100%", "420px"]} px={[0,0,0]} mb={24}>
-                        <Box position={["static", "static", "static", "sticky"]} top="24px">
-                            <Box bg="white" p={5} borderRadius="md" boxShadow="md" border="1px solid #E2E8F0">
-                                <HStack justify="space-between" align="center">
-                                    <HStack>
-                                        <Avatar src={cd.imgurl || avatar} name={cd.campaignName || "Campaign"} />
-                                        <Box>
-                                            <Text fontSize="sm" color={muted}>Campaign by</Text>
-                                            <Text fontWeight={700} fontSize="md" color={headingColor}>{cd.preacherName || cd.campaignerName || cd.campaignName}</Text>
-                                        </Box>
-                                    </HStack>
-                                    <Badge colorScheme="yellow">Featured</Badge>
-                                </HStack>
-
-                                <Divider my={3} />
-
-                                <Text fontSize="sm" color={muted}>Goal</Text>
-                                <Text fontWeight={700} fontSize="lg">₹ {goalAmount.toLocaleString()}</Text>
-                                <Text fontSize="sm" color={muted} mb={3}>{goalSqft.toLocaleString()} square feet (₹ {PRICE_PER_SQFT.toLocaleString()} / sqft)</Text>
-
-                                <Progress value={percent} size="sm" colorScheme="orange" borderRadius="sm" mb={3} />
-
-                                <Box mb={3}>
-                                    <CapaignerProgressBox
-                                        getSingleUser={getSingleUser} setAmount={setAmount} handleClick={handleClick}
-                                        errorMessage={errorMessage} amount={amount}
-                                    />
-                                </Box>
-
-                                <List spacing={2} mt={3}>
-                                    <ListItem><Text fontSize="sm"><strong>Prasadam & Puja access</strong> for donors</Text></ListItem>
-                                    <ListItem><Text fontSize="sm"><strong>Digital Certificate</strong> & donor recognition</Text></ListItem>
-                                    <ListItem><Text fontSize="sm"><strong>80G tax benefit</strong> (if eligible)</Text></ListItem>
-                                </List>
-
-                                <Divider my={3} />
-
-                                <Box>
-                                    <Text fontWeight={700} mb={3}>Top Contributors</Text>
-                                    <VStack align="stretch" spacing={2}>
-                                        {getSingleUser?.top10paymentDetails?.slice(0,4)?.map((t, i) => (
-                                            <HStack key={i} justify="space-between">
-                                                <Text fontSize="sm">{t.username}</Text>
-                                                <Text fontWeight={700}>₹ {t.amount?.toLocaleString?.()}</Text>
-                                            </HStack>
-                                        )) || <Text fontSize="sm" color={muted}>No contributors yet</Text>}
-                                    </VStack>
-                                </Box>
-                            </Box>
-                        </Box>
-                    </Box>
-                </Flex>
-            </Box>*/}
-
-            {/*
-            {isMobile && (
-                <Box position="fixed" bottom="0" left="0" w="100%" bg="white" p={3} borderTop="1px solid #E2E8F0" zIndex={60}>
-                    <Flex maxW="1200px" mx="auto" px={4} gap={3} align="center">
-                        <Button flex="1" bg={donateYellow} color="#111" fontFamily="'Cinzel', serif" fontWeight={800} onClick={() => window.scrollTo({ top: 300, behavior: 'smooth' })}>
-                            Donate
-                        </Button>
-                        <Button variant="outline" onClick={() => window.open(`tel:+917210873108`)}>
-                            <Icon as={FaPhoneAlt} mr={2} /> Call
-                        </Button>
-                    </Flex>
-                </Box>
-            )}*/}
-
             {showScrollButton && (
                 <IconButton
-                    icon={<FaArrowUp />} position={"fixed"} bottom={["80px","60px"]} right={"20px"} zIndex={"999"}
-                    bg="#2C0A0A" color="#D4AF37" onClick={handleScrollToTop} borderRadius="full" boxShadow="xl" border="1px solid #D4AF37"
+                    icon={<FaArrowUp />}
+                    position={"fixed"}
+                    bottom={["80px","60px"]}
+                    right={"20px"}
+                    zIndex={"999"}
+                    bg={NAVY}
+                    color={GOLD}
+                    onClick={handleScrollToTop}
+                    borderRadius="full"
+                    boxShadow="xl"
+                    border={`1px solid ${GOLD}`}
                 />
             )}
 
