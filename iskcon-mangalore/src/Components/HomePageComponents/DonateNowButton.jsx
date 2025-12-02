@@ -7,14 +7,19 @@ const DonateNowButton = () => {
             <Box maxW="1200px" mx="auto" px={[4,6]} mt={8} mb={6}>
                 <Flex justify="center">
                     <Button
-                        h={"55px"}
-                        bgGradient="linear(to-r, #D4AF37, #FFD700)"
-                        color="#082032"
-                        fontWeight="500"
-                        fontSize="lg"
-                        fontFamily="'Poppins', sans-serif"
-                        letterSpacing="1px"
-                        _hover={{ transform: "translateY(-2px)", boxShadow: "0px 5px 15px rgba(212, 175, 55, 0.4)" }}
+                        bgGradient="linear(to-r, #FFD700, #FFB200)"
+                        color="#2C0A0A"
+                        fontWeight="800"
+                        borderRadius="full"
+                        px={[6, 8]}
+                        py={6}
+                        fontSize={["md","lg"]}
+                        boxShadow="0 6px 18px rgba(255,183,0,0.45)"
+                        _hover={{
+                            transform: "scale(1.05)",
+                            boxShadow: "0 8px 25px rgba(255,183,0,0.55)",
+                        }}
+                        transition="all 0.2s ease"
                         rightIcon={<Icon as={FaHandHoldingHeart} />}
                     >
                         CONTRIBUTE NOW
