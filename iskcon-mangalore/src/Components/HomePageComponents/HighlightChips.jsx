@@ -1,4 +1,4 @@
-import { Box, Text, Flex, Icon } from "@chakra-ui/react";
+import { Box, Text, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import {
     FaWater,
     FaMountain,
@@ -6,6 +6,8 @@ import {
     FaRulerCombined,
     FaTools,
 } from "react-icons/fa";
+
+const NAVY = "#082032"; // your theme navy color
 
 const HighlightChips = () => {
     const highlights = [
@@ -24,38 +26,34 @@ const HighlightChips = () => {
             mt={10}
             px={[4, 6]}
         >
-            <Flex
-                gap={3}
-                flexWrap="wrap"                // 👈 FIX 1: Chips wrap on mobile
-                justify={["center", "center", "flex-start"]}
+            {/* GRID: 2 per row on mobile, 3 per row on tablet, auto on desktop */}
+            <SimpleGrid
+                columns={[2, 3, 4]}
+                spacing={4}
             >
                 {highlights.map((item, i) => (
                     <Flex
                         key={i}
                         align="center"
                         gap={2}
-                        px={4}
-                        py={2}
+                        px={3}
+                        py={3}
                         bg="white"
-                        borderRadius="30px"
-                        border="1px solid #E8D7A8"
-                        boxShadow="0px 4px 12px rgba(0,0,0,0.08)"
-                        whiteSpace="nowrap"
-                        flexShrink={0}
-                        maxW="100%"                    // 👈 FIX 2: Prevent horizontal expansion
+                        borderRadius="14px"
+                        boxShadow="0 4px 12px rgba(0,0,0,0.08)"
                     >
-                        <Icon as={item.icon} color="#C49A3F" boxSize={4} />
+                        <Icon as={item.icon} color={NAVY} boxSize={5} /> {/* NAVY ICON */}
                         <Text
                             fontSize="sm"
                             fontWeight="600"
-                            color="#082032"
-                            noOfLines={1}                 // 👈 FIX 3: Forces text to stay in chip
+                            color={NAVY}
+                            noOfLines={1}
                         >
                             {item.label}
                         </Text>
                     </Flex>
                 ))}
-            </Flex>
+            </SimpleGrid>
         </Box>
     );
 };
