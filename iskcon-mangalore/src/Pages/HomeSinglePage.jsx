@@ -60,6 +60,7 @@ import PrabhupadaQuoteCTA from "../Components/HomePageComponents/PrabhupadaQuote
 import FooterSection from "../Components/HomePageComponents/FooterSection";
 import DonateNowButton from "../Components/HomePageComponents/DonateNowButton";
 import DonationBottomBar from "../Components/HomePageComponents/DonationBottomBar";
+import TempleBlueprintSection from "../Components/HomePageComponents/TempleBlueprintSection";
 
 /* =========================
    THEME CONSTANTS (CHANGED)
@@ -480,6 +481,7 @@ const HomeSinglePage = () => {
                     this will be the second shore temple in Tamil Nadu.
                 </Text>
             </Box>
+            <TempleBlueprintSection />
 
             {/* TEMPLE FEATURES */}
             <Box w="100%" maxW="1200px" mx="auto" mt={12} px={[4, 6]} fontFamily="'Poppins', sans-serif">
