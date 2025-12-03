@@ -1,130 +1,145 @@
-import { Box, Text, Grid, Flex } from "@chakra-ui/react";
-import { FaPrayingHands, FaLeaf, FaPeopleCarry, FaChild, FaHandsHelping, FaGopuram } from "react-icons/fa";
+import React, { useEffect, useRef, useState } from "react";
+import { Box, Text, VStack, Flex, Icon } from "@chakra-ui/react";
+import { FaPray, FaChild, FaSeedling, FaHandsHelping, FaBookReader, FaHome } from "react-icons/fa";
+
+const items = [
+    {
+        icon: FaPray,
+        title: "Main Krishna Altar",
+        desc: "The divine heart of Dakshina Dwaraka Dham—where thousands will receive darshan and blessings every day."
+    },
+    {
+        icon: FaHome,
+        title: "Temple & Festival Hall",
+        desc: "A grand hall to host kirtans, spiritual festivals, discourses and cultural celebrations."
+    },
+    {
+        icon: FaHandsHelping,
+        title: "Annadānam Hall",
+        desc: "A sacred space dedicated to feeding devotees, visitors, and the needy with fresh Krishna-prasadam."
+    },
+    {
+        icon: FaSeedling,
+        title: "Harinām Mandap",
+        desc: "A serene mandap for chanting, meditation and spiritual gatherings."
+    },
+    {
+        icon: FaChild,
+        title: "ICVK Kids Program",
+        desc: "A value-based educational space where children learn culture, character and devotion joyfully."
+    },
+    {
+        icon: FaBookReader,
+        title: "Gita Life Program",
+        desc: "A transformative space uplifting youth, parents and working professionals through wisdom of Bhagavad Gita."
+    }
+];
 
 const TempleBlueprintSection = () => {
-    const items = [
-        {
-            icon: FaGopuram,
-            title: "Main Krishna Altar",
-            desc: "A majestic sanctum where devotees receive darshan & divine blessings.",
-        },
-        {
-            icon: FaPeopleCarry,
-            title: "Temple & Festival Hall",
-            desc: "A grand cultural hall for kirtans, festivals & spiritual gatherings.",
-        },
-        {
-            icon: FaHandsHelping,
-            title: "Annadānam Hall",
-            desc: "A dedicated prasadam hall serving free meals to all visitors.",
-        },
-        {
-            icon: FaPrayingHands,
-            title: "Harinām Mandap",
-            desc: "A serene space for japa, sankirtan, meditation & reflection.",
-        },
-        {
-            icon: FaChild,
-            title: "ICVK Children’s Program",
-            desc: "A joyful center teaching kids values, culture & devotion.",
-        },
-        {
-            icon: FaLeaf,
-            title: "Gita Life Program",
-            desc: "Programs empowering youth & families with Gita-based wisdom.",
-        },
-    ];
+    const [visibleIndex, setVisibleIndex] = useState(-1);
+    const refs = useRef([]);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const index = Number(entry.target.getAttribute("data-index"));
+                        setVisibleIndex((prev) => (index > prev ? index : prev));
+                    }
+                });
+            },
+            { threshold: 0.2 }
+        );
+
+        refs.current.forEach((el) => {
+            if (el) observer.observe(el);
+        });
+
+        return () => observer.disconnect();
+    }, []);
 
     return (
         <Box
             w="100%"
-            maxW="1200px"
+            maxW="900px"
             mx="auto"
-            px={[4, 6]}
             mt={16}
-            mb={4}
-            fontFamily="'Poppins', sans-serif"
+            px={[4, 6]}
+            py={10}
+            bg="white"
+            borderRadius="16px"
         >
-            {/* Title Block */}
-            <Box textAlign="center" mb={10} position="relative">
-                <Text
-                    fontSize={["2xl", "3xl"]}
-                    fontWeight="700"
-                    color="#082032"
-                    mb={2}
-                >
-                    Inside Dakshina Dwaraka Dham
-                </Text>
-
-                {/* Gold underline */}
-                <Box
-                    w="80px"
-                    h="4px"
-                    bg="#E2C275"
-                    borderRadius="2px"
-                    mx="auto"
-                />
-
-                <Text
-                    mt={4}
-                    color="#555"
-                    fontSize={["md", "lg"]}
-                    maxW="650px"
-                    mx="auto"
-                    lineHeight="1.6"
-                >
-                    Each contribution helps build sacred spaces that uplift hearts, nurture values,
-                    and bring thousands closer to Lord Krishna.
-                </Text>
-            </Box>
-
-            {/* GRID */}
-            <Grid
-                templateColumns={["1fr", "1fr", "1fr 1fr", "1fr 1fr 1fr"]}
-                gap={6}
+            {/* Title */}
+            <Text
+                textAlign="center"
+                fontSize={["2xl", "3xl"]}
+                fontWeight="700"
+                color="#082032"
+                mb={8}
             >
+                Inside <span style={{ color: "#F28A7E" }}>Dakshina Dwaraka Dham</span>
+            </Text>
+
+            <VStack spacing={10}>
                 {items.map((item, i) => (
-                    <Flex
+                    <Box
                         key={i}
-                        direction="column"
-                        p={5}
-                        bg="white"
-                        borderRadius="14px"
-                        boxShadow="0 4px 18px rgba(0,0,0,0.08)"
-                        border="1px solid #f1f1f1"
-                        _hover={{
-                            transform: "translateY(-4px)",
-                            boxShadow: "0 6px 24px rgba(0,0,0,0.12)",
-                        }}
-                        transition="0.25s ease"
+                        ref={(el) => (refs.current[i] = el)}
+                        data-index={i}
+                        opacity={visibleIndex >= i ? 1 : 0}
+                        transform={visibleIndex >= i ? "translateY(0)" : "translateY(40px)"
+                        }
+                        transition="all 0.8s ease"
+                        w="100%"
                     >
-                        {/* Icon */}
-                        <Flex
-                            w="60px"
-                            h="60px"
-                            borderRadius="50%"
-                            bg="#F28A7E20" // coral tinted background
-                            justify="center"
-                            align="center"
-                            mb={4}
-                        >
-                            <Box
-                                as={item.icon}
-                                fontSize="28px"
-                                color="#F28A7E"
-                            />
-                        </Flex>
+                        <VStack spacing={3}>
+                            {/* ICON CIRCLE */}
+                            <Flex
+                                w="60px"
+                                h="60px"
+                                borderRadius="50%"
+                                bg="rgba(255, 221, 140, 0.35)" // soft gold
+                                align="center"
+                                justify="center"
+                                boxShadow="0 3px 10px rgba(0,0,0,0.1)"
+                            >
+                                <Icon as={item.icon} boxSize={6} color="#082032" />
+                            </Flex>
 
-                        <Text fontWeight="700" fontSize="lg" color="#082032" mb={2}>
-                            {item.title}
-                        </Text>
+                            {/* TITLE */}
+                            <Text
+                                fontSize="xl"
+                                fontWeight="700"
+                                color="#082032"
+                                textAlign="center"
+                            >
+                                {item.title}
+                            </Text>
 
-                        <Text fontSize="sm" color="#555" lineHeight="1.55">
-                            {item.desc}
-                        </Text>
-                    </Flex>
+                            {/* DESCRIPTION */}
+                            <Text
+                                fontSize="md"
+                                color="#4A5568"
+                                textAlign="center"
+                                maxW="400px"
+                            >
+                                {item.desc}
+                            </Text>
+
+                            {/* DIVIDER */}
+                            {i < items.length - 1 && (
+                                <Box
+                                    w="60%"
+                                    h="2px"
+                                    bg="rgba(255, 201, 71, 0.4)" // subtle gold
+                                    mt={4}
+                                />
+                            )}
+                        </VStack>
+                    </Box>
                 ))}
-            </Grid>
+            </VStack>
         </Box>
     );
 };
