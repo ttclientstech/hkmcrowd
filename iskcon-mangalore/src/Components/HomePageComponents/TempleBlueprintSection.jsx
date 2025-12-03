@@ -5,8 +5,8 @@ import { FaPray, FaChild, FaSeedling, FaHandsHelping, FaBookReader, FaHome } fro
 const items = [
     {
         icon: FaPray,
-        title: "Main Krishna Altar",
-        desc: "The divine heart of Dakshina Dwaraka Dham—where thousands will receive darshan and blessings every day."
+        title: "Divine Altar",
+        desc: "A magnificent, intricately carved altar for Sri Rukmini Dwarakadish.The divine heart of Dakshina Dwaraka Dham—where thousands will receive darshan and blessings every day."
     },
     {
         icon: FaHome,
@@ -74,7 +74,7 @@ const TempleBlueprintSection = () => {
             <Text
                 textAlign="center"
                 fontSize={["2xl", "3xl"]}
-                fontWeight="700"
+                fontWeight="500"
                 color="#082032"
                 mb={8}
             >

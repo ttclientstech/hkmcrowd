@@ -484,7 +484,7 @@ const HomeSinglePage = () => {
                     this will be the second shore temple in Tamil Nadu.
                 </Text>
             </Box>
-            <TempleHighlights />
+            <TempleBlueprintSection />
 
             {/* TEMPLE FEATURES */}
             <Box w="100%" maxW="1200px" mx="auto" mt={12} px={[4, 6]} fontFamily="'Poppins', sans-serif">
