@@ -1,44 +1,43 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Box, Text, Flex, Icon } from "@chakra-ui/react";
-import {
-    FaGopuram,
-    FaChild,
-    FaSeedling,
-    FaHandsHelping,
-    FaBookReader,
-    FaLandmark
-} from "react-icons/fa";
+import React from "react";
+import { Box, Text } from "@chakra-ui/react";
+
+import altarImg from "../../assets/images/altar.jpg";
+import festivalImg from "../../assets/images/festival_hall_1.jpg";
+import annadanamImg from "../../assets/images/annadanam_hall_1.jpg";
+import harinamImg from "../../assets/images/harinaam_mandap_1.jpg";
+import icvkImg from "../../assets/images/icvk_1.jpg";
+import gitaImg from "../../assets/images/gita_life_1.jpg";
 
 const items = [
     {
-        icon: FaGopuram,
+        img: altarImg,
         title: "Divine Altar",
-        desc: "Beautifully carved altar of Sri Sri Rukmini Dwarakadish."
+        desc: "The beautifully carved altar of Sri Sri Rukmini Dwarakadish."
     },
     {
-        icon: FaLandmark,
+        img: festivalImg,
         title: "Festival Hall",
-        desc: "A grand space for kirtans & cultural celebrations."
+        desc: "A grand space for kirtans, festivals & cultural celebrations."
     },
     {
-        icon: FaHandsHelping,
+        img: annadanamImg,
         title: "Annadānam Hall",
-        desc: "A sacred hall serving blessed Krishna-prasadam."
+        desc: "A sacred hall serving sanctified Krishna-prasadam."
     },
     {
-        icon: FaSeedling,
+        img: harinamImg,
         title: "Harinām Mandap",
-        desc: "A serene mandap for chanting & meditation."
+        desc: "A serene space for chanting & meditation."
     },
     {
-        icon: FaChild,
+        img: icvkImg,
         title: "ICVK Kids Program",
         desc: "Value-based cultural learning for children."
     },
     {
-        icon: FaBookReader,
+        img: gitaImg,
         title: "Gita Life Program",
-        desc: "Transforming youth & families through Gita wisdom."
+        desc: "Transforming youth & families with Gita wisdom."
     }
 ];
 
@@ -80,7 +79,7 @@ const TempleBlueprintSection = () => {
             {/* STICKY STACK */}
             <Box position="relative">
                 {items.map((item, i) => {
-                    const topOffset = i * 85; // spacing for stack
+                    const topOffset = i * 90;
 
                     return (
                         <Box
@@ -88,36 +87,60 @@ const TempleBlueprintSection = () => {
                             position="sticky"
                             top={`${topOffset}px`}
                             zIndex={i + 1}
-                            borderRadius="20px"
-                            p={6}
+                            height="260px"
+                            borderRadius="22px"
+                            overflow="hidden"
                             mb={8}
-                            bg="#0A192F"
-                            border="1px solid rgba(255, 195, 97, 0.35)"
-                            boxShadow="0px 15px 35px rgba(0,0,0,0.3)"
-                            color="white"
+                            boxShadow="0 12px 35px rgba(0,0,0,0.25)"
                         >
-                            {/* ICON */}
-                            <Flex
-                                w="60px"
-                                h="60px"
-                                borderRadius="50%"
-                                bg="rgba(255, 195, 97, 0.15)"
-                                align="center"
-                                justify="center"
-                                mb={4}
+                            {/* Background image */}
+                            <Box
+                                position="absolute"
+                                top={0}
+                                left={0}
+                                w="100%"
+                                h="100%"
+                                bgImage={`url(${item.img})`}
+                                bgSize="cover"
+                                bgPos="center"
+                                filter="brightness(0.85)"
+                            />
+
+                            {/* Gradient overlay */}
+                            <Box
+                                position="absolute"
+                                top={0}
+                                left={0}
+                                w="100%"
+                                h="100%"
+                                bg="linear-gradient(to bottom, rgba(10, 25, 47, 0.7), rgba(10, 25, 47, 0.95))"
+                            />
+
+                            {/* TEXT */}
+                            <Box
+                                position="absolute"
+                                bottom={6}
+                                left={6}
+                                right={6}
                             >
-                                <Icon as={item.icon} boxSize={7} color="#F7C873" />
-                            </Flex>
+                                <Text
+                                    fontSize="xl"
+                                    fontWeight="700"
+                                    color="#F7C873"   // gold
+                                    mb={2}
+                                >
+                                    {item.title}
+                                </Text>
 
-                            {/* TITLE */}
-                            <Text fontSize="xl" fontWeight="700" mb={1} color="#F7C873">
-                                {item.title}
-                            </Text>
-
-                            {/* DESCRIPTION */}
-                            <Text fontSize="md" opacity={0.9} lineHeight="1.5">
-                                {item.desc}
-                            </Text>
+                                <Text
+                                    fontSize="md"
+                                    color="white"
+                                    opacity={0.95}
+                                    lineHeight="1.5"
+                                >
+                                    {item.desc}
+                                </Text>
+                            </Box>
                         </Box>
                     );
                 })}
