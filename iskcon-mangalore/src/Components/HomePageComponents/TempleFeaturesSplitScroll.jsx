@@ -11,12 +11,6 @@ import { Box, Grid, Image, Text, VStack, useBreakpointValue, HStack } from "@cha
  */
 
 // example imports (replace with your project paths)
-import img_annadanam from "../assets/images/annadanam_hall_1.png";
-import img_festival from "../assets/images/festival_hall_1.png";
-import img_kalamadhuryam from "../assets/images/kalamadhuryam_1.png";
-import img_harinam from "../assets/images/harinaam_mandap_1.png";
-import img_icvk from "../assets/images/icvk_1.png";
-import img_gitalife from "../assets/images/gita_life_1.png";
 
 const FEATURES = [
     {
@@ -24,7 +18,7 @@ const FEATURES = [
         title: "Main Krishna Altar",
         desc:
             "A majestic sanctum for darshan and seva — designed for daily kirtan, mantra and intimate worship.",
-        img: img_annadanam,
+        img: "../assets/images/annadanam_hall_1.png",
         alt: "Main Krishna altar – Dakshina Dwaraka Dham"
     },
     {
@@ -32,7 +26,7 @@ const FEATURES = [
         title: "Temple & Festival Hall",
         desc:
             "A grand hall for festivals, cultural events and large congregational programs.",
-        img: img_festival,
+        img: "../assets/images/annadanam_hall_1.png",
         alt: "Festival hall – Dakshina Dwaraka Dham"
     },
     {
@@ -40,7 +34,7 @@ const FEATURES = [
         title: "Annadānam Hall",
         desc:
             "A dedicated kitchen & dining space to serve Mahā-prasādam to devotees and the community.",
-        img: img_kalamadhuryam,
+        img: "../assets/images/annadanam_hall_1.png",
         alt: "Annadanam hall – Dakshina Dwaraka Dham"
     },
     {
@@ -48,7 +42,7 @@ const FEATURES = [
         title: "Harinām Mandap",
         desc:
             "Open mandap for harinam sankirtan, meditation sessions and soulful gatherings.",
-        img: img_harinam,
+        img: "../assets/images/annadanam_hall_1.png",
         alt: "Harinam mandap – Dakshina Dwaraka Dham"
     },
     {
@@ -56,7 +50,7 @@ const FEATURES = [
         title: "ICVK – Kids Programs",
         desc:
             "Indian Culture & Values for Kids — curriculum that blends character, art and devotion.",
-        img: img_icvk,
+        img: "../assets/images/annadanam_hall_1.png",
         alt: "ICVK programs – Dakshina Dwaraka Dham"
     },
     {
@@ -64,7 +58,7 @@ const FEATURES = [
         title: "Gita Life – Youth & Families",
         desc:
             "Practical Gita-based programs for youth and families: workshops, counseling and community activities.",
-        img: img_gitalife,
+        img: "../assets/images/annadanam_hall_1.png",
         alt: "Gita Life program – Dakshina Dwaraka Dham"
     },
 ];
