@@ -486,11 +486,11 @@ const HomeSinglePage = () => {
             </Box>
             <TempleBlueprintSection />
 
-            {/* TEMPLE FEATURES */}
+            {/* TEMPLE FEATURES
             <Box w="100%" maxW="1200px" mx="auto" mt={8} px={[4, 6]} fontFamily="'Poppins', sans-serif">
-                {/*<Text fontSize={["2xl", "3xl"]} fontWeight="500" color={NAVY} textAlign="center" mb={6}>
+                <Text fontSize={["2xl", "3xl"]} fontWeight="500" color={NAVY} textAlign="center" mb={6}>
                     Features
-                </Text>*/}
+                </Text>
 
                 <Box position="relative" overflow="hidden" borderRadius="12px" boxShadow="0 4px 20px rgba(0,0,0,0.25)">
                     <Image src={templeImages[currentIndex]} alt="Temple Feature" w="100%" h="auto" transition="opacity 0.6s ease" opacity={isFading ? 0 : 1} />
@@ -503,7 +503,7 @@ const HomeSinglePage = () => {
                         <Box key={i} w="10px" h="10px" borderRadius="full" bg={i === currentIndex ? NAVY : "#d0d0d0"} border={i === currentIndex ? `2px solid ${GOLD}` : "none"} cursor="pointer" onClick={() => setCurrentIndex(i)} />
                     ))}
                 </Flex>
-            </Box>
+            </Box>*/}
 
             {/* TEMPLE CONSTRUCTION STATUS */}
             <Box w="100%" maxW="1200px" mx="auto" mt={12} px={[4, 6]} fontFamily="'Poppins', sans-serif">

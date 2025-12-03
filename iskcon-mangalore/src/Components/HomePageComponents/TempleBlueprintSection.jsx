@@ -59,14 +59,14 @@ const TempleBlueprintSection = () => {
                 color="#082032"
                 mb={4}
             >
-                Inside <Text as="span" color="#F28A7E">Dakshina Dwaraka Dham</Text>
+                Inside Dakshina Dwaraka Dham
             </Text>
 
             {/* SUBTITLE */}
             <Text
                 textAlign="center"
                 fontSize={["md", "lg"]}
-                color="#4A5568"
+                color="#1A1A1A"
                 maxW="600px"
                 mx="auto"
                 mb={10}
