@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Box, Text, VStack, Flex, Icon } from "@chakra-ui/react";
-import { FaPray, FaChild, FaSeedling, FaHandsHelping, FaBookReader, FaHome } from "react-icons/fa";
+import { FaGopuram, FaChild, FaSeedling, FaHandsHelping, FaBookReader, FaPeopleGroup } from "react-icons/fa";
 
 const items = [
     {
-        icon: FaPray,
+        icon: FaGopuram,
         title: "Divine Altar",
-        desc: "A magnificent, intricately carved altar for Sri Rukmini Dwarakadish.The divine heart of Dakshina Dwaraka Dham—where thousands will receive darshan and blessings every day."
+        desc: "A beautifully carved altar for Sri Sri Rukmini Dwarakadish, where thousands will receive darshan and blessings every day."
     },
     {
-        icon: FaHome,
-        title: "Temple & Festival Hall",
+        icon: FaPeopleGroup,
+        title: "Festival Hall",
         desc: "A grand hall to host kirtans, spiritual festivals, discourses and cultural celebrations."
     },
     {
@@ -64,7 +64,7 @@ const TempleBlueprintSection = () => {
             w="100%"
             maxW="900px"
             mx="auto"
-            mt={16}
+            mt={10}
             px={[4, 6]}
             py={10}
             bg="white"
@@ -78,7 +78,20 @@ const TempleBlueprintSection = () => {
                 color="#082032"
                 mb={8}
             >
-                Inside <span style={{ color: "#F28A7E" }}>Dakshina Dwaraka Dham</span>
+                Inside Dakshina Dwaraka Dham
+            </Text>
+
+            <Text
+                textAlign="center"
+                fontSize={["md", "lg"]}
+                color="#4A5568"
+                maxW="600px"
+                mx="auto"
+                mb={10}
+                lineHeight="1.6"
+            >
+                Each contribution helps build sacred spaces that uplift hearts, nurture values,
+                and bring thousands closer to Lord Krishna.
             </Text>
 
             <VStack spacing={10}>
