@@ -16,23 +16,23 @@ const items = [
         desc: "The beautifully carved altar of Sri Sri Rukmini Dwarakadish."
     },
     {
-        img: festivalImg,
-        title: "Festival Hall",
-        desc: "A grand space for kirtans, festivals & cultural celebrations."
-    },
-    {
         img: kalaMadhuryamImg,
         title: "Kala Madhuryam",
         desc: "A platform for artists to perform, inspire, and share devotional art."
     },
     {
         img: annadanamImg,
-        title: "Annadānam Hall",
+        title: "Annadanam Hall",
         desc: "A sacred hall serving sanctified Krishna-prasadam."
     },
     {
+        img: festivalImg,
+        title: "Festival Hall",
+        desc: "A grand space for kirtans, festivals & cultural celebrations."
+    },
+    {
         img: harinamImg,
-        title: "Harinām Mandap",
+        title: "Harinam Mandap",
         desc: "A serene space for chanting & meditation."
     },
     {

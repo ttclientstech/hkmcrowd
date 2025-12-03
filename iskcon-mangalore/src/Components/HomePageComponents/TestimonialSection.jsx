@@ -32,7 +32,7 @@ const testimonials = [
         role: "Operation Head - Security Technology Solution, Singapore",
         photo: t4,
         message:
-            "Supporting this mission continues to provide me the satisfaction t& trust that my resources are being used for a genuine spiritual cause. It is a blessing to contribute to something that uplifts society.",
+            "Supporting this mission continues to provide me the satisfaction & trust that my resources are being used for a genuine spiritual cause. It is a blessing to contribute to something that uplifts society.",
     },
 ];
 
