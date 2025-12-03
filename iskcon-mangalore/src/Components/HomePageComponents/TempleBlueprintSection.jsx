@@ -7,6 +7,7 @@ import annadanamImg from "../../assets/images/annadanam_hall_1.jpg";
 import harinamImg from "../../assets/images/harinaam_mandap_1.jpg";
 import icvkImg from "../../assets/images/icvk_1.jpg";
 import gitaImg from "../../assets/images/gita_life_1.jpg";
+import kalaMadhuryamImg from "../../assets/images/kala_madhuryam.jpg";
 
 const items = [
     {
@@ -18,6 +19,11 @@ const items = [
         img: festivalImg,
         title: "Festival Hall",
         desc: "A grand space for kirtans, festivals & cultural celebrations."
+    },
+    {
+        img: kalaMadhuryamImg,
+        title: "Kala Madhuryam",
+        desc: "A platform for artists to perform, inspire, and share devotional art."
     },
     {
         img: annadanamImg,

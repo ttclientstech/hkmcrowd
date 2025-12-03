@@ -2,6 +2,7 @@ import { Box, Text, Image, Grid, Flex } from "@chakra-ui/react";
 import t1 from "../../assets/images/t1.jpeg";
 import t2 from "../../assets/images/t2.jpg";
 import t3 from "../../assets/images/t3.png";
+import t4 from "../../assets/images/t4.jpg";
 import SupporterCount from "./SupporterCount";
 
 const testimonials = [
@@ -10,14 +11,14 @@ const testimonials = [
         role: "Founder and Managing Director - itTrident, Chennai",
         photo: t3,
         message:
-            "Donating to HKM Chennai has brought a real positive change in my life. When we give to a good purpose and it is used properly, we naturally feel the benefit. Here, every contribution is utilized so well that I feel happy and proud to support this wonderful organization.",
+            "Donating to Dakshina Dwaraka Dham Chennai has brought a real positive change in my life. When we give to a good purpose and it is used properly, we naturally feel the benefit. Here, every contribution is utilized so well that I feel happy and proud to support this wonderful organization.",
     },
     {
         name: "Srinivasan V",
         role: "Head -Field Quality - Nissan Motor India (P) Ltd",
         photo: t1,
         message:
-            "Seeing the dedication of the team and the transparency in how each contribution is utilized gave me complete confidence. Supporting this project has brought me deep inner satisfaction and a sense of meaningful service. I feel blessed to play a small part in a mission that uplifts individuals and strengthens spiritual values in society.",
+            "Seeing the dedication of the team and the transparency in how each contribution is utilized gave me complete confidence. Supporting this project has brought me deep inner satisfaction and a sense of meaningful service.",
     },
     {
         name: "Aneesh M",
@@ -25,6 +26,13 @@ const testimonials = [
         photo: t2,
         message:
             "As a working professional, I look for credibility before giving. This project stands out for its clarity, intent, and the positive impact it is already creating.",
+    },
+    {
+        name: "Giridhari Ramamoorthy",
+        role: "Operation Head - Security Technology Solution, Singapore",
+        photo: t4,
+        message:
+            "Supporting this mission continues to provide me the satisfaction t& trust that my resources are being used for a genuine spiritual cause. It is a blessing to contribute to something that uplifts society.",
     },
 ];
 
