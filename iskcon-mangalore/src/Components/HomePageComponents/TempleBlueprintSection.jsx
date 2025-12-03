@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Box, Text, VStack, Flex, Icon } from "@chakra-ui/react";
-import { FaGopuram, FaChild, FaSeedling, FaHandsHelping, FaBookReader, FaPeopleGroup } from "react-icons/fa";
+import { FaGopuram, FaChild, FaSeedling, FaHandsHelping, FaBookReader, FaLandmark } from "react-icons/fa";
 
 const items = [
     {
@@ -9,7 +9,7 @@ const items = [
         desc: "A beautifully carved altar for Sri Sri Rukmini Dwarakadish, where thousands will receive darshan and blessings every day."
     },
     {
-        icon: FaPeopleGroup,
+        icon: FaLandmark,
         title: "Festival Hall",
         desc: "A grand hall to host kirtans, spiritual festivals, discourses and cultural celebrations."
     },
