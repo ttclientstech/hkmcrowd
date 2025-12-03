@@ -85,7 +85,7 @@ const TempleBlueprintSection = () => {
                         <Box
                             key={i}
                             position="sticky"
-                            top={`${topOffset}px`}
+                            top="80px"
                             zIndex={i + 1}
                             height="260px"
                             borderRadius="22px"
@@ -113,7 +113,7 @@ const TempleBlueprintSection = () => {
                                 left={0}
                                 w="100%"
                                 h="100%"
-                                bg="linear-gradient(to bottom, rgba(10, 25, 47, 0.7), rgba(10, 25, 47, 0.95))"
+                                bg="linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0))"
                             />
 
                             {/* TEXT */}
