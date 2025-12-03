@@ -42,7 +42,7 @@ const SupporterCount = () => {
         <Text
             ref={ref}
             fontSize="1.1em"
-            fontWeight="800"
+            fontWeight="500"
             color="#082032"
             textAlign="center"
             mb={10}

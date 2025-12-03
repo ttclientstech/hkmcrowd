@@ -141,7 +141,7 @@ const FAQComponent = () => {
                 <Text
                     fontSize="md"
                     fontWeight="600"
-                    color="#5eb0ff"
+                    color="#082032"
                     cursor="pointer"
                     onClick={() => setShowAll(!showAll)}
                     fontFamily="'Poppins', sans-serif"
