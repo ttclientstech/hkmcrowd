@@ -63,6 +63,7 @@ import DonationBottomBar from "../Components/HomePageComponents/DonationBottomBa
 import TempleBlueprintSection from "../Components/HomePageComponents/TempleBlueprintSection";
 import TemplePurposeSection from "../Components/HomePageComponents/TemplePurposeSection";
 import TempleFeaturesSplitScroll from "../Components/HomePageComponents/TempleFeaturesSplitScroll";
+import TempleHighlights from "../Components/HomePageComponents/TempleHighlights";
 
 /* =========================
    THEME CONSTANTS (CHANGED)
@@ -483,7 +484,7 @@ const HomeSinglePage = () => {
                     this will be the second shore temple in Tamil Nadu.
                 </Text>
             </Box>
-            <TempleFeaturesSplitScroll />
+            <TempleHighlights />
 
             {/* TEMPLE FEATURES */}
             <Box w="100%" maxW="1200px" mx="auto" mt={12} px={[4, 6]} fontFamily="'Poppins', sans-serif">
