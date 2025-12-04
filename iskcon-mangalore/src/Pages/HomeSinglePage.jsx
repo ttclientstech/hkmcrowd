@@ -65,6 +65,7 @@ import TemplePurposeSection from "../Components/HomePageComponents/TemplePurpose
 import TempleFeaturesSplitScroll from "../Components/HomePageComponents/TempleFeaturesSplitScroll";
 import TempleHighlights from "../Components/HomePageComponents/TempleHighlights";
 import DailyGoalSection from "../Components/HomePageComponents/DailyGoalSection";
+import DonorGrid from "../Components/HomePageComponents/DonorGrid";
 
 /* =========================
    THEME CONSTANTS (CHANGED)
@@ -606,6 +607,7 @@ const HomeSinglePage = () => {
                 </Box>{" "}
                 and we’ll respond as soon as possible.
             </Text>
+            <DonorGrid />
 
             <FooterSection />
             <DonationBottomBar />
