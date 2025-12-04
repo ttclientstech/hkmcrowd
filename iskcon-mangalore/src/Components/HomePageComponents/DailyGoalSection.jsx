@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Box, Text, Flex } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 
 const NAVY = "#082032";
-const GOLD = "#FBD38D";
 const CORAL = "#F28A7E";
-const CREAM = "#FFF6E7";
 
 const DailyGoalSection = ({ todaysGoal = 300, remainingSqft = 112 }) => {
 
@@ -12,7 +10,7 @@ const DailyGoalSection = ({ todaysGoal = 300, remainingSqft = 112 }) => {
 
     useEffect(() => {
         const target = new Date();
-        target.setHours(23, 59, 59, 999); // resets every midnight
+        target.setHours(23, 59, 59, 999);
 
         const updateCountdown = () => {
             const now = new Date();
@@ -37,50 +35,49 @@ const DailyGoalSection = ({ todaysGoal = 300, remainingSqft = 112 }) => {
     }, []);
 
     return (
-        <Box
-            w="100%"
-            mt={6}
-            bg={CREAM}
-            borderRadius="14px"
-            px={5}
-            py={4}
-            textAlign="center"
-            boxShadow="0 4px 14px rgba(0,0,0,0.08)"
-            border={`1px solid ${GOLD}`}
-        >
-            {/* Top Line */}
-            <Text fontSize="lg" fontWeight="700" color={NAVY}>
-                Goal Today: {todaysGoal} Sq Ft —{" "}
-                <Text as="span" color={CORAL}>
+        <Box textAlign="center" mt={5}>
+            {/* TODAY GOAL */}
+            <Text
+                fontSize="lg"
+                fontWeight="700"
+                color={NAVY}
+                mb={1}
+            >
+                Today’s Goal
+            </Text>
+
+            {/* NUMBERS */}
+            <Text
+                fontSize="lg"
+                fontWeight="600"
+                color={NAVY}
+                mb={2}
+            >
+                {todaysGoal} Sq Ft —{" "}
+                <Text as="span" color={CORAL} fontWeight="700">
                     {remainingSqft} Sq Ft Remaining
                 </Text>
             </Text>
 
-            {/* Countdown */}
-            <Flex justify="center" align="center" mt={2} gap={2}>
-                <Text
-                    fontSize="sm"
-                    color={NAVY}
-                    fontWeight="600"
-                    opacity={0.8}
-                >
-                    Ends in
-                </Text>
+            {/* ENDS IN LABEL */}
+            <Text
+                fontSize="sm"
+                color={NAVY}
+                opacity={0.8}
+            >
+                Ends in
+            </Text>
 
-                <Box
-                    px={3}
-                    py={1}
-                    borderRadius="10px"
-                    bg={NAVY}
-                    color="white"
-                    fontSize="sm"
-                    fontWeight="700"
-                    letterSpacing="1px"
-                    minW="90px"
-                >
-                    {timeLeft}
-                </Box>
-            </Flex>
+            {/* COUNTDOWN */}
+            <Text
+                fontSize="2xl"
+                fontWeight="700"
+                color={NAVY}
+                letterSpacing="1px"
+                mt={1}
+            >
+                {timeLeft}
+            </Text>
         </Box>
     );
 };
