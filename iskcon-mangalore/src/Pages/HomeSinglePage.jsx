@@ -402,7 +402,6 @@ const HomeSinglePage = () => {
                     </Box>
                 </Flex>
             </Box>
-            <DailyGoalSection todaysGoal={2} remainingSqft={1} />
 
             {/* ================== TEMPLE IMAGE SECTION (MOBILE ONLY) ================== */}
             <Box w="100%" mt={8} display={{ base: "block", md: "block", lg: "none" }}>
