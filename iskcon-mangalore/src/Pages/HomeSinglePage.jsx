@@ -64,7 +64,6 @@ import TempleBlueprintSection from "../Components/HomePageComponents/TempleBluep
 import TemplePurposeSection from "../Components/HomePageComponents/TemplePurposeSection";
 import TempleFeaturesSplitScroll from "../Components/HomePageComponents/TempleFeaturesSplitScroll";
 import TempleHighlights from "../Components/HomePageComponents/TempleHighlights";
-import HighlightChips from "../Components/HomePageComponents/HighlightChips";
 
 /* =========================
    THEME CONSTANTS (CHANGED)
@@ -472,7 +471,7 @@ const HomeSinglePage = () => {
                     />
                 </Box>
             </Box>
-            <HighlightChips />
+            <TempleHighlights />
 
             {/* DESCRIPTION */}
             <Box w="100%" maxW="1200px" mx="auto" px={[4, 6]} mt={[4, 4]}>
