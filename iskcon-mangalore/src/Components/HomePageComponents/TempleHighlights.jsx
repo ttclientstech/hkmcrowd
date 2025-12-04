@@ -1,134 +1,106 @@
 import React from "react";
-import {
-    Box,
-    Flex,
-    Text,
-    Icon,
-    useBreakpointValue,
-    VisuallyHidden,
-} from "@chakra-ui/react";
+import { Box, Flex, Text, Icon, VStack } from "@chakra-ui/react";
 import {
     FaBuilding,
     FaLandmark,
     FaMountain,
     FaUniversity,
-    FaChild,
-    FaBook,
 } from "react-icons/fa";
 
-/**
- * Temple Highlights — Mobile-first responsive chip scroller
- *
- * Mobile: horizontal scroller with two visible chips (snap)
- * Desktop: grid-like layout with wrap (no horizontal scroll)
- */
-
 const NAVY = "#082032";
-const CHIP_BG = "rgba(8,32,50,0.04)";
+const GOLD = "#FFD45E";
 
 const HIGHLIGHTS = [
-    { id: 1, icon: FaBuilding, title: "Beach-side Temple" },
-    { id: 2, icon: FaMountain, title: "Tallest in Chennai" },
-    { id: 3, icon: FaLandmark, title: "Pallava Architecture" },
-    { id: 4, icon: FaUniversity, title: "40,000 sq. ft. build-up" },
-    { id: 5, icon: FaChild, title: "ICVK - Kids Program" },
-    { id: 6, icon: FaBook, title: "Gita Life Program" },
-    { id: 7, icon: FaLandmark, title: "Final phase construction in-progress" },
+    {
+        icon: FaMountain,
+        title: "Tallest Temple in Chennai",
+        desc: "A grand landmark rising above the city skyline.",
+    },
+    {
+        icon: FaLandmark,
+        title: "Pallava Architecture",
+        desc: "Inspired by traditional stone-carved South Indian heritage.",
+    },
+    {
+        icon: FaBuilding,
+        title: "Beach-side Temple",
+        desc: "Located near the serene coastline of Thiruvanmiyur.",
+    },
+    {
+        icon: FaUniversity,
+        title: "40,000 Sq Ft Complex",
+        desc: "A cultural & spiritual campus serving thousands daily.",
+    },
+    {
+        icon: FaLandmark,
+        title: "Final Phase Under Construction",
+        desc: "Your support helps complete the remaining works.",
+    },
 ];
 
 const TempleHighlights = () => {
-    // true for mobile screens (base / sm)
-    const isMobile = useBreakpointValue({ base: true, md: false });
-
     return (
         <Box
             w="100%"
-            maxW="1200px"
+            maxW="900px"
             mx="auto"
             px={[4, 6]}
             mt={12}
-            fontFamily={`'Poppins', sans-serif`}
+            mb={10}
+            fontFamily="'Poppins', sans-serif"
         >
+            {/* Title */}
             <Text
                 textAlign="center"
-                fontSize={["xl", "2xl"]}
+                fontSize={["2xl", "3xl"]}
                 fontWeight="700"
                 color={NAVY}
-                mb={6}
+                mb={8}
             >
                 Temple Highlights
             </Text>
 
-            {/* Mobile: horizontal scroll container */}
-            <Box
-                as="section"
-                // Desktop: disable horizontal scroll
-                overflowX={isMobile ? "auto" : "visible"}
-                // Hide vertical overflow just in case
-                overflowY="hidden"
-                // Only allow pointer scrolling on mobile
-                css={
-                    isMobile
-                        ? {
-                            WebkitOverflowScrolling: "touch",
-                            scrollSnapType: "x mandatory",
-                            // hide default scrollbar in webkit
-                            "&::-webkit-scrollbar": { display: "none" },
-                        }
-                        : {}
-                }
-            >
-                <Flex
-                    gap={4}
-                    // On mobile we keep inline row (chips scroll horizontally)
-                    flexDirection="row"
-                    // Desktop: wrap to rows
-                    flexWrap={isMobile ? "nowrap" : "wrap"}
-                    align="flex-start"
-                >
-                    {HIGHLIGHTS.map((h, idx) => (
-                        <Box
-                            key={h.id}
-                            // Mobile width: ~48% so 2 visible chips
-                            // Tablet/desktop: auto width with wrap
-                            minW={isMobile ? "48%" : "auto"}
-                            flex={isMobile ? "0 0 48%" : "0 1 auto"}
-                            scrollSnapAlign={isMobile ? "center" : undefined}
-                            bg={CHIP_BG}
-                            borderRadius="14px"
-                            boxShadow="0 6px 18px rgba(8,32,50,0.06)"
-                            p={4}
-                            display="flex"
-                            alignItems="center"
+            {/* Timeline */}
+            <VStack spacing={10} position="relative" align="stretch">
+                {/* Vertical line */}
+                <Box
+                    position="absolute"
+                    left="28px"
+                    top="0"
+                    h="100%"
+                    w="2px"
+                    bg="rgba(8,32,50,0.2)"
+                />
+
+                {HIGHLIGHTS.map((h, i) => (
+                    <Flex key={i} align="flex-start" position="relative">
+                        {/* Icon Bubble */}
+                        <Flex
+                            w="56px"
+                            h="56px"
+                            borderRadius="full"
+                            bg="white"
+                            border={`3px solid ${GOLD}`}
+                            align="center"
+                            justify="center"
+                            zIndex={2}
+                            boxShadow="0 4px 12px rgba(0,0,0,0.12)"
                         >
-                            <Flex
-                                w="44px"
-                                h="44px"
-                                borderRadius="10px"
-                                align="center"
-                                justify="center"
-                                mr={3}
-                                flexShrink={0}
-                                // subtle lighter background for icon tile
-                                bg="white"
-                                boxShadow="0 2px 6px rgba(8,32,50,0.06)"
-                            >
-                                <Icon as={h.icon} color={NAVY} boxSize={5} />
-                                <VisuallyHidden>{h.title}</VisuallyHidden>
-                            </Flex>
+                            <Icon as={h.icon} color={NAVY} boxSize={6} />
+                        </Flex>
 
-                            <Box>
-                                <Text fontSize="md" color={NAVY} fontWeight="700" lineHeight="1.05">
-                                    {h.title}
-                                </Text>
-                            </Box>
+                        {/* Content */}
+                        <Box ml={5} flex="1">
+                            <Text fontWeight="700" fontSize="lg" color={NAVY} mb={1}>
+                                {h.title}
+                            </Text>
+                            <Text fontSize="md" color="#4A5568" lineHeight="1.6">
+                                {h.desc}
+                            </Text>
                         </Box>
-                    ))}
-                </Flex>
-            </Box>
-
-            {/* Desktop hint: small spacing below */}
-            <Box h={[3, 4, 6]} />
+                    </Flex>
+                ))}
+            </VStack>
         </Box>
     );
 };
