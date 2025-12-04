@@ -64,6 +64,7 @@ import TempleBlueprintSection from "../Components/HomePageComponents/TempleBluep
 import TemplePurposeSection from "../Components/HomePageComponents/TemplePurposeSection";
 import TempleFeaturesSplitScroll from "../Components/HomePageComponents/TempleFeaturesSplitScroll";
 import TempleHighlights from "../Components/HomePageComponents/TempleHighlights";
+import DailyGoalSection from "../Components/HomePageComponents/DailyGoalSection";
 
 /* =========================
    THEME CONSTANTS (CHANGED)
@@ -401,6 +402,7 @@ const HomeSinglePage = () => {
                     </Box>
                 </Flex>
             </Box>
+            <DailyGoalSection todaysGoal={2} remainingSqft={1} />
 
             {/* ================== TEMPLE IMAGE SECTION (MOBILE ONLY) ================== */}
             <Box w="100%" mt={8} display={{ base: "block", md: "block", lg: "none" }}>
