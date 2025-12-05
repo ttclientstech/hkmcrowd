@@ -79,7 +79,7 @@ const WallOfDevotion_Engraved = () => {
                 </Text>
 
                 <Text color="gray.600" maxW="600px" fontSize="md">
-                    Each block below represents <b>1 Sq. Ft.</b> of the temple. Hover over the gold bricks to see the devotees who have already inscribed their names in hisotry
+                    Each block below represents <b>1 Sq. Ft.</b> of the temple. Hover (or tap) over the gold bricks to see the devotees who have already inscribed their names in history
                 </Text>
 
                 {/* Legend */}
@@ -96,7 +96,7 @@ const WallOfDevotion_Engraved = () => {
                 >
                     <Flex align="center" gap={2}>
                         {/* Legend: Sponsored */}
-                        <Box w="14px" h="14px" bgGradient="linear-gradient(135deg, rgb(212, 175, 55) 0%, rgb(183, 149, 11) 100%)" borderRadius="sm" />
+                        <Box w="14px" h="14px" bgGradient="linear(135deg, rgb(212, 175, 55) 0%, rgb(183, 149, 11) 100%)" borderRadius="sm" />
                         <Text fontWeight="bold" color="gray.700">Donated</Text>
                     </Flex>
                     <Flex align="center" gap={2}>
@@ -107,12 +107,11 @@ const WallOfDevotion_Engraved = () => {
                 </Flex>
             </VStack>
 
-            {/* The Wall Grid */}
+            {/* The Wall Grid Container - Scrollable */}
             <Box
                 maxW="1000px"
                 mx="auto"
-                p={4}
-                bg="white" // GREY BACKGROUND for the SQFT SECTION
+                bg="white"
                 borderRadius="lg"
                 border="1px solid"
                 borderColor="gray.300"
@@ -120,84 +119,120 @@ const WallOfDevotion_Engraved = () => {
                 position="relative"
             >
                 <Text
-                    position="absolute" top="-10px" left="50%" transform="translateX(-50%)"
+                    position="absolute" top="-10px" left="50%" transform="translateX(-50%)" zIndex={2}
                     bg="gray.100" color="gray.500" px={3} fontSize="xs" fontWeight="bold"
                     border="1px solid" borderColor="gray.300" borderRadius="full"
                 >
                     FINAL PHASE: BLOCK 1 - 500 SQFT
                 </Text>
 
-                <SimpleGrid columns={[10, 15, 25]} spacing="3px" mt={4}>
-                    {grid.map((block, i) => {
-                        const isFilled = block !== null;
-                        const blockNumber = i + 1;
-                        const isNextAvailable = !isFilled && grid[i-1] !== null;
+                {/* SCROLLABLE VIEWPORT */}
+                <Box
+                    p={4}
+                    mt={4} // Space for the label
+                    // Approximate height for 10 rows
+                    maxH={["350px", "400px", "450px"]}
+                    overflowY="auto"
+                    // Custom Scrollbar Styling
+                    sx={{
+                        '&::-webkit-scrollbar': {
+                            width: '8px',
+                            height: '8px',
+                        },
+                        '&::-webkit-scrollbar-track': {
+                            background: '#f1f1f1',
+                            borderRadius: '4px',
+                        },
+                        '&::-webkit-scrollbar-thumb': {
+                            background: '#CBD5E0', // Visible Grey
+                            borderRadius: '4px',
+                        },
+                        '&::-webkit-scrollbar-thumb:hover': {
+                            background: '#A0AEC0',
+                        },
+                    }}
+                >
+                    <SimpleGrid columns={[10, 15, 25]} spacing="3px">
+                        {grid.map((block, i) => {
+                            const isFilled = block !== null;
+                            const blockNumber = i + 1;
+                            const isNextAvailable = !isFilled && grid[i-1] !== null;
 
-                        return (
-                            <Tooltip
-                                key={i}
-                                label={isFilled ? `#${blockNumber}: ${block.name} (${Math.floor(block.amount/2100)} SqFt)` : `#${blockNumber}: Available for Sponsorship`}
-                                hasArrow
-                                bg={isFilled ? "#2C0A0A" : "green.600"}
-                                color="white"
-                                placement="top"
-                                fontSize="xs"
-                            >
-                                <MotionBox
-                                    w="100%"
-                                    pt="100%"
-                                    // SPONSORED: Gold to Maroon GradientGF
-                                    // AVAILABLE: Transparent (shows grey bg) with Green Dotted Border
-                                    bg={isFilled ? "linear-gradient(135deg, rgb(212, 175, 55) 0%, rgb(183, 149, 11) 100%)" : "transparent"}
-                                    border={isFilled ? "1px solid rgb(183 165 11)" : "1px dotted #38A169"} // Green border
-                                    borderRadius="sm"
-                                    opacity={isFilled ? 1 : 0.8}
-                                    position="relative"
-                                    cursor="pointer"
-                                    onClick={!isFilled ? handleScrollToDonate : undefined}
-
-                                    // Pulse Animation for next available
-                                    animate={isNextAvailable ? { scale: [1, 1.05, 1], borderColor: ["#38A169", "#2F855A", "#38A169"] } : {}}
-                                    transition={isNextAvailable ? { repeat: Infinity, duration: 2 } : {}}
-
-                                    // Hover Effect
-                                    _hover={{ transform: "scale(1.1)", zIndex: 10, borderColor: isFilled ? "white" : "green.500", bg: isFilled ? "" : "white" }}
+                            return (
+                                <Tooltip
+                                    key={i}
+                                    label={isFilled ? `#${blockNumber}: ${block.name} (${Math.floor(block.amount/2100)} SqFt)` : `#${blockNumber}: Available for Sponsorship`}
+                                    hasArrow
+                                    bg={isFilled ? "#2C0A0A" : "green.600"}
+                                    color="white"
+                                    placement="top" // Better for mobile scrolling
+                                    fontSize="xs"
+                                    // Make tooltip open on tap for mobile by setting openOnClick to true if needed,
+                                    // or relying on focus events which we added below.
+                                    // Chakra Tooltip handles touch on mobile often via focus/click.
                                 >
-                                    {/* NUMBERING LOGIC */}
-                                    <Flex
-                                        position="absolute"
-                                        top="0" left="0" w="100%" h="100%"
-                                        align="center"
-                                        justify="center"
-                                    >
-                                        <Text
-                                            fontSize={["8px", "9px", "10px"]}
-                                            // Color logic: White text on Maroon/Gold, Greenish-Grey text on empty blocks
-                                            color={isFilled ? "whiteAlpha.800" : "green.700"}
-                                            fontWeight="bold"
-                                            opacity={isFilled ? 0.6 : 0.4} // Low opacity to blend in
-                                            userSelect="none"
-                                        >
-                                            {blockNumber}
-                                        </Text>
-                                    </Flex>
+                                    <MotionBox
+                                        w="100%"
+                                        pt="100%"
+                                        // Mobile Tooltip Fix: Make element focusable so tapping it triggers tooltip
+                                        tabIndex={0}
+                                        role="button"
+                                        aria-label={isFilled ? `Donated by ${block.name}` : `Available block ${blockNumber}`}
 
-                                    {/* Special Icon for Big Donors */}
-                                    {isFilled && block.isStart && block.amount > 5000 && (
-                                        <Icon
-                                            as={FaUser}
-                                            color="rgba(255,255,255,0.2)"
+                                        // SPONSORED: Gold to Maroon Gradient
+                                        // AVAILABLE: Transparent (shows white bg) with Green Dotted Border
+                                        bg={isFilled ? "linear-gradient(135deg, rgb(212, 175, 55) 0%, rgb(183, 149, 11) 100%)" : "transparent"}
+                                        border={isFilled ? "1px solid rgb(183 165 11)" : "1px dotted #38A169"}
+                                        borderRadius="sm"
+                                        opacity={isFilled ? 1 : 0.8}
+                                        position="relative"
+                                        cursor="pointer"
+                                        onClick={!isFilled ? handleScrollToDonate : undefined}
+
+                                        // Pulse Animation for next available
+                                        animate={isNextAvailable ? { scale: [1, 1.05, 1], borderColor: ["#38A169", "#2F855A", "#38A169"] } : {}}
+                                        transition={isNextAvailable ? { repeat: Infinity, duration: 2 } : {}}
+
+                                        // Hover/Focus Effect
+                                        _hover={{ transform: "scale(1.1)", zIndex: 10, borderColor: isFilled ? "white" : "green.500", bg: isFilled ? "" : "white" }}
+                                        _focus={{ transform: "scale(1.1)", zIndex: 10, borderColor: isFilled ? "white" : "green.500", outline: "none" }}
+                                    >
+                                        {/* NUMBERING LOGIC */}
+                                        <Flex
                                             position="absolute"
-                                            top="50%" left="50%"
-                                            transform="translate(-50%, -50%)"
-                                            w="60%" h="60%"
-                                        />
-                                    )}
-                                </MotionBox>
-                            </Tooltip>
-                        );
-                    })}
-                </SimpleGrid>
+                                            top="0" left="0" w="100%" h="100%"
+                                            align="center"
+                                            justify="center"
+                                        >
+                                            <Text
+                                                fontSize={["8px", "9px", "10px"]}
+                                                // Color logic: White text on Maroon/Gold, Greenish-Grey text on empty blocks
+                                                color={isFilled ? "whiteAlpha.800" : "green.700"}
+                                                fontWeight="bold"
+                                                opacity={isFilled ? 0.6 : 0.4}
+                                                userSelect="none"
+                                            >
+                                                {blockNumber}
+                                            </Text>
+                                        </Flex>
+
+                                        {/* Special Icon for Big Donors */}
+                                        {isFilled && block.isStart && block.amount > 5000 && (
+                                            <Icon
+                                                as={FaUser}
+                                                color="rgba(255,255,255,0.2)"
+                                                position="absolute"
+                                                top="50%" left="50%"
+                                                transform="translate(-50%, -50%)"
+                                                w="60%" h="60%"
+                                            />
+                                        )}
+                                    </MotionBox>
+                                </Tooltip>
+                            );
+                        })}
+                    </SimpleGrid>
+                </Box>
             </Box>
 
             {/* Footer Stats & CTA */}
