@@ -68,6 +68,7 @@ import DailyGoalSection from "../Components/HomePageComponents/DailyGoalSection"
 import DonorGrid from "../Components/HomePageComponents/DonorGrid";
 import DonorWall from "../Components/HomePageComponents/DonorWall";
 import WallOfDevotion from "../Components/HomePageComponents/WallOfDevotion";
+import WallOfDevotion_Engraved from "../Components/HomePageComponents/WallOfDevotion_Engraved";
 
 /* =========================
    THEME CONSTANTS (CHANGED)
@@ -610,6 +611,7 @@ const HomeSinglePage = () => {
                 and we’ll respond as soon as possible.
             </Text>
             <WallOfDevotion />
+            <WallOfDevotion_Engraved />
             <FooterSection />
             <DonationBottomBar />
 
