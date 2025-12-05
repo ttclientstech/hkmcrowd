@@ -75,11 +75,11 @@ const WallOfDevotion_Engraved = () => {
                 </Flex>
 
                 <Text fontSize={["2xl", "3xl"]} fontWeight="extrabold" fontFamily="'Cinzel', serif" color="#2C0A0A">
-                    The Foundation of Gratitude
+                    The Wall of Devotion
                 </Text>
 
                 <Text color="gray.600" maxW="600px" fontSize="md">
-                    Each block is <b>1 Sq. Ft.</b> of the temple. Find your block number and leave your legacy.
+                    Each block below represents <b>1 Sq. Ft.</b> of the temple. Hover over the gold bricks to see the devotees who have already inscribed their names in hisotry
                 </Text>
 
                 {/* Legend */}
@@ -96,7 +96,7 @@ const WallOfDevotion_Engraved = () => {
                 >
                     <Flex align="center" gap={2}>
                         {/* Legend: Sponsored */}
-                        <Box w="14px" h="14px" bgGradient="linear(to-br, #D4AF37, #800000)" borderRadius="sm" />
+                        <Box w="14px" h="14px" bgGradient="linear-gradient(135deg, rgb(212, 175, 55) 0%, rgb(183, 149, 11) 100%)" borderRadius="sm" />
                         <Text fontWeight="bold" color="gray.700">Donated</Text>
                     </Flex>
                     <Flex align="center" gap={2}>
@@ -112,7 +112,7 @@ const WallOfDevotion_Engraved = () => {
                 maxW="1000px"
                 mx="auto"
                 p={4}
-                bg="gray.100" // GREY BACKGROUND for the SQFT SECTION
+                bg="white" // GREY BACKGROUND for the SQFT SECTION
                 borderRadius="lg"
                 border="1px solid"
                 borderColor="gray.300"
@@ -124,7 +124,7 @@ const WallOfDevotion_Engraved = () => {
                     bg="gray.100" color="gray.500" px={3} fontSize="xs" fontWeight="bold"
                     border="1px solid" borderColor="gray.300" borderRadius="full"
                 >
-                    FLOOR PLAN: BLOCKS 1 - 500
+                    FINAL PHASE: BLOCK 1 - 500 SQFT
                 </Text>
 
                 <SimpleGrid columns={[10, 15, 25]} spacing="3px" mt={4}>
@@ -148,8 +148,8 @@ const WallOfDevotion_Engraved = () => {
                                     pt="100%"
                                     // SPONSORED: Gold to Maroon Gradient
                                     // AVAILABLE: Transparent (shows grey bg) with Green Dotted Border
-                                    bg={isFilled ? "linear-gradient(135deg, #D4AF37 0%, #800000 100%)" : "transparent"}
-                                    border={isFilled ? "1px solid #B7950B" : "1px dotted #38A169"} // Green border
+                                    bg={isFilled ? "linear-gradient(135deg, rgb(212, 175, 55) 0%, rgb(183, 149, 11) 100%)" : "transparent"}
+                                    border={isFilled ? "1px solid rgb(183 165 11)" : "1px dotted #38A169"} // Green border
                                     borderRadius="sm"
                                     opacity={isFilled ? 1 : 0.8}
                                     position="relative"
