@@ -146,7 +146,7 @@ const WallOfDevotion_Engraved = () => {
                                 <MotionBox
                                     w="100%"
                                     pt="100%"
-                                    // SPONSORED: Gold to Maroon Gradient
+                                    // SPONSORED: Gold to Maroon GradientGF
                                     // AVAILABLE: Transparent (shows grey bg) with Green Dotted Border
                                     bg={isFilled ? "linear-gradient(135deg, rgb(212, 175, 55) 0%, rgb(183, 149, 11) 100%)" : "transparent"}
                                     border={isFilled ? "1px solid rgb(183 165 11)" : "1px dotted #38A169"} // Green border
