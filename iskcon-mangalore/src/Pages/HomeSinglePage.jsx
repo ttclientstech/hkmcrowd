@@ -67,6 +67,7 @@ import TempleHighlights from "../Components/HomePageComponents/TempleHighlights"
 import DailyGoalSection from "../Components/HomePageComponents/DailyGoalSection";
 import DonorGrid from "../Components/HomePageComponents/DonorGrid";
 import DonorWall from "../Components/HomePageComponents/DonorWall";
+import WallOfDevotion from "../Components/HomePageComponents/WallOfDevotion";
 
 /* =========================
    THEME CONSTANTS (CHANGED)
@@ -608,8 +609,7 @@ const HomeSinglePage = () => {
                 </Box>{" "}
                 and we’ll respond as soon as possible.
             </Text>
-            <DonorWall donors={getSingleUser?.top10paymentDetails || []} totalSqft={1000} pricePerSqft={5001} />
-
+            <WallOfDevotion />
             <FooterSection />
             <DonationBottomBar />
 
