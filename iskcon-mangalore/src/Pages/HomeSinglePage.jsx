@@ -596,6 +596,7 @@ const HomeSinglePage = () => {
             <DonorPrivilegeSection />
             <RecentContributors getSingleUser={getSingleUser} />
             <DonateNowButton />
+            <WallOfDevotion_Engraved />
             <WhyDonateQuotes />
             <FAQComponent />
             <DonateNowButton />
@@ -610,8 +611,7 @@ const HomeSinglePage = () => {
                 </Box>{" "}
                 and we’ll respond as soon as possible.
             </Text>
-            <WallOfDevotion />
-            <WallOfDevotion_Engraved />
+
             <FooterSection />
             <DonationBottomBar />
 

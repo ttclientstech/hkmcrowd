@@ -54,10 +54,6 @@ const WallOfDevotion_Engraved = () => {
             py={10}
             px={[2, 4]} // Reduced padding for mobile
             bg="white"
-            borderRadius="xl"
-            boxShadow="xl"
-            border="1px solid"
-            borderColor="gray.200"
             textAlign="center"
             overflow="hidden"
             position="relative"
@@ -74,11 +70,11 @@ const WallOfDevotion_Engraved = () => {
                     <Icon as={FaLeaf} />
                 </Flex>
 
-                <Text fontSize={["2xl", "3xl"]} fontWeight="extrabold" fontFamily="'Cinzel', serif" color="#2C0A0A">
+                <Text fontSize={["2xl", "3xl"]} fontWeight="extrabold" fontFamily="'Poppins', sans-serif" color="#082032">
                     The Wall of Devotion
                 </Text>
 
-                <Text color="gray.600" maxW="600px" fontSize="md">
+                <Text color="black" maxW="600px" fontSize="md">
                     Each block below represents <b>1 Sq. Ft.</b> of the temple. Hover (or tap) over the gold bricks to see the devotees who have already inscribed their names in history
                 </Text>
 
@@ -260,8 +256,8 @@ const WallOfDevotion_Engraved = () => {
                 <Box h={["1px", "40px"]} w={["100%", "1px"]} bg="orange.200" />
 
                 <VStack spacing={2} align={["center", "flex-start"]}>
-                    <Text fontSize="md" fontWeight="medium" color="#2C0A0A">
-                        Claim block #{501 - remaining} today.
+                    <Text fontSize="md" fontWeight="medium" color="#2C0A0A" fontStyle="italic">
+                        Create a History. Leave a legacy
                     </Text>
                     <Button
                         size="sm"
@@ -271,7 +267,7 @@ const WallOfDevotion_Engraved = () => {
                         onClick={handleScrollToDonate}
                         boxShadow="md"
                     >
-                        Sponsor This Block
+                        Add Your Name to the Wall
                     </Button>
                 </VStack>
             </Flex>
