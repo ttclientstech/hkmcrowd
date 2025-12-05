@@ -1,270 +1,213 @@
-import React, { useMemo } from "react";
-import {
-    Box,
-    Grid,
-    Text,
-    VStack,
-    HStack,
-    Tooltip,
-    Button,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    ModalCloseButton,
-    useDisclosure,
-    useBreakpointValue,
-} from "@chakra-ui/react";
+import React from "react";
+import { Box, SimpleGrid, Tooltip, Text, Flex, Icon, Button, VStack } from "@chakra-ui/react";
+import { FaUser, FaCheckCircle, FaLeaf } from "react-icons/fa";
+import { motion } from "framer-motion";
 
-// 🎨  Theme colors
-const NAVY = "#082032";
-const GOLD_TEXT = "#7A6235";
-const GREEN_BORDER = "#3DA35D";
-const BG_MARBLE = "url('/textures/marble_light.jpg')"; // optional subtle marble texture
-const TOTAL_BLOCKS = 500;
+// Motion component for the "Pulse" effect
+const MotionBox = motion(Box);
 
-// 🧘‍♀️ Dummy donor data (20 donors)
-const dummyDonors = [
-    { name: "Ramesh Kumar", sqft: 25 },
-    { name: "Anita Devi", sqft: 15 },
-    { name: "Sunil Gupta", sqft: 10 },
-    { name: "Kiran Prakash", sqft: 30 },
-    { name: "Nirmala S", sqft: 20 },
-    { name: "Rajesh Iyer", sqft: 40 },
-    { name: "Priya Lakshmi", sqft: 35 },
-    { name: "Vivek Sharma", sqft: 15 },
-    { name: "Meena G", sqft: 25 },
-    { name: "Arjun Rao", sqft: 10 },
-    { name: "Deepa M", sqft: 20 },
-    { name: "Suresh N", sqft: 25 },
-    { name: "Geetha B", sqft: 15 },
-    { name: "Balaji D", sqft: 10 },
-    { name: "Kavitha P", sqft: 25 },
-    { name: "Ravi Shankar", sqft: 40 },
-    { name: "Manoj V", sqft: 30 },
-    { name: "Lakshmi Priya", sqft: 20 },
-    { name: "Narayana Swamy", sqft: 30 },
-    { name: "Raghavendra", sqft: 20 },
-];
+// 1. HELPER: Convert Donor List to Grid Blocks
+const prepareGrid = (donors, totalBlocks = 500) => {
+    let grid = Array(totalBlocks).fill(null);
+    let currentIndex = 0;
+
+    donors.forEach(donor => {
+        // Calculate blocks based on amount (Mock: 1 block = approx 2100)
+        const blocksCount = Math.max(1, Math.floor(donor.amount / 2100));
+
+        for (let i = 0; i < blocksCount; i++) {
+            if (currentIndex < totalBlocks) {
+                grid[currentIndex] = {
+                    ...donor,
+                    isStart: i === 0,
+                    isCluster: blocksCount > 1
+                };
+                currentIndex++;
+            }
+        }
+    });
+    return { grid, filledCount: currentIndex };
+};
 
 const WallOfDevotion_Engraved = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const columns = useBreakpointValue({ base: 15, md: 25 });
+    // DUMMY CLICK HANDLER
+    const handleScrollToDonate = () => {
+        console.log("Dummy Click: Scroll to donation section");
+    };
 
-    // auto-fill donor blocks sequentially
-    const filledBlocks = useMemo(() => {
-        let filled = [];
-        let cursor = 0;
-        dummyDonors.forEach((d) => {
-            for (let i = 0; i < d.sqft && cursor < TOTAL_BLOCKS; i++) {
-                filled.push({ index: cursor, name: d.name });
-                cursor++;
-            }
-        });
-        return filled;
-    }, []);
-    const filledSet = new Set(filledBlocks.map((b) => b.index));
+    // HARDCODED DUMMY DATA (Self-contained)
+    const mockDonors = [
+        { name: "Rajesh Kumar", amount: 10500, date: "2 mins ago" }, // 5 Blocks
+        { name: "Priya Sharma", amount: 2100, date: "1 hour ago" },   // 1 Block
+        { name: "Amitabh Bachchan", amount: 23100, date: "5 hours ago" }, // 11 Blocks
+        { name: "Anonymous Devotee", amount: 4200, date: "1 day ago" },     // 2 Blocks
+        { name: "Suresh & Family", amount: 6300, date: "2 days ago" },
+        { name: "Venkatesh P.", amount: 2100, date: "3 days ago" },
+    ];
 
-    const donorByIndex = (i) => filledBlocks.find((b) => b.index === i)?.name || null;
+    // Prepare grid with dummy data
+    const { grid, filledCount } = prepareGrid(mockDonors, 500);
+    const remaining = 500 - filledCount;
 
     return (
-        <Box textAlign="center" mt={10} fontFamily="'Poppins', sans-serif">
-            {/* --- Heading --- */}
-            <Text fontSize={["2xl", "3xl"]} fontWeight="600" color={NAVY} mb={3}>
-                Wall of Devotion
-            </Text>
-            <Text
-                fontSize={["md", "lg"]}
-                color="#4A5568"
-                maxW="700px"
-                mx="auto"
-                lineHeight="1.6"
-                mb={3}
-            >
-                Every engraved plaque represents a sacred square foot of Dakshina Dwaraka Dham,
-                eternally carrying the devotion of those who contributed.
-            </Text>
-            <Text fontSize="sm" color="#6B7280">
-                Hover over each golden plaque to see the devotee’s name.
-            </Text>
+        <Box
+            py={10}
+            px={[4, 8]}
+            bg="white"
+            borderRadius="xl"
+            boxShadow="xl"
+            border="1px solid"
+            borderColor="gray.200"
+            textAlign="center"
+            overflow="hidden"
+            position="relative"
+            maxW="1200px"
+            mx="auto"
+        >
+            {/* Header Section */}
+            <VStack spacing={3} mb={8}>
+                <Flex align="center" gap={2} color="#D4AF37">
+                    <Icon as={FaLeaf} />
+                    <Text fontWeight="bold" letterSpacing="widest" textTransform="uppercase" fontSize="sm">
+                        Community Pillar
+                    </Text>
+                    <Icon as={FaLeaf} />
+                </Flex>
 
-            <Button
-                onClick={onOpen}
-                mt={6}
-                px={8}
-                bg={NAVY}
-                color="white"
-                borderRadius="50px"
-                _hover={{ bg: "#0B2C49" }}
-            >
-                View Wall of Devotion
-            </Button>
+                <Text fontSize={["2xl", "3xl"]} fontWeight="extrabold" fontFamily="'Cinzel', serif" color="#2C0A0A">
+                    The Foundation of Gratitude
+                </Text>
 
-            {/* --- Modal --- */}
-            <Modal isOpen={isOpen} onClose={onClose} size="6xl" isCentered scrollBehavior="inside">
-                <ModalOverlay bg="rgba(0,0,0,0.6)" backdropFilter="blur(3px)" />
-                <ModalContent
-                    borderRadius="20px"
-                    p={[4, 6]}
-                    maxH="90vh"
-                    overflow="hidden"
-                    bgImage={BG_MARBLE}
-                    bgSize="cover"
-                    bgPosition="center"
+                <Text color="gray.600" maxW="600px" fontSize="md">
+                    Every block below represents <b>1 Square Foot</b> of the temple.
+                    Hover over the gold bricks to see the devotees who have already inscribed their names in history.
+                </Text>
+
+                {/* Legend */}
+                <Flex
+                    mt={4}
+                    bg="gray.50"
+                    p={3}
+                    borderRadius="full"
+                    border="1px solid #E2E8F0"
+                    gap={6}
+                    fontSize="sm"
+                    justify="center"
+                    wrap="wrap"
                 >
-                    <ModalHeader textAlign="center" fontSize="2xl" color={NAVY}>
-                        Wall of Devotion
-                    </ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        <VStack spacing={6}>
-                            <Text
-                                textAlign="center"
-                                fontSize="md"
-                                color="#5A5A5A"
-                                maxW="600px"
-                                lineHeight="1.6"
-                            >
-                                Each golden plaque below represents the devotion of a kind contributor.
-                                May this sacred wall stand as a symbol of unity and service to Lord Krishna.
-                            </Text>
+                    <Flex align="center" gap={2}>
+                        <Box w="16px" h="16px" bg="#D4AF37" borderRadius="sm" boxShadow="sm" />
+                        <Text fontWeight="bold" color="gray.700">Sponsored</Text>
+                    </Flex>
+                    <Flex align="center" gap={2}>
+                        <Box w="16px" h="16px" bg="gray.200" borderRadius="sm" border="1px dashed gray" />
+                        <Text fontWeight="bold" color="gray.500">Available</Text>
+                    </Flex>
+                </Flex>
+            </VStack>
 
-                            {/* --- Wall Grid --- */}
-                            <Box
-                                w="100%"
-                                overflowX="auto"
-                                px={2}
-                                py={3}
-                                borderRadius="12px"
-                                bg="rgba(255,255,255,0.6)"
-                                boxShadow="inset 0 0 8px rgba(0,0,0,0.05)"
+            {/* The Wall Grid */}
+            <Box
+                maxW="1000px"
+                mx="auto"
+                p={4}
+                bg="#1A202C"
+                borderRadius="lg"
+                border="4px solid #4A5568"
+                boxShadow="inner"
+                position="relative"
+            >
+                <Text
+                    position="absolute" top="-14px" left="50%" transform="translateX(-50%)"
+                    bg="#1A202C" color="gray.400" px={3} fontSize="xs" fontWeight="bold"
+                >
+                    TEMPLE FLOOR PLAN - 500 SQ FT SECTION
+                </Text>
+
+                <SimpleGrid columns={[10, 20, 25]} spacing="2px">
+                    {grid.map((block, i) => {
+                        const isFilled = block !== null;
+                        const isNextAvailable = !isFilled && grid[i-1] !== null;
+
+                        return (
+                            <Tooltip
+                                key={i}
+                                label={isFilled ? `${block.name} (${Math.floor(block.amount/2100)} SqFt)` : "This spot awaits your name"}
+                                hasArrow
+                                bg={isFilled ? "#2C0A0A" : "gray.600"}
+                                color="white"
+                                placement="top"
                             >
-                                <Grid
-                                    templateColumns={`repeat(${columns}, minmax(48px, 1fr))`}
-                                    gap={2}
-                                    justifyContent="center"
-                                    mx="auto"
+                                <MotionBox
+                                    w="100%"
+                                    pt="100%"
+                                    bg={isFilled ? "linear-gradient(135deg, #D4AF37 0%, #B7950B 100%)" : "gray.700"}
+                                    border={isFilled ? "1px solid #F6E05E" : "1px dashed #4A5568"}
+                                    borderRadius="sm"
+                                    opacity={isFilled ? 1 : 0.4}
+                                    position="relative"
+
+                                    // Pulse Animation for the next available block
+                                    animate={isNextAvailable ? { scale: [1, 1.1, 1], borderColor: ["#4A5568", "#CBD5E0", "#4A5568"] } : {}}
+                                    transition={isNextAvailable ? { repeat: Infinity, duration: 2 } : {}}
                                 >
-                                    {Array.from({ length: TOTAL_BLOCKS }).map((_, i) => {
-                                        const donor = donorByIndex(i);
-                                        const filled = filledSet.has(i);
+                                    {isFilled && block.isStart && block.amount > 5000 && (
+                                        <Icon
+                                            as={FaUser}
+                                            color="rgba(0,0,0,0.3)"
+                                            position="absolute"
+                                            top="50%" left="50%"
+                                            transform="translate(-50%, -50%)"
+                                            w="60%" h="60%"
+                                        />
+                                    )}
+                                </MotionBox>
+                            </Tooltip>
+                        );
+                    })}
+                </SimpleGrid>
+            </Box>
 
-                                        return (
-                                            <Tooltip
-                                                key={i}
-                                                label={filled ? donor : "Available for offering"}
-                                                bg={NAVY}
-                                                color="white"
-                                                fontSize="xs"
-                                                hasArrow
-                                                placement="top"
-                                            >
-                                                <Box
-                                                    w="48px"
-                                                    h="48px"
-                                                    borderRadius="8px"
-                                                    textAlign="center"
-                                                    display="flex"
-                                                    alignItems="center"
-                                                    justifyContent="center"
-                                                    transition="all 0.25s ease"
-                                                    bgGradient={
-                                                        filled
-                                                            ? "linear(to-b, #FFF8E1, #F7E8B5)"
-                                                            : "linear(to-b, #FFFFFF, #F9FAF9)"
-                                                    }
-                                                    border={
-                                                        filled
-                                                            ? "1px solid rgba(180,150,80,0.5)"
-                                                            : `1.5px solid ${GREEN_BORDER}`
-                                                    }
-                                                    boxShadow={
-                                                        filled
-                                                            ? "inset 0 1px 2px rgba(255,255,255,0.8), inset 0 -1px 3px rgba(150,120,50,0.25)"
-                                                            : "inset 0 0 2px rgba(0,0,0,0.05)"
-                                                    }
-                                                    _hover={
-                                                        filled
-                                                            ? {
-                                                                boxShadow:
-                                                                    "0 0 10px rgba(255,215,0,0.45), inset 0 0 4px rgba(255,215,0,0.4)",
-                                                                transform: "scale(1.08)",
-                                                            }
-                                                            : {
-                                                                boxShadow: "0 0 8px rgba(61,163,93,0.25)",
-                                                                transform: "scale(1.05)",
-                                                            }
-                                                    }
-                                                >
-                                                    {filled && (
-                                                        <Text
-                                                            fontSize="xs"
-                                                            color={GOLD_TEXT}
-                                                            fontWeight="600"
-                                                            textShadow="0 1px 0 rgba(255,255,255,0.6)"
-                                                            px="2px"
-                                                            noOfLines={2}
-                                                        >
-                                                            {donor.split(" ")[0]}
-                                                        </Text>
-                                                    )}
-                                                </Box>
-                                            </Tooltip>
-                                        );
-                                    })}
-                                </Grid>
-                            </Box>
+            {/* Footer Stats & CTA */}
+            <Flex
+                direction={["column", "row"]}
+                justify="center"
+                align="center"
+                mt={8}
+                gap={6}
+                p={4}
+                bg="orange.50"
+                borderRadius="lg"
+                border="1px solid"
+                borderColor="orange.200"
+            >
+                <VStack spacing={0} align={["center", "flex-end"]}>
+                    <Text fontSize="3xl" fontWeight="bold" color="#C05621">
+                        {remaining}
+                    </Text>
+                    <Text fontSize="xs" color="gray.600" textTransform="uppercase" fontWeight="bold">
+                        Square Feet Remaining
+                    </Text>
+                </VStack>
 
-                            {/* --- Legend --- */}
-                            <HStack justify="center" spacing={6} mt={4}>
-                                <HStack>
-                                    <Box
-                                        w="22px"
-                                        h="22px"
-                                        borderRadius="6px"
-                                        bgGradient="linear(to-b, #FFF8E1, #F7E8B5)"
-                                        border="1px solid rgba(180,150,80,0.5)"
-                                    />
-                                    <Text fontSize="sm" color={NAVY}>
-                                        Engraved (Claimed)
-                                    </Text>
-                                </HStack>
-                                <HStack>
-                                    <Box
-                                        w="22px"
-                                        h="22px"
-                                        bg="white"
-                                        border={`1.5px solid ${GREEN_BORDER}`}
-                                        borderRadius="6px"
-                                    />
-                                    <Text fontSize="sm" color={NAVY}>
-                                        Available
-                                    </Text>
-                                </HStack>
-                            </HStack>
-                        </VStack>
-                    </ModalBody>
+                <Box h={["1px", "40px"]} w={["100%", "1px"]} bg="orange.200" />
 
-                    <ModalFooter justifyContent="center">
-                        <Button
-                            borderRadius="50px"
-                            bgGradient="linear(to-r, #FFD369, #FFC947)"
-                            color={NAVY}
-                            px={8}
-                            py={5}
-                            fontWeight="600"
-                            _hover={{
-                                bgGradient: "linear(to-r, #FFD66B, #FFCB52)",
-                                boxShadow: "0 0 10px rgba(255,215,0,0.4)",
-                            }}
-                        >
-                            Add Your Name to the Wall
-                        </Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
+                <VStack spacing={2} align={["center", "flex-start"]}>
+                    <Text fontSize="md" fontWeight="medium" color="#2C0A0A">
+                        Your name belongs on this wall.
+                    </Text>
+                    <Button
+                        size="sm"
+                        colorScheme="orange"
+                        variant="solid"
+                        rightIcon={<FaCheckCircle />}
+                        onClick={handleScrollToDonate}
+                        boxShadow="md"
+                    >
+                        Add My Name Now
+                    </Button>
+                </VStack>
+            </Flex>
         </Box>
     );
 };
