@@ -25,10 +25,9 @@ import {
     FaGem,
 } from "react-icons/fa";
 import { LuBriefcase } from "react-icons/lu";
+import donorBg from "../../assets/images/donor_bg_image.jpg"; // ✅ your bg image
 
-// ✅ import your bg image here
-import donorBg from "../../assets/images/donation_page_bg.jpg";
-
+// ---------- Theme Colors ----------
 const SQFT_PRICE = 5001;
 const NAVY = "#081229";
 const GOLD = "#FFD700";
@@ -48,16 +47,17 @@ const DonationPage = ({
                       }) => {
     const [step, setStep] = useState(1);
     const [sqFt, setSqFt] = useState(1);
+    const [sliderValue, setSliderValue] = useState(1); // ✅ new smooth state
     const [customAmount, setCustomAmount] = useState("");
 
     const totalAmount =
         customAmount && parseInt(customAmount) >= 500
             ? parseInt(customAmount)
-            : sqFt * SQFT_PRICE;
+            : sliderValue * SQFT_PRICE;
 
     useEffect(() => window.scrollTo({ top: 0, behavior: "smooth" }), []);
 
-    // ---------- Context titles ----------
+    // ---------- Context Titles ----------
     const getContext = (n) => {
         if (n === 1)
             return {
@@ -89,8 +89,9 @@ const DonationPage = ({
             icon: FaGem,
         };
     };
-    const context = getContext(sqFt);
+    const context = getContext(sliderValue);
 
+    // ---------- Validation ----------
     const validatePersonal = () => {
         let e = {};
         if (!formData?.username?.trim()) e.username = "Full name is required";
@@ -114,7 +115,11 @@ const DonationPage = ({
 
     const prevStep = () => setStep((s) => s - 1);
 
-    // ---------- Header (Think School style) ----------
+    // ---------- Smooth Slider Handlers ----------
+    const handleSliderChange = (val) => setSliderValue(val);
+    const handleSliderChangeEnd = (val) => setSqFt(val);
+
+    // ---------- Header ----------
     const renderHeader = () => (
         <Box textAlign="center" py={[10, 12]}>
             <Text
@@ -185,27 +190,24 @@ const DonationPage = ({
             mx="auto"
         >
             <VStack spacing={6}>
-                <Text
-                    fontSize="xl"
-                    fontWeight="700"
-                    textAlign="center"
-                    color={TEXT_DARK}
-                >
+                <Text fontSize="xl" fontWeight="700" textAlign="center" color={TEXT_DARK}>
                     Choose Your Contribution
                 </Text>
 
+                {/* ✅ SMOOTH SLIDER */}
                 <Box w="100%">
                     <Slider
                         aria-label="sqft-slider"
-                        value={sqFt}
+                        value={sliderValue}
                         min={1}
                         max={108}
                         step={1}
-                        onChange={(val) => setSqFt(val)}
+                        onChange={handleSliderChange}
+                        onChangeEnd={handleSliderChangeEnd}
                         focusThumbOnChange={false}
                     >
                         <SliderTrack bg="gray.200" h="10px" borderRadius="full">
-                            <SliderFilledTrack bg={GREEN} transition="width 0.2s ease" />
+                            <SliderFilledTrack bg={GREEN} transition="width 0.15s ease-out" />
                         </SliderTrack>
                         <SliderThumb
                             boxSize={7}
@@ -218,10 +220,12 @@ const DonationPage = ({
                     </Slider>
 
                     <Text mt={3} textAlign="center" fontWeight="600" color={TEXT_DARK}>
-                        {sqFt} Sq. Feet = ₹{(sqFt * SQFT_PRICE).toLocaleString("en-IN")}
+                        {sliderValue} Sq. Feet = ₹
+                        {(sliderValue * SQFT_PRICE).toLocaleString("en-IN")}
                     </Text>
                 </Box>
 
+                {/* Badge */}
                 <Badge
                     px={4}
                     py={2}
@@ -229,13 +233,13 @@ const DonationPage = ({
                     fontSize="sm"
                     fontWeight="700"
                     bgGradient={
-                        sqFt >= 50
+                        sliderValue >= 50
                             ? "linear(to-r, #FFD700, #F5C542)"
-                            : sqFt >= 10
+                            : sliderValue >= 10
                                 ? "linear(to-r, #C0C0C0, #E0E0E0)"
                                 : "linear(to-r, #F5F5F5, #FFF)"
                     }
-                    color={sqFt >= 10 ? "#2C0A0A" : "#444"}
+                    color={sliderValue >= 10 ? "#2C0A0A" : "#444"}
                 >
                     {context.title}
                 </Badge>
@@ -244,6 +248,7 @@ const DonationPage = ({
                     {context.desc}
                 </Text>
 
+                {/* Custom Amount */}
                 <VStack spacing={1}>
                     <Text fontSize="sm" color="gray.600">
                         Or enter custom amount (min ₹500)
@@ -259,6 +264,7 @@ const DonationPage = ({
                     />
                 </VStack>
 
+                {/* Total */}
                 <Box w="100%" pt={4} borderTop="1px dashed #E2E8F0" textAlign="center">
                     <Text fontSize="sm" color="gray.500" mb={1}>
                         Total Sponsorship
@@ -284,7 +290,7 @@ const DonationPage = ({
         </Box>
     );
 
-    // ---------- Step 2–4 remain identical ----------
+    // ---------- Step 2 ----------
     const Step2 = () => (
         <Box
             bg="white"
@@ -329,6 +335,7 @@ const DonationPage = ({
         </Box>
     );
 
+    // ---------- Step 3 ----------
     const Step3 = () => (
         <Box
             bg="white"
@@ -373,6 +380,7 @@ const DonationPage = ({
         </Box>
     );
 
+    // ---------- Step 4 ----------
     const Step4 = () => (
         <Box
             bg="white"
@@ -386,9 +394,15 @@ const DonationPage = ({
                 ₹{totalAmount.toLocaleString("en-IN")}
             </Text>
             <VStack spacing={3} align="start" fontSize="sm" color="gray.700">
-                <Text><b>Name:</b> {formData.username}</Text>
-                <Text><b>WhatsApp:</b> {formData.mobileno}</Text>
-                <Text><b>Email:</b> {formData.email}</Text>
+                <Text>
+                    <b>Name:</b> {formData.username}
+                </Text>
+                <Text>
+                    <b>WhatsApp:</b> {formData.mobileno}
+                </Text>
+                <Text>
+                    <b>Email:</b> {formData.email}
+                </Text>
                 {formData.prasadRequired && <Text>✔️ Gift & Maha Prasadam Selected</Text>}
                 {formData.taxExemption && <Text>✔️ 80G Tax Benefit Opted</Text>}
             </VStack>
@@ -398,7 +412,9 @@ const DonationPage = ({
             <VStack>
                 <HStack justify="center">
                     <LuBriefcase color="#6B7280" />
-                    <Text fontSize="sm" color="gray.600">Secure payment via Razorpay</Text>
+                    <Text fontSize="sm" color="gray.600">
+                        Secure payment via Razorpay
+                    </Text>
                 </HStack>
 
                 <Flex mt={6} gap={3}>
@@ -422,7 +438,6 @@ const DonationPage = ({
             bgPos="center"
             bgRepeat="no-repeat"
             position="relative"
-            pb={0}
         >
             <Box
                 position="absolute"
@@ -440,7 +455,7 @@ const DonationPage = ({
                     {step === 4 && <Step4 />}
                 </Box>
 
-                {/* Footer – White background like Think School */}
+                {/* ✅ Footer - White background like Think School */}
                 <Box bg="white" textAlign="center" py={8} mt={16}>
                     <Text color="#111" fontSize="sm" mb={2}>
                         Stuck somewhere? We’d love to help you. Message us at{" "}
