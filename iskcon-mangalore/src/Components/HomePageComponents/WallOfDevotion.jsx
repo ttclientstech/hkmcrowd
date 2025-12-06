@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, SimpleGrid, Tooltip, Text, Flex, Icon, VStack } from "@chakra-ui/react";
 import { FaUser, FaLeaf, FaCheckCircle } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { fetchAllContributers } from "../api/api";
+import { fetchAllContributers } from "../../utils/apiCall";
 
 const MotionBox = motion(Box);
 const SQFT_PRICE = 5001;
