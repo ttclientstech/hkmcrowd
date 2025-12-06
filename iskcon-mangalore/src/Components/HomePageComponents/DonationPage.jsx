@@ -14,7 +14,8 @@ import {
     SimpleGrid,
     IconButton,
     useBreakpointValue,
-    Stack
+    Stack,
+    HStack
 } from "@chakra-ui/react";
 import {
     FaRulerCombined,
