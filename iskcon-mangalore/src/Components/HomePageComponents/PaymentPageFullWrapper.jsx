@@ -68,7 +68,7 @@ const PaymentPageFullWrapper = () => {
             errors={errors}
             setPaymentModel={() => navigate(-1)}
             setFormData={setFormData}
-            campaignerName={getSingleUser?.campaignDetails?.campaignerName || "ISKCON Chennai"}
+            campaignerName={getSingleUser?.campaignDetails?.campaignName || "ISKCON Chennai"}
             campaignerPhoto={getSingleUser?.campaignDetails?.imgurl || "/images/campaigner.jpg"}
             campaignDetails={getSingleUser?.campaignDetails}
         />

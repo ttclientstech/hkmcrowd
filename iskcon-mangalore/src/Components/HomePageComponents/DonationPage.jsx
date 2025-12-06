@@ -465,6 +465,7 @@ const Step4 = ({ formData, totalAmount, prevStep, handleSubmit }) => (
 
 const DonationPage = ({
                           amount,
+                          setAmount,
                           handleSubmit,
                           handleOnChange,
                           formData,
@@ -569,6 +570,9 @@ const DonationPage = ({
     };
 
     const nextStep = () => {
+        if(step === 1){
+            setAmount(totalAmount);
+        }
         if (step === 2) {
             const e = validatePersonal();
             if (Object.keys(e).length) {
