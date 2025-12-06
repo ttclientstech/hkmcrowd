@@ -26,7 +26,14 @@ const PaymentPage = () => {
             amount: getParam('amount'),
             campaignsid: getParam('campaignsid'),
             isanonymous: getParam('isanonymous') === 'true',
-            campainerName: getParam('campainerName')
+            campainerName: getParam('campainerName'),
+            taxHouseNumber: getParam("taxHouseNumber"),
+            taxStreet: getParam("taxStreet"),
+            taxCity: getParam("taxCity"),
+            taxState: getParam("taxState"),
+            taxPincode: getParam("taxPincode"),
+            panno: getParam("panno"),
+            dob: getParam("dob"),
         };
     }, [query]);
 
@@ -134,7 +141,7 @@ const PaymentPage = () => {
                                 Thank You, {paymentData.name || "Devotee"}!
                             </Heading>
                             <Text fontSize="lg" color="gray.600">
-                                Your contribution has been successfully received.
+                                Your contribution ₹{paymentData.amount} has been successfully received.
                             </Text>
                         </Box>
 

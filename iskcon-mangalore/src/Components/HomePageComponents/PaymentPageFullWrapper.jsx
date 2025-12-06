@@ -29,6 +29,7 @@ const PaymentPageFullWrapper = () => {
         prasadRequired: false,
         taxExemption: false,
         isanonymous: false,
+        campainerName: getSingleUser?.campaignDetails?.campaignName || "#Campainer Name",
     });
 
     const handleOnChange = (e) => {
@@ -52,6 +53,15 @@ const PaymentPageFullWrapper = () => {
                     seva: "Mandir Nirmana Seva",
                     amount: formData.amount || amount,
                     order_id: orderId,
+                    campaignsid: formData.campaignsid,
+                    taxHouseNumber: formData.taxHouseNumber || "",
+                    taxStreet: formData.taxStreet || "",
+                    taxCity: formData.taxCity || "",
+                    taxState: formData.taxState || "",
+                    taxPincode: formData.taxPincode || "",
+                    panno: formData.panno || "",
+                    dob: formData.dob || "",
+                    campainerName: formData.campainerName || "#Campainer Name",
                 });
                 navigate(`/payment/${orderId}?${params.toString()}`);
             }
