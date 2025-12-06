@@ -196,8 +196,8 @@ const DonationPage = ({
                     Choose Your Contribution
                 </Text>
 
-                {/* ✅ FIXED SLIDER */}
-                <Box w="100%" px={2}>
+                {/* ✅ FIXED SLIDER - Dragging Enabled */}
+                <Box w="100%" px={2} position="relative" zIndex={2}>
                     <Slider
                         aria-label="sqft-slider"
                         value={sliderValue}
@@ -206,20 +206,21 @@ const DonationPage = ({
                         step={1}
                         onChange={handleSliderChange}
                         onChangeEnd={handleSliderChangeEnd}
-                        // Removed focusThumbOnChange={false} to fix drag issue
+                        focusThumbOnChange={false} // Improves drag feel
+                        sx={{ touchAction: "none" }} // CRITICAL: Prevents scroll interference on touch/hybrid devices
                     >
                         <SliderTrack bg="gray.200" h="10px" borderRadius="full">
-                            {/* Removed transition for smoother, instant dragging */}
                             <SliderFilledTrack bg={GREEN} />
                         </SliderTrack>
                         <SliderThumb
-                            boxSize={7}
+                            boxSize={8} // Slightly larger for better grab
                             bg="white"
                             border={`3px solid ${GREEN}`}
                             boxShadow="0 0 5px rgba(0,0,0,0.3)"
                             _active={{ transform: "scale(1.2)" }}
                             _focus={{ boxShadow: "0 0 0 3px rgba(52,199,89,0.4)" }}
-                            zIndex={10} // Ensures thumb is above track for clicking
+                            zIndex={10}
+                            cursor="grab" // Visual cue
                         />
                     </Slider>
 
