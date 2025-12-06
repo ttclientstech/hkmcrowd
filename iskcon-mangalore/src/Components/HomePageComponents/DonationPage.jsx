@@ -3,7 +3,6 @@ import {
     Box,
     Text,
     VStack,
-    HStack,
     Input,
     Checkbox,
     Button,
@@ -25,7 +24,7 @@ import {
     FaMinus,
     FaPlus
 } from "react-icons/fa";
-// ✅ Corrected Path to your existing image
+// Ensure this path matches your project structure exactly
 import donorBg from "../../assets/images/donation_page_bg.jpg";
 
 // ---------- Theme Colors ----------
@@ -100,19 +99,11 @@ const DonationPage = ({
     const renderHeader = () => (
         <Box textAlign="center" py={[10, 12]}>
             <Text fontWeight="700" fontSize={["xl", "2xl"]} color="white" letterSpacing="wide">
-                Dakshina Dwaraka Dham
-            </Text>
-            <Box w="60px" h="4px" bgGradient="linear(to-r, #FFD700, #E63946)" mx="auto" borderRadius="full" my={3} />
-            <Text fontWeight="extrabold" fontSize={["2xl", "3xl"]} bgGradient="linear(to-r, #FFD700, #E63946)" bgClip="text">
-                Square Feet Campaign
+                Dakshina Dwaraka Dham | Square Feet Campaign
             </Text>
             <Text fontSize="sm" mt={3} opacity={0.9} color="white" fontStyle="italic" maxW="600px" mx="auto">
-                “You are standing with <b>{campaignerName}</b> to build a timeless cultural sanctuary.”
+                “Thank you for supporting <b>{campaignerName}</b> to build a timeless cultural sanctuary.”
             </Text>
-            <Flex align="center" justify="center" mt={5}>
-                <Image src={campaignerPhoto} alt="campaigner" borderRadius="full" boxSize="60px" objectFit="cover" border={`2px solid ${GOLD}`} mr={3} fallbackSrc="https://via.placeholder.com/60" />
-                <Text fontWeight="600" fontSize="md" color="white">{campaignerName}</Text>
-            </Flex>
         </Box>
     );
 
@@ -139,8 +130,10 @@ const DonationPage = ({
                                 paddingTop="100%" // Aspect ratio square
                                 borderRadius="2px"
                                 position="relative"
-                                // Color Logic: Gold -> Orange -> Red based on volume
-                                bg={i < sqFt ? (i < 10 ? GOLD : i < 25 ? "orange.400" : RED) : "gray.200"}
+                                // Color Logic: Filled = Gold/Orange/Red. Unfilled = Gray bg with Green Border.
+                                bg={i < sqFt ? (i < 10 ? GOLD : i < 25 ? "orange.400" : RED) : "gray.100"}
+                                border={i < sqFt ? "none" : "0.5px solid"}
+                                borderColor={i < sqFt ? "transparent" : "green.400"}
                                 transition="all 0.2s ease"
                                 transform={i < sqFt ? "scale(1)" : "scale(0.95)"}
                                 boxShadow={i < sqFt ? "sm" : "none"}
@@ -148,12 +141,17 @@ const DonationPage = ({
                         ))}
                     </SimpleGrid>
 
-                    {/* Context Badge */}
-                    <Flex justify="center">
-                        <Badge px={3} py={1} borderRadius="full" colorScheme={context.color} fontSize="xs" display="flex" alignItems="center" gap={2}>
-                            <Icon as={context.icon} /> {context.title}
+                    {/* Context Badge & Description */}
+                    <VStack spacing={2} justify="center">
+                        {/* Badge without Icon */}
+                        <Badge px={3} py={1} borderRadius="full" colorScheme={context.color} fontSize="xs">
+                            {context.title}
                         </Badge>
-                    </Flex>
+                        {/* Description moved here */}
+                        <Text fontSize="xs" color="gray.500" textAlign="center" maxW="90%">
+                            {context.desc}
+                        </Text>
+                    </VStack>
                 </Box>
 
                 {/* 2. CONTROLS (Stepper & Presets) */}
@@ -181,11 +179,11 @@ const DonationPage = ({
                             onClick={handleIncrement}
                             isRound
                             size="lg"
-                            bg="white"
+                            // Removed bg="white" so colorScheme works
+                            colorScheme="green"
                             shadow="sm"
                             aria-label="Increase"
                             isDisabled={sqFt >= 35}
-                            colorScheme="green"
                         />
                     </Flex>
 
@@ -208,10 +206,6 @@ const DonationPage = ({
 
                 <Text fontSize="md" fontWeight="bold" textAlign="center" color="gray.700">
                     Total: ₹{(sqFt * SQFT_PRICE).toLocaleString("en-IN")}
-                </Text>
-
-                <Text fontSize="sm" color="gray.500" textAlign="center" maxW="90%">
-                    {context.desc}
                 </Text>
 
                 {/* Custom Amount Input */}
@@ -307,7 +301,7 @@ const DonationPage = ({
 
     return (
         <Box w="100%" minH="100vh" bgImage={`url(${donorBg})`} bgSize="cover" bgPos="center" bgRepeat="no-repeat" position="relative">
-            <Box position="absolute" inset="0" bg="linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(8,18,41,1))" zIndex="0" />
+            <Box position="absolute" inset="0" zIndex="0" />
             <Box position="relative" zIndex="1">
                 {renderHeader()}
                 <Box px={[4, 6]} mt={-6}>
