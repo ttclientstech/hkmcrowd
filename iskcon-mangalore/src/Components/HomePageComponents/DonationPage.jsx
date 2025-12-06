@@ -29,6 +29,7 @@ import {
 } from "react-icons/fa";
 
 // Assets & Components
+// Ensure this path matches your project structure exactly
 import donorBg from "../../assets/images/donation_page_bg.jpg";
 import AutoSuggestInput from "./AutoSuggestInput";
 import { IndiaStates, DistrictsByState } from "../../constants/indiaLocations";
@@ -50,7 +51,7 @@ const getContext = (n) => {
 };
 
 // ==========================================
-// SUB-COMPONENTS (Defined outside to fix focus loss)
+// SUB-COMPONENTS
 // ==========================================
 
 const Step1 = ({
@@ -181,8 +182,15 @@ const Step1 = ({
     );
 };
 
-const Step2 = ({ formData, handleOnChange, nextStep, prevStep }) => (
+const Step2 = ({ formData, handleOnChange, nextStep, prevStep, totalAmount }) => (
     <Box bg="white" p={[6, 8]} borderRadius="20px" boxShadow="0 10px 35px rgba(0,0,0,0.25)" maxW="700px" mx="auto">
+        <Text textAlign="center" fontWeight="bold" color="gray.500" fontSize="sm" mb={1}>
+            YOUR CONTRIBUTION
+        </Text>
+        <Text textAlign="center" fontWeight="800" color={RED} fontSize="2xl" mb={6}>
+            ₹{totalAmount.toLocaleString("en-IN")}
+        </Text>
+
         <Text textAlign="center" color="gray.700" mb={4} fontWeight="600">Please fill in your details</Text>
         <VStack spacing={4} align="stretch">
             {["username", "mobileno", "email"].map((field) => (
@@ -208,12 +216,20 @@ const Step3 = ({
                    prevStep,
                    copyTaxAddress,
                    handleCopyAddress,
-                   errors
+                   errors,
+                   totalAmount
                }) => {
     const gridCols = useBreakpointValue({ base: 1, md: 2 });
 
     return (
         <Box bg="white" p={[6, 8]} borderRadius="20px" boxShadow="0 10px 35px rgba(0,0,0,0.25)" maxW="700px" mx="auto">
+            <Text textAlign="center" fontWeight="bold" color="gray.500" fontSize="sm" mb={1}>
+                YOUR CONTRIBUTION
+            </Text>
+            <Text textAlign="center" fontWeight="800" color={RED} fontSize="2xl" mb={6}>
+                ₹{totalAmount.toLocaleString("en-IN")}
+            </Text>
+
             <VStack align="stretch" spacing={4}>
                 {/* DOB Field */}
                 <VStack align="start" spacing={1}>
@@ -363,14 +379,39 @@ const Step3 = ({
 
 const Step4 = ({ formData, totalAmount, prevStep, handleSubmit }) => (
     <Box bg="white" p={[6, 8]} borderRadius="20px" boxShadow="0 10px 35px rgba(0,0,0,0.25)" maxW="700px" mx="auto">
-        <Text fontWeight="bold" color={RED} fontSize="2xl" textAlign="center" mb={4}>₹{totalAmount.toLocaleString("en-IN")}</Text>
+        <Text textAlign="center" fontWeight="bold" color="gray.500" fontSize="sm" mb={1}>
+            YOUR CONTRIBUTION
+        </Text>
+        <Text textAlign="center" fontWeight="800" color={RED} fontSize="2xl" mb={6}>
+            ₹{totalAmount.toLocaleString("en-IN")}
+        </Text>
+
         <VStack spacing={3} align="start" fontSize="sm" color="gray.700">
             <Text><b>Name:</b> {formData.username}</Text>
             <Text><b>WhatsApp:</b> {formData.mobileno}</Text>
             <Text><b>Email:</b> {formData.email}</Text>
             {formData.dob && <Text><b>DOB:</b> {formData.dob}</Text>}
-            {formData.prasadRequired && <Text>✔️ Gift & Maha Prasadam Selected</Text>}
-            {formData.taxExemption && <Text>✔️ 80G Tax Benefit Opted</Text>}
+
+            {/* PRASADAM REVIEW */}
+            {formData.prasadRequired && (
+                <Box w="100%" bg="gray.50" p={3} borderRadius="md" border="1px dashed" borderColor="gray.300">
+                    <Text fontWeight="bold" color="#0A1A33" mb={1}>✔️ Gift & Maha Prasadam Selected</Text>
+                    <Text><b>Delivery Address:</b></Text>
+                    <Text>{formData.houseNumber}, {formData.street}</Text>
+                    <Text>{formData.city}, {formData.state} - {formData.pincode}</Text>
+                </Box>
+            )}
+
+            {/* 80G REVIEW */}
+            {formData.taxExemption && (
+                <Box w="100%" bg="gray.50" p={3} borderRadius="md" border="1px dashed" borderColor="gray.300">
+                    <Text fontWeight="bold" color="#0A1A33" mb={1}>✔️ 80G Tax Benefit Opted</Text>
+                    <Text><b>PAN No:</b> {formData.panno}</Text>
+                    <Text><b>Tax Address:</b></Text>
+                    <Text>{formData.taxHouseNumber}, {formData.taxStreet}</Text>
+                    <Text>{formData.taxCity}, {formData.taxState} - {formData.taxPincode}</Text>
+                </Box>
+            )}
         </VStack>
         <Divider my={4} />
         <VStack>
@@ -401,6 +442,7 @@ const DonationPage = ({
     const [sqFt, setSqFt] = useState(1);
     const [customAmount, setCustomAmount] = useState("");
     const [copyTaxAddress, setCopyTaxAddress] = useState(false);
+    const [step3Errors, setStep3Errors] = useState({});
 
     const totalAmount =
         customAmount && parseInt(customAmount) >= 500
@@ -450,12 +492,44 @@ const DonationPage = ({
         return e;
     };
 
+    const validateStep3 = () => {
+        let e = {};
+        // Delivery Validation
+        if (formData?.prasadRequired) {
+            if (!formData?.houseNumber?.trim()) e.houseNumber = "Required";
+            if (!formData?.street?.trim()) e.street = "Required";
+            if (!formData?.city?.trim()) e.city = "Required";
+            if (!formData?.state?.trim()) e.state = "Required";
+            if (!formData?.pincode?.trim()) e.pincode = "Required";
+        }
+        // Tax Validation
+        if (formData?.taxExemption) {
+            if (!formData?.taxHouseNumber?.trim()) e.taxHouseNumber = "Required";
+            if (!formData?.taxStreet?.trim()) e.taxStreet = "Required";
+            if (!formData?.taxCity?.trim()) e.taxCity = "Required";
+            if (!formData?.taxState?.trim()) e.taxState = "Required";
+            if (!formData?.taxPincode?.trim()) e.taxPincode = "Required";
+            if (!formData?.panno?.trim()) e.panno = "Required";
+        }
+        return e;
+    };
+
     const nextStep = () => {
         if (step === 2) {
             const e = validatePersonal();
             if (Object.keys(e).length) {
                 alert(Object.values(e).join("\n"));
                 return;
+            }
+        }
+        if (step === 3) {
+            const e = validateStep3();
+            if (Object.keys(e).length) {
+                setStep3Errors(e);
+                alert("Please fill all mandatory address fields");
+                return;
+            } else {
+                setStep3Errors({});
             }
         }
         setStep((s) => s + 1);
@@ -520,6 +594,7 @@ const DonationPage = ({
                             handleOnChange={handleOnChange}
                             nextStep={nextStep}
                             prevStep={prevStep}
+                            totalAmount={totalAmount}
                         />
                     )}
                     {step === 3 && (
@@ -530,7 +605,8 @@ const DonationPage = ({
                             prevStep={prevStep}
                             copyTaxAddress={copyTaxAddress}
                             handleCopyAddress={handleCopyAddress}
-                            errors={errors}
+                            errors={step3Errors}
+                            totalAmount={totalAmount}
                         />
                     )}
                     {step === 4 && (
