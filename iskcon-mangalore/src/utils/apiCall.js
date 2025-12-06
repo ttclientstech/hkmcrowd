@@ -10,6 +10,16 @@ export const fetchAllCampaigners = async () => {
     }
   };
 
+export const fetchAllContributers = async () => {
+    try {
+        const response = await fetch(`${BE_API_URL}/show`);
+        const data_all_donors = await response.json();
+        return data_all_donors;
+    } catch (error) {
+        return []
+    }
+};
+
 export const debounce = (func, delay) => {
     let timeoutId;
     return (...args) => {

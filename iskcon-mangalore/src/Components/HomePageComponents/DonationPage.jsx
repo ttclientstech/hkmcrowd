@@ -626,7 +626,7 @@ const DonationPage = ({
             bgAttachment="fixed"
             position="relative"
         >
-            <Box position="absolute" inset="0" bg="linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(8,18,41,1))" zIndex="0" />
+            <Box position="absolute" inset="0" zIndex="0" />
             <Box position="relative" zIndex="1">
                 {renderHeader()}
 

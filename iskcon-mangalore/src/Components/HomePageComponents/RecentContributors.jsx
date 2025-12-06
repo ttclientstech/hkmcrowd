@@ -10,38 +10,122 @@ import {
     Button,
     useBreakpointValue,
 } from "@chakra-ui/react";
-import { formatCurrency, formatTimeAgo } from '../utils';
+import { formatCurrency, formatTimeAgo } from "../utils";
+import { fetchAllContributers } from "../../utils/apiCall";
 
-// ★ CHANGE START — removed random avatar colors
 const avatarBG = "#E8EEF9";
 const avatarText = "#1A3353";
-// ★ CHANGE END
+const SQFT_PRICE = 5001; // 1 Sq.Ft = ₹5001
 
-// Dummy leaderboard
-const dummyLeaderboard = [
-    { username: "Ramesh Kumar", amount: 50000 },
-    { username: "Anita Devi", amount: 35000 },
-    { username: "Sunil Gupta", amount: 30000 },
-    { username: "Kiran Prakash", amount: 20000 },
-    { username: "Nirmala S", amount: 10000 },
-];
-
-const RecentContributors = ({ getSingleUser }) => {
-
+const RecentContributors = () => {
     const [tab, setTab] = useState("latest");
     const [loading, setLoading] = useState(true);
+    const [contributors, setContributors] = useState([]);
 
     const isMobile = useBreakpointValue({ base: true, md: false });
 
     useEffect(() => {
-        setTimeout(() => setLoading(false), 1000);
+        const loadContributors = async () => {
+            setLoading(true);
+            try {
+                const data = await fetchAllContributers(); // ✅ call your API
+                setContributors(data || []);
+            } catch (err) {
+                console.error("Error fetching contributors:", err);
+            }
+            setLoading(false);
+        };
+
+        loadContributors();
     }, []);
 
-    const latestData = getSingleUser?.top10paymentDetails || [];
+    // ✅ Latest = last 10 entries (data is ascending by time)
+    const latestData = contributors
+        .filter((c) => c?.finalpaymentstatus === "captured")
+        .slice(-10)
+        .reverse();
+
+    // ✅ Largest = top 5 by amount
+    const largestData = [...contributors]
+        .filter((c) => c?.paymentstatus === true || c?.finalpaymentstatus === "captured")
+        .sort((a, b) => b.amount - a.amount)
+        .slice(0, 5);
+
+    // ✅ Format sqft/amount display
+    const formatSqftOrAmount = (amt) => {
+        if (amt >= SQFT_PRICE) {
+            const sqft = (amt / SQFT_PRICE).toFixed(2);
+            return `${sqft} Sq. Ft.`;
+        }
+        return formatCurrency(amt);
+    };
+
+    const renderContributorCard = (user, idx, showMedal = false) => {
+        const name = user?.isanonymous ? "Anonymous" : user?.username;
+        const displayValue = formatSqftOrAmount(user?.amount);
+
+        return (
+            <HStack
+                key={idx}
+                w="100%"
+                bg="white"
+                p={4}
+                borderRadius="12px"
+                justify="space-between"
+            >
+                <HStack gap={4}>
+                    <Flex
+                        w="48px"
+                        h="48px"
+                        borderRadius="50%"
+                        bg={avatarBG}
+                        color={avatarText}
+                        align="center"
+                        justify="center"
+                        fontWeight="700"
+                        fontSize="lg"
+                        border="1px solid #D6DEEA"
+                    >
+                        {name?.charAt(0)?.toUpperCase()}
+                    </Flex>
+
+                    <VStack align="flex-start" spacing={0}>
+                        <Text fontWeight="700" color="#1A1A1A">
+                            {name}{" "}
+                            <Text as="span" fontWeight="500" color="#424242">
+                                donated {displayValue}
+                            </Text>
+                        </Text>
+
+                        <Text fontSize="sm" color="#6B7280">
+                            {formatTimeAgo(user?.createdate)}
+                        </Text>
+                    </VStack>
+                </HStack>
+
+                {showMedal && (
+                    <Box fontSize="24px">
+                        {idx === 0 && "🥇"}
+                        {idx === 1 && "🥈"}
+                        {idx === 2 && "🥉"}
+                        {idx > 2 && (
+                            <Box w="20px" h="20px" bg="#d0d0d0" borderRadius="50%" />
+                        )}
+                    </Box>
+                )}
+            </HStack>
+        );
+    };
 
     return (
-        <Box w="100%" maxW="900px" mx="auto" mt={12} px={4} fontFamily="'Poppins', sans-serif">
-
+        <Box
+            w="100%"
+            maxW="900px"
+            mx="auto"
+            mt={12}
+            px={4}
+            fontFamily="'Poppins', sans-serif"
+        >
             <Text
                 textAlign="center"
                 fontSize={["2xl", "3xl"]}
@@ -78,13 +162,7 @@ const RecentContributors = ({ getSingleUser }) => {
             </HStack>
 
             {/* CARD CONTAINER */}
-            <Box
-                bg="#F4F2EE"
-                borderRadius="16px"
-                p={5}
-                shadow="md"
-            >
-                {/* Loading Skeleton */}
+            <Box bg="#F4F2EE" borderRadius="16px" p={5} shadow="md">
                 {loading ? (
                     <VStack gap={4}>
                         {[1, 2, 3, 4].map((i) => (
@@ -99,111 +177,27 @@ const RecentContributors = ({ getSingleUser }) => {
                     </VStack>
                 ) : (
                     <>
-                        {/* LATEST TAB */}
                         {tab === "latest" && (
                             <VStack gap={4}>
-                                {latestData.map((user, idx) => {
-                                    const name = user?.isanonymous ? "Anonymous" : user?.username;
-
-                                    return (
-                                        <HStack
-                                            key={idx}
-                                            w="100%"
-                                            bg="white"
-                                            p={4}
-                                            borderRadius="12px"
-                                            justify="space-between"
-                                        >
-                                            <HStack gap={4}>
-                                                {/* ★ CHANGE START — avatar style updated */}
-                                                <Flex
-                                                    w="48px"
-                                                    h="48px"
-                                                    borderRadius="50%"
-                                                    bg={avatarBG}
-                                                    color={avatarText}
-                                                    align="center"
-                                                    justify="center"
-                                                    fontWeight="700"
-                                                    fontSize="lg"
-                                                    border="1px solid #D6DEEA" // soft edge
-                                                >
-                                                    {name?.charAt(0)?.toUpperCase()}
-                                                </Flex>
-                                                {/* ★ CHANGE END */}
-
-                                                <VStack align="flex-start" spacing={0}>
-                                                    <Text fontWeight="700" color="#1A1A1A">
-                                                        {name}{" "}
-                                                        <Text as="span" fontWeight="500" color="#424242">
-                                                            donated {formatCurrency(user?.amount)}
-                                                        </Text>
-                                                    </Text>
-
-                                                    {/* ★ CHANGE START — softer date color */}
-                                                    <Text fontSize="sm" color="#6B7280">
-                                                        {formatTimeAgo(user?.date)}
-                                                    </Text>
-                                                    {/* ★ CHANGE END */}
-                                                </VStack>
-                                            </HStack>
-                                        </HStack>
-                                    );
-                                })}
+                                {latestData.length > 0 ? (
+                                    latestData.map((user, idx) =>
+                                        renderContributorCard(user, idx)
+                                    )
+                                ) : (
+                                    <Text color="gray.500">No recent contributions yet.</Text>
+                                )}
                             </VStack>
                         )}
 
-                        {/* LEADERBOARD TAB */}
                         {tab === "leaderboard" && (
                             <VStack gap={4}>
-                                {dummyLeaderboard.map((user, idx) => {
-                                    const name = user.username;
-
-                                    return (
-                                        <HStack
-                                            key={idx}
-                                            w="100%"
-                                            bg="white"
-                                            p={4}
-                                            borderRadius="12px"
-                                            justify="space-between"
-                                        >
-                                            <HStack gap={4}>
-                                                {/* ★ CHANGE START — same unified avatar */}
-                                                <Flex
-                                                    w="48px"
-                                                    h="48px"
-                                                    borderRadius="50%"
-                                                    bg={avatarBG}
-                                                    color={avatarText}
-                                                    align="center"
-                                                    justify="center"
-                                                    fontWeight="700"
-                                                    fontSize="lg"
-                                                    border="1px solid #D6DEEA"
-                                                >
-                                                    {name?.charAt(0)?.toUpperCase()}
-                                                </Flex>
-                                                {/* ★ CHANGE END */}
-
-                                                <VStack align="flex-start" spacing={0}>
-                                                    <Text fontWeight="700" color="#1A1A1A">{name}</Text>
-                                                    <Text fontSize="sm" color="#6B7280">
-                                                        Donated {formatCurrency(user.amount)}
-                                                    </Text>
-                                                </VStack>
-                                            </HStack>
-
-                                            {/* Medals unchanged */}
-                                            <Box fontSize="24px">
-                                                {idx === 0 && "🥇"}
-                                                {idx === 1 && "🥈"}
-                                                {idx === 2 && "🥉"}
-                                                {idx > 2 && <Box w="20px" h="20px" bg="#d0d0d0" borderRadius="50%" />}
-                                            </Box>
-                                        </HStack>
-                                    );
-                                })}
+                                {largestData.length > 0 ? (
+                                    largestData.map((user, idx) =>
+                                        renderContributorCard(user, idx, true)
+                                    )
+                                ) : (
+                                    <Text color="gray.500">No top contributors yet.</Text>
+                                )}
                             </VStack>
                         )}
                     </>
