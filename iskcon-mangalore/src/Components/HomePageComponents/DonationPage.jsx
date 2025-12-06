@@ -12,7 +12,8 @@ import {
     Badge,
     Image,
     SimpleGrid,
-    IconButton
+    IconButton,
+    HStack
 } from "@chakra-ui/react";
 import {
     FaRulerCombined,
