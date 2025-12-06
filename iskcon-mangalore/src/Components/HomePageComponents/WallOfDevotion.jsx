@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Box, SimpleGrid, Tooltip, Text, Flex, Icon, VStack } from "@chakra-ui/react";
 import { FaUser, FaLeaf, FaCheckCircle } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { fetchAllContributers } from "../../utils/apiCall"; // ✅ Using real donor data
+import { fetchAllContributers } from "../api/api";
 
 const MotionBox = motion(Box);
 const SQFT_PRICE = 5001;
 
-// ✅ Helper to build grid layout
+// Build grid from donors
 const prepareGrid = (donors, totalBlocks = 500) => {
-    let grid = Array(totalBlocks).fill(null);
+    const grid = Array(totalBlocks).fill(null);
     let currentIndex = 0;
 
     donors.forEach((donor) => {
@@ -21,19 +21,18 @@ const prepareGrid = (donors, totalBlocks = 500) => {
                 grid[currentIndex] = {
                     ...donor,
                     isStart: i === 0,
-                    isCluster: blocksCount > 1,
                 };
                 currentIndex++;
             }
         }
     });
+
     return { grid, filledCount: currentIndex };
 };
 
 const WallOfDevotion = ({ newDonor }) => {
     const [existingDonors, setExistingDonors] = useState([]);
 
-    // ✅ Fetch actual contributors from backend
     useEffect(() => {
         const loadDonors = async () => {
             try {
@@ -47,6 +46,7 @@ const WallOfDevotion = ({ newDonor }) => {
                     name: d?.isanonymous ? "Anonymous" : d?.username,
                     amount: Math.round(d.amount),
                     sqft: Math.round(d.amount / SQFT_PRICE),
+                    orderid: d?.orderid,
                 }));
 
                 setExistingDonors(formatted);
@@ -57,23 +57,41 @@ const WallOfDevotion = ({ newDonor }) => {
         loadDonors();
     }, []);
 
-    // ✅ Include new donor if they donated ≥ 1 SqFt
+    // 🔹 Find if new donor already exists in received list
+    const matchingDonor = newDonor
+        ? existingDonors.find(
+            (d) =>
+                d?.orderid &&
+                newDonor?.order_id &&
+                d.orderid === newDonor.order_id &&
+                d.amount >= SQFT_PRICE
+        )
+        : null;
+
+    // 🔹 Merge donors list & mark the highlighted donor
     const allDonors =
         newDonor && newDonor.amount >= SQFT_PRICE
-            ? [
-                ...existingDonors,
-                {
-                    ...newDonor,
-                    sqft: Math.round(newDonor.amount / SQFT_PRICE),
-                    isNew: true,
-                },
-            ]
+            ? matchingDonor
+                ? existingDonors.map((d) =>
+                    d.orderid === newDonor.order_id ? { ...d, isNew: true } : d
+                )
+                : [
+                    ...existingDonors,
+                    {
+                        ...newDonor,
+                        sqft: Math.round(newDonor.amount / SQFT_PRICE),
+                        isNew: true,
+                    },
+                ]
             : existingDonors;
 
     const { grid, filledCount } = prepareGrid(allDonors, 500);
 
-    // ✅ Hide if donor < 1 SqFt
     if (newDonor && newDonor.amount < SQFT_PRICE) return null;
+
+    // Find starting block of highlighted donor
+    const startBlockIndex = grid.findIndex((b) => b?.isNew && b?.isStart);
+    const startBlockNumber = startBlockIndex >= 0 ? startBlockIndex + 1 : filledCount;
 
     return (
         <Box
@@ -110,7 +128,7 @@ const WallOfDevotion = ({ newDonor }) => {
                     The Wall of Devotion
                 </Text>
 
-                {/* 🎉 Message for new donor */}
+                {/* 🎉 Success Message */}
                 {newDonor && newDonor.amount >= SQFT_PRICE && (
                     <Box
                         mt={2}
@@ -127,8 +145,7 @@ const WallOfDevotion = ({ newDonor }) => {
                             🎉 Congratulations!
                         </Text>
                         <Text fontSize="sm" color="green.800" mt={1}>
-                            Your name has been permanently displayed in the Wall of Devotion starting at Block #
-                            {filledCount - Math.round(newDonor.amount / SQFT_PRICE) + 1}!
+                            Your name has been permanently displayed starting at Block #{startBlockNumber}!
                         </Text>
                     </Box>
                 )}
@@ -173,7 +190,7 @@ const WallOfDevotion = ({ newDonor }) => {
                 </Flex>
             </VStack>
 
-            {/* Grid Section */}
+            {/* Wall Grid */}
             <Box
                 maxW="1000px"
                 mx="auto"
@@ -189,7 +206,6 @@ const WallOfDevotion = ({ newDonor }) => {
                     overflowY="auto"
                     sx={{
                         "&::-webkit-scrollbar": { width: "6px" },
-                        "&::-webkit-scrollbar-track": { background: "#f1f1f1" },
                         "&::-webkit-scrollbar-thumb": {
                             background: "#CBD5E0",
                             borderRadius: "4px",
@@ -203,7 +219,6 @@ const WallOfDevotion = ({ newDonor }) => {
                             const isMyBlock = block?.isNew;
                             const showTooltip = !isMyBlock || (isMyBlock && block.isStart);
 
-                            // ✅ Tooltip text: name + sqft
                             const tooltipText = isFilled
                                 ? isMyBlock
                                     ? `🎉 ${block.name} (You!) - ${block.sqft} Sq. Ft.`
@@ -225,7 +240,6 @@ const WallOfDevotion = ({ newDonor }) => {
                                     <MotionBox
                                         w="100%"
                                         pt="100%"
-                                        aria-label={isFilled ? `Donated by ${block.name}` : `Available block ${blockNumber}`}
                                         bg={
                                             isMyBlock
                                                 ? "linear-gradient(135deg, #38A169, #2F855A)"
