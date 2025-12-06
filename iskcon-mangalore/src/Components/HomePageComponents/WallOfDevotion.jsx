@@ -7,7 +7,7 @@ import { fetchAllContributers } from "../../utils/apiCall";
 const MotionBox = motion(Box);
 const SQFT_PRICE = 5001;
 
-// Build grid from donors
+// Build independent grid for each donor (no shared references)
 const prepareGrid = (donors, totalBlocks = 500) => {
     const grid = Array(totalBlocks).fill(null);
     let currentIndex = 0;
@@ -16,11 +16,13 @@ const prepareGrid = (donors, totalBlocks = 500) => {
         const amount = donor.amount ? parseFloat(donor.amount) : SQFT_PRICE;
         const blocksCount = Math.max(1, Math.floor(amount / SQFT_PRICE));
 
+        // Clone each donor per block to avoid mutation
         for (let i = 0; i < blocksCount; i++) {
             if (currentIndex < totalBlocks) {
                 grid[currentIndex] = {
                     ...donor,
                     isStart: i === 0,
+                    blockIndex: currentIndex,
                 };
                 currentIndex++;
             }
@@ -57,41 +59,43 @@ const WallOfDevotion = ({ newDonor }) => {
         loadDonors();
     }, []);
 
-    // 🔹 Find if new donor already exists in received list
-    const matchingDonor = newDonor
-        ? existingDonors.find(
+    // Check for existing donor
+    const matchingDonor =
+        newDonor &&
+        existingDonors.find(
             (d) =>
                 d?.orderid &&
                 newDonor?.order_id &&
                 d.orderid === newDonor.order_id &&
                 d.amount >= SQFT_PRICE
-        )
-        : null;
+        );
 
-    // 🔹 Merge donors list & mark the highlighted donor
+    // Build donor list (add new if not existing)
     const allDonors =
         newDonor && newDonor.amount >= SQFT_PRICE
             ? matchingDonor
                 ? existingDonors.map((d) =>
-                    d.orderid === newDonor.order_id ? { ...d, isNew: true } : d
+                    d.orderid === newDonor.order_id ? { ...d, isNew: true } : { ...d }
                 )
                 : [
-                    ...existingDonors,
+                    ...existingDonors.map((d) => ({ ...d })), // clone all donors safely
                     {
                         ...newDonor,
                         sqft: Math.round(newDonor.amount / SQFT_PRICE),
                         isNew: true,
                     },
                 ]
-            : existingDonors;
+            : existingDonors.map((d) => ({ ...d }));
 
+    // Prepare wall grid
     const { grid, filledCount } = prepareGrid(allDonors, 500);
 
     if (newDonor && newDonor.amount < SQFT_PRICE) return null;
 
-    // Find starting block of highlighted donor
+    // Find first block index for this new donor (safe lookup)
     const startBlockIndex = grid.findIndex((b) => b?.isNew && b?.isStart);
-    const startBlockNumber = startBlockIndex >= 0 ? startBlockIndex + 1 : filledCount;
+    const startBlockNumber =
+        startBlockIndex >= 0 ? startBlockIndex + 1 : filledCount;
 
     return (
         <Box
@@ -128,7 +132,7 @@ const WallOfDevotion = ({ newDonor }) => {
                     The Wall of Devotion
                 </Text>
 
-                {/* 🎉 Success Message */}
+                {/* 🎉 Message */}
                 {newDonor && newDonor.amount >= SQFT_PRICE && (
                     <Box
                         mt={2}
@@ -145,7 +149,8 @@ const WallOfDevotion = ({ newDonor }) => {
                             🎉 Congratulations!
                         </Text>
                         <Text fontSize="sm" color="green.800" mt={1}>
-                            Your name has been permanently displayed starting at Block #{startBlockNumber}!
+                            Your name has been permanently displayed starting at Block #
+                            {startBlockNumber}!
                         </Text>
                     </Box>
                 )}
