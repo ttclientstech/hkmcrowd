@@ -46,7 +46,7 @@ const getContext = (n) => {
     if (n === 1) return { title: "Foundation Supporter", desc: "Laying the first stone of Dakshina Dwaraka Dham.", icon: FaRulerCombined, color: "gray" };
     if (n <= 5) return { title: "Festival Hall Benefactor", desc: "Supporting celebrations in our Festival Hall.", icon: FaHandsHelping, color: "blue" };
     if (n <= 10) return { title: "Kala Madhuryam Patron", desc: "Helping artists share India’s cultural beauty.", icon: FaTheaterMasks, color: "cyan" };
-    if (n <= 25) return { title: "Annadanam Contributor", desc: "Feeding thousands with love through the Annadanam Hall.", icon: FaUtensils, color: "orange" };
+    if (n <= 20) return { title: "Annadanam Contributor", desc: "Feeding thousands with love through the Annadanam Hall.", icon: FaUtensils, color: "orange" };
     return { title: "Cultural Visionary", desc: "Building a legacy of heritage for future generations.", icon: FaGem, color: "purple" };
 };
 
@@ -79,15 +79,16 @@ const Step1 = ({
                         YOUR IMPACT VISUALIZER
                     </Text>
 
-                    <SimpleGrid columns={7} spacing="4px" mb={4} maxW="350px" mx="auto">
-                        {[...Array(35)].map((_, i) => (
+                    {/* The Grid of 25 Blocks (5 Columns x 5 Rows) */}
+                    <SimpleGrid columns={5} spacing="4px" mb={4} maxW="300px" mx="auto">
+                        {[...Array(25)].map((_, i) => (
                             <Box
                                 key={i}
                                 w="100%"
                                 paddingTop="100%"
                                 borderRadius="2px"
                                 position="relative"
-                                bg={i < sqFt ? (i < 10 ? GOLD : i < 25 ? "orange.400" : RED) : "gray.100"}
+                                bg={i < sqFt ? (i < 5 ? GOLD : i < 15 ? "orange.400" : RED) : "gray.100"}
                                 border={i < sqFt ? "none" : "0.5px solid"}
                                 borderColor={i < sqFt ? "transparent" : "green.400"}
                                 transition="all 0.2s ease"
@@ -125,12 +126,12 @@ const Step1 = ({
                             icon={<FaPlus />}
                             onClick={handleIncrement}
                             isRound size="lg" bg="green.500" color="white" _hover={{ bg: "green.600" }} shadow="sm" aria-label="Increase"
-                            isDisabled={sqFt >= 35}
+                            isDisabled={sqFt >= 25}
                         />
                     </Flex>
 
                     <Flex gap={2} wrap="wrap" justify="center">
-                        {[1, 5, 10, 15, 25, 35].map(val => (
+                        {[1, 5, 10, 15, 20, 25].map(val => (
                             <Button
                                 key={val}
                                 size="sm"
@@ -294,7 +295,15 @@ const Step3 = ({
                                 </VStack>
                                 <VStack align="start" spacing={1}>
                                     <Text fontSize="sm" color="#0A1A33">Pincode *</Text>
-                                    <Input name="pincode" value={formData?.pincode || ""} onChange={handleOnChange} placeholder="Pincode" bg="white" border="1px solid #CCC" />
+                                    <Input
+                                        name="pincode"
+                                        value={formData?.pincode || ""}
+                                        onChange={handleOnChange}
+                                        placeholder="6-digit Pincode"
+                                        bg="white"
+                                        border="1px solid #CCC"
+                                        maxLength={6}
+                                    />
                                     {errors?.pincode && <Text fontSize="xs" color="red.500">{errors.pincode}</Text>}
                                 </VStack>
                             </SimpleGrid>
@@ -351,12 +360,31 @@ const Step3 = ({
                                 </VStack>
                                 <VStack align="start" spacing={1}>
                                     <Text fontSize="sm" color="#0A1A33">Pincode *</Text>
-                                    <Input name="taxPincode" value={formData?.taxPincode || ""} onChange={handleOnChange} placeholder="Pincode" bg="white" border="1px solid #CCC" />
+                                    <Input
+                                        name="taxPincode"
+                                        value={formData?.taxPincode || ""}
+                                        onChange={handleOnChange}
+                                        placeholder="6-digit Pincode"
+                                        bg="white"
+                                        border="1px solid #CCC"
+                                        maxLength={6}
+                                    />
                                     {errors?.taxPincode && <Text fontSize="xs" color="red.500">{errors.taxPincode}</Text>}
                                 </VStack>
                                 <VStack align="start" spacing={1}>
                                     <Text fontSize="sm" color="#0A1A33">PAN No. *</Text>
-                                    <Input name="panno" value={formData?.panno || ""} onChange={handleOnChange} placeholder="PAN No." bg="white" border="1px solid #CCC" />
+                                    <Input
+                                        name="panno"
+                                        value={formData?.panno || ""}
+                                        onChange={(e) => {
+                                            // Optional: Force uppercase for PAN
+                                            handleOnChange({ target: { name: "panno", value: e.target.value.toUpperCase() } });
+                                        }}
+                                        placeholder="Ex: ABCDE1234F"
+                                        bg="white"
+                                        border="1px solid #CCC"
+                                        maxLength={10}
+                                    />
                                     {errors?.panno && <Text fontSize="xs" color="red.500">{errors.panno}</Text>}
                                 </VStack>
                             </SimpleGrid>
@@ -410,6 +438,13 @@ const Step4 = ({ formData, totalAmount, prevStep, handleSubmit }) => (
                     <Text><b>Tax Address:</b></Text>
                     <Text>{formData.taxHouseNumber}, {formData.taxStreet}</Text>
                     <Text>{formData.taxCity}, {formData.taxState} - {formData.taxPincode}</Text>
+                </Box>
+            )}
+
+            {/* ANONYMOUS REVIEW */}
+            {formData.isanonymous && (
+                <Box w="100%" bg="gray.50" p={3} borderRadius="md" border="1px dashed" borderColor="gray.300">
+                    <Text fontWeight="bold" color="#0A1A33">✔️ Anonymous Donation Selected</Text>
                 </Box>
             )}
         </VStack>
@@ -494,22 +529,41 @@ const DonationPage = ({
 
     const validateStep3 = () => {
         let e = {};
+        // REGEX PATTERNS
+        const pincodeRegex = /^\d{6}$/;
+        const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+
         // Delivery Validation
         if (formData?.prasadRequired) {
             if (!formData?.houseNumber?.trim()) e.houseNumber = "Required";
             if (!formData?.street?.trim()) e.street = "Required";
             if (!formData?.city?.trim()) e.city = "Required";
             if (!formData?.state?.trim()) e.state = "Required";
-            if (!formData?.pincode?.trim()) e.pincode = "Required";
+            if (!formData?.pincode?.trim()) {
+                e.pincode = "Required";
+            } else if (!pincodeRegex.test(formData.pincode)) {
+                e.pincode = "Enter valid 6-digit pincode";
+            }
         }
+
         // Tax Validation
         if (formData?.taxExemption) {
             if (!formData?.taxHouseNumber?.trim()) e.taxHouseNumber = "Required";
             if (!formData?.taxStreet?.trim()) e.taxStreet = "Required";
             if (!formData?.taxCity?.trim()) e.taxCity = "Required";
             if (!formData?.taxState?.trim()) e.taxState = "Required";
-            if (!formData?.taxPincode?.trim()) e.taxPincode = "Required";
-            if (!formData?.panno?.trim()) e.panno = "Required";
+
+            if (!formData?.taxPincode?.trim()) {
+                e.taxPincode = "Required";
+            } else if (!pincodeRegex.test(formData.taxPincode)) {
+                e.taxPincode = "Enter valid 6-digit pincode";
+            }
+
+            if (!formData?.panno?.trim()) {
+                e.panno = "Required";
+            } else if (!panRegex.test(formData.panno)) {
+                e.panno = "Enter valid PAN (e.g. ABCDE1234F)";
+            }
         }
         return e;
     };
@@ -526,7 +580,7 @@ const DonationPage = ({
             const e = validateStep3();
             if (Object.keys(e).length) {
                 setStep3Errors(e);
-                alert("Please fill all mandatory address fields");
+                // alert("Please correct the errors in step 3"); // Optional alert
                 return;
             } else {
                 setStep3Errors({});
@@ -537,7 +591,7 @@ const DonationPage = ({
 
     const prevStep = () => setStep((s) => s - 1);
 
-    const handleIncrement = () => setSqFt(prev => Math.min(prev + 1, 35));
+    const handleIncrement = () => setSqFt(prev => Math.min(prev + 1, 25));
     const handleDecrement = () => setSqFt(prev => Math.max(prev - 1, 1));
     const handlePresetClick = (val) => setSqFt(val);
 
