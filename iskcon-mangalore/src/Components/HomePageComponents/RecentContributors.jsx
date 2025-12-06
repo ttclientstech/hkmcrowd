@@ -54,7 +54,7 @@ const RecentContributors = () => {
     // ✅ Format sqft/amount display
     const formatSqftOrAmount = (amt) => {
         if (amt >= SQFT_PRICE) {
-            const sqft = (amt / SQFT_PRICE).toFixed(2);
+            const sqft = Math.round(amt / SQFT_PRICE);
             return `${sqft} Sq. Ft.`;
         }
         return formatCurrency(amt);
