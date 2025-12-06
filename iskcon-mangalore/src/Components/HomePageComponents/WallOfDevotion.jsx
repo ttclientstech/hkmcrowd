@@ -1,221 +1,198 @@
-import React, { useState, useMemo } from "react";
-import {
-    Box,
-    Grid,
-    Text,
-    VStack,
-    HStack,
-    Tooltip,
-    Button,
-    useDisclosure,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    ModalCloseButton,
-    useBreakpointValue,
-} from "@chakra-ui/react";
+import React from "react";
+import { Box, SimpleGrid, Tooltip, Text, Flex, Icon, VStack } from "@chakra-ui/react";
+import { FaUser, FaLeaf, FaCheckCircle } from "react-icons/fa";
+import { motion } from "framer-motion";
 
-const NAVY = "#082032";
-const GOLD = "#FFD66B";
-const GREEN_BORDER = "#3DA35D";
-const BG_LIGHT = "#FAFAFA";
+// Motion component for the "Pulse" effect
+const MotionBox = motion(Box);
 
-// 🧱 Dummy donor list for demo (20 donors, variable sqft)
-const dummyDonors = [
-    { name: "Ramesh Kumar", sqft: 25 },
-    { name: "Anita Devi", sqft: 15 },
-    { name: "Sunil Gupta", sqft: 10 },
-    { name: "Kiran Prakash", sqft: 30 },
-    { name: "Nirmala S", sqft: 20 },
-    { name: "Rajesh Iyer", sqft: 40 },
-    { name: "Priya Lakshmi", sqft: 35 },
-    { name: "Vivek Sharma", sqft: 15 },
-    { name: "Meena G", sqft: 25 },
-    { name: "Arjun Rao", sqft: 10 },
-    { name: "Deepa M", sqft: 20 },
-    { name: "Suresh N", sqft: 25 },
-    { name: "Geetha B", sqft: 15 },
-    { name: "Balaji D", sqft: 10 },
-    { name: "Kavitha P", sqft: 25 },
-    { name: "Ravi Shankar", sqft: 40 },
-    { name: "Manoj V", sqft: 30 },
-    { name: "Lakshmi Priya", sqft: 20 },
-    { name: "Narayana Swamy", sqft: 30 },
-    { name: "Raghavendra", sqft: 20 },
-];
+// 1. HELPER: Convert Donor List to Grid Blocks
+const prepareGrid = (donors, totalBlocks = 500) => {
+    let grid = Array(totalBlocks).fill(null);
+    let currentIndex = 0;
 
-const TOTAL_BLOCKS = 500;
+    donors.forEach(donor => {
+        // Calculate blocks based on amount (Mock: 1 block = approx 2100)
+        // Default to 1 block if amount is missing or small
+        const amount = donor.amount ? parseFloat(donor.amount) : 2100;
+        const blocksCount = Math.max(1, Math.floor(amount / 2100));
 
-const WallOfDevotion = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const columns = useBreakpointValue({ base: 15, md: 25 }); // mobile vs desktop
-
-    // Assign donors to sequential blocks based on sqft
-    const filledBlocks = useMemo(() => {
-        let filledIndices = [];
-        let cursor = 0;
-        dummyDonors.forEach((donor) => {
-            for (let i = 0; i < donor.sqft && cursor < TOTAL_BLOCKS; i++) {
-                filledIndices.push({ index: cursor, name: donor.name });
-                cursor++;
+        for (let i = 0; i < blocksCount; i++) {
+            if (currentIndex < totalBlocks) {
+                grid[currentIndex] = {
+                    ...donor,
+                    isStart: i === 0,
+                    isCluster: blocksCount > 1
+                };
+                currentIndex++;
             }
-        });
-        return filledIndices;
-    }, []);
+        }
+    });
+    return { grid, filledCount: currentIndex };
+};
 
-    const filledSet = new Set(filledBlocks.map((b) => b.index));
+const WallOfDevotion = ({ newDonor }) => {
 
-    const getDonorByIndex = (index) =>
-        filledBlocks.find((b) => b.index === index)?.name || null;
+    // HARDCODED DUMMY DATA (Existing donors)
+    const mockDonors = [
+        { name: "Rajesh Kumar", amount: 10500, date: "2 mins ago" },
+        { name: "Priya Sharma", amount: 2100, date: "1 hour ago" },
+        { name: "Amitabh Bachchan", amount: 23100, date: "5 hours ago" },
+        { name: "Anonymous Devotee", amount: 4200, date: "1 day ago" },
+        { name: "Suresh & Family", amount: 6300, date: "2 days ago" },
+        { name: "Venkatesh P.", amount: 2100, date: "3 days ago" },
+    ];
+
+    // If a new donor is passed from Payment Page, add them to the list!
+    // We mark isNew: true to identify them for highlighting
+    const allDonors = newDonor
+        ? [...mockDonors, { ...newDonor, isNew: true }]
+        : mockDonors;
+
+    const { grid, filledCount } = prepareGrid(allDonors, 500);
 
     return (
-        <Box textAlign="center" mt={10} fontFamily="'Poppins', sans-serif">
-            <Text fontSize={["2xl", "3xl"]} fontWeight="600" color={NAVY} mb={3}>
-                Wall of Devotion
-            </Text>
-            <Text
-                fontSize={["md", "lg"]}
-                color="#4A5568"
-                maxW="700px"
+        <Box
+            py={8}
+            px={[2, 4]}
+            bg="white"
+            textAlign="center"
+            overflow="hidden"
+            position="relative"
+            maxW="1200px"
+            mx="auto"
+            borderRadius="xl"
+            border="1px solid"
+            borderColor="gray.100"
+            mt={6}
+            boxShadow="sm"
+        >
+            {/* Header Section */}
+            <VStack spacing={3} mb={6}>
+                <Flex align="center" gap={2} color="#D4AF37">
+                    <Icon as={FaLeaf} />
+                    <Text fontWeight="bold" letterSpacing="widest" textTransform="uppercase" fontSize="xs">
+                        Community Pillar
+                    </Text>
+                    <Icon as={FaLeaf} />
+                </Flex>
+
+                <Text fontSize={["xl", "2xl"]} fontWeight="extrabold" fontFamily="'Cinzel', serif" color="#082032">
+                    The Wall of Devotion
+                </Text>
+
+                {/* Legend */}
+                <Flex
+                    mt={2}
+                    bg="gray.50"
+                    p={2}
+                    borderRadius="full"
+                    border="1px solid #E2E8F0"
+                    gap={4}
+                    fontSize="xs"
+                    justify="center"
+                    wrap="wrap"
+                >
+                    <Flex align="center" gap={2}>
+                        <Box w="12px" h="12px" bgGradient="linear(135deg, rgb(212, 175, 55) 0%, rgb(183, 149, 11) 100%)" borderRadius="sm" />
+                        <Text fontWeight="bold" color="gray.700">Donated</Text>
+                    </Flex>
+                    {newDonor && (
+                        <Flex align="center" gap={2}>
+                            <Box w="12px" h="12px" bg="green.500" borderRadius="sm" boxShadow="0 0 5px green" />
+                            <Text fontWeight="bold" color="green.600">You Are Here</Text>
+                        </Flex>
+                    )}
+                </Flex>
+            </VStack>
+
+            {/* The Wall Grid Container */}
+            <Box
+                maxW="1000px"
                 mx="auto"
-                lineHeight="1.6"
-                mb={2}
+                bg="white"
+                borderRadius="lg"
+                border="1px solid"
+                borderColor="gray.300"
+                boxShadow="inner"
+                position="relative"
             >
-                Each block represents a sacred square foot of the temple.
-                <br />
-                Hover over golden blocks to see the devotees who’ve offered their seva.
-            </Text>
+                {/* SCROLLABLE VIEWPORT */}
+                <Box
+                    p={4}
+                    maxH={["300px", "350px"]}
+                    overflowY="auto"
+                    sx={{
+                        '&::-webkit-scrollbar': { width: '6px' },
+                        '&::-webkit-scrollbar-track': { background: '#f1f1f1' },
+                        '&::-webkit-scrollbar-thumb': { background: '#CBD5E0', borderRadius: '4px' },
+                    }}
+                >
+                    <SimpleGrid columns={[10, 15, 25]} spacing="3px">
+                        {grid.map((block, i) => {
+                            const isFilled = block !== null;
+                            const blockNumber = i + 1;
 
-            <Button
-                onClick={onOpen}
-                bg={NAVY}
-                color="white"
-                px={8}
-                mt={6}
-                borderRadius="50px"
-                _hover={{ bg: "#0A2A46" }}
-            >
-                View Wall of Devotion
-            </Button>
+                            // Check if this is the NEW donor to highlight
+                            const isMyBlock = block?.isNew;
 
-            {/* MODAL */}
-            <Modal isOpen={isOpen} onClose={onClose} size="6xl" isCentered scrollBehavior="inside">
-                <ModalOverlay bg="rgba(0,0,0,0.6)" backdropFilter="blur(2px)" />
-                <ModalContent bg={BG_LIGHT} borderRadius="16px" p={[4, 6]} maxH="90vh" overflow="hidden">
-                    <ModalHeader textAlign="center" fontSize="2xl" color={NAVY}>
-                        Wall of Devotion
-                    </ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        <VStack spacing={6}>
-                            <Text
-                                textAlign="center"
-                                fontSize="md"
-                                color="#555"
-                                maxW="600px"
-                                lineHeight="1.6"
-                            >
-                                Each golden block represents a devotee who has offered their contribution
-                                towards the sacred construction of Dakshina Dwaraka Dham.
-                                <br />
-                                Hover over a golden block to view their name.
-                            </Text>
-
-                            {/* WALL GRID */}
-                            <Box
-                                w="100%"
-                                overflowX="auto"
-                                px={2}
-                                py={3}
-                                borderRadius="12px"
-                                bg="white"
-                                boxShadow="0 4px 16px rgba(0,0,0,0.05)"
-                            >
-                                <Grid
-                                    templateColumns={`repeat(${columns}, minmax(22px, 1fr))`}
-                                    gap={1.5}
-                                    justifyContent="center"
-                                    mx="auto"
+                            return (
+                                <Tooltip
+                                    key={i}
+                                    label={isFilled ? (isMyBlock ? `🎉 ${block.name} (You!)` : `${block.name}`) : `Available`}
+                                    hasArrow
+                                    isOpen={isMyBlock ? true : undefined} // Force open for new donor
+                                    bg={isMyBlock ? "green.600" : (isFilled ? "#2C0A0A" : "gray.500")}
+                                    color="white"
+                                    placement="top"
+                                    fontSize="xs"
                                 >
-                                    {Array.from({ length: TOTAL_BLOCKS }).map((_, i) => {
-                                        const donor = getDonorByIndex(i);
-                                        const isFilled = filledSet.has(i);
-                                        return (
-                                            <Tooltip
-                                                key={i}
-                                                label={
-                                                    isFilled
-                                                        ? `${donor}`
-                                                        : "Available for sponsorship"
-                                                }
-                                                hasArrow
-                                                bg={NAVY}
-                                                color="white"
-                                                placement="top"
-                                                fontSize="xs"
-                                            >
-                                                <Box
-                                                    w="22px"
-                                                    h="22px"
-                                                    borderRadius="4px"
-                                                    bg={isFilled ? GOLD : "white"}
-                                                    border={isFilled ? "1px solid #D5B556" : `1.5px solid ${GREEN_BORDER}`}
-                                                    transition="all 0.2s ease"
-                                                    _hover={{
-                                                        transform: isFilled ? "scale(1.15)" : "scale(1.05)",
-                                                        boxShadow: isFilled
-                                                            ? "0 0 8px rgba(255,214,107,0.6)"
-                                                            : "0 0 6px rgba(61,163,93,0.3)",
-                                                    }}
-                                                />
-                                            </Tooltip>
-                                        );
-                                    })}
-                                </Grid>
-                            </Box>
+                                    <MotionBox
+                                        w="100%"
+                                        pt="100%"
+                                        aria-label={isFilled ? `Donated by ${block.name}` : `Available block ${blockNumber}`}
 
-                            {/* LEGEND */}
-                            <HStack justify="center" spacing={6} mt={2}>
-                                <HStack>
-                                    <Box w="20px" h="20px" bg={GOLD} borderRadius="4px" />
-                                    <Text fontSize="sm" color={NAVY}>
-                                        Already Claimed
-                                    </Text>
-                                </HStack>
-                                <HStack>
-                                    <Box
-                                        w="20px"
-                                        h="20px"
-                                        bg="white"
-                                        border={`1.5px solid ${GREEN_BORDER}`}
-                                        borderRadius="4px"
-                                    />
-                                    <Text fontSize="sm" color={NAVY}>
-                                        Available
-                                    </Text>
-                                </HStack>
-                            </HStack>
-                        </VStack>
-                    </ModalBody>
+                                        // Visual Style
+                                        bg={isFilled ? "linear-gradient(135deg, rgb(212, 175, 55) 0%, rgb(183, 149, 11) 100%)" : "transparent"}
+                                        border={isMyBlock ? "2px solid #38A169" : (isFilled ? "1px solid #B7950B" : "1px dotted #CBD5E0")}
+                                        borderRadius="sm"
+                                        opacity={isFilled ? 1 : 0.8}
+                                        position="relative"
 
-                    <ModalFooter justifyContent="center">
-                        <Button
-                            borderRadius="50px"
-                            bgGradient="linear(to-r, #FFD369, #FFC947)"
-                            color={NAVY}
-                            px={8}
-                            py={5}
-                            fontWeight="600"
-                            _hover={{ bgGradient: "linear(to-r, #FFD66B, #FFCB52)" }}
-                        >
-                            Add Your Name to the Wall
-                        </Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
+                                        // "Blast" Animation for the new block
+                                        animate={isMyBlock ? {
+                                            scale: [1, 1.3, 1],
+                                            boxShadow: ["0px 0px 0px rgba(0,0,0,0)", "0px 0px 15px rgba(72, 187, 120, 0.8)", "0px 0px 0px rgba(0,0,0,0)"]
+                                        } : {}}
+                                        transition={isMyBlock ? { duration: 1.5, repeat: Infinity, repeatType: "loop" } : {}}
+
+                                        // Ensure high Z-index for the highlighted block
+                                        zIndex={isMyBlock ? 10 : 1}
+                                    >
+                                        {/* Icon for Big Donors */}
+                                        {isFilled && block.isStart && block.amount > 5000 && (
+                                            <Icon
+                                                as={isMyBlock ? FaCheckCircle : FaUser}
+                                                color={isMyBlock ? "white" : "rgba(255,255,255,0.2)"}
+                                                position="absolute"
+                                                top="50%" left="50%"
+                                                transform="translate(-50%, -50%)"
+                                                w="60%" h="60%"
+                                            />
+                                        )}
+                                    </MotionBox>
+                                </Tooltip>
+                            );
+                        })}
+                    </SimpleGrid>
+                </Box>
+            </Box>
+
+            {newDonor && (
+                <Text mt={4} fontSize="sm" color="green.600" fontWeight="bold">
+                    ✨ Your name has been permanently added to Block #{filledCount}!
+                </Text>
+            )}
         </Box>
     );
 };
