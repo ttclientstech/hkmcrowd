@@ -154,8 +154,8 @@ const PaymentPage = () => {
                         <Box mt={8}>
                             <WallOfDevotion
                                 newDonor={{
-                                    name: paymentData.name || "You",
-                                    amount: paymentData.amount || 2100
+                                    name: paymentData.name,
+                                    amount: paymentData.amount
                                 }}
                             />
                         </Box>
