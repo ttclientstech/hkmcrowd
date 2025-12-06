@@ -178,7 +178,7 @@ const WallOfDevotion_Engraved = () => {
                                         // SPONSORED: Gold to Maroon Gradient
                                         // AVAILABLE: Transparent (shows white bg) with Green Dotted Border
                                         bg={isFilled ? "linear-gradient(135deg, rgb(212, 175, 55) 0%, rgb(183, 149, 11) 100%)" : "transparent"}
-                                        border={isFilled ? "1px solid rgb(183 165 11)" : "1px dotted #38A169"}
+                                        border={isFilled ? "1px solid #ac0606" : "1px solid #38A169"}
                                         borderRadius="sm"
                                         opacity={isFilled ? 1 : 0.8}
                                         position="relative"
@@ -256,9 +256,6 @@ const WallOfDevotion_Engraved = () => {
                 <Box h={["1px", "40px"]} w={["100%", "1px"]} bg="orange.200" />
 
                 <VStack spacing={2} align={["center", "flex-start"]}>
-                    <Text fontSize="md" fontWeight="medium" color="#2C0A0A" fontStyle="italic">
-                        Create a History. Leave a legacy
-                    </Text>
                     <Button
                         size="sm"
                         colorScheme="orange"
@@ -269,6 +266,9 @@ const WallOfDevotion_Engraved = () => {
                     >
                         Add Your Name to the Wall
                     </Button>
+                    <Text fontSize="sm" fontWeight="medium" color="#2C0A0A" fontStyle="italic">
+                        Create a History. Leave a legacy
+                    </Text>
                 </VStack>
             </Flex>
         </Box>

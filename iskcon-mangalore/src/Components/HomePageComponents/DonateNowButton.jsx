@@ -1,12 +1,21 @@
 import React from "react";
 import { Box, Text, Button, Flex, Icon } from "@chakra-ui/react";
 import { FaHandHoldingHeart } from "react-icons/fa";
+import { useNavigate, useParams } from "react-router-dom";
 
-const DonateNowButton = () => {
+const DonateNowButton = ({ getSingleUser }) => {
+    const navigate = useNavigate();
+    const { id } = useParams();
+
+    const handleClick = () => {
+        // ✅ navigate and send campaign details through state
+        navigate(`/campaign/${id}/donate`, { state: { getSingleUser } });
+    };
     return (
             <Box maxW="1200px" mx="auto" px={[4,6]} mt={8} mb={6}>
                 <Flex justify="center">
                     <Button
+                        onClick={handleClick}
                         bgGradient="linear(to-r, #FFD700, #FFB200)"
                         color="#2C0A0A"
                         fontWeight="800"

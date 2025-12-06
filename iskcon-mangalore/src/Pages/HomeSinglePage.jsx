@@ -595,11 +595,11 @@ const HomeSinglePage = () => {
             <TestimonialSection />
             <DonorPrivilegeSection />
             <RecentContributors getSingleUser={getSingleUser} />
-            <DonateNowButton />
+            <DonateNowButton getSingleUser={getSingleUser} />
             <WallOfDevotion_Engraved />
             <WhyDonateQuotes />
             <FAQComponent />
-            <DonateNowButton />
+            <DonateNowButton getSingleUser={getSingleUser} />
             <PrabhupadaSection />
             <PrabhupadaQuoteCTA />
 
