@@ -155,7 +155,6 @@ const DonationPage = ({
             maxW="600px"
             mx="auto"
         >
-            {renderHeader()}
             <VStack spacing={6}>
                 <Text
                     fontSize="xl"
@@ -170,13 +169,13 @@ const DonationPage = ({
                 <Box w="100%">
                     <Slider
                         aria-label="sqft-slider"
-                        defaultValue={1}
+                        value={sqFt}
                         min={1}
                         max={108}
                         step={1}
                         onChange={(val) => setSqFt(val)}
                     >
-                        <SliderTrack bg="gray.200" h="10px" borderRadius="full">
+                    <SliderTrack bg="gray.200" h="10px" borderRadius="full">
                             <SliderFilledTrack bg={GREEN} />
                         </SliderTrack>
                         <SliderThumb boxSize={6} bg="white" border={`2px solid ${GREEN}`} />
@@ -270,7 +269,6 @@ const DonationPage = ({
             maxW="700px"
             mx="auto"
         >
-            {renderHeader()}
             <Text textAlign="center" color="gray.600" mb={4}>
                 Please fill in your details to proceed
             </Text>
@@ -324,7 +322,6 @@ const DonationPage = ({
             maxW="700px"
             mx="auto"
         >
-            {renderHeader()}
             <VStack align="start" spacing={3}>
                 <Checkbox
                     name="prasadRequired"
@@ -378,7 +375,6 @@ const DonationPage = ({
             maxW="700px"
             mx="auto"
         >
-            {renderHeader()}
             <Text
                 fontWeight="bold"
                 color={RED}
@@ -431,14 +427,62 @@ const DonationPage = ({
     );
 
     return (
-        <Box w="100%" minH="100vh" bg={NAVY} py={6} px={[4, 6, 10]}>
-            {step === 1 && <Step1 />}
-            {step === 2 && <Step2 />}
-            {step === 3 && <Step3 />}
-            {step === 4 && <Step4 />}
+        <Box w="100%" minH="100vh" bg={NAVY} pb={10}>
+            {/* ================= HEADER SECTION ================= */}
+            <Box textAlign="center" color="white" py={[8, 10]} px={[4, 6]}>
+                <Text
+                    fontWeight="bold"
+                    fontSize={["xl", "2xl"]}
+                    letterSpacing="wide"
+                >
+                    Dakshina Dwaraka Dham | Square Feet Campaign
+                </Text>
 
-            {/* Footer */}
-            <Box textAlign="center" color="gray.300" fontSize="sm" py={6} px={4} mt={10}>
+                <Text
+                    fontSize="sm"
+                    mt={2}
+                    opacity={0.9}
+                    fontStyle="italic"
+                    maxW="600px"
+                    mx="auto"
+                >
+                    “You are standing with <b>{campaignerName}</b> to build a timeless
+                    cultural sanctuary.”
+                </Text>
+
+                <Flex align="center" justify="center" mt={5}>
+                    <Image
+                        src={campaignerPhoto}
+                        alt="campaigner"
+                        borderRadius="full"
+                        boxSize="60px"
+                        objectFit="cover"
+                        border={`2px solid ${GOLD}`}
+                        mr={3}
+                    />
+                    <Text fontWeight="600" fontSize="md" color="white">
+                        {campaignerName}
+                    </Text>
+                </Flex>
+            </Box>
+
+            {/* ================= STEP CARD SECTION ================= */}
+            <Box px={[4, 6]} mt={-6}>
+                {step === 1 && <Step1 />}
+                {step === 2 && <Step2 />}
+                {step === 3 && <Step3 />}
+                {step === 4 && <Step4 />}
+            </Box>
+
+            {/* ================= FOOTER ================= */}
+            <Box
+                textAlign="center"
+                color="gray.300"
+                fontSize="sm"
+                py={6}
+                px={4}
+                mt={10}
+            >
                 <Divider mb={4} borderColor="rgba(255,255,255,0.15)" />
                 <Text>
                     Need help? Message us at{" "}
