@@ -8,10 +8,6 @@ import {
     Checkbox,
     Button,
     Divider,
-    SimpleGrid,
-    Stack,
-    Image,
-    useBreakpointValue,
     Icon,
     Flex,
     Slider,
@@ -19,6 +15,7 @@ import {
     SliderFilledTrack,
     SliderThumb,
     Badge,
+    Image,
 } from "@chakra-ui/react";
 import {
     FaRulerCombined,
@@ -30,27 +27,30 @@ import {
 import { LuBriefcase } from "react-icons/lu";
 import { IskconBgColor } from "../utils";
 import HeadingBanner from "./HeadingBannerNew";
-import AutoSuggestInput from "./AutoSuggestInput";
-import { IndiaStates, DistrictsByState } from "../../constants/indiaLocations";
 
 const SQFT_PRICE = 5001;
 
+const NAVY = "#081229";
+const GOLD = "#FFD700";
+const RED = "#E63946";
+const GREEN = "#34C759";
+const TEXT_DARK = "#1A1A1A";
+
 const DonationPage = ({
-                             amount,
-                             handleSubmit,
-                             handleOnChange,
-                             formData,
-                             errors,
-                             setFormData,
-                             campaignerName = "ISKCON Chennai",
-                             campaignerPhoto = "/images/campaigner.jpg",
-                         }) => {
+                          amount,
+                          handleSubmit,
+                          handleOnChange,
+                          formData,
+                          errors,
+                          setFormData,
+                          campaignerName = "ISKCON Chennai",
+                          campaignerPhoto = "/images/campaigner.jpg",
+                      }) => {
     const [step, setStep] = useState(1);
     const [sqFt, setSqFt] = useState(1);
     const [customAmount, setCustomAmount] = useState("");
     const [copyTaxAddress, setCopyTaxAddress] = useState(false);
 
-    const gridCols = useBreakpointValue({ base: 1, md: 2 });
     const totalAmount =
         customAmount && parseInt(customAmount) >= 500
             ? parseInt(customAmount)
@@ -115,45 +115,28 @@ const DonationPage = ({
 
     const prevStep = () => setStep((s) => s - 1);
 
-    const handleCopyAddress = (e) => {
-        const checked = e.target.checked;
-        setCopyTaxAddress(checked);
-        if (checked) {
-            setFormData((p) => ({
-                ...p,
-                taxHouseNumber: p.houseNumber || "",
-                taxStreet: p.street || "",
-                taxState: p.state || "",
-                taxCity: p.city || "",
-                taxPincode: p.pincode || "",
-            }));
-        } else {
-            setFormData((p) => ({
-                ...p,
-                taxHouseNumber: "",
-                taxStreet: "",
-                taxState: "",
-                taxCity: "",
-                taxPincode: "",
-            }));
-        }
-    };
-
     const renderHeader = () => (
-        <Box textAlign="center" mb={5}>
-            <Text fontWeight="bold" fontSize="lg" color={IskconBgColor}>
+        <Box textAlign="center" mb={6}>
+            <Text fontWeight="bold" fontSize="lg" color="white">
                 Dakshina Dwaraka Dham | Square Feet Campaign
             </Text>
-            <Flex align="center" justify="center" mt={3}>
+
+            <Text fontSize="sm" mt={2} opacity={0.9} color="white" fontStyle="italic">
+                “You are standing with <b>{campaignerName}</b> to build a timeless
+                cultural sanctuary.”
+            </Text>
+
+            <Flex align="center" justify="center" mt={4}>
                 <Image
                     src={campaignerPhoto}
                     alt="campaigner"
                     borderRadius="full"
-                    boxSize="50px"
+                    boxSize="55px"
                     objectFit="cover"
+                    border={`2px solid ${GOLD}`}
                     mr={3}
                 />
-                <Text fontWeight="semibold" color="gray.700">
+                <Text fontWeight="semibold" color="white">
                     {campaignerName}
                 </Text>
             </Flex>
@@ -164,69 +147,112 @@ const DonationPage = ({
      * STEP 1 - DONATION SELECTION
      * -------------------------- */
     const Step1 = () => (
-        <Box bg="white" p={[6, 8]} borderRadius="lg" boxShadow="md" maxW="600px" mx="auto">
+        <Box
+            bg="white"
+            p={[6, 8]}
+            borderRadius="16px"
+            boxShadow="0 6px 30px rgba(0,0,0,0.25)"
+            maxW="600px"
+            mx="auto"
+        >
             {renderHeader()}
-            <VStack spacing={5}>
-                <VStack spacing={0}>
-                    <Text fontSize="xs" color="gray.500" fontWeight="bold" letterSpacing="wide" textTransform="uppercase">
-                        Select Your Contribution
-                    </Text>
-                    <Text fontSize="3xl" fontWeight="extrabold" color="#2C0A0A" fontFamily="'Cinzel', serif">
-                        {sqFt} <Text as="span" fontSize="lg" color="gray.500">Sq. Feet</Text>
-                    </Text>
-                    <Badge colorScheme="red" variant="subtle" fontSize="0.8em" px={2} borderRadius="full">
-                        {context.title}
-                    </Badge>
-                </VStack>
+            <VStack spacing={6}>
+                <Text
+                    fontSize="xl"
+                    fontWeight="700"
+                    textAlign="center"
+                    color={TEXT_DARK}
+                >
+                    Choose Your Contribution
+                </Text>
 
-                <Flex justify="center" align="center" h="120px" w="100%" bg="gray.50" borderRadius="lg" border="1px dashed #CBD5E0" p={4}>
-                    <SimpleGrid columns={Math.ceil(Math.sqrt(Math.min(sqFt, 25)))} spacing={1}>
-                        {[...Array(Math.min(sqFt, 25))].map((_, i) => (
-                            <Box key={i} w="16px" h="16px" bg={i === 0 ? "#D4AF37" : "#F6E05E"} borderRadius="2px" boxShadow="xs" opacity={0.9} />
-                        ))}
-                    </SimpleGrid>
-                    {sqFt > 25 && <Text ml={2} color="gray.400" fontWeight="bold">+{sqFt - 25} more</Text>}
-                </Flex>
-
-                <Box textAlign="center">
-                    <Flex justify="center" align="center" gap={2} mb={1}>
-                        <Icon as={context.icon} color="#B22222" />
-                        <Text fontWeight="bold" color="#2C0A0A">{context.title}</Text>
-                    </Flex>
-                    <Text fontSize="sm" color="gray.600">"{context.desc}"</Text>
-                </Box>
-
-                <Box w="100%" px={2}>
-                    <Slider aria-label="sqft-slider" defaultValue={1} min={1} max={108} step={1} onChange={(val) => setSqFt(val)}>
+                {/* Slider */}
+                <Box w="100%">
+                    <Slider
+                        aria-label="sqft-slider"
+                        defaultValue={1}
+                        min={1}
+                        max={108}
+                        step={1}
+                        onChange={(val) => setSqFt(val)}
+                    >
                         <SliderTrack bg="gray.200" h="10px" borderRadius="full">
-                            <SliderFilledTrack bg="#B22222" />
+                            <SliderFilledTrack bg={GREEN} />
                         </SliderTrack>
-                        <SliderThumb boxSize={8} border="4px solid #B22222" bg="white" boxShadow="md">
-                            <Box as={FaGem} color="#B22222" />
-                        </SliderThumb>
+                        <SliderThumb boxSize={6} bg="white" border={`2px solid ${GREEN}`} />
                     </Slider>
 
-                    <Flex justify="space-between" mt={4} gap={2}>
-                        {[1, 5, 10, 25, 108].map((v) => (
-                            <Button key={v} size="xs" variant={sqFt === v ? "solid" : "outline"} colorScheme="red" onClick={() => setSqFt(v)}>
-                                {v} SqFt
-                            </Button>
-                        ))}
-                    </Flex>
+                    <Text mt={3} textAlign="center" fontWeight="600" color={TEXT_DARK}>
+                        {sqFt} Sq. Feet = ₹{(sqFt * SQFT_PRICE).toLocaleString("en-IN")}
+                    </Text>
                 </Box>
 
-                <VStack spacing={1} mt={2}>
-                    <Text fontSize="sm" color="gray.600">Or enter custom amount (min ₹500)</Text>
-                    <Input type="number" min={500} placeholder="Enter amount manually" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} w="60%" textAlign="center" />
+                {/* Badge */}
+                <Badge
+                    px={4}
+                    py={2}
+                    borderRadius="full"
+                    fontSize="sm"
+                    fontWeight="700"
+                    bgGradient={
+                        sqFt >= 50
+                            ? "linear(to-r, #FFD700, #F5C542)"
+                            : sqFt >= 10
+                                ? "linear(to-r, #C0C0C0, #E0E0E0)"
+                                : "linear(to-r, #F5F5F5, #FFF)"
+                    }
+                    color={sqFt >= 10 ? "#2C0A0A" : "#444"}
+                >
+                    {context.title}
+                </Badge>
+
+                <Text
+                    fontSize="sm"
+                    color="gray.600"
+                    textAlign="center"
+                    maxW="80%"
+                    mx="auto"
+                >
+                    {context.desc}
+                </Text>
+
+                {/* Custom amount */}
+                <VStack spacing={1}>
+                    <Text fontSize="sm" color="gray.600">
+                        Or enter custom amount (min ₹500)
+                    </Text>
+                    <Input
+                        type="number"
+                        min={500}
+                        placeholder="Enter amount manually"
+                        value={customAmount}
+                        onChange={(e) => setCustomAmount(e.target.value)}
+                        w="60%"
+                        textAlign="center"
+                    />
                 </VStack>
 
+                {/* Total */}
                 <Box w="100%" pt={4} borderTop="1px dashed #E2E8F0" textAlign="center">
-                    <Text fontSize="sm" color="gray.500" mb={1}>Total Sponsorship</Text>
-                    <Text fontSize="3xl" fontWeight="bold" color="#B22222">₹{totalAmount.toLocaleString("en-IN")}</Text>
+                    <Text fontSize="sm" color="gray.500" mb={1}>
+                        Total Sponsorship
+                    </Text>
+                    <Text fontSize="3xl" fontWeight="bold" color={RED}>
+                        ₹{totalAmount.toLocaleString("en-IN")}
+                    </Text>
                 </Box>
 
-                <Button colorScheme="red" w="100%" py={6} borderRadius="full" onClick={nextStep}>
-                    Next
+                <Button
+                    bg={RED}
+                    color="white"
+                    w="100%"
+                    py={6}
+                    borderRadius="full"
+                    onClick={nextStep}
+                    _hover={{ bg: "#D32F2F", transform: "scale(1.03)" }}
+                    transition="all 0.25s ease"
+                >
+                    Continue
                 </Button>
             </VStack>
         </Box>
@@ -236,28 +262,51 @@ const DonationPage = ({
      * STEP 2 - PERSONAL DETAILS
      * -------------------------- */
     const Step2 = () => (
-        <Box bg="white" p={[6, 8]} borderRadius="lg" boxShadow="md" maxW="700px" mx="auto">
+        <Box
+            bg="white"
+            p={[6, 8]}
+            borderRadius="16px"
+            boxShadow="0 6px 30px rgba(0,0,0,0.25)"
+            maxW="700px"
+            mx="auto"
+        >
             {renderHeader()}
-            <Text textAlign="center" color="gray.600" mb={4}>Please fill the following details to proceed</Text>
+            <Text textAlign="center" color="gray.600" mb={4}>
+                Please fill in your details to proceed
+            </Text>
             <VStack spacing={4} align="stretch">
-                {["username", "mobileno", "email"].map((field, i) => (
-                    <VStack align="start" key={i} spacing={1}>
+                {["username", "mobileno", "email"].map((field) => (
+                    <VStack align="start" key={field} spacing={1}>
                         <Text fontWeight="semibold" color="#0A1A33">
-                            {field === "username" ? "Full Name *" : field === "mobileno" ? "WhatsApp Number *" : "Email *"}
+                            {field === "username"
+                                ? "Full Name *"
+                                : field === "mobileno"
+                                    ? "WhatsApp Number *"
+                                    : "Email *"}
                         </Text>
-                        <Input name={field} value={formData?.[field] || ""} onChange={handleOnChange} placeholder={`Enter your ${field}`} border="1px solid #CCC" />
-                        {errors?.[field] && <Text color="red.500">{errors[field]}</Text>}
+                        <Input
+                            name={field}
+                            value={formData?.[field] || ""}
+                            onChange={handleOnChange}
+                            placeholder={`Enter your ${field}`}
+                            border="1px solid #CCC"
+                        />
                     </VStack>
                 ))}
-                <VStack align="start">
-                    <Text fontWeight="semibold" color="#0A1A33">Date of Birth (Optional)</Text>
-                    <Input type="date" name="dob" value={formData?.dob || ""} onChange={handleOnChange} border="1px solid #CCC" />
-                    <Text fontSize="xs" color="gray.500">A special Sankalp and Aarti will be performed on your birthday.</Text>
-                </VStack>
 
                 <Flex mt={6} gap={3}>
-                    <Button variant="outline" colorScheme="gray" w="50%" onClick={prevStep}>Back</Button>
-                    <Button colorScheme="red" w="50%" onClick={nextStep}>Next</Button>
+                    <Button variant="outline" colorScheme="gray" w="50%" onClick={prevStep}>
+                        Back
+                    </Button>
+                    <Button
+                        bg={RED}
+                        color="white"
+                        w="50%"
+                        onClick={nextStep}
+                        borderRadius="full"
+                    >
+                        Continue
+                    </Button>
                 </Flex>
             </VStack>
         </Box>
@@ -267,22 +316,51 @@ const DonationPage = ({
      * STEP 3 - ADDITIONAL OPTIONS
      * -------------------------- */
     const Step3 = () => (
-        <Box bg="white" p={[6, 8]} borderRadius="lg" boxShadow="md" maxW="800px" mx="auto">
+        <Box
+            bg="white"
+            p={[6, 8]}
+            borderRadius="16px"
+            boxShadow="0 6px 30px rgba(0,0,0,0.25)"
+            maxW="700px"
+            mx="auto"
+        >
             {renderHeader()}
             <VStack align="start" spacing={3}>
-                <Checkbox name="prasadRequired" isChecked={!!formData?.prasadRequired} onChange={handleOnChange}>
-                    I would like to receive Gift & Maha Prasadam (Only within India)
+                <Checkbox
+                    name="prasadRequired"
+                    isChecked={!!formData?.prasadRequired}
+                    onChange={handleOnChange}
+                >
+                    I would like to receive Gift & Maha Prasadam (India only)
                 </Checkbox>
-                <Checkbox name="taxExemption" isChecked={!!formData?.taxExemption} onChange={handleOnChange}>
+                <Checkbox
+                    name="taxExemption"
+                    isChecked={!!formData?.taxExemption}
+                    onChange={handleOnChange}
+                >
                     I would like to avail 80G tax benefits
                 </Checkbox>
-                <Checkbox name="isanonymous" isChecked={!!formData?.isanonymous} onChange={handleOnChange}>
+                <Checkbox
+                    name="isanonymous"
+                    isChecked={!!formData?.isanonymous}
+                    onChange={handleOnChange}
+                >
                     Make my donation anonymous
                 </Checkbox>
 
                 <Flex mt={6} gap={3}>
-                    <Button variant="outline" colorScheme="gray" w="50%" onClick={prevStep}>Back</Button>
-                    <Button colorScheme="red" w="50%" onClick={nextStep}>Next</Button>
+                    <Button variant="outline" colorScheme="gray" w="50%" onClick={prevStep}>
+                        Back
+                    </Button>
+                    <Button
+                        bg={RED}
+                        color="white"
+                        w="50%"
+                        onClick={nextStep}
+                        borderRadius="full"
+                    >
+                        Continue
+                    </Button>
                 </Flex>
             </VStack>
         </Box>
@@ -292,16 +370,34 @@ const DonationPage = ({
      * STEP 4 - REVIEW & PAY
      * -------------------------- */
     const Step4 = () => (
-        <Box bg="white" p={[6, 8]} borderRadius="lg" boxShadow="md" maxW="700px" mx="auto">
+        <Box
+            bg="white"
+            p={[6, 8]}
+            borderRadius="16px"
+            boxShadow="0 6px 30px rgba(0,0,0,0.25)"
+            maxW="700px"
+            mx="auto"
+        >
             {renderHeader()}
-            <Text fontWeight="bold" color="#B22222" fontSize="2xl" textAlign="center" mb={4}>
+            <Text
+                fontWeight="bold"
+                color={RED}
+                fontSize="2xl"
+                textAlign="center"
+                mb={4}
+            >
                 ₹{totalAmount.toLocaleString("en-IN")}
             </Text>
             <VStack spacing={3} align="start" fontSize="sm" color="gray.700">
-                <Text><b>Name:</b> {formData.username}</Text>
-                <Text><b>WhatsApp:</b> {formData.mobileno}</Text>
-                <Text><b>Email:</b> {formData.email}</Text>
-                {formData.dob && <Text><b>DOB:</b> {formData.dob}</Text>}
+                <Text>
+                    <b>Name:</b> {formData.username}
+                </Text>
+                <Text>
+                    <b>WhatsApp:</b> {formData.mobileno}
+                </Text>
+                <Text>
+                    <b>Email:</b> {formData.email}
+                </Text>
                 {formData.prasadRequired && <Text>✔️ Gift & Maha Prasadam Selected</Text>}
                 {formData.taxExemption && <Text>✔️ 80G Tax Benefit Opted</Text>}
             </VStack>
@@ -311,12 +407,22 @@ const DonationPage = ({
             <VStack>
                 <HStack justify="center">
                     <LuBriefcase color="#6B7280" />
-                    <Text fontSize="sm" color="gray.600">Secure payment via Razorpay</Text>
+                    <Text fontSize="sm" color="gray.600">
+                        Secure payment via Razorpay
+                    </Text>
                 </HStack>
 
                 <Flex mt={6} gap={3}>
-                    <Button variant="outline" colorScheme="gray" w="50%" onClick={prevStep}>Back</Button>
-                    <Button bgGradient="linear(to-r, #B22222, #8B0000)" color="white" w="50%" onClick={handleSubmit}>
+                    <Button variant="outline" colorScheme="gray" w="50%" onClick={prevStep}>
+                        Back
+                    </Button>
+                    <Button
+                        bg={RED}
+                        color="white"
+                        w="50%"
+                        onClick={handleSubmit}
+                        borderRadius="full"
+                    >
                         Proceed to Pay
                     </Button>
                 </Flex>
@@ -325,12 +431,25 @@ const DonationPage = ({
     );
 
     return (
-        <Box w="100%" minH="100vh" bg="#F7F9FC" py={6} px={[4, 6, 10]}>
-            <HeadingBanner />
+        <Box w="100%" minH="100vh" bg={NAVY} py={6} px={[4, 6, 10]}>
             {step === 1 && <Step1 />}
             {step === 2 && <Step2 />}
             {step === 3 && <Step3 />}
             {step === 4 && <Step4 />}
+
+            {/* Footer */}
+            <Box textAlign="center" color="gray.300" fontSize="sm" py={6} px={4} mt={10}>
+                <Divider mb={4} borderColor="rgba(255,255,255,0.15)" />
+                <Text>
+                    Need help? Message us at{" "}
+                    <Box as="span" color={GOLD} fontWeight="600">
+                        support@iskconchennai.org
+                    </Box>
+                </Text>
+                <Text fontSize="xs" mt={3} opacity={0.6}>
+                    © 2025 Hare Krishna Movement Chennai. All rights reserved.
+                </Text>
+            </Box>
         </Box>
     );
 };
