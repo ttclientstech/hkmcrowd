@@ -41,20 +41,7 @@ const PaymentPageFullWrapper = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const newErrors = {};
-        if (!formData.username) newErrors.username = "Full name required";
-        if (!formData.mobileno?.match(/^[6-9]\d{9}$/))
-            newErrors.mobileno = "Valid 10-digit WhatsApp number required";
-        if (!formData.email?.includes("@"))
-            newErrors.email = "Enter valid email";
-        if (!amount || amount < 500)
-            newErrors.amount = "Minimum donation ₹500";
-
-        setErrors(newErrors);
-        if (Object.keys(newErrors).length) return;
-
         const payload = { ...formData, amount, campaignsid: id };
-
         dispatch(postPaymentFormData(payload)).then((res) => {
             const orderId = res?.payload?.order?.id;
             if (orderId) {

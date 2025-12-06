@@ -43,10 +43,10 @@ const TEXT_DARK = "#1A1A1A";
 
 // ---------- Helper: Context Titles ----------
 const getContext = (n) => {
-    if (n === 1) return { title: "Foundation Supporter", desc: "Laying the first stone of Dakshina Dwaraka Dham.", icon: FaRulerCombined, color: "gray" };
-    if (n <= 5) return { title: "Festival Hall Benefactor", desc: "Supporting celebrations in our Festival Hall.", icon: FaHandsHelping, color: "blue" };
-    if (n <= 10) return { title: "Kala Madhuryam Patron", desc: "Helping artists share India’s cultural beauty.", icon: FaTheaterMasks, color: "cyan" };
-    if (n <= 20) return { title: "Annadanam Contributor", desc: "Feeding thousands with love through the Annadanam Hall.", icon: FaUtensils, color: "orange" };
+    if (n === 1) return { title: "Foundation Seva", desc: "Laying the first stone of Dakshina Dwaraka Dham.", icon: FaRulerCombined, color: "gray" };
+    if (n <= 5) return { title: "Festival Hall Seva", desc: "Supporting celebrations in our Festival Hall.", icon: FaHandsHelping, color: "blue" };
+    if (n <= 10) return { title: "Kala Madhuryam Seva", desc: "Helping artists share India’s cultural beauty.", icon: FaTheaterMasks, color: "cyan" };
+    if (n <= 20) return { title: "Annadanam Hall Seva", desc: "Feeding thousands with love through the Annadanam Hall.", icon: FaUtensils, color: "orange" };
     return { title: "Cultural Visionary", desc: "Building a legacy of heritage for future generations.", icon: FaGem, color: "purple" };
 };
 
