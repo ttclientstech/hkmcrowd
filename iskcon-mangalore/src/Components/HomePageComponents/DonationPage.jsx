@@ -25,7 +25,7 @@ import {
     FaGem,
 } from "react-icons/fa";
 import { LuBriefcase } from "react-icons/lu";
-import donorBg from "../../assets/images/donor_bg_image.jpg"; // ✅ your bg image
+import donorBg from "../../assets/images/donation_page_bg.jpg"; // ✅ your bg image
 
 // ---------- Theme Colors ----------
 const SQFT_PRICE = 5001;
