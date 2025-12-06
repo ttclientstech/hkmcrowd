@@ -53,7 +53,7 @@ const PaymentPageFullWrapper = () => {
                     seva: "Mandir Nirmana Seva",
                     amount: formData.amount || amount,
                     order_id: orderId,
-                    campaignsid: formData.campaignsid,
+                    campaignsid: id,
                     taxHouseNumber: formData.taxHouseNumber || "",
                     taxStreet: formData.taxStreet || "",
                     taxCity: formData.taxCity || "",

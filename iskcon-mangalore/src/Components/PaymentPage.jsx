@@ -31,6 +31,7 @@ const PaymentPage = () => {
             taxPincode: getParam("taxPincode"),
             panno: getParam("panno"),
             dob: getParam("dob"),
+            orderId: getParam("orderId")
         };
     }, [query]);
 
@@ -140,6 +141,9 @@ const PaymentPage = () => {
                             <Text fontSize="lg" color="gray.600">
                                 Your contribution ₹{paymentData.amount} has been successfully received.
                             </Text>
+                            <Text fontSize="sm" color="gray.600">
+                                Payment Order ID : {paymentData.orderId}
+                            </Text>
                         </Box>
 
                         <Box bg="green.50" p={4} borderRadius="lg" w="100%">
@@ -152,13 +156,21 @@ const PaymentPage = () => {
                         <VStack spacing={2} fontSize="sm" color="gray.500">
                             <Flex align="center" gap={2}>
                                 <Icon as={FaWhatsapp} color="green.500" />
-                                <Text>Receipt sent to <b>{paymentData.phone}</b></Text>
+                                <Text>You will receive acknowledgement receipt on <b>{paymentData.phone}</b></Text>
                             </Flex>
                             <Flex align="center" gap={2}>
-                                <Icon as={FaEnvelope} color="blue.500" />
-                                <Text>Confirmation email sent to <b>{paymentData.email}</b></Text>
+                                <Text>Official receipt will be sent to <b>{paymentData.email}</b></Text>
                             </Flex>
                         </VStack>
+                        {/* 2. The Wall of Devotion Integration */}
+                        <Box mt={8}>
+                            <WallOfDevotion
+                                newDonor={{
+                                    name: paymentData.name || "You",
+                                    amount: paymentData.amount || 2100
+                                }}
+                            />
+                        </Box>
 
                         <Button
                             colorScheme="green"
@@ -169,16 +181,6 @@ const PaymentPage = () => {
                             Return to Campaign Page
                         </Button>
                     </VStack>
-
-                    {/* 2. The Wall of Devotion Integration */}
-                    <Box mt={8}>
-                        <WallOfDevotion
-                            newDonor={{
-                                name: paymentData.name || "You",
-                                amount: paymentData.amount || 2100
-                            }}
-                        />
-                    </Box>
                 </Container>
             </Box>
         );

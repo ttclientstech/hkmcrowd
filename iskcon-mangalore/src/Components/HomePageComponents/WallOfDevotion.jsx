@@ -61,11 +61,7 @@ const WallOfDevotion = ({ newDonor }) => {
             position="relative"
             maxW="1200px"
             mx="auto"
-            borderRadius="xl"
-            border="1px solid"
-            borderColor="gray.100"
             mt={6}
-            boxShadow="sm"
         >
             {/* Header Section */}
             <VStack spacing={3} mb={6}>
