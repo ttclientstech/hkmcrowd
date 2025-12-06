@@ -30,8 +30,7 @@ const PaymentPage = () => {
             taxState: getParam("taxState"),
             taxPincode: getParam("taxPincode"),
             panno: getParam("panno"),
-            dob: getParam("dob"),
-            orderId: getParam("orderId")
+            dob: getParam("dob")
         };
     }, [query]);
 
@@ -142,7 +141,7 @@ const PaymentPage = () => {
                                 Your contribution ₹{paymentData.amount} has been successfully received.
                             </Text>
                             <Text fontSize="sm" color="gray.600">
-                                Payment Order ID : {paymentData.orderId}
+                                Payment Order ID : {id}
                             </Text>
                         </Box>
 
@@ -151,17 +150,6 @@ const PaymentPage = () => {
                                 You have successfully supported <b>{paymentData.campainerName || "the Campaigner"}'s</b> mission to build Dakshina Dwaraka Dham.
                             </Text>
                         </Box>
-
-                        {/* Receipt Info */}
-                        <VStack spacing={2} fontSize="sm" color="gray.500">
-                            <Flex align="center" gap={2}>
-                                <Icon as={FaWhatsapp} color="green.500" />
-                                <Text>You will receive acknowledgement receipt on <b>{paymentData.phone}</b></Text>
-                            </Flex>
-                            <Flex align="center" gap={2}>
-                                <Text>Official receipt will be sent to <b>{paymentData.email}</b></Text>
-                            </Flex>
-                        </VStack>
                         {/* 2. The Wall of Devotion Integration */}
                         <Box mt={8}>
                             <WallOfDevotion

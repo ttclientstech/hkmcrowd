@@ -61,7 +61,6 @@ const WallOfDevotion = ({ newDonor }) => {
             position="relative"
             maxW="1200px"
             mx="auto"
-            mt={6}
         >
             {/* Header Section */}
             <VStack spacing={3} mb={6}>
@@ -76,6 +75,18 @@ const WallOfDevotion = ({ newDonor }) => {
                 <Text fontSize={["xl", "2xl"]} fontWeight="extrabold" fontFamily="'Cinzel', serif" color="#082032">
                     The Wall of Devotion
                 </Text>
+
+                {/* 🎉 CONGRATULATORY MESSAGE (Moved to Top) */}
+                {newDonor && (
+                    <Box mt={2} mb={2} p={3} bg="green.50" borderRadius="lg" border="1px dashed" borderColor="green.300" w="full" maxW="600px">
+                        <Text fontSize="md" fontWeight="bold" color="green.700">
+                            🎉 Congratulations!
+                        </Text>
+                        <Text fontSize="sm" color="green.800" mt={1}>
+                            Your name has been permanently displayed in the Wall of Devotion starting at Block #{filledCount - Math.floor(newDonor.amount/2100) + 1}!
+                        </Text>
+                    </Box>
+                )}
 
                 {/* Legend */}
                 <Flex
@@ -165,7 +176,22 @@ const WallOfDevotion = ({ newDonor }) => {
                                         // Ensure high Z-index for the highlighted block
                                         zIndex={isMyBlock ? 10 : 1}
                                     >
-                                        {/* Icon for Big Donors */}
+                                        {/* Block Number Display */}
+                                        <Text
+                                            position="absolute"
+                                            top="50%" left="50%"
+                                            transform="translate(-50%, -50%)"
+                                            fontSize={["6px", "8px"]}
+                                            fontWeight="bold"
+                                            color={isFilled ? "whiteAlpha.700" : "gray.400"}
+                                            opacity={0.8}
+                                            zIndex={0}
+                                            userSelect="none"
+                                        >
+                                            {blockNumber}
+                                        </Text>
+
+                                        {/* Icon for Big Donors (Overlaying number slightly) */}
                                         {isFilled && block.isStart && block.amount > 5000 && (
                                             <Icon
                                                 as={isMyBlock ? FaCheckCircle : FaUser}
@@ -174,6 +200,7 @@ const WallOfDevotion = ({ newDonor }) => {
                                                 top="50%" left="50%"
                                                 transform="translate(-50%, -50%)"
                                                 w="60%" h="60%"
+                                                zIndex={1}
                                             />
                                         )}
                                     </MotionBox>
@@ -183,12 +210,6 @@ const WallOfDevotion = ({ newDonor }) => {
                     </SimpleGrid>
                 </Box>
             </Box>
-
-            {newDonor && (
-                <Text mt={4} fontSize="sm" color="green.600" fontWeight="bold">
-                    ✨ Your name has been permanently added to Block #{filledCount}!
-                </Text>
-            )}
         </Box>
     );
 };
