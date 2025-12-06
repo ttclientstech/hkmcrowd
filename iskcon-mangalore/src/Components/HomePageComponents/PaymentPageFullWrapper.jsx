@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { postPaymentFormData } from "../../Redux/clientSlices/clientUsers";
-import DonationPage from "/DonationPage";
+import DonationPage from "./DonationPage";
 
 const PaymentPageFullWrapper = () => {
     const { id } = useParams();
