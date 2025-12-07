@@ -80,7 +80,7 @@ const FAQComponent = () => {
                 color="#082032"
                 fontFamily="'Poppins', sans-serif"
             >
-                Frequently Asked <Text as="span" color="#082032">Questions</Text>
+                Frequently Asked <Text as="span" color="#E63946">Questions</Text>
             </Text>
 
             {/* FAQ LIST */}

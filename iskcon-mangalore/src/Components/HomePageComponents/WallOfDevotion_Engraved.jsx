@@ -80,16 +80,16 @@ const WallOfDevotion_Engraved = () => {
         >
             {/* Header Section */}
             <VStack spacing={3} mb={6}>
-                <Flex align="center" gap={2} color="#D4AF37">
+                {/*<Flex align="center" gap={2} color="#D4AF37">
                     <Icon as={FaLeaf} />
                     <Text fontWeight="bold" letterSpacing="widest" textTransform="uppercase" fontSize="sm">
                         Community Pillar
                     </Text>
                     <Icon as={FaLeaf} />
-                </Flex>
+                </Flex>*/}
 
-                <Text fontSize={["2xl", "3xl"]} fontWeight="extrabold" fontFamily="'Poppins', sans-serif" color="#082032">
-                    The Wall of Devotion
+                <Text fontSize={["2xl", "3xl"]} fontWeight="500" fontFamily="'Poppins', sans-serif" color="#082032">
+                    The Wall of <Text as="span" color="#E63946">Devotion</Text>
                 </Text>
 
                 <Text color="black" maxW="600px" fontSize="md">

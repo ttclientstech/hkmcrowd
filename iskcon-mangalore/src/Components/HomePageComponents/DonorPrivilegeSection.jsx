@@ -43,7 +43,7 @@ const DonorPrivilegeSection = () => {
                 color="#082032"
                 mb={10}
             >
-                Donor <Text as="span" color="#082032">Privileges</Text>
+                Donor <Text as="span" color="#E63946">Privileges</Text>
             </Text>
 
             <Box position="relative">

@@ -5,11 +5,15 @@ import {
     FaLandmark,
     FaMountain,
     FaUniversity,
+    FaUmbrellaBeach,
+    FaRegBuilding,
+    FaCheck
 } from "react-icons/fa";
 import highlightBg from "../../assets/images/high_light_bg.png";
 
 const NAVY = "#082032";
 const GOLD = "#FFD45E";
+const LIGHT_RED= "#FO9898";
 
 const HIGHLIGHTS = [
     {
@@ -20,20 +24,20 @@ const HIGHLIGHTS = [
     {
         icon: FaLandmark,
         title: "Pallava Architecture",
-        desc: "Inspired by traditional stone-carved South Indian heritage.",
+        desc: "Inspired by traditional stone-carved South Indian architecture.",
     },
     {
-        icon: FaBuilding,
-        title: "Beach-side Temple",
-        desc: "Located near the serene coastline of Thiruvanmiyur.",
+        icon: FaUmbrellaBeach,
+        title: "Seashore Temple",
+        desc: "Located in Thiruvanmiyur Beach Seashore.",
     },
     {
-        icon: FaUniversity,
+        icon: FaRegBuilding,
         title: "40,000 Sq Ft Complex",
         desc: "A cultural & spiritual campus serving thousands daily.",
     },
     {
-        icon: FaLandmark,
+        icon: FaCheck,
         title: "Final Phase Under Construction",
         desc: "Your support helps complete the remaining works.",
     },
@@ -64,7 +68,7 @@ const TempleHighlights = () => {
                 backgroundRepeat="no-repeat"
                 backgroundPosition="center"
                 backgroundSize="contain"
-                opacity="0.08"
+                opacity="0.5"
                 zIndex={0}
                 pointerEvents="none"
             />
@@ -79,7 +83,7 @@ const TempleHighlights = () => {
                     color={NAVY}
                     mb={8}
                 >
-                    Temple Highlights
+                    Temple <Text as="span" color="#E63946">Highlights</Text>
                 </Text>
 
                 {/* Timeline */}
@@ -102,7 +106,7 @@ const TempleHighlights = () => {
                                 h="56px"
                                 borderRadius="full"
                                 bg="white"
-                                border={`3px solid ${GOLD}`}
+                                border={`3px solid ${LIGHT_RED}`}
                                 align="center"
                                 justify="center"
                                 zIndex={2}
