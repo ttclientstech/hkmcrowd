@@ -44,7 +44,7 @@ const PrabhupadaQuoteCTA = () => {
             </Text>
 
             {/* AUTHOR */}
-            <Text fontSize={["md", "lg"]} opacity={0.8} mb={10}>
+            <Text fontSize={["md", "lg"]} opacity={0.8} mb={10} fontFamily="'Satoshi', sans-serif">
                 — Srila Prabhupada
             </Text>
 

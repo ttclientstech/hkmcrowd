@@ -105,7 +105,7 @@ const TestimonialSection = () => {
                                 mr={4}
                             />
                             <Box>
-                                <Text fontWeight="700" fontSize="lg" fontFamily="'Satoshi', sans-serif">
+                                <Text fontWeight="700" fontSize="lg">
                                     {t.name}
                                 </Text>
                                 <Text fontSize="sm" color="#B8A9F8" fontFamily="'Satoshi', sans-serif">

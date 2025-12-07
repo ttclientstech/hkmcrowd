@@ -604,7 +604,7 @@ const HomeSinglePage = () => {
             <PrabhupadaSection />
             <PrabhupadaQuoteCTA />
 
-            <Text textAlign="center" fontSize={["md", "lg"]} color={NAVY} mt={10} px={4} fontFamily="'Poppins', sans-serif">
+            <Text textAlign="center" fontSize={["md", "lg"]} color={NAVY} mt={10} px={4} fontFamily="'Satoshi', sans-serif">
                 Got a question? We’d love to hear from you.
                 Call or WhatsApp us at{" "}
                 <Box as="span" color={URGENT_RED} fontWeight="600">

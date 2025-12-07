@@ -65,7 +65,7 @@ const TempleBlueprintSection = () => {
                 color="#082032"
                 mb={4}
             >
-                Inside Dakshina Dwaraka Dham
+                Inside Dakshina <Text as="span" color="#E63946">Dwaraka Dham</Text>
             </Text>
 
             {/* SUBTITLE */}
@@ -77,6 +77,7 @@ const TempleBlueprintSection = () => {
                 mx="auto"
                 mb={10}
                 lineHeight="1.6"
+                fontFamily="'Satoshi', sans-serif"
             >
                 Each contribution helps build sacred spaces that uplift hearts,
                 nurture values, and bring thousands closer to Lord Krishna.
@@ -143,6 +144,7 @@ const TempleBlueprintSection = () => {
                                     color="white"
                                     opacity={0.95}
                                     lineHeight="1.5"
+                                    fontFamily="'Satoshi', sans-serif"
                                 >
                                     {item.desc}
                                 </Text>

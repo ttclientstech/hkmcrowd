@@ -287,7 +287,7 @@ const WallOfDevotion_Engraved = () => {
                     >
                         Add Your Name to the Wall
                     </Button>
-                    <Text fontSize="sm" fontWeight="medium" color="#2C0A0A" fontStyle="italic">
+                    <Text fontSize="sm" fontWeight="medium" color="#2C0A0A" fontStyle="italic" fontFamily="'Satoshi', sans-serif">
                         Create a History. Leave a Legacy.
                     </Text>
                 </VStack>
