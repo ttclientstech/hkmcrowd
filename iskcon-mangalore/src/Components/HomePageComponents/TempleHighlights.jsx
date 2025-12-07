@@ -6,6 +6,7 @@ import {
     FaMountain,
     FaUniversity,
 } from "react-icons/fa";
+import highlightBg from "../../assets/images/high_light_bg.png";
 
 const NAVY = "#082032";
 const GOLD = "#FFD45E";
@@ -48,59 +49,81 @@ const TempleHighlights = () => {
             mt={12}
             mb={10}
             fontFamily="'Poppins', sans-serif"
+            position="relative"
+            overflow="hidden"
         >
-            {/* Title */}
-            <Text
-                textAlign="center"
-                fontSize={["2xl", "3xl"]}
-                fontWeight="700"
-                color={NAVY}
-                mb={8}
-            >
-                Temple Highlights
-            </Text>
+            {/* 🖼️ Background Image Layer */}
+            <Box
+                position="absolute"
+                top="50%"
+                left="50%"
+                transform="translate(-50%, -50%)"
+                w="100%"
+                h="100%"
+                backgroundImage={`url(${highlightBg})`}
+                backgroundRepeat="no-repeat"
+                backgroundPosition="center"
+                backgroundSize="contain"
+                opacity="0.08"
+                zIndex={0}
+                pointerEvents="none"
+            />
 
-            {/* Timeline */}
-            <VStack spacing={10} position="relative" align="stretch">
-                {/* Vertical line */}
-                <Box
-                    position="absolute"
-                    left="28px"
-                    top="0"
-                    h="100%"
-                    w="2px"
-                    bg="rgba(8,32,50,0.2)"
-                />
+            {/* Foreground Content */}
+            <Box position="relative" zIndex={2}>
+                {/* Title */}
+                <Text
+                    textAlign="center"
+                    fontSize={["2xl", "3xl"]}
+                    fontWeight="700"
+                    color={NAVY}
+                    mb={8}
+                >
+                    Temple Highlights
+                </Text>
 
-                {HIGHLIGHTS.map((h, i) => (
-                    <Flex key={i} align="flex-start" position="relative">
-                        {/* Icon Bubble */}
-                        <Flex
-                            w="56px"
-                            h="56px"
-                            borderRadius="full"
-                            bg="white"
-                            border={`3px solid ${GOLD}`}
-                            align="center"
-                            justify="center"
-                            zIndex={2}
-                            boxShadow="0 4px 12px rgba(0,0,0,0.12)"
-                        >
-                            <Icon as={h.icon} color={NAVY} boxSize={6} />
+                {/* Timeline */}
+                <VStack spacing={10} position="relative" align="stretch">
+                    {/* Vertical line */}
+                    <Box
+                        position="absolute"
+                        left="28px"
+                        top="0"
+                        h="100%"
+                        w="2px"
+                        bg="rgba(8,32,50,0.2)"
+                    />
+
+                    {HIGHLIGHTS.map((h, i) => (
+                        <Flex key={i} align="flex-start" position="relative">
+                            {/* Icon Bubble */}
+                            <Flex
+                                w="56px"
+                                h="56px"
+                                borderRadius="full"
+                                bg="white"
+                                border={`3px solid ${GOLD}`}
+                                align="center"
+                                justify="center"
+                                zIndex={2}
+                                boxShadow="0 4px 12px rgba(0,0,0,0.12)"
+                            >
+                                <Icon as={h.icon} color={NAVY} boxSize={6} />
+                            </Flex>
+
+                            {/* Content */}
+                            <Box ml={5} flex="1">
+                                <Text fontWeight="700" fontSize="lg" color={NAVY} mb={1}>
+                                    {h.title}
+                                </Text>
+                                <Text fontSize="md" color="#4A5568" lineHeight="1.6">
+                                    {h.desc}
+                                </Text>
+                            </Box>
                         </Flex>
-
-                        {/* Content */}
-                        <Box ml={5} flex="1">
-                            <Text fontWeight="700" fontSize="lg" color={NAVY} mb={1}>
-                                {h.title}
-                            </Text>
-                            <Text fontSize="md" color="#4A5568" lineHeight="1.6">
-                                {h.desc}
-                            </Text>
-                        </Box>
-                    </Flex>
-                ))}
-            </VStack>
+                    ))}
+                </VStack>
+            </Box>
         </Box>
     );
 };
