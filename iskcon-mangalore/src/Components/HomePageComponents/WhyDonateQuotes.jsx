@@ -54,6 +54,7 @@ const WhyDonateQuotes = () => {
                 fontSize={["md", "lg"]}
                 color="#082032"
                 mb={10}
+                fontFamily="'Satoshi', sans-serif"
             >
                 Sacred scriptures glorify those who support spiritual causes
             </Text>
@@ -124,6 +125,7 @@ const WhyDonateQuotes = () => {
                                 fontWeight="600"
                                 mt={2}
                                 lineHeight="1.6"
+                                fontFamily="'Satoshi', sans-serif"
                             >
                                 {q.text}
                             </Text>

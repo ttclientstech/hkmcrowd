@@ -79,6 +79,7 @@ const PrabhupadaSection = () => {
                     color="#333"
                     lineHeight="1.9"
                     fontWeight="500"
+                    fontFamily="'Satoshi', sans-serif"
                 >
                     His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada
                     brought the timeless teachings of Lord Krishna to the entire world.

@@ -449,12 +449,12 @@ const HomeSinglePage = () => {
                     color={BEIGE}
                     mt={1}
                     mb={4}
-                    fontFamily="'Poppins', sans-serif"
+                    fontFamily="'Satoshi', sans-serif"
                 >
                     (Project by Hare Krishna Movement Chennai, an affiliate of ISKCON: S-49/78-79, Bengaluru)
                 </Text>
 
-                <Text fontSize={["md", "lg"]} opacity={0.95} fontFamily="'Poppins', sans-serif" maxW="600px" mx="auto" mb={[6, 8]}>
+                <Text fontSize={["md", "lg"]} opacity={0.95} fontFamily="'Satoshi', sans-serif" maxW="600px" mx="auto" mb={[6, 8]}>
                     A sacred cultural complex to uplift society through devotion, heritage & values.
                 </Text>
 
@@ -493,7 +493,7 @@ const HomeSinglePage = () => {
                     </Text>
                 </Box>
 
-                <Text fontSize="md" color={TEXT_DARK} lineHeight="1.7" mb={4} fontFamily="'Poppins', sans-serif" textAlign="justify">
+                <Text fontSize="md" color={TEXT_DARK} lineHeight="1.7" mb={4} fontFamily="'Satoshi', sans-serif" textAlign="justify">
                     Nestled along the scenic seashore of the Bay of Bengal in Thiruvanmiyur,
                     Chennai, the Dakshina Dwaraka Dham Cultural Complex is envisioned as a
                     magnificent center to promote and preserve India’s timeless spiritual and
@@ -507,7 +507,7 @@ const HomeSinglePage = () => {
                             color={TEXT_DARK}
                             lineHeight="1.7"
                             mt={2}
-                            fontFamily="'Poppins', sans-serif"
+                            fontFamily="'Satoshi', sans-serif"
                             textAlign="justify"
                         >
                             The temple hall, measuring 108 ft × 57 ft with a soaring 27 ft ceiling, can comfortably accommodate over 600 devotees at a time for congregational worship and festivals. Its most striking feature is the presence of two majestic Gopurams above the main mandapam — one rising to 113 ft and the other to an awe-inspiring 175 ft, making it the 7th tallest Gopuram in Tamil Nadu and the tallest in Chennai. The main sanctum (garbhagriha) will feature three divine altars: The central altar, dedicated to Sri Sri Rukmini Dwarakadhisha, will have a Vimana rising nearly 90 ft above the ground, symbolizing the Lord’s supreme majesty. The other two altars will be dedicated to Sri Narasimha and Sri Sri Gaura Nitai, offering devotees a complete experience of divine worship and spiritual inspiration. The ground floor of the complex is thoughtfully designed to serve educational and cultural needs, featuring: Four classrooms accommodating nearly 200 participants, where children and adults will learn the Bhagavad-gita, ethics, and values rooted in Vedic wisdom. A 300-seater multipurpose hall (57 ft × 57 ft) to host cultural programs, traditional art performances, heritage festivals, and student competitions — all aimed at nurturing Indian art, music, dance, and culture. With a total built-up area of about 40,000 sq. ft., Dakshina Dwaraka Dham will be a spiritual, educational, and cultural beacon — uniting devotion, knowledge, and heritage for the upliftment of society.
@@ -574,6 +574,7 @@ const HomeSinglePage = () => {
                     fontSize={["sm", "md"]} // increased visibility
                     fontWeight="500"
                     mb={6}
+                    fontFamily="'Satoshi', sans-serif"
                 >
                     As on September 2025
                 </Text>

@@ -162,7 +162,7 @@ const RecentContributors = () => {
             </HStack>
 
             {/* CARD CONTAINER */}
-            <Box bg="#F4F2EE" borderRadius="16px" p={5} shadow="md">
+            <Box bg="#F4F2EE" borderRadius="16px" p={5} shadow="md" fontFamily="'Satoshi', sans-serif">
                 {loading ? (
                     <VStack gap={4}>
                         {[1, 2, 3, 4].map((i) => (

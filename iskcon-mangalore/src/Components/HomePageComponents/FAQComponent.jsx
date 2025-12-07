@@ -127,7 +127,7 @@ const FAQComponent = () => {
                             fontSize="sm"
                             color="#444"
                             lineHeight="1.6"
-                            fontFamily="'Poppins', sans-serif"
+                            fontFamily="'Satoshi', sans-serif"
                             pb={2}
                         >
                             {item.answer}

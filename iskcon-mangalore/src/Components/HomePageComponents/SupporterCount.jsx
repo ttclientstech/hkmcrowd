@@ -43,6 +43,7 @@ const SupporterCount = () => {
             ref={ref}
             fontSize="1.1em"
             fontWeight="500"
+            fontFamily="'Satoshi', sans-serif"
             color="#082032"
             textAlign="center"
             mb={10}

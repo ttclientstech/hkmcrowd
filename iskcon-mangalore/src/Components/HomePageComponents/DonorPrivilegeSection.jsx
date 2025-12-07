@@ -76,6 +76,7 @@ const DonorPrivilegeSection = () => {
                                 color="#333"
                                 mb={4}
                                 lineHeight="1.6"
+                                fontFamily="'Satoshi', sans-serif"
                             >
                                 {p.desc}
                             </Text>

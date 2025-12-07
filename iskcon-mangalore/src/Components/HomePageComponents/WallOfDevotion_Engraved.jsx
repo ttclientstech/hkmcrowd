@@ -92,7 +92,7 @@ const WallOfDevotion_Engraved = () => {
                     The Wall of <Text as="span" color="#E63946">Devotion</Text>
                 </Text>
 
-                <Text color="black" maxW="600px" fontSize="md">
+                <Text color="black" maxW="600px" fontSize="md" fontFamily="'Satoshi', sans-serif">
                     Each block below represents <b>1 Sq. Ft.</b> of the temple. Hover (or tap) over the gold bricks to see the devotees who have already inscribed their names in history.
                 </Text>
 
@@ -109,11 +109,11 @@ const WallOfDevotion_Engraved = () => {
                 >
                     <Flex align="center" gap={2}>
                         <Box w="14px" h="14px" bgGradient="linear(135deg, rgb(212, 175, 55) 0%, rgb(183, 149, 11) 100%)" borderRadius="sm" />
-                        <Text fontWeight="bold" color="gray.700">Donated</Text>
+                        <Text fontWeight="bold" color="gray.700" fontFamily="'Satoshi', sans-serif">Donated</Text>
                     </Flex>
                     <Flex align="center" gap={2}>
                         <Box w="14px" h="14px" bg="gray.100" border="1px dotted green" borderRadius="sm" />
-                        <Text fontWeight="bold" color="green.700">Available</Text>
+                        <Text fontWeight="bold" color="green.700" fontFamily="'Satoshi', sans-serif">Available</Text>
                     </Flex>
                 </Flex>
             </VStack>
@@ -143,6 +143,7 @@ const WallOfDevotion_Engraved = () => {
                     border="1px solid"
                     borderColor="gray.300"
                     borderRadius="full"
+                    fontFamily="'Satoshi', sans-serif"
                 >
                     FINAL PHASE: BLOCK 1 - 500 SQFT
                 </Text>
@@ -174,10 +175,11 @@ const WallOfDevotion_Engraved = () => {
                                             : `#${blockNumber}: Available for Sponsorship`
                                     }
                                     hasArrow
-                                    bg={isFilled ? "#2C0A0A" : "green.600"}
+                                    bg={isFilled ? "#082032" : "green.600"}
                                     color="white"
                                     placement="top"
                                     fontSize="xs"
+                                    fontFamily="'Satoshi', sans-serif"
                                 >
                                     <MotionBox
                                         w="100%"

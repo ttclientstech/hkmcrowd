@@ -120,7 +120,7 @@ const TempleHighlights = () => {
                                 <Text fontWeight="700" fontSize="lg" color={NAVY} mb={1}>
                                     {h.title}
                                 </Text>
-                                <Text fontSize="md" color="#4A5568" lineHeight="1.6">
+                                <Text fontSize="md" fontFamily="'Satoshi', sans-serif" color="#4A5568" lineHeight="1.6">
                                     {h.desc}
                                 </Text>
                             </Box>

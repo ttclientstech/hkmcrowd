@@ -45,7 +45,7 @@ const FooterSection = () => {
                         Dakshina Dwaraka Dham
                     </Text>
 
-                    <Text fontSize="md" w={["100%", "260px"]} lineHeight="1.6" opacity={0.9}>
+                    <Text fontSize="md" w={["100%", "260px"]} lineHeight="1.6" opacity={0.9} fontFamily="'Satoshi', sans-serif">
                         Sri Sri Krishna Rukmini Satyabhama Temple
                         <br />
                         (Hare Krishna Movement Chennai)
@@ -62,14 +62,14 @@ const FooterSection = () => {
                         Contact Us
                     </Text>
 
-                    <Text fontSize="md" opacity={0.9}>
+                    <Text fontSize="md" opacity={0.9} fontFamily="'Satoshi', sans-serif">
                         Phone/WhatsApp:{" "}
                         <Box as="span" color="white" fontWeight="500">
                             +91-XXXXXXXXXX
                         </Box>
                     </Text>
 
-                    <Text fontSize="md" opacity={0.9}>
+                    <Text fontSize="md" opacity={0.9} fontFamily="'Satoshi', sans-serif">
                         Email:{" "}
                         <Box as="span" color="white" fontWeight="500">
                             info@yourtemple.org
@@ -156,12 +156,12 @@ const FooterSection = () => {
             />
 
             {/* Bottom Section */}
-            <Text textAlign="center" fontSize="sm" opacity={0.7}>
+            <Text textAlign="center" fontSize="sm" opacity={0.7} fontFamily="'Satoshi', sans-serif">
                 © {new Date().getFullYear()} Dakshina Dwaraka Dham — ISKCON Thiruvanmiyur.
                 All Rights Reserved.
             </Text>
 
-            <Text textAlign="center" fontSize="xs" mt={2} color="whiteAlpha.600">
+            <Text textAlign="center" fontSize="xs" mt={2} color="whiteAlpha.600" fontFamily="'Satoshi', sans-serif">
                 A sacred initiative dedicated to the eternal service of Sri Sri Rukmini Dwarakadhish.
             </Text>
         </Box>
