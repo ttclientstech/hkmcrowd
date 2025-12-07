@@ -88,7 +88,7 @@ const WallOfDevotion_Engraved = () => {
                     <Icon as={FaLeaf} />
                 </Flex>*/}
 
-                <Text fontSize={["2xl", "3xl"]} fontWeight="500" fontFamily="'Poppins', sans-serif" color="#082032">
+                <Text fontSize={["2xl", "3xl"]} fontWeight="800" fontFamily="'Poppins', sans-serif" color="#082032">
                     The Wall of <Text as="span" color="#E63946">Devotion</Text>
                 </Text>
 

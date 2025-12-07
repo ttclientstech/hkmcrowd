@@ -75,7 +75,7 @@ const FAQComponent = () => {
             <Text
                 textAlign="center"
                 fontSize={["xl", "2xl"]}
-                fontWeight="500"
+                fontWeight="800"
                 mb={8}
                 color="#082032"
                 fontFamily="'Poppins', sans-serif"

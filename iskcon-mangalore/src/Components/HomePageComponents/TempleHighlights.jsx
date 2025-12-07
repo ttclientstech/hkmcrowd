@@ -106,7 +106,7 @@ const TempleHighlights = () => {
                                 h="56px"
                                 borderRadius="full"
                                 bg="white"
-                                border={`3px solid ${LIGHT_RED}`}
+                                border={`1px solid ${LIGHT_RED}`}
                                 align="center"
                                 justify="center"
                                 zIndex={2}

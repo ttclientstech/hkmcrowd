@@ -42,7 +42,7 @@ const WhyDonateQuotes = () => {
             <Text
                 textAlign="center"
                 fontSize={["2xl", "3xl"]}
-                fontWeight="500"
+                fontWeight="800"
                 color="#082032"
                 mb={2}
             >
