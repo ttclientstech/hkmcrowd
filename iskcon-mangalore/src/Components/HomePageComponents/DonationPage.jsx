@@ -80,7 +80,7 @@ const Step1 = ({
                     {/* VISUALIZER GRID */}
                     <Box w="100%" bg="gray.50" p={4} borderRadius="xl" border="1px solid" borderColor="gray.100">
                         <Text fontSize="xs" fontWeight="bold" color="gray.400" mb={2} textAlign="center" textTransform="uppercase">
-                            YOUR IMPACT VISUALIZER
+                            Space You Are Helping Build
                         </Text>
 
                         {/* Reduced Max Width for smaller blocks */}
@@ -95,6 +95,7 @@ const Step1 = ({
                                     // Unified Gold Fill with Maroon Border for filled
                                     // Gray Fill with Green Border for unfilled
                                     bg={i < sqFt ? GOLD : "gray.100"}
+                                    bgImage={i < sqFt ? "linear-gradient(135deg, rgb(255 224 123) 0%, rgb(183, 149, 11) 100%)" : ""}
                                     border={i < sqFt ? "1px solid" : "0.5px solid"}
                                     borderColor={i < sqFt ? MAROON : "green.400"}
                                     transition="all 0.2s ease"
