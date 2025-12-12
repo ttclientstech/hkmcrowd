@@ -21,7 +21,7 @@ const CampaignerDashboard = () => {
     const campaignerId = window.location.pathname.split("/").pop();
 
     const bgHeight = useBreakpointValue({ base: "70vh", md: "85vh" });
-    const lotusWidth = useBreakpointValue({ base: "95%", md: "60%" });
+    const lotusWidth = useBreakpointValue({ base: "100%", md: "70%", lg: "55%" });
 
     useEffect(() => {
         axios
@@ -66,7 +66,7 @@ const CampaignerDashboard = () => {
                     bottom="0"
                     left="50%"
                     transform="translateX(-50%)"
-                    w={useBreakpointValue({ base: "100%", md: "70%", lg: "55%" })} // ✅ adjusts width per device
+                    w={lotusWidth} // ✅ adjusts width per device
                     maxH="100%" // ✅ prevents stretching
                     objectFit="contain" // ✅ maintains aspect ratio, no cropping
                     objectPosition="center bottom"
