@@ -20,6 +20,9 @@ const CampaignerDashboard = () => {
     const [data, setData] = useState(null);
     const campaignerId = window.location.pathname.split("/").pop();
 
+    // ✅ Hooks should always be declared before conditionals
+    const bgHeight = useBreakpointValue({ base: "60vh", md: "80vh" });
+    const lotusWidth = useBreakpointValue({ base: "120%", md: "80%" });
 
     useEffect(() => {
         axios
@@ -42,8 +45,6 @@ const CampaignerDashboard = () => {
         ? `“Beautiful! Your lotus has blossomed today — an offering of your seva to Lord Krishna. May His grace and smile bless your heartfelt service.”`
         : `“Today, your lotus awaits your seva. Receive even a small donation today to blossom your lotus and offer it to Lord Krishna.”`;
 
-    const bgHeight = useBreakpointValue({ base: "60vh", md: "80vh" });
-
     return (
         <Box bg="white" minH="100vh" fontFamily="'Poppins', sans-serif">
             <Navbar
@@ -52,13 +53,7 @@ const CampaignerDashboard = () => {
             />
 
             {/* 🌸 HERO SECTION */}
-            <Box
-                position="relative"
-                w="100%"
-                h={bgHeight}
-                overflow="hidden"
-                bg="white"
-            >
+            <Box position="relative" w="100%" h={bgHeight} overflow="hidden" bg="white">
                 {/* Lotus Background */}
                 <Image
                     src={lotusImage}
@@ -67,7 +62,7 @@ const CampaignerDashboard = () => {
                     bottom="0"
                     left="50%"
                     transform="translateX(-50%)"
-                    w={useBreakpointValue({ base: "120%", md: "80%" })}
+                    w={lotusWidth}
                     opacity="0.25"
                     objectFit="contain"
                     zIndex="0"
