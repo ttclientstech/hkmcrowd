@@ -9,22 +9,35 @@ import {
     Tooltip,
     Badge
 } from "@chakra-ui/react";
-// Using React Icons for visuals
-import { FaSeedling, FaHandsHelping, FaDharmachakra, FaCrown, FaGem, FaLandmark } from "react-icons/fa";
-import { GiBrickWall, GiPillar, GiTempleGate, GiHolySymbol } from "react-icons/gi";
+// ✅ 100% VERIFIED ICON IMPORTS
+import {
+    FaSeedling,
+    FaHandHoldingHeart,
+    FaDharmachakra,
+    FaCrown,
+    FaGem,
+    FaLandmark
+} from "react-icons/fa";
 
-// 🏆 Define Milestones Configuration
+import {
+    GiBrickWall,
+    GiIonicColumn,
+    GiTempleGate,
+    GiHolySymbol
+} from "react-icons/gi";
+
+// 🏆 Define Milestones Configuration with Verified Icons
 const MILESTONES = [
-    { sqft: 1,  label: "Seva Starter",    icon: FaSeedling,     color: "green.400" },
-    { sqft: 3,  label: "Bhakti Builder",  icon: GiBrickWall,    color: "orange.400" },
-    { sqft: 5,  label: "Foundation Layer",icon: FaHandsHelping, color: "blue.400" },
-    { sqft: 8,  label: "Divine Pillar",   icon: GiPillar,       color: "purple.400" },
-    { sqft: 10, label: "Temple Guardian", icon: GiTempleGate,   color: "red.400" },
-    { sqft: 15, label: "Golden Arch",     icon: FaLandmark,     color: "yellow.400" },
-    { sqft: 20, label: "Dharma Defender", icon: FaDharmachakra, color: "cyan.400" },
-    { sqft: 25, label: "Param Bhakta",    icon: FaCrown,        color: "pink.400" },
-    { sqft: 50, label: "Legendary Soul",  icon: GiHolySymbol,   color: "teal.300" }, // Bonus
-    { sqft: 100,label: "Eternal Patron",  icon: FaGem,          color: "white" }     // Bonus
+    { sqft: 1,  label: "Seva Starter",    icon: FaSeedling,         color: "green.400" },
+    { sqft: 3,  label: "Bhakti Builder",  icon: GiBrickWall,        color: "orange.400" },
+    { sqft: 5,  label: "Foundation Layer",icon: FaHandHoldingHeart, color: "blue.400" },
+    { sqft: 8,  label: "Divine Pillar",   icon: GiIonicColumn,      color: "purple.400" },
+    { sqft: 10, label: "Temple Guardian", icon: GiTempleGate,       color: "red.400" },
+    { sqft: 15, label: "Golden Arch",     icon: FaLandmark,         color: "yellow.400" },
+    { sqft: 20, label: "Dharma Defender", icon: FaDharmachakra,     color: "cyan.400" },
+    { sqft: 25, label: "Param Bhakta",    icon: FaCrown,            color: "pink.400" },
+    { sqft: 50, label: "Legendary Soul",  icon: GiHolySymbol,       color: "teal.300" },
+    { sqft: 100,label: "Eternal Patron",  icon: FaGem,              color: "white" }
 ];
 const COST_PER_SQFT = 5000;
 
