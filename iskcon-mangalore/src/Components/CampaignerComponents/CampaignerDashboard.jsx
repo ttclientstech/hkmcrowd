@@ -53,7 +53,7 @@ const CampaignerDashboard = () => {
             />
 
             {/* 🌸 HERO SECTION */}
-            <Box position="relative" w="100%" h={bgHeight} overflow="hidden" bg="white">
+            <Box position="relative" w="100%" h={bgHeight} overflow="hidden" bg="#031931">
                 {/* Lotus Background */}
                 <Image
                     src={lotusImage}
