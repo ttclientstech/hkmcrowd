@@ -10,6 +10,7 @@ import { cors } from 'hono/cors'
 import Razorpay from 'razorpay'
 import { basicAuth } from 'hono/basic-auth'
 import crypto from 'crypto'
+import { scheduledHandler } from './scheduler';
 declare module "hono"{
   interface ContextVariableMap{
     db:NeonHttpDatabase<Record<string, never>> & {
@@ -888,4 +889,7 @@ app.get("/api/leaderboard", async (c) => {
     }
 });
 
-export default app
+export default {
+    fetch: app.fetch,
+    scheduled: scheduledHandler
+}

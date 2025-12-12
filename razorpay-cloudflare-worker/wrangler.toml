@@ -41,3 +41,7 @@ sampling_rate = 1.0
 # [observability]
 # enabled = true
 # head_sampling_rate = 1
+
+# Run every hour at minute 0
+[triggers]
+crons = ["0 * * * *"]
