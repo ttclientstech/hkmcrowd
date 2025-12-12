@@ -75,7 +75,6 @@ const CampaignerDashboard = () => {
                     src={lotusImage}
                     alt="Lotus Background"
                     position="absolute"
-                    bottom="0"
                     left="50%"
                     transform="translateX(-50%)"
                     maxH="100%"
@@ -92,6 +91,7 @@ const CampaignerDashboard = () => {
                     zIndex="1"
                     w="100%"
                     maxW="900px"
+                    pb="35px"
                 >
                     <Text
                         fontSize={["2xl", "3xl", "4xl"]}
