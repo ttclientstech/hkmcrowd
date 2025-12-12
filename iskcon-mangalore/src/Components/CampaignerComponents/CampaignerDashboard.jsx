@@ -4,6 +4,7 @@ import { Box, Flex, Text, VStack, Spinner } from "@chakra-ui/react";
 import Navbar from "./Navbar";
 import LotusBlock from "./LotusBlock";
 import WeeklyLotusRow from "./WeeklyLotusRow";
+import { BE_API_URL } from "../../constants/homePage";
 
 const NAVY = "#081229";
 const GOLD = "#FFD45E";
@@ -13,7 +14,7 @@ const CampaignerDashboard = () => {
     const campaignerId = window.location.pathname.split("/").pop();
 
     useEffect(() => {
-        axios.get(`/api/campaigner/${campaignerId}/streak`).then((res) => setData(res.data));
+        axios.get(`${BE_API_URL}/api/campaigner/${campaignerId}/streak`).then((res) => setData(res.data));
     }, [campaignerId]);
 
     if (!data)
