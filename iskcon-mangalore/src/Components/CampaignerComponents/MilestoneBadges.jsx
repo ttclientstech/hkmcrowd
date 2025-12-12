@@ -26,7 +26,7 @@ import {
     FaCrown,
     FaGem,
     FaLandmark,
-    FaListUl
+    FaThLarge // Changed icon to represent "All Badges" grid
 } from "react-icons/fa";
 
 import {
@@ -50,10 +50,13 @@ const MILESTONES = [
     { sqft: 100,label: "Eternal Patron",  icon: FaGem,              color: "white" }
 ];
 
-// 🎨 Reusable Badge UI Component to keep code clean
-const BadgeCard = ({ badge, isUnlocked, isNext = false }) => (
+// 🎨 Reusable Badge UI Component
+const BadgeCard = ({ badge, isUnlocked, isNext = false, inModal = false }) => (
     <Tooltip
-        label={isUnlocked ? `Earned at ${badge.sqft} Sq.Ft!` : `Reach ${badge.sqft} Sq.Ft to unlock`}
+        label={isUnlocked
+            ? `Earned at ${badge.sqft} Sq.Ft!`
+            : `Reach ${badge.sqft} Sq.Ft to unlock`
+        }
         bg="gray.800"
         color="white"
         hasArrow
@@ -69,8 +72,9 @@ const BadgeCard = ({ badge, isUnlocked, isNext = false }) => (
                 ? "rgba(255, 215, 0, 0.3)"
                 : "rgba(255,255,255,0.05)"
             }
-            opacity={!isUnlocked && !isNext ? 0.4 : (isNext ? 0.7 : 1)} // Dim locked ones in modal
-            filter={!isUnlocked ? "grayscale(100%)" : "none"} // Greyscale locked ones
+            // Logic: In modal, show locked badges clearly but dimmed so details are visible
+            opacity={!isUnlocked && !isNext ? 0.5 : (isNext ? 0.7 : 1)}
+            filter={!isUnlocked ? "grayscale(100%)" : "none"}
             position="relative"
             transition="all 0.3s"
             _hover={isUnlocked ? { transform: "translateY(-5px)", borderColor: badge.color } : {}}
@@ -78,8 +82,8 @@ const BadgeCard = ({ badge, isUnlocked, isNext = false }) => (
             justify="center"
             w="100%"
         >
-            {/* 🔒 "Next Goal" Overlay (Only for immediate next) */}
-            {isNext && (
+            {/* 🔒 "Awaits You" Overlay (Only for immediate next in Dashboard view) */}
+            {isNext && !inModal && (
                 <Box
                     position="absolute"
                     top="0" left="0" right="0" bottom="0"
@@ -207,16 +211,16 @@ const MilestoneBadges = ({ raisedSqFt }) => {
                     </VStack>
 
                     <HStack>
-                        {/* 🔘 "View All" Trigger Button */}
+                        {/* 🔘 "View All Badges" Trigger Button */}
                         <Button
                             size="xs"
                             variant="ghost"
                             color="purple.300"
-                            leftIcon={<FaListUl />}
+                            leftIcon={<FaThLarge />}
                             _hover={{ bg: "whiteAlpha.100", color: "purple.200" }}
                             onClick={onOpen}
                         >
-                            View Roadmap
+                            View All Badges
                         </Button>
 
                         {/* Counter Badge */}
@@ -254,23 +258,24 @@ const MilestoneBadges = ({ raisedSqFt }) => {
                 </SimpleGrid>
             </VStack>
 
-            {/* 🪟 ALL MILESTONES MODAL */}
+            {/* 🪟 ALL BADGES MODAL */}
             <Modal isOpen={isOpen} onClose={onClose} size={["full", "4xl"]} scrollBehavior="inside">
                 <ModalOverlay backdropFilter="blur(8px)" bg="blackAlpha.600" />
                 <ModalContent bg="#0b172a" border="1px solid rgba(255,255,255,0.1)">
                     <ModalHeader color="purple.200" borderBottom="1px solid rgba(255,255,255,0.05)">
                         <HStack>
                             <Icon as={GiHolySymbol} />
-                            <Text fontSize="md">Full Journey Roadmap</Text>
+                            <Text fontSize="md">All Available Badges</Text>
                         </HStack>
                         <Text fontSize="xs" color="gray.500" fontWeight="normal" mt={1}>
-                            Your path from Seva Starter to Eternal Patron
+                            Explore every badge available in this campaign.
                         </Text>
                     </ModalHeader>
                     <ModalCloseButton color="white" />
 
                     <ModalBody p={[4, 8]}>
                         <SimpleGrid columns={[2, 3, 4, 5]} spacing={5}>
+                            {/* Iterate through ALL milestones to show availability */}
                             {MILESTONES.map((badge, index) => {
                                 const isUnlocked = index <= currentLevelIndex;
                                 return (
@@ -278,7 +283,8 @@ const MilestoneBadges = ({ raisedSqFt }) => {
                                         key={badge.sqft}
                                         badge={badge}
                                         isUnlocked={isUnlocked}
-                                        isNext={false} // In modal, we just show locked vs unlocked status
+                                        inModal={true} // Removes "Awaits You" overlay so user can see icon
+                                        isNext={false}
                                     />
                                 );
                             })}
