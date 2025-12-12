@@ -8,9 +8,12 @@ const Navbar = ({ campaignerName, campaignerImage }) => (
         align="center"
         px={[4, 8]}
         py={4}
-        bg="#00142fa1"
-        borderBottom="1px solid rgba(0,0,0,0.08)"
-        boxShadow="sm"
+        // ✅ UPDATED STYLES START
+        bg="rgba(2, 12, 27, 0.6)"       // Semi-transparent deep navy
+        backdropFilter="blur(10px)"     // Frosted glass effect
+        borderBottom="1px solid rgba(255, 255, 255, 0.05)" // Subtle light border for dark mode
+        boxShadow="none"                // Removed shadow for a cleaner integration
+        // ✅ UPDATED STYLES END
     >
         <Image src={templeLogo} alt="Temple Logo" height="40px" width="85px"/>
 

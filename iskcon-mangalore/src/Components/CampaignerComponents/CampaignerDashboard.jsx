@@ -7,12 +7,14 @@ import {
     VStack,
     Spinner,
     Image,
+    SimpleGrid,
     useBreakpointValue,
 } from "@chakra-ui/react";
 import Navbar from "./Navbar";
 import WeeklyLotusRow from "./WeeklyLotusRow";
 import { BE_API_URL } from "../../constants/homePage";
 
+// Import your images
 import lotusBud from "../../assets/images/lotus_bud.png";
 import lotusBloom from "../../assets/images/lotus_blossom.png";
 
@@ -20,9 +22,8 @@ const CampaignerDashboard = () => {
     const [data, setData] = useState(null);
     const campaignerId = window.location.pathname.split("/").pop();
 
-    // ✅ Dynamic heights that adapt for small screens
-    const bgHeight = useBreakpointValue({ base: "auto", md: "85vh" });
-    const lotusWidth = useBreakpointValue({ base: "90%", md: "70%", lg: "55%" });
+    // Responsive values
+    const lotusSize = useBreakpointValue({ base: "250px", md: "350px", lg: "400px" });
 
     useEffect(() => {
         axios
@@ -33,113 +34,144 @@ const CampaignerDashboard = () => {
 
     if (!data)
         return (
-            <Flex justify="center" align="center" minH="100vh" bg="white">
-                <Spinner color="#E63946" />
+            <Flex justify="center" align="center" minH="100vh" bg="#020c1b">
+                <Spinner size="xl" color="#fae165" thickness="4px" />
             </Flex>
         );
 
     const lotusImage = data.todayAchieved ? lotusBloom : lotusBud;
 
     const message = data.todayAchieved
-        ? `“Beautiful! Your lotus has blossomed today — an offering of your seva to Lord Krishna. May His grace and smile bless your heartfelt service.”`
-        : `“Today, your lotus awaits your seva. Receive even a small donation today to blossom your lotus and offer it to Lord Krishna.”`;
+        ? `“Beautiful! Your lotus has blossomed today — an offering of your seva to Lord Krishna.”`
+        : `“Today, your lotus awaits your seva. Receive even a small donation to blossom your lotus.”`;
 
     return (
         <Box
-            bg="#031931"
+            // 🌌 Theme Background: Deep Navy Gradient matching the hero image
+            bgGradient="linear(to-b, #020c1b 0%, #051e3e 40%, #0a2e52 100%)"
             minH="100vh"
             fontFamily="'Poppins', sans-serif"
-            overflowX="hidden" // ✅ Prevent horizontal overflow on mobile
+            color="white"
+            overflowX="hidden"
         >
-            <Navbar
-                campaignerName={data.campaignerName}
-                campaignerImage={data.campaignerImage}
-            />
-
-            {/* 🌸 HERO SECTION */}
-            <Box
-                position="relative"
-                w="100%"
-                minH={["70vh", "80vh", "85vh"]} // ✅ Responsive height
-                overflow="hidden"
-                bg="#031931"
-                display="flex"
-                flexDirection="column"
-                justifyContent="flex-end" // ✅ keep bottom alignment
-                alignItems="center"
-                textAlign="center"
-                px={[3, 6, 10]}
-                pb={["30px", "35px"]}
-            >
-                <Image
-                    src={lotusImage}
-                    alt="Lotus Background"
-                    position="absolute"
-                    left="50%"
-                    transform="translateX(-50%)"
-                    maxH="100%"
-                    objectFit="contain"
-                    objectPosition="center bottom"
-                    zIndex="0"
+            {/* 🛡️ Navbar: Passed 'transparent' prop or style directly */}
+            <Box position="absolute" top="0" w="100%" zIndex="10">
+                <Navbar
+                    campaignerName={data.campaignerName}
+                    campaignerImage={data.campaignerImage}
+                    // Suggestion: Update Navbar component to accept bg="transparent" or rgba(0,0,0,0.3)
                 />
+            </Box>
 
-                <Flex
-                    direction="column"
-                    align="center"
-                    justify="flex-end"
+            {/* 🌸 HERO DASHBOARD SECTION */}
+            <Flex
+                direction="column"
+                align="center"
+                justify="center"
+                pt={["120px", "140px"]} // Padding for Navbar
+                pb={10}
+                px={4}
+                w="100%"
+            >
+                {/* Main Lotus Visual */}
+                <Box
                     position="relative"
-                    zIndex="1"
-                    w="100%"
-                    maxW="900px"
-                    pb="35px"
+                    w={lotusSize}
+                    h={lotusSize}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    mb={6}
+                    // 🌟 Glow Effect behind the lotus
+                    _before={{
+                        content: '""',
+                        position: "absolute",
+                        width: "120%",
+                        height: "120%",
+                        bg: "radial-gradient(circle, rgba(65, 169, 255, 0.15) 0%, rgba(0,0,0,0) 70%)",
+                        zIndex: 0,
+                    }}
                 >
+                    <Image
+                        src={lotusImage}
+                        alt="Lotus Status"
+                        maxH="100%"
+                        maxW="100%"
+                        objectFit="contain"
+                        zIndex="1"
+                        filter="drop-shadow(0px 10px 20px rgba(0,0,0,0.5))" // Shadow for depth
+                    />
+                </Box>
+
+                {/* Welcome Text */}
+                <VStack spacing={4} textAlign="center" maxW="800px" zIndex="2">
                     <Text
-                        fontSize={["2xl", "3xl", "4xl"]}
+                        fontSize={["2xl", "4xl", "5xl"]}
                         fontWeight="700"
-                        color="#fae165"
-                        mb={3}
-                        px={[2, 4]} // ✅ Adds padding for small screens
+                        bgGradient="linear(to-r, #fae165, #fff8c4)"
+                        bgClip="text"
+                        letterSpacing="wide"
                     >
                         Hare Krishna, {data.campaignerName}
                     </Text>
 
                     <Text
                         fontSize={["md", "lg"]}
-                        fontWeight="500"
-                        color="white"
-                        lineHeight="1.7"
-                        px={[4, 8]}
+                        color="blue.100"
+                        fontWeight="300"
+                        lineHeight="1.8"
+                        fontStyle="italic"
                     >
                         {message}
                     </Text>
-                </Flex>
-            </Box>
+                </VStack>
+            </Flex>
 
-            {/* 🌼 Weekly Lotus Tracker */}
-            <VStack
-                spacing={8}
-                py={[6, 10]}
-                px={[2, 4]}
-                w="100%"
-                maxW="100%"
-                overflowX="hidden" // ✅ ensures lotus row doesn’t overflow horizontally
-            >
-                <WeeklyLotusRow days={data.weekDays} />
+            {/* 📊 DASHBOARD METRICS SECTION */}
+            <Box w="100%" maxW="1200px" mx="auto" px={[4, 8]} pb={20}>
+                {/* Glassmorphism Container for Stats */}
+                <Box
+                    bg="rgba(255, 255, 255, 0.05)" // Glass effect
+                    backdropFilter="blur(12px)"
+                    border="1px solid rgba(255, 255, 255, 0.1)"
+                    borderRadius="2xl"
+                    p={[6, 8, 10]}
+                    boxShadow="0 8px 32px rgba(0, 0, 0, 0.4)"
+                >
+                    <VStack spacing={10}>
+                        {/* Weekly Tracker Row */}
+                        <Box w="100%">
+                            <WeeklyLotusRow days={data.weekDays} />
+                        </Box>
 
-                <Box textAlign="center" px={[2, 6]}>
-                    <Text
-                        fontWeight="bold"
-                        color="#E63946"
-                        fontSize={["md", "lg"]}
-                        mb={1}
-                    >
-                        Current Streak: {data.currentStreak} days 🔥
-                    </Text>
-                    <Text fontSize="sm" color="gray.400">
-                        Longest Streak: {data.longestStreak} days
-                    </Text>
+                        {/* Divider Line */}
+                        <Box w="100%" h="1px" bg="whiteAlpha.200" />
+
+                        {/* Stats Grid */}
+                        <SimpleGrid columns={[2, 2]} spacing={10} w="100%" maxW="600px">
+                            {/* Current Streak */}
+                            <VStack>
+                                <Text fontSize="4xl" fontWeight="bold" color="#fae165">
+                                    {data.currentStreak} 🔥
+                                </Text>
+                                <Text fontSize="sm" color="gray.400">
+                                    Current Streak
+                                </Text>
+                            </VStack>
+
+                            {/* Longest Streak */}
+                            <VStack>
+                                <Text fontSize="4xl" fontWeight="bold" color="white">
+                                    {data.longestStreak} 🌟
+                                </Text>
+                                <Text fontSize="sm" color="gray.400">
+                                    Longest Streak
+                                </Text>
+                            </VStack>
+                        </SimpleGrid>
+                    </VStack>
                 </Box>
-            </VStack>
+            </Box>
         </Box>
     );
 };
