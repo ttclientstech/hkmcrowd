@@ -13,6 +13,7 @@ import PaymentPage from "../Components/PaymentPage";
 import AdminLogin from "../Components/AdminPageComponents/AdminLogin";
 import PaymentPageFullWrapper from "../Components/HomePageComponents/PaymentPageFullWrapper"
 import Private from "../Private/Private";
+import CampaignerDashboard from "../Components/CampaignerComponents/CampaignerDashboard";
 const AllRoutes = () => {
   return (
     <Routes>
@@ -21,6 +22,7 @@ const AllRoutes = () => {
         <Route path="/single/:id" element={<HomeSinglePage />} />
         <Route path="/payment/:id" element={<PaymentPage />} />
           <Route path="/campaign/:id/donate" element={<PaymentPageFullWrapper />} />
+          <Route path="/dashboard/:id" element={<CampaignerDashboard />} />
       </Route>
 
         <Route path="/admin" element={<AdminLogin />} />

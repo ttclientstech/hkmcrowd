@@ -2,7 +2,7 @@ import { Hono } from 'hono'
 import { env } from 'hono/adapter'
 import { drizzle, NeonHttpDatabase} from 'drizzle-orm/neon-http'
 import { neon, NeonQueryFunction } from '@neondatabase/serverless'
-import {  campaigns, paymentTable} from './db/schema'
+import {  campaigns, paymentTable, campaignerStreaks} from './db/schema'
 import { and, desc, eq, gte, ilike } from 'drizzle-orm/expressions'
 import { count,   sql,   sum } from 'drizzle-orm'
 import { bearerAuth } from 'hono/bearer-auth'
@@ -812,5 +812,52 @@ app.get("/show", async (c)=> {
   const res = await db.select().from(paymentTable).then((res)=>res);
   return c.json(res)
 })
+
+app.get("/api/campaigner/:id/streak", async (c) => {
+    const db = c.get("db");
+    const id = Number(c.req.param("id"));
+    const today = new Date();
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay());
+
+    // Get campaigner and streak info
+    const [campaigner] = await db
+        .select({ name: campaigns.campaignName, img: campaigns.imgurl })
+        .from(campaigns)
+        .where(eq(campaigns.id, id));
+
+    const [streak] = await db
+        .select()
+        .from(campaignerStreaks)
+        .where(eq(campaignerStreaks.campaignerId, id));
+
+    // Get this week's donations
+    const donations = await db
+        .select({ createdate: paymentTable.createdate, status: paymentTable.finalpaymentstatus, amount: paymentTable.amount })
+        .from(paymentTable)
+        .where(and(eq(paymentTable.campaignsid, id), eq(paymentTable.finalpaymentstatus, "captured")))
+        .orderBy(desc(paymentTable.createdate));
+
+    // Calculate this week’s blossom pattern
+    const weekDays = Array(7).fill(false);
+    donations.forEach((don) => {
+        const d = new Date(don.createdate);
+        if (d >= startOfWeek && d <= today) {
+            const dayIndex = d.getDay();
+            weekDays[dayIndex] = true;
+        }
+    });
+
+    const todayAchieved = weekDays[today.getDay()] || false;
+
+    return c.json({
+        campaignerName: campaigner?.name || "Campaigner",
+        campaignerImage: campaigner?.img || null,
+        todayAchieved,
+        weekDays,
+        currentStreak: streak?.currentStreak || 0,
+        longestStreak: streak?.longestStreak || 0,
+    });
+});
 
 export default app

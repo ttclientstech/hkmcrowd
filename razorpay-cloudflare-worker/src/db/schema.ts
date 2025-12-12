@@ -50,6 +50,14 @@ export const campaigns = pgTable('campaigns', {
   }
 );
 
+export const campaignerStreaks = pgTable("campaigner_streaks", {
+    id: serial("id").primaryKey(),
+    campaignerId: integer("campaigner_id").notNull().references(() => campaigns.id, { onDelete: "cascade" }),
+    currentStreak: integer("current_streak").default(0),
+    longestStreak: integer("longest_streak").default(0),
+    lastDonationDate: date("last_donation_date"),
+    updatedAt: timestamp("updated_at").defaultNow(),
+});
 
   export const campaignRelation = relations(campaigns, ({ many }) => ({
     payment: many(paymentTable), 
