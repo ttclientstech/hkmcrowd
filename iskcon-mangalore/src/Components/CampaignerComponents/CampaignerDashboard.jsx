@@ -23,7 +23,7 @@ import lotusBud from "../../assets/images/lotus_bud.png";
 import lotusBloom from "../../assets/images/lotus_blossom.png";
 import MilestoneBadges from "./MilestoneBadges";
 import Leaderboard from "./Leaderboard";
-
+import DonorTable from "./DonorTable";
 // 1. ⚡ Define Animations
 const float = keyframes`
     0% { transform: translateY(0px); }
@@ -255,6 +255,7 @@ const CampaignerDashboard = () => {
                         />
                         <MilestoneBadges raisedSqFt={data.raisedAmount} />
                         <Leaderboard />
+                        <DonorTable />
                     </Box>
                 </Box>
             </Box>

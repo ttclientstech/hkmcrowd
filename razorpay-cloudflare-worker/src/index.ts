@@ -889,6 +889,41 @@ app.get("/api/leaderboard", async (c) => {
     }
 });
 
+// Add this to your src/index.ts file
+
+app.get("/api/campaigner/:id/donors", async (c) => {
+    const db = c.get("db");
+    const id = Number(c.req.param("id"));
+
+    if (isNaN(id)) {
+        return c.json({ error: "Invalid Campaigner ID" }, 400);
+    }
+
+    try {
+        const donors = await db
+            .select({
+                username: paymentTable.username,
+                amount: paymentTable.amount,
+                mobileno: paymentTable.mobileno,
+                date: paymentTable.createdate
+            })
+            .from(paymentTable)
+            .where(
+                and(
+                    eq(paymentTable.campaignsid, id),
+                    eq(paymentTable.paymentstatus, true)
+                )
+            )
+            .orderBy(desc(paymentTable.createdate)) // Latest first
+            .limit(20);
+
+        return c.json(donors);
+    } catch (error) {
+        console.error("Error fetching donors:", error);
+        return c.json({ error: "Failed to fetch donors" }, 500);
+    }
+});
+
 export default {
     fetch: app.fetch,
     scheduled: scheduledHandler
