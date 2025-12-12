@@ -20,8 +20,9 @@ const CampaignerDashboard = () => {
     const [data, setData] = useState(null);
     const campaignerId = window.location.pathname.split("/").pop();
 
-    const bgHeight = useBreakpointValue({ base: "70vh", md: "85vh" });
-    const lotusWidth = useBreakpointValue({ base: "100%", md: "70%", lg: "55%" });
+    // ✅ Dynamic heights that adapt for small screens
+    const bgHeight = useBreakpointValue({ base: "auto", md: "85vh" });
+    const lotusWidth = useBreakpointValue({ base: "90%", md: "70%", lg: "55%" });
 
     useEffect(() => {
         axios
@@ -44,7 +45,12 @@ const CampaignerDashboard = () => {
         : `“Today, your lotus awaits your seva. Receive even a small donation today to blossom your lotus and offer it to Lord Krishna.”`;
 
     return (
-        <Box bg="#031931" minH="100vh" fontFamily="'Poppins', sans-serif">
+        <Box
+            bg="#031931"
+            minH="100vh"
+            fontFamily="'Poppins', sans-serif"
+            overflowX="hidden" // ✅ Prevent horizontal overflow on mobile
+        >
             <Navbar
                 campaignerName={data.campaignerName}
                 campaignerImage={data.campaignerImage}
@@ -54,11 +60,17 @@ const CampaignerDashboard = () => {
             <Box
                 position="relative"
                 w="100%"
-                h={bgHeight}
+                minH={["70vh", "80vh", "85vh"]} // ✅ Responsive height
                 overflow="hidden"
                 bg="#031931"
+                display="flex"
+                flexDirection="column"
+                justifyContent="flex-end" // ✅ keep bottom alignment
+                alignItems="center"
+                textAlign="center"
+                px={[3, 6, 10]}
+                pb={["30px", "35px"]}
             >
-                {/* ✅ Lotus Image — responsive, full width, no crop */}
                 <Image
                     src={lotusImage}
                     alt="Lotus Background"
@@ -66,31 +78,28 @@ const CampaignerDashboard = () => {
                     bottom="0"
                     left="50%"
                     transform="translateX(-50%)"
-                    w={lotusWidth} // ✅ adjusts width per device
-                    maxH="100%" // ✅ prevents stretching
-                    objectFit="contain" // ✅ maintains aspect ratio, no cropping
+                    w={lotusWidth}
+                    maxH="100%"
+                    objectFit="contain"
                     objectPosition="center bottom"
                     zIndex="0"
-                    transition="all 0.6s ease"
                 />
 
-                {/* ✅ Hero Text — bottom aligned, consistent with your current layout */}
                 <Flex
                     direction="column"
                     align="center"
-                    justify="flex-end" // ✅ stays bottom
-                    textAlign="center"
-                    h="100%"
-                    px={[4, 6, 10]}
-                    pb={["25px", "35px"]}
+                    justify="flex-end"
                     position="relative"
                     zIndex="1"
+                    w="100%"
+                    maxW="900px"
                 >
                     <Text
                         fontSize={["2xl", "3xl", "4xl"]}
                         fontWeight="700"
                         color="#fae165"
                         mb={3}
+                        px={[2, 4]} // ✅ Adds padding for small screens
                     >
                         Hare Krishna, {data.campaignerName}
                     </Text>
@@ -99,9 +108,8 @@ const CampaignerDashboard = () => {
                         fontSize={["md", "lg"]}
                         fontWeight="500"
                         color="white"
-                        maxW="800px"
-                        lineHeight="1.8"
-                        px={[4, 0]}
+                        lineHeight="1.7"
+                        px={[4, 8]}
                     >
                         {message}
                     </Text>
@@ -109,10 +117,17 @@ const CampaignerDashboard = () => {
             </Box>
 
             {/* 🌼 Weekly Lotus Tracker */}
-            <VStack spacing={8} py={10}>
+            <VStack
+                spacing={8}
+                py={[6, 10]}
+                px={[2, 4]}
+                w="100%"
+                maxW="100%"
+                overflowX="hidden" // ✅ ensures lotus row doesn’t overflow horizontally
+            >
                 <WeeklyLotusRow days={data.weekDays} />
 
-                <Box textAlign="center">
+                <Box textAlign="center" px={[2, 6]}>
                     <Text
                         fontWeight="bold"
                         color="#E63946"
@@ -121,7 +136,7 @@ const CampaignerDashboard = () => {
                     >
                         Current Streak: {data.currentStreak} days 🔥
                     </Text>
-                    <Text fontSize="sm" color="gray.500">
+                    <Text fontSize="sm" color="gray.400">
                         Longest Streak: {data.longestStreak} days
                     </Text>
                 </Box>
