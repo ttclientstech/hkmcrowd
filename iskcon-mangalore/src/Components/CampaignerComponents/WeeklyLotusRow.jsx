@@ -6,11 +6,10 @@ import lotusBloom from "../../assets/images/lotus_bloom_small.png";
 const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const WeeklyLotusRow = ({ days: blossomed }) => {
-    // Get current weekday (0–6)
     const todayIndex = new Date().getDay();
 
     return (
-        <VStack spacing={5} align="center" w="full">
+        <VStack spacing={4} align="center" w="full" overflowX="hidden">
             <Text
                 color="rgb(230 144 46)"
                 fontWeight="700"
@@ -21,51 +20,59 @@ const WeeklyLotusRow = ({ days: blossomed }) => {
                 Your Weekly Seva Blossoms
             </Text>
 
-            <HStack spacing={[3, 5]} justify="center">
+            <HStack
+                spacing={[1, 2, 3]} // 🔹 Reduced gap between lotus blocks
+                justify="center"
+                wrap="wrap"
+                maxW="95vw"
+            >
                 {blossomed.map((hasBlossomed, i) => {
-                    // Skip future days
-                    if (i > todayIndex) return null;
-
+                    if (i > todayIndex) return null; // 🔹 Hide future days
                     const isToday = i === todayIndex;
 
                     return (
                         <VStack key={i} spacing={1} align="center" position="relative">
-                            <Box position="relative" display="flex" justifyContent="center" alignItems="center">
-                                {/* Lotus Display Logic */}
+                            <Box
+                                position="relative"
+                                display="flex"
+                                justifyContent="center"
+                                alignItems="center"
+                                boxSize="70px"
+                            >
+                                {/* Lotus logic */}
                                 {isToday && !hasBlossomed ? (
                                     <>
-                                        {/* faded blossom lotus */}
                                         <Image
                                             src={lotusBloom}
                                             boxSize="70px"
-                                            opacity="0.25"
                                             transition="all 0.3s ease"
                                         />
-                                        {/* overlay text */}
-                                        <Text
+                                        <VStack
+                                            spacing="1px"
                                             position="absolute"
                                             top="50%"
                                             left="50%"
                                             transform="translate(-50%, -50%)"
-                                            fontSize="xs"
-                                            fontWeight="700"
-                                            color="rgb(230 144 46)"
-                                            textAlign="center"
-                                            whiteSpace="nowrap"
-                                            sx={{
-                                                animation: "pulse 2s infinite",
-                                                "@keyframes pulse": {
-                                                    "0%": { opacity: 0.6 },
-                                                    "50%": { opacity: 1 },
-                                                    "100%": { opacity: 0.6 },
-                                                },
-                                            }}
                                         >
-                                            Awaits You
-                                        </Text>
+                                            <Text
+                                                fontSize="xs"
+                                                fontWeight="700"
+                                                color="rgb(230 144 46)"
+                                                lineHeight="1.1"
+                                            >
+                                                Awaits
+                                            </Text>
+                                            <Text
+                                                fontSize="xs"
+                                                fontWeight="700"
+                                                color="rgb(230 144 46)"
+                                                lineHeight="1.1"
+                                            >
+                                                You
+                                            </Text>
+                                        </VStack>
                                     </>
                                 ) : (
-                                    // If past or today (with seva)
                                     <Image
                                         src={hasBlossomed ? lotusBloom : lotusBud}
                                         boxSize="70px"
@@ -76,7 +83,12 @@ const WeeklyLotusRow = ({ days: blossomed }) => {
                             </Box>
 
                             {/* Day label */}
-                            <Text fontSize="xs" color="#444" textAlign="center">
+                            <Text
+                                fontSize="xs"
+                                color="white"
+                                textAlign="center"
+                                whiteSpace="nowrap"
+                            >
                                 {dayLabels[i]}
                             </Text>
                         </VStack>
