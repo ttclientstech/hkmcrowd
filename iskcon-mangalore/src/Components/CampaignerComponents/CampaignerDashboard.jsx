@@ -234,7 +234,7 @@ const CampaignerDashboard = () => {
                                 color="blue.200"
                                 fontWeight="600"
                             >
-                                YOUR WEEKLY OFFERING
+                                YOUR WEEKLY SEVA BLOSSOMS
                             </Text>
 
                             {/* Ensure the row handles overflow nicely on very small screens */}
