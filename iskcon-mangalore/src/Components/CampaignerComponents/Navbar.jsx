@@ -7,11 +7,13 @@ const Navbar = ({ campaignerName, campaignerImage }) => (
         justify="space-between"
         align="center"
         px={[4, 8]}
-        py={3}
-        bg="rgba(255,255,255,0.05)"
-        borderBottom="1px solid rgba(255,255,255,0.1)"
+        py={4}
+        bg="white"
+        borderBottom="1px solid rgba(0,0,0,0.08)"
+        boxShadow="sm"
     >
-        <Image src={templeLogo} alt="Temple Logo" boxSize="60px" />
+        <Image src={templeLogo} alt="Temple Logo" boxSize="65px" />
+
         <Image
             src={campaignerImage}
             alt={campaignerName}

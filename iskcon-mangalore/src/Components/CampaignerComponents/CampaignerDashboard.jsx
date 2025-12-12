@@ -1,59 +1,125 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Box, Flex, Text, VStack, Spinner } from "@chakra-ui/react";
+import {
+    Box,
+    Flex,
+    Text,
+    VStack,
+    Spinner,
+    Image,
+    useBreakpointValue,
+} from "@chakra-ui/react";
 import Navbar from "./Navbar";
-import LotusBlock from "./LotusBlock";
 import WeeklyLotusRow from "./WeeklyLotusRow";
 import { BE_API_URL } from "../../constants/homePage";
 
-const NAVY = "#081229";
-const GOLD = "#FFD45E";
+import lotusBud from "../../assets/images/lotus_bud.png";
+import lotusBloom from "../../assets/images/lotus_blossom.png";
 
 const CampaignerDashboard = () => {
     const [data, setData] = useState(null);
     const campaignerId = window.location.pathname.split("/").pop();
 
+
     useEffect(() => {
-        axios.get(`${BE_API_URL}/api/campaigner/${campaignerId}/streak`).then((res) => setData(res.data));
+        axios
+            .get(`${BE_API_URL}/api/campaigner/${campaignerId}/streak`)
+            .then((res) => setData(res.data))
+            .catch((err) => console.error("Error fetching campaigner data:", err));
     }, [campaignerId]);
 
     if (!data)
         return (
-            <Flex justify="center" align="center" minH="100vh" bg={NAVY}>
-                <Spinner color="gold" />
+            <Flex justify="center" align="center" minH="100vh" bg="white">
+                <Spinner color="#E63946" />
             </Flex>
         );
 
+    // 🌸 Choose lotus image and message dynamically
+    const lotusImage = data.todayAchieved ? lotusBloom : lotusBud;
+
+    const message = data.todayAchieved
+        ? `“Beautiful! Your lotus has blossomed today — an offering of your seva to Lord Krishna. May His grace and smile bless your heartfelt service.”`
+        : `“Today, your lotus awaits your seva. Receive even a small donation today to blossom your lotus and offer it to Lord Krishna.”`;
+
+    const bgHeight = useBreakpointValue({ base: "60vh", md: "80vh" });
+
     return (
-        <Box bgGradient="linear(to-b, #081229, #0E1F38)" minH="100vh" color="white">
-            <Navbar campaignerName={data.campaignerName} campaignerImage={data.campaignerImage} />
+        <Box bg="white" minH="100vh" fontFamily="'Poppins', sans-serif">
+            <Navbar
+                campaignerName={data.campaignerName}
+                campaignerImage={data.campaignerImage}
+            />
 
-            <VStack spacing={6} mt={10} textAlign="center" fontFamily="'Lora', serif">
-                <Text fontSize="3xl" fontWeight="700" color={GOLD}>
-                    Hare Krishna, {data.campaignerName}
-                </Text>
-                <Text fontSize="md" maxW="700px" color="gray.300">
-                    Thank you for being a part of building a divine home for{" "}
-                    <Text as="span" color={GOLD}>
-                        Sri Sri Rukmini Dwarakadish
-                    </Text>{" "}
-                    in Chennai. Every seva you inspire helps blossom devotion in countless hearts.
-                </Text>
+            {/* 🌸 HERO SECTION */}
+            <Box
+                position="relative"
+                w="100%"
+                h={bgHeight}
+                overflow="hidden"
+                bg="white"
+            >
+                {/* Lotus Background */}
+                <Image
+                    src={lotusImage}
+                    alt="Lotus Background"
+                    position="absolute"
+                    bottom="0"
+                    left="50%"
+                    transform="translateX(-50%)"
+                    w={useBreakpointValue({ base: "120%", md: "80%" })}
+                    opacity="0.25"
+                    objectFit="contain"
+                    zIndex="0"
+                    transition="opacity 0.5s ease"
+                />
 
-                <LotusBlock achieved={data.todayAchieved} />
+                {/* Hero Text */}
+                <Flex
+                    direction="column"
+                    align="center"
+                    justify="center"
+                    textAlign="center"
+                    h="100%"
+                    px={[6, 10, 16]}
+                    position="relative"
+                    zIndex="1"
+                >
+                    <Text
+                        fontSize={["2xl", "3xl", "4xl"]}
+                        fontWeight="700"
+                        color="#0A1931"
+                        mb={3}
+                    >
+                        Hare Krishna, {data.campaignerName}
+                    </Text>
 
-                <Text mt={3} color="gray.300" fontStyle="italic" fontSize="sm">
-                    Your daily seva offering to Lord Krishna.<br />
-                    Receive even a small donation today to blossom your lotus and offer it to Him.
-                </Text>
+                    <Text
+                        fontSize={["md", "lg"]}
+                        fontWeight="500"
+                        color="#4A5568"
+                        maxW="800px"
+                        lineHeight="1.8"
+                    >
+                        {message}
+                    </Text>
+                </Flex>
+            </Box>
 
+            {/* 🌼 Weekly Lotus Tracker */}
+            <VStack spacing={8} py={10} bg="white">
                 <WeeklyLotusRow days={data.weekDays} />
 
-                <Box mt={6}>
-                    <Text fontWeight="bold" color={GOLD}>
+                <Box textAlign="center">
+                    <Text
+                        fontWeight="bold"
+                        color="#E63946"
+                        fontSize={["md", "lg"]}
+                        mb={1}
+                    >
                         Current Streak: {data.currentStreak} days 🔥
                     </Text>
-                    <Text fontSize="sm" color="gray.400">
+                    <Text fontSize="sm" color="gray.500">
                         Longest Streak: {data.longestStreak} days
                     </Text>
                 </Box>
