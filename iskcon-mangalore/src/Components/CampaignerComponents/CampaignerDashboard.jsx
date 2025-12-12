@@ -15,6 +15,7 @@ import { keyframes } from "@emotion/react";
 
 import Navbar from "./Navbar";
 import WeeklyLotusRow from "./WeeklyLotusRow";
+import ImpactVisualizer from "./ImpactVisualizer";
 import { BE_API_URL } from "../../constants/homePage";
 
 // Images
@@ -246,6 +247,10 @@ const CampaignerDashboard = () => {
                                 Every lotus blooms with a sincere offering.
                             </Text>
                         </Box>
+                        <ImpactVisualizer
+                            raisedAmount={data.raisedAmount}
+                            targetAmount={data.targetAmount}
+                        />
                     </Box>
                 </Box>
             </Box>

@@ -822,7 +822,7 @@ app.get("/api/campaigner/:id/streak", async (c) => {
 
     // Get campaigner and streak info
     const [campaigner] = await db
-        .select({ name: campaigns.campaignName, img: campaigns.imgurl })
+        .select({ name: campaigns.campaignName, img: campaigns.imgurl, target: campaigns.targetAmount, raised: campaigns.raisedtotal })
         .from(campaigns)
         .where(eq(campaigns.id, id));
 
@@ -853,6 +853,8 @@ app.get("/api/campaigner/:id/streak", async (c) => {
     return c.json({
         campaignerName: campaigner?.name || "Campaigner",
         campaignerImage: campaigner?.img || null,
+        targetAmount: campaigner?.target,
+        raisedAmount: campaigner?.raised,
         todayAchieved,
         weekDays,
         currentStreak: streak?.currentStreak || 0,
