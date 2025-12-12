@@ -78,7 +78,6 @@ const CampaignerDashboard = () => {
                     bottom="0"
                     left="50%"
                     transform="translateX(-50%)"
-                    w={lotusWidth}
                     maxH="100%"
                     objectFit="contain"
                     objectPosition="center bottom"
