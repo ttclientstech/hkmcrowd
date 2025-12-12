@@ -17,6 +17,8 @@ import {
 import { FaTrophy, FaCalendarDay, FaCalendarWeek, FaDonate, FaUsers, FaFire } from "react-icons/fa";
 import { BE_API_URL } from "../../constants/homePage";
 
+const COST_PER_SQFT = 5000;
+
 // Configuration for each badge type
 const BADGE_CONFIG = {
     top_overall: {
@@ -25,7 +27,8 @@ const BADGE_CONFIG = {
         icon: FaTrophy,
         color: "yellow.400", // Gold
         bgGradient: "linear(to-br, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05))",
-        borderColor: "yellow.500"
+        borderColor: "yellow.500",
+        isAmount: true // ✅ Flag to indicate this needs SqFt conversion
     },
     top_today: {
         label: "Star of the Day",
@@ -33,7 +36,8 @@ const BADGE_CONFIG = {
         icon: FaCalendarDay,
         color: "cyan.400",
         bgGradient: "linear(to-br, rgba(0, 255, 255, 0.1), rgba(0, 255, 255, 0.05))",
-        borderColor: "cyan.500"
+        borderColor: "cyan.500",
+        isAmount: true
     },
     top_week: {
         label: "Warrior of the Week",
@@ -41,7 +45,8 @@ const BADGE_CONFIG = {
         icon: FaCalendarWeek,
         color: "orange.400",
         bgGradient: "linear(to-br, rgba(255, 165, 0, 0.1), rgba(255, 165, 0, 0.05))",
-        borderColor: "orange.500"
+        borderColor: "orange.500",
+        isAmount: true
     },
     top_single: {
         label: "Grand Patron",
@@ -49,7 +54,8 @@ const BADGE_CONFIG = {
         icon: FaDonate,
         color: "purple.400",
         bgGradient: "linear(to-br, rgba(128, 0, 128, 0.1), rgba(128, 0, 128, 0.05))",
-        borderColor: "purple.500"
+        borderColor: "purple.500",
+        isAmount: true
     },
     most_donors: {
         label: "People's Choice",
@@ -57,7 +63,8 @@ const BADGE_CONFIG = {
         icon: FaUsers,
         color: "pink.400",
         bgGradient: "linear(to-br, rgba(255, 105, 180, 0.1), rgba(255, 105, 180, 0.05))",
-        borderColor: "pink.500"
+        borderColor: "pink.500",
+        isAmount: false // Count based
     },
     top_streak: {
         label: "Unstoppable Force",
@@ -65,7 +72,8 @@ const BADGE_CONFIG = {
         icon: FaFire,
         color: "red.500", // Fire Red
         bgGradient: "linear(to-br, rgba(255, 0, 0, 0.15), rgba(255, 0, 0, 0.05))",
-        borderColor: "red.500"
+        borderColor: "red.500",
+        isAmount: false // Count based
     }
 };
 
@@ -73,10 +81,30 @@ const LeaderboardCard = ({ type, data }) => {
     const config = BADGE_CONFIG[type];
     if (!config || !data) return null;
 
-    // Formatting value based on type (Currency vs Count)
-    const formattedValue = (type === "top_streak" || type === "most_donors")
-        ? data.value
-        : `₹${data.value.toLocaleString()}`;
+    let formattedValue;
+
+    // 1. Check if the badge is amount-based
+    if (config.isAmount) {
+        const amount = Number(data.value);
+
+        if (amount >= COST_PER_SQFT) {
+            // Convert to Sq.Ft
+            const sqFt = Math.floor(amount / COST_PER_SQFT);
+            formattedValue = `${sqFt} Sq.Ft`;
+        } else {
+            // Display Currency if less than 1 Sq.Ft
+            formattedValue = `₹${amount.toLocaleString()}`;
+        }
+    } else {
+        // 2. Handle non-amount badges (Streak / Donors)
+        if (type === "top_streak") {
+            formattedValue = `${data.value} Days`;
+        } else if (type === "most_donors") {
+            formattedValue = `${data.value} Donors`;
+        } else {
+            formattedValue = data.value;
+        }
+    }
 
     return (
         <Box
@@ -86,7 +114,7 @@ const LeaderboardCard = ({ type, data }) => {
             borderColor={config.borderColor}
             borderRadius="xl"
             p={4}
-            boxShadow={`0 0 15px ${config.color}22`} // Glow effect based on badge color
+            boxShadow={`0 0 15px ${config.color}22`}
             transition="transform 0.3s"
             _hover={{ transform: "translateY(-5px)", boxShadow: `0 0 25px ${config.color}44` }}
             overflow="hidden"
@@ -115,7 +143,7 @@ const LeaderboardCard = ({ type, data }) => {
                 {/* Campaigner Avatar */}
                 <Box position="relative">
                     <Image
-                        src={data.image || "https://via.placeholder.com/150"} // Fallback image
+                        src={data.image || "https://via.placeholder.com/150"}
                         alt={data.name}
                         boxSize="70px"
                         borderRadius="full"
@@ -124,7 +152,7 @@ const LeaderboardCard = ({ type, data }) => {
                         objectFit="cover"
                         boxShadow="lg"
                     />
-                    {/* Rank Badge (Optional, always #1 for these categories) */}
+                    {/* Rank Badge */}
                     <Badge
                         position="absolute"
                         bottom="-5px"
