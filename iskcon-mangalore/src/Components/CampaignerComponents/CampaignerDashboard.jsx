@@ -58,7 +58,7 @@ const CampaignerDashboard = () => {
                 overflow="hidden"
                 bg="#031931"
             >
-                {/* ✅ Lotus Background (full visible, no crop) */}
+                {/* ✅ Lotus Image — responsive, full width, no crop */}
                 <Image
                     src={lotusImage}
                     alt="Lotus Background"
@@ -66,23 +66,23 @@ const CampaignerDashboard = () => {
                     bottom="0"
                     left="50%"
                     transform="translateX(-50%)"
-                    w={lotusWidth}
-                    h="100%"                      // ✅ ensure full height display
-                    objectFit="contain"            // ✅ no cropping, show full lotus
-                    objectPosition="center bottom" // ✅ lotus anchored at bottom
+                    w={useBreakpointValue({ base: "100%", md: "70%", lg: "55%" })} // ✅ adjusts width per device
+                    maxH="100%" // ✅ prevents stretching
+                    objectFit="contain" // ✅ maintains aspect ratio, no cropping
+                    objectPosition="center bottom"
                     zIndex="0"
-                    transition="opacity 0.5s ease"
+                    transition="all 0.6s ease"
                 />
 
-                {/* ✅ Hero Text (bottom-aligned, same as your current layout) */}
+                {/* ✅ Hero Text — bottom aligned, consistent with your current layout */}
                 <Flex
                     direction="column"
                     align="center"
-                    justify="flex-end"  // ✅ keep text at bottom
+                    justify="flex-end" // ✅ stays bottom
                     textAlign="center"
                     h="100%"
-                    px={[6, 10, 16]}
-                    pb="35px"           // ✅ bottom padding as in your design
+                    px={[4, 6, 10]}
+                    pb={["25px", "35px"]}
                     position="relative"
                     zIndex="1"
                 >
@@ -101,6 +101,7 @@ const CampaignerDashboard = () => {
                         color="white"
                         maxW="800px"
                         lineHeight="1.8"
+                        px={[4, 0]}
                     >
                         {message}
                     </Text>
