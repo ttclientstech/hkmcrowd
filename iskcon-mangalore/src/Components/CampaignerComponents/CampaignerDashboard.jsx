@@ -20,9 +20,8 @@ const CampaignerDashboard = () => {
     const [data, setData] = useState(null);
     const campaignerId = window.location.pathname.split("/").pop();
 
-    // ✅ Hooks should always be declared before conditionals
-    const bgHeight = useBreakpointValue({ base: "60vh", md: "80vh" });
-    const lotusWidth = useBreakpointValue({ base: "120%", md: "80%" });
+    const bgHeight = useBreakpointValue({ base: "70vh", md: "85vh" });
+    const lotusWidth = useBreakpointValue({ base: "95%", md: "60%" });
 
     useEffect(() => {
         axios
@@ -38,7 +37,6 @@ const CampaignerDashboard = () => {
             </Flex>
         );
 
-    // 🌸 Choose lotus image and message dynamically
     const lotusImage = data.todayAchieved ? lotusBloom : lotusBud;
 
     const message = data.todayAchieved
@@ -53,8 +51,14 @@ const CampaignerDashboard = () => {
             />
 
             {/* 🌸 HERO SECTION */}
-            <Box position="relative" w="100%" h={bgHeight} overflow="hidden" bg="#031931">
-                {/* Lotus Background */}
+            <Box
+                position="relative"
+                w="100%"
+                h={bgHeight}
+                overflow="hidden"
+                bg="#031931"
+            >
+                {/* ✅ Lotus Background (full visible, no crop) */}
                 <Image
                     src={lotusImage}
                     alt="Lotus Background"
@@ -63,20 +67,22 @@ const CampaignerDashboard = () => {
                     left="50%"
                     transform="translateX(-50%)"
                     w={lotusWidth}
-                    objectFit="contain"
+                    h="100%"                      // ✅ ensure full height display
+                    objectFit="contain"            // ✅ no cropping, show full lotus
+                    objectPosition="center bottom" // ✅ lotus anchored at bottom
                     zIndex="0"
                     transition="opacity 0.5s ease"
                 />
 
-                {/* Hero Text */}
+                {/* ✅ Hero Text (bottom-aligned, same as your current layout) */}
                 <Flex
                     direction="column"
                     align="center"
-                    justify="flex-end"
+                    justify="flex-end"  // ✅ keep text at bottom
                     textAlign="center"
                     h="100%"
                     px={[6, 10, 16]}
-                    pb="25px"
+                    pb="35px"           // ✅ bottom padding as in your design
                     position="relative"
                     zIndex="1"
                 >

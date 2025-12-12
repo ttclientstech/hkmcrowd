@@ -9,7 +9,7 @@ const WeeklyLotusRow = ({ days: blossomed }) => {
     const todayIndex = new Date().getDay();
 
     return (
-        <VStack spacing={4} align="center" w="full" overflowX="hidden">
+        <VStack spacing={4} align="center" w="full">
             <Text
                 color="rgb(230 144 46)"
                 fontWeight="700"
@@ -21,23 +21,42 @@ const WeeklyLotusRow = ({ days: blossomed }) => {
             </Text>
 
             <HStack
-                spacing={[1, 2, 3]} // 🔹 Reduced gap between lotus blocks
+                spacing={[2, 3]}
                 justify="center"
-                wrap="wrap"
-                maxW="95vw"
+                overflowX="auto"
+                px={2}
+                py={2}
+                w="100%"
+                maxW="900px"
+                css={{
+                    "&::-webkit-scrollbar": { display: "none" },
+                    scrollbarWidth: "none",
+                }}
             >
                 {blossomed.map((hasBlossomed, i) => {
-                    if (i > todayIndex) return null; // 🔹 Hide future days
+                    if (i > todayIndex) return null;
                     const isToday = i === todayIndex;
 
                     return (
-                        <VStack key={i} spacing={1} align="center" position="relative">
+                        <VStack
+                            key={i}
+                            spacing={1}
+                            align="center"
+                            position="relative"
+                            flex="0 0 auto"
+                            minW="70px"
+                        >
                             <Box
                                 position="relative"
                                 display="flex"
                                 justifyContent="center"
                                 alignItems="center"
                                 boxSize="70px"
+                                animation={
+                                    isToday && !hasBlossomed
+                                        ? "pulse 2.5s infinite ease-in-out"
+                                        : "none"
+                                }
                             >
                                 {/* Lotus logic */}
                                 {isToday && !hasBlossomed ? (
@@ -45,7 +64,9 @@ const WeeklyLotusRow = ({ days: blossomed }) => {
                                         <Image
                                             src={lotusBloom}
                                             boxSize="70px"
+                                            opacity="0.25"
                                             transition="all 0.3s ease"
+                                            filter="drop-shadow(0 0 6px rgba(230,144,46,0.6))"
                                         />
                                         <VStack
                                             spacing="1px"
@@ -58,6 +79,7 @@ const WeeklyLotusRow = ({ days: blossomed }) => {
                                                 fontSize="xs"
                                                 fontWeight="700"
                                                 color="rgb(230 144 46)"
+                                                textShadow="0 0 8px rgba(230,144,46,0.8)"
                                                 lineHeight="1.1"
                                             >
                                                 Awaits
@@ -66,6 +88,7 @@ const WeeklyLotusRow = ({ days: blossomed }) => {
                                                 fontSize="xs"
                                                 fontWeight="700"
                                                 color="rgb(230 144 46)"
+                                                textShadow="0 0 8px rgba(230,144,46,0.8)"
                                                 lineHeight="1.1"
                                             >
                                                 You
@@ -82,19 +105,24 @@ const WeeklyLotusRow = ({ days: blossomed }) => {
                                 )}
                             </Box>
 
-                            {/* Day label */}
-                            <Text
-                                fontSize="xs"
-                                color="white"
-                                textAlign="center"
-                                whiteSpace="nowrap"
-                            >
+                            <Text fontSize="xs" color="#444" textAlign="center">
                                 {dayLabels[i]}
                             </Text>
                         </VStack>
                     );
                 })}
             </HStack>
+
+            {/* Keyframes */}
+            <style>
+                {`
+          @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+            100% { transform: scale(1); }
+          }
+        `}
+            </style>
         </VStack>
     );
 };
