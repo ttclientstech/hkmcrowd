@@ -102,7 +102,7 @@ const CampaignerDashboard = () => {
             </Box>
 
             {/* 🌼 Weekly Lotus Tracker */}
-            <VStack spacing={8} py={10} bg="white">
+            <VStack spacing={8} py={10}>
                 <WeeklyLotusRow days={data.weekDays} />
 
                 <Box textAlign="center">
