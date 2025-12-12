@@ -53,7 +53,7 @@ const ImpactVisualizer = ({ raisedAmount, targetAmount }) => {
                     <HStack spacing={3}>
                         <HStack spacing={1}>
                             <Box w="10px" h="10px" bg="#FFD700" borderRadius="sm" />
-                            <Text fontSize="10px" color="gray.400">Constructed</Text>
+                            <Text fontSize="10px" color="gray.400">Awaits Seva</Text>
                         </HStack>
                         <HStack spacing={1}>
                             <Box w="10px" h="10px" bg="gray.700" border="1px solid #48BB78" borderRadius="sm" />

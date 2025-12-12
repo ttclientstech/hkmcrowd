@@ -21,6 +21,7 @@ import { BE_API_URL } from "../../constants/homePage";
 // Images
 import lotusBud from "../../assets/images/lotus_bud.png";
 import lotusBloom from "../../assets/images/lotus_blossom.png";
+import MilestoneBadges from "./MilestoneBadges";
 
 // 1. ⚡ Define Animations
 const float = keyframes`
@@ -251,6 +252,7 @@ const CampaignerDashboard = () => {
                             raisedAmount={data.raisedAmount}
                             targetAmount={data.targetAmount}
                         />
+                        <MilestoneBadges raisedSqFt={data.raisedAmount} />
                     </Box>
                 </Box>
             </Box>
