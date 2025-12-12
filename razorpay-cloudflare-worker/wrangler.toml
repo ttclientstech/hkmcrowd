@@ -38,9 +38,9 @@ sampling_rate = 1.0
 # [ai]
 # binding = "AI"
 
-# [observability]
-# enabled = true
-# head_sampling_rate = 1
+[observability]
+enabled = true
+head_sampling_rate = 1
 
 # Run every hour at minute 0
 [triggers]

@@ -31,46 +31,79 @@ const authMiddleware = async (c, next) => {
 }
 
 async function updateCampaignerStreak(db, campaignid) {
-    const today = new Date();
-    const todayDate = today.toISOString().split("T")[0];
+    try {
+        console.log(`[Streak] Starting update for Campaign ID: ${campaignid}`);
 
-    const streakRecord = await db
-        .select()
-        .from(campaignerStreaks)
-        .where(eq(campaignerStreaks.campaignerId, campaignid));
+        // 1. Get Current Date (UTC) as YYYY-MM-DD
+        const now = new Date();
+        const todayStr = now.toISOString().split("T")[0];
 
-    if (streakRecord.length === 0) {
-        await db.insert(campaignerStreaks).values({
-            campaignerId: campaignid,
-            currentStreak: 1,
-            longestStreak: 1,
-            lastDonationDate: todayDate,
-        });
-        return;
+        // 2. Fetch existing streak record
+        const streakRecord = await db
+            .select()
+            .from(campaignerStreaks)
+            .where(eq(campaignerStreaks.campaignerId, campaignid));
+
+        // 3. CASE: First time donation (No record exists)
+        if (streakRecord.length === 0) {
+            console.log(`[Streak] No existing record. Creating new streak for ${campaignid}`);
+            await db.insert(campaignerStreaks).values({
+                campaignerId: campaignid,
+                currentStreak: 1,
+                longestStreak: 1,
+                lastDonationDate: todayStr,
+            });
+            return;
+        }
+
+        const s = streakRecord[0];
+        // Ensure we handle the date format correctly (Drizzle/Neon usually returns string YYYY-MM-DD)
+        const lastDonationStr = String(s.lastDonationDate);
+
+        console.log(`[Streak] Found record. Last Donation: ${lastDonationStr} | Today: ${todayStr}`);
+
+        // 4. CASE: Already donated today?
+        if (lastDonationStr === todayStr) {
+            console.log(`[Streak] Donation already recorded today. Skipping update.`);
+            return;
+        }
+
+        // 5. Calculate "Yesterday" string to check for consecutive days
+        const yesterday = new Date(now);
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayStr = yesterday.toISOString().split("T")[0];
+
+        let newStreak = 1;
+
+        // 6. Check Logic
+        if (lastDonationStr === yesterdayStr) {
+            // It was yesterday -> Increment Streak
+            newStreak = (s.currentStreak || 0) + 1;
+            console.log(`[Streak] Consecutive day detected! New Streak: ${newStreak}`);
+        } else {
+            // Gap detected -> Reset to 1
+            console.log(`[Streak] Streak broken (Last: ${lastDonationStr}, Yest: ${yesterdayStr}). Resetting to 1.`);
+            newStreak = 1;
+        }
+
+        const newLongest = Math.max(s.longestStreak || 0, newStreak);
+
+        // 7. Update Database
+        await db
+            .update(campaignerStreaks)
+            .set({
+                currentStreak: newStreak,
+                longestStreak: newLongest,
+                lastDonationDate: todayStr,
+                updatedAt: new Date(),
+            })
+            .where(eq(campaignerStreaks.campaignerId, campaignid));
+
+        console.log(`[Streak] Update successful.`);
+
+    } catch (error) {
+        console.error(`[Streak Error] Failed to update streak for ${campaignid}:`, error);
     }
-
-    const s = streakRecord[0];
-    const lastDate = s.lastDonationDate ? new Date(s.lastDonationDate) : null;
-    const diffDays = lastDate
-        ? Math.floor((today - lastDate) / (1000 * 60 * 60 * 24))
-        : null;
-
-    let newStreak = s.currentStreak;
-    if (diffDays === 1) newStreak = s.currentStreak + 1;
-    else if (diffDays > 1) newStreak = 1;
-    // if diffDays === 0, already captured today
-
-    const longest = Math.max(s.longestStreak, newStreak);
-
-    await db
-        .update(campaignerStreaks)
-        .set({
-            currentStreak: newStreak,
-            longestStreak: longest,
-            lastDonationDate: todayDate,
-            updatedAt: new Date(),
-        })
-        .where(eq(campaignerStreaks.campaignerId, campaignid));
 }
 
 app.post("/webhook/razorpay", async (c) => {
