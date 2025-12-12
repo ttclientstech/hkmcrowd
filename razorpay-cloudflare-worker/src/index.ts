@@ -2,7 +2,7 @@ import { Hono } from 'hono'
 import { env } from 'hono/adapter'
 import { drizzle, NeonHttpDatabase} from 'drizzle-orm/neon-http'
 import { neon, NeonQueryFunction } from '@neondatabase/serverless'
-import {  campaigns, paymentTable, campaignerStreaks} from './db/schema'
+import {  campaigns, paymentTable, campaignerStreaks, leaderboard} from './db/schema'
 import { and, desc, eq, gte, ilike } from 'drizzle-orm/expressions'
 import { count,   sql,   sum } from 'drizzle-orm'
 import { bearerAuth } from 'hono/bearer-auth'
@@ -860,6 +860,32 @@ app.get("/api/campaigner/:id/streak", async (c) => {
         currentStreak: streak?.currentStreak || 0,
         longestStreak: streak?.longestStreak || 0,
     });
+});
+
+app.get("/api/leaderboard", async (c) => {
+    const db = c.get("db");
+
+    try {
+        // Fetch all leaderboard entries
+        const leaders = await db.select().from(leaderboard);
+
+        // Transform into a cleaner object for the frontend
+        // Example output: { top_overall: { ... }, top_today: { ... } }
+        const formattedLeaderboard = leaders.reduce((acc, entry) => {
+            acc[entry.category] = {
+                name: entry.campaignerName,
+                image: entry.campaignerImage,
+                value: entry.value,
+                campaignerId: entry.campaignerId
+            };
+            return acc;
+        }, {});
+
+        return c.json(formattedLeaderboard);
+    } catch (error) {
+        console.error("Error fetching leaderboard:", error);
+        return c.json({ error: "Failed to fetch leaderboard" }, 500);
+    }
 });
 
 export default app

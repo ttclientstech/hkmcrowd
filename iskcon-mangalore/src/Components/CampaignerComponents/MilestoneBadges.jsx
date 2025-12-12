@@ -278,7 +278,7 @@ const MilestoneBadges = ({ raisedSqFt }) => {
                         w={["100%", "auto"]} // Full width on mobile, auto on desktop
                         px={6}
                     >
-                        View All Badges
+                        Available Badges
                     </Button>
                 </Center>
             </VStack>

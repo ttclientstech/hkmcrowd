@@ -59,6 +59,18 @@ export const campaignerStreaks = pgTable("campaigner_streaks", {
     updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Add this to your db/schema.ts file
+
+export const leaderboard = pgTable("leaderboard", {
+    id: serial("id").primaryKey(),
+    category: varchar("category", { length: 50 }).notNull().unique(), // e.g., 'top_overall', 'top_today', 'top_week'
+    campaignerId: integer("campaigner_id").references(() => campaigns.id),
+    campaignerName: varchar("campaigner_name", { length: 255 }),
+    campaignerImage: varchar("campaigner_image", { length: 255 }),
+    value: integer("value").notNull(), // The winning metric (amount, streak count, etc.)
+    lastUpdated: timestamp("last_updated").defaultNow(),
+});
+
   export const campaignRelation = relations(campaigns, ({ many }) => ({
     payment: many(paymentTable), 
   }));
