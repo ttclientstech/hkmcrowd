@@ -8,11 +8,11 @@ const Navbar = ({ campaignerName, campaignerImage }) => (
         align="center"
         px={[4, 8]}
         py={4}
-        bg="white"
+        bg="#00142fa1"
         borderBottom="1px solid rgba(0,0,0,0.08)"
         boxShadow="sm"
     >
-        <Image src={templeLogo} alt="Temple Logo" boxSize="65px" />
+        <Image src={templeLogo} alt="Temple Logo" height="40px" width="85px"/>
 
         <Image
             src={campaignerImage}

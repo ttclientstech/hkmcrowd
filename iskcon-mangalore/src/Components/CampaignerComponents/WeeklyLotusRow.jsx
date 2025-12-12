@@ -8,7 +8,7 @@ const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const WeeklyLotusRow = ({ days: blossomed }) => (
     <VStack spacing={3}>
         <Text
-            color="#0A1931"
+            color="rgb(230 144 46)"
             fontWeight="700"
             fontSize="lg"
             textTransform="uppercase"
@@ -19,8 +19,8 @@ const WeeklyLotusRow = ({ days: blossomed }) => (
         <HStack spacing={[2, 4]}>
             {blossomed.map((d, i) => (
                 <VStack key={i} spacing={1}>
-                    <Image src={d ? lotusBloom : lotusBud} boxSize="55px" />
-                    <Text fontSize="xs" color="#4A5568">
+                    <Image src={d ? lotusBloom : lotusBud} boxSize="70px" />
+                    <Text fontSize="xs" color="white">
                         {days[i]}
                     </Text>
                 </VStack>

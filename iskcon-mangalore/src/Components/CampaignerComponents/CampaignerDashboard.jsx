@@ -46,7 +46,7 @@ const CampaignerDashboard = () => {
         : `“Today, your lotus awaits your seva. Receive even a small donation today to blossom your lotus and offer it to Lord Krishna.”`;
 
     return (
-        <Box bg="white" minH="100vh" fontFamily="'Poppins', sans-serif">
+        <Box bg="#031931" minH="100vh" fontFamily="'Poppins', sans-serif">
             <Navbar
                 campaignerName={data.campaignerName}
                 campaignerImage={data.campaignerImage}
@@ -63,7 +63,6 @@ const CampaignerDashboard = () => {
                     left="50%"
                     transform="translateX(-50%)"
                     w={lotusWidth}
-                    opacity="0.25"
                     objectFit="contain"
                     zIndex="0"
                     transition="opacity 0.5s ease"
@@ -73,17 +72,18 @@ const CampaignerDashboard = () => {
                 <Flex
                     direction="column"
                     align="center"
-                    justify="center"
+                    justify="flex-end"
                     textAlign="center"
                     h="100%"
                     px={[6, 10, 16]}
+                    pb="25px"
                     position="relative"
                     zIndex="1"
                 >
                     <Text
                         fontSize={["2xl", "3xl", "4xl"]}
                         fontWeight="700"
-                        color="#0A1931"
+                        color="#fae165"
                         mb={3}
                     >
                         Hare Krishna, {data.campaignerName}
@@ -92,7 +92,7 @@ const CampaignerDashboard = () => {
                     <Text
                         fontSize={["md", "lg"]}
                         fontWeight="500"
-                        color="#4A5568"
+                        color="white"
                         maxW="800px"
                         lineHeight="1.8"
                     >
