@@ -30,6 +30,48 @@ const authMiddleware = async (c, next) => {
     return bearerAuth({ token: AUTH_TOKEN })(c, next)
 }
 
+async function updateCampaignerStreak(db, campaignid) {
+    const today = new Date();
+    const todayDate = today.toISOString().split("T")[0];
+
+    const streakRecord = await db
+        .select()
+        .from(campaignerStreaks)
+        .where(eq(campaignerStreaks.campaignerId, campaignid));
+
+    if (streakRecord.length === 0) {
+        await db.insert(campaignerStreaks).values({
+            campaignerId: campaignid,
+            currentStreak: 1,
+            longestStreak: 1,
+            lastDonationDate: todayDate,
+        });
+        return;
+    }
+
+    const s = streakRecord[0];
+    const lastDate = s.lastDonationDate ? new Date(s.lastDonationDate) : null;
+    const diffDays = lastDate
+        ? Math.floor((today - lastDate) / (1000 * 60 * 60 * 24))
+        : null;
+
+    let newStreak = s.currentStreak;
+    if (diffDays === 1) newStreak = s.currentStreak + 1;
+    else if (diffDays > 1) newStreak = 1;
+    // if diffDays === 0, already captured today
+
+    const longest = Math.max(s.longestStreak, newStreak);
+
+    await db
+        .update(campaignerStreaks)
+        .set({
+            currentStreak: newStreak,
+            longestStreak: longest,
+            lastDonationDate: todayDate,
+            updatedAt: new Date(),
+        })
+        .where(eq(campaignerStreaks.campaignerId, campaignid));
+}
 
 app.post("/webhook/razorpay", async (c) => {
 
@@ -149,6 +191,7 @@ app.post("/webhook/razorpay", async (c) => {
                 }).where(eq(campaigns.id, campaignid));
                 
                 console.log(`Campaign ${campaignid} totals updated successfully`);
+                  await updateCampaignerStreak(db, campaignid);
               } catch (campaignError) {
                 console.error(`Error updating campaign ${campaignid}:`, campaignError);
                 // Don't throw here, just log the error and continue

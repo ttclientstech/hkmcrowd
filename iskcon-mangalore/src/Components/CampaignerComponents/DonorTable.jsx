@@ -109,7 +109,7 @@ const DonorTable = () => {
                                 <Th color="gray.400" borderColor="whiteAlpha.100" pl={0} width="40%">Name</Th>
 
                                 {/* Contribution Column */}
-                                <Th color="gray.400" borderColor="whiteAlpha.100" textAlign="center" width="30%">Gift</Th>
+                                <Th color="gray.400" borderColor="whiteAlpha.100" textAlign="center" width="30%">Donation</Th>
 
                                 {/* Mobile Column */}
                                 <Th color="gray.400" borderColor="whiteAlpha.100" textAlign="right" pr={0} width="30%">Mobile</Th>
