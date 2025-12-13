@@ -1,7 +1,15 @@
 import React from "react";
 import { Box, Flex, Text, Button } from "@chakra-ui/react";
+import { useNavigate, useParams } from "react-router-dom";
 
-const DonationBottomBar = ({ onClick }) => {
+const DonationBottomBar = ({ getSingleUser={getSingleUser} }) => {
+    const navigate = useNavigate();
+    const { id } = useParams();
+
+    const handleClick = () => {
+        // ✅ navigate and send campaign details through state
+        navigate(`/campaign/${id}/donate`, { state: { getSingleUser } });
+    };
     return (
         <Box
             position="fixed"
@@ -33,7 +41,7 @@ const DonationBottomBar = ({ onClick }) => {
 
                 {/* DONATE BUTTON */}
                 <Button
-                    onClick={onClick}
+                    onClick={handleClick}
                     bgGradient="linear(to-r, #FFD700, #FFB200)"
                     color="#2C0A0A"
                     fontWeight="800"

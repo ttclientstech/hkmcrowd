@@ -622,7 +622,7 @@ const HomeSinglePage = () => {
             </Text>
 
             <FooterSection />
-            <DonationBottomBar />
+            <DonationBottomBar getSingleUser={getSingleUser} />
 
             {showScrollButton && (
                 <IconButton

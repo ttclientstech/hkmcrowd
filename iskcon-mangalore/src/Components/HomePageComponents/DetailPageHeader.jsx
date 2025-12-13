@@ -1,5 +1,6 @@
 import { Box, Flex, Image, Text, VStack, Button, Link as ChakraLink } from '@chakra-ui/react';
 import React from 'react';
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import transparentLogo from "../../assets/images/transparent_logo.png";
 import bannerBg from "../../assets/images/002_temple_night_view.jpeg";
@@ -12,6 +13,13 @@ const COST_PER_SQFT = 5000;
 const DetailPageHeader = ({ getSingleUser }) => {
     const campaignerName = getSingleUser?.campaignDetails?.campaignName || "Campaigner";
     const sqft =  Math.floor((getSingleUser?.campaignDetails?.targetAmount || 0) / COST_PER_SQFT);
+    const navigate = useNavigate();
+    const { id } = useParams();
+
+    const handleClick = () => {
+        // ✅ navigate and send campaign details through state
+        navigate(`/campaign/${id}/donate`, { state: { getSingleUser } });
+    };
 
     return (
         <Box
@@ -88,10 +96,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
                 borderRadius="full"
                 boxShadow="0px 0px 20px rgba(212, 175, 55, 0.5)"
                 _hover={{ transform: "scale(1.05)", boxShadow: "0px 0px 30px rgba(212, 175, 55, 0.7)" }}
-                onClick={() => {
-                    const donationSection = document.getElementById('donation-section');
-                    if(donationSection) donationSection.scrollIntoView({ behavior: 'smooth' });
-                }}
+                onClick={handleClick}
             >
                 DONATE
             </Button>

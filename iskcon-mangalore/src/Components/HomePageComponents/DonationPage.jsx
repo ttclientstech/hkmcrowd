@@ -40,7 +40,7 @@ import AutoSuggestInput from "./AutoSuggestInput";
 import { IndiaStates, DistrictsByState } from "../../constants/indiaLocations";
 
 // ---------- Theme Colors ----------
-const SQFT_PRICE = 5001;
+const SQFT_PRICE = 5000;
 const GOLD = "#FFD700";
 const RED = "#E63946";
 const MAROON = "#800000";

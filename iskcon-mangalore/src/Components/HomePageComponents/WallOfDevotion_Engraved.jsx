@@ -3,10 +3,11 @@ import { Box, SimpleGrid, Tooltip, Text, Flex, Icon, Button, VStack, Badge } fro
 import { FaCheckCircle, FaCircle, FaChevronDown } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { fetchAllContributers } from "../../utils/apiCall";
+import { useNavigate, useParams } from "react-router-dom";
 
 const MotionBox = motion(Box);
 const MotionText = motion(Text);
-const SQFT_PRICE = 5001;
+const SQFT_PRICE = 5000;
 
 // Theme Constants
 const NAVY = "#082032";
@@ -34,15 +35,16 @@ const prepareGrid = (donors, totalBlocks = 500) => {
     return { grid, filledCount: currentIndex };
 };
 
-const WallOfDevotion_Engraved = () => {
+const WallOfDevotion_Engraved = ({ getSingleUser }) => {
     const [donors, setDonors] = useState([]);
+    const navigate = useNavigate();
+    const { id } = useParams();
 
     // ✅ State to control tooltips manually (Fixes mobile view issue)
     const [activeBlock, setActiveBlock] = useState(null);
 
     const handleScrollToDonate = () => {
-        const donationSection = document.getElementById("donation-section");
-        if (donationSection) donationSection.scrollIntoView({ behavior: "smooth" });
+        navigate(`/campaign/${id}/donate`, { state: { getSingleUser } });
     };
 
     const handleBlockClick = (index, isFilled) => {
@@ -195,7 +197,7 @@ const WallOfDevotion_Engraved = () => {
                     letterSpacing="wider"
                     boxShadow="md"
                 >
-                    PHASE 1: FILLING FAST
+                    PHASE 2: FILLING FAST
                 </Box>
 
                 {/* ✅ SCROLL HINT ABOVE BLOCKS */}

@@ -1,31 +1,39 @@
 import {
     Box,
+    CircularProgress,
+    CircularProgressLabel,
     Flex,
-    Text,
+    HStack,
+    VStack,
+    Stack,
     useColorModeValue,
-    Progress,
-    Badge
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { formatCurrency } from "../utils";
 import CountUp from "react-countup";
+import { keyframes } from "@emotion/react";
 
-// Keyframes removed as the animation is no longer used for the border.
+
+const borderAnimation = keyframes`
+  0% {
+    border-color: transparent;
+  }
+  50% {
+//     border-color: #6A1B1A;
+    border-color: #D4AF37
+  }
+  100% {
+    border-color: transparent;
+  }
+`;
 
 const CampaignProgressDetails = ({ currentAmount, goalAmount }) => {
     const [progress, setProgress] = useState(0);
 
-    // Constants for VCM style (Square Feet)
-    const COST_PER_SQFT = 2100; // Mocked based on VCM reference
-    const currentSqFt = Math.floor(currentAmount / COST_PER_SQFT);
-    const goalSqFt = Math.floor(goalAmount / COST_PER_SQFT); // Calculate goal in Sq Ft
-    const displayGoalSqFt = goalSqFt > 0 ? goalSqFt : 1000; // Fallback value
-    const displayCurrentSqFt = currentSqFt;
-
     useEffect(() => {
-        if (displayGoalSqFt > 0) {
+        if (goalAmount > 0) {
             const targetPercentage = Math.min(
-                (displayCurrentSqFt / displayGoalSqFt) * 100,
+                (currentAmount / goalAmount) * 100,
                 100
             );
             let start = 0;
@@ -42,81 +50,78 @@ const CampaignProgressDetails = ({ currentAmount, goalAmount }) => {
 
             return () => clearInterval(interval);
         }
-    }, [displayCurrentSqFt, displayGoalSqFt]);
+    }, [currentAmount, goalAmount]);
 
-    // VCM-style Colors
-    const progressColor = "#B22222"; // Firebrick / Maroon
-    const trackColor = useColorModeValue("gray.200", "gray.700");
-    const textColor = "#2C0A0A";
+//   const bgColor = useColorModeValue("gray.800", "gray.700");
+//   const progressColor = IskconBgColor; //useColorModeValue("green.400", "green.300");
+//   const progressStrokeColor = useColorModeValue("#e3c44e");
+    const trackColor = useColorModeValue("gray.300", "gray.600");
+//   const textColor = useColorModeValue("white", "gray.200");
 
     return (
         <Box
             w={'100%'}
-            borderRadius="lg"
-            px={[4, 6]}
-            py={4}
-            bg="white"
-            boxShadow="lg"
-            border="1px solid #E2E8F0"
+            mx="auto"
+            borderRadius="10px"
+            px={'10px'}
+            py={'5px'}
+            bgColor="#FAF3E0"
+            boxShadow="dark-lg"
+            marginBottom="10px"
+            border="6px solid #D4AF37"
+            borderColor="transparent"
+            animation={`${borderAnimation} 3s infinite`}
+            textTransform='uppercase'
         >
-            {/* Progress Bar */}
-            <Progress
-                value={progress}
-                size="lg"
-                colorScheme="red" // Chakra UI map for a strong color
-                borderRadius="md"
-                mb={3}
-                sx={{
-                    '& > div': {
-                        bg: progressColor, // Override with VCM-style color
-                    },
-                }}
+            <Flex direction={["column", "column", "row"]} align="center" justify="space-between">
+                <Stack
+                    direction={["column", "column", "row"]}
+                    spacing={["0.2rem", "1rem"]}
+                    align="center"
+                >
+                    <VStack align={["center", "center", "flex-start"]} marginLeft={["0", "0", "3rem"]}>
+                        <Flex align="center" gap={2} color={'#3B2F2F'} fontSize={["1.5rem", "2rem", "2rem"]}>
+                            <Box fontWeight="semibold">Goal:</Box>
+                            <Box fontWeight="semibold">{formatCurrency(goalAmount)}</Box>
+                        </Flex>
 
-            />
+                        <HStack alignItems="baseline" color={'#B22222'}>
+                            <Box fontSize={["2rem", "2.2rem", "2.5rem"]} fontWeight="bold">
+                                ₹<CountUp end={currentAmount} start={currentAmount / 2} useIndianSeparators={true} />
+                            </Box>
+                            <Box fontSize={["1.2rem", "1.3rem", "1.5rem"]} fontWeight="bold">
+                                Achieved
+                            </Box>
+                        </HStack>
+                    </VStack>
+                </Stack>
+                <Box display="flex" alignItems="center" justifyContent="center">
+                    <CircularProgress
+                        value={progress}
+                        size={["100px", "130px", "150px"]}
+                        thickness="10px"
+                        color={'#3B2F2F'}
+                        trackColor={trackColor}
+                        capIsRound={true}
+                    >
+                        <CircularProgressLabel
+                            fontSize={["1rem", "1.2rem", "1.5rem"]}
+                            fontWeight="bold"
+                            color={'#B22222'}
+                        >
+                            {progress.toFixed(2)}%
+                        </CircularProgressLabel>
+                    </CircularProgress>
+                </Box>
 
-            {/* Status Line: X% Raised */}
-            <Flex justify="space-between" align="center" mb={4}>
-                <Text fontSize={["xl", "2xl"]} fontWeight="bold" color={progressColor}>
-                    {progress.toFixed(2)}% Raised
-                </Text>
-                <Badge colorScheme="green" variant="subtle" fontSize="sm">
-                    GOAL: {displayGoalSqFt} Sq Ft
-                </Badge>
-            </Flex>
-
-            {/* Main Numbers: Square Feet Achieved */}
-            <Box pb={2} borderBottom="1px solid #E2E8F0">
-                <Text fontSize={["md", "lg"]} fontWeight="semibold" color="gray.600">
-                    Square Feet Achieved
-                </Text>
-                <Flex align="baseline" color={textColor}>
-                    <Box fontSize={["3xl", "4xl"]} fontWeight="extrabold">
-                        <CountUp end={displayCurrentSqFt} start={displayCurrentSqFt / 2} duration={2} separator="," />
+                <VStack align={["center", "center", "flex-start"]} mt={[4, 4, "-1rem"]} marginRight={["0", "0", "3rem"]}>
+                    <Box fontSize={["1.5rem", "2rem", "2.3rem"]} fontWeight="bold" color={'#B22222'}>
+                        Mandir Nirmana Seva
                     </Box>
-                    <Text fontSize={["lg", "xl"]} fontWeight="bold" ml={2} color="gray.700">
-                        Square Feet
-                    </Text>
-                </Flex>
-            </Box>
-
-            {/* Financial Summary */}
-            <Flex justify="space-between" mt={4} flexWrap="wrap">
-                <Box>
-                    <Text fontSize="sm" fontWeight="medium" color="gray.500">
-                        Amount Raised
-                    </Text>
-                    <Text fontSize="lg" fontWeight="bold" color={textColor}>
-                        ₹{formatCurrency(currentAmount)}
-                    </Text>
-                </Box>
-                <Box textAlign="right">
-                    <Text fontSize="sm" fontWeight="medium" color="gray.500">
-                        Target Amount
-                    </Text>
-                    <Text fontSize="lg" fontWeight="bold" color={textColor}>
-                        ₹{formatCurrency(goalAmount)}
-                    </Text>
-                </Box>
+                    <Box fontSize={["1rem", "1.2rem", "1.5rem"]}   fontWeight="bold" color={'#B22222'} mt={2}>
+                        Be a Part of This Legacy
+                    </Box>
+                </VStack>
             </Flex>
         </Box>
     );
