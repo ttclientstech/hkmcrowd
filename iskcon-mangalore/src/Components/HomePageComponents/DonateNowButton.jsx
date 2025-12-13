@@ -12,7 +12,7 @@ const DonateNowButton = ({ getSingleUser }) => {
         navigate(`/campaign/${id}/donate`, { state: { getSingleUser } });
     };
     return (
-            <Box maxW="1200px" mx="auto" px={[4,6]} mt={8} mb={6}>
+            <Box maxW="1200px" mx="auto" px={[4,6]} mt={8}>
                 <Flex justify="center">
                     <Button
                         onClick={handleClick}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, SimpleGrid, Tooltip, Text, Flex, Icon, Button, VStack, Badge } from "@chakra-ui/react";
-import { FaUser, FaCheckCircle, FaLeaf, FaCircle } from "react-icons/fa";
+import { FaCheckCircle, FaCircle, FaChevronDown } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { fetchAllContributers } from "../../utils/apiCall";
 
@@ -8,10 +8,9 @@ const MotionBox = motion(Box);
 const MotionText = motion(Text);
 const SQFT_PRICE = 5001;
 
-// Theme Constants to match Campaigner Page
+// Theme Constants
 const NAVY = "#082032";
 const GOLD = "#D4AF37";
-const BEIGE = "#F9F5F0";
 
 // Helper: Convert Donor List to Grid Blocks
 const prepareGrid = (donors, totalBlocks = 500) => {
@@ -38,9 +37,22 @@ const prepareGrid = (donors, totalBlocks = 500) => {
 const WallOfDevotion_Engraved = () => {
     const [donors, setDonors] = useState([]);
 
+    // ✅ State to control tooltips manually (Fixes mobile view issue)
+    const [activeBlock, setActiveBlock] = useState(null);
+
     const handleScrollToDonate = () => {
         const donationSection = document.getElementById("donation-section");
         if (donationSection) donationSection.scrollIntoView({ behavior: "smooth" });
+    };
+
+    const handleBlockClick = (index, isFilled) => {
+        if (isFilled) {
+            // If filled, toggle tooltip on tap (especially for mobile)
+            setActiveBlock(activeBlock === index ? null : index);
+        } else {
+            // If empty, scroll to donate
+            handleScrollToDonate();
+        }
     };
 
     useEffect(() => {
@@ -71,7 +83,6 @@ const WallOfDevotion_Engraved = () => {
         <Box
             py={12}
             px={[2, 4]}
-            // Active Background: Subtle gradient to give depth vs flat white
             bgGradient="linear(to-b, white, #F9F5F0)"
             textAlign="center"
             overflow="hidden"
@@ -81,7 +92,6 @@ const WallOfDevotion_Engraved = () => {
         >
             {/* Header Section */}
             <VStack spacing={2} mb={8}>
-                {/* Active "Live" Badge */}
                 <Badge
                     colorScheme="red"
                     variant="subtle"
@@ -103,7 +113,6 @@ const WallOfDevotion_Engraved = () => {
                     LIVE DONATION UPDATES
                 </Badge>
 
-                {/* Active Title */}
                 <MotionText
                     fontSize={["3xl", "4xl"]}
                     fontWeight="800"
@@ -118,7 +127,7 @@ const WallOfDevotion_Engraved = () => {
                 </MotionText>
 
                 <Text color="gray.600" maxW="600px" fontSize={["sm", "md"]} mt={2} fontFamily="'Satoshi', sans-serif">
-                    <Text as="span" fontWeight="bold" color="green.600">Green blocks are waiting for you.</Text> Gold blocks are history written forever. Tap a block to begin.
+                    <Text as="span" fontWeight="bold" color="green.600">Green blocks are waiting for you.</Text> Gold blocks are history written forever. Donate a square feet to inscribe your name in the history.
                 </Text>
 
                 {/* Legend */}
@@ -138,7 +147,7 @@ const WallOfDevotion_Engraved = () => {
                     <Flex align="center" gap={2}>
                         <Box
                             w="16px" h="16px"
-                            bgGradient="linear(135deg, #F3E5AB 0%, #CBA135 100%)" // Premium Gold
+                            bgGradient="linear(135deg, #F3E5AB 0%, #CBA135 100%)"
                             borderRadius="sm"
                             boxShadow="inset 0 0 2px rgba(255,255,255,0.5)"
                         />
@@ -162,7 +171,6 @@ const WallOfDevotion_Engraved = () => {
                 mx="auto"
                 bg="white"
                 borderRadius="xl"
-                // Active Border: Gold glow instead of gray line
                 border="2px solid"
                 borderColor={`${GOLD}40`}
                 boxShadow="0 10px 40px -10px rgba(212, 175, 55, 0.15)"
@@ -190,9 +198,22 @@ const WallOfDevotion_Engraved = () => {
                     PHASE 1: FILLING FAST
                 </Box>
 
+                {/* ✅ SCROLL HINT ABOVE BLOCKS */}
+                <Flex justify="center" align="center" mt={3} mb={1} gap={1} opacity={0.7}>
+                    <Text fontSize="xs" fontWeight="600" color="gray.500" fontFamily="'Satoshi', sans-serif">
+                        Scroll down to see more
+                    </Text>
+                    <MotionBox
+                        animate={{ y: [0, 3, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                        <Icon as={FaChevronDown} fontSize="xs" color="gray.500" />
+                    </MotionBox>
+                </Flex>
+
                 <Box
                     p={4}
-                    pt={6}
+                    pt={2}
                     maxH={["350px", "400px", "450px"]}
                     overflowY="auto"
                     sx={{
@@ -205,8 +226,8 @@ const WallOfDevotion_Engraved = () => {
                         {grid.map((block, i) => {
                             const isFilled = block !== null;
                             const blockNumber = i + 1;
-                            // Identify the "Next Available" block to animate it
                             const isNextAvailable = !isFilled && (i === 0 || grid[i - 1] !== null);
+                            const isOpen = activeBlock === i;
 
                             return (
                                 <Tooltip
@@ -214,7 +235,7 @@ const WallOfDevotion_Engraved = () => {
                                     label={
                                         isFilled
                                             ? `${block.name} • ${Math.round(block.amount / SQFT_PRICE)} SqFt`
-                                            : `Block #${blockNumber}: Click to Donate`
+                                            : `#${blockNumber}: Available to Donate`
                                     }
                                     hasArrow
                                     bg={isFilled ? NAVY : "green.600"}
@@ -222,27 +243,33 @@ const WallOfDevotion_Engraved = () => {
                                     placement="top"
                                     fontSize="xs"
                                     fontFamily="'Satoshi', sans-serif"
+                                    // ✅ MANUAL CONTROL for mobile support
+                                    isOpen={isOpen}
                                 >
                                     <MotionBox
                                         w="100%"
                                         pt="100%"
                                         role="button"
                                         aria-label={isFilled ? `Donated by ${block.name}` : `Available block ${blockNumber}`}
-                                        // 🎨 Active Style Logic
                                         bg={
                                             isFilled
-                                                //  - Simulating rich gold texture
                                                 ? "linear-gradient(135deg, #F3E5AB 0%, #CBA135 50%, #8C6A0A 100%)"
-                                                : "rgba(56, 161, 105, 0.02)" // Very faint green
+                                                : "rgba(56, 161, 105, 0.02)"
                                         }
-                                        // 🎨 Dashed border for empty slots triggers "Gap Theory"
                                         border={isFilled ? "1px solid #B8860B" : "1px dashed #A0AEC0"}
                                         borderRadius="sm"
                                         position="relative"
-                                        cursor={isFilled ? "default" : "pointer"}
-                                        onClick={!isFilled ? handleScrollToDonate : undefined}
+                                        cursor="pointer"
 
-                                        // 🎬 Animation: Pulse ONLY the next available slots to guide the eye
+                                        // ✅ TAP/CLICK HANDLER
+                                        onClick={(e) => {
+                                            e.stopPropagation(); // Prevent bubbling issues
+                                            handleBlockClick(i, isFilled);
+                                        }}
+                                        // ✅ HOVER HANDLER (Desktop)
+                                        onMouseEnter={() => setActiveBlock(i)}
+                                        onMouseLeave={() => setActiveBlock(null)}
+
                                         animate={
                                             isNextAvailable
                                                 ? {
@@ -256,41 +283,24 @@ const WallOfDevotion_Engraved = () => {
                                         _hover={{
                                             transform: "scale(1.15)",
                                             zIndex: 10,
-                                            // On hover, empty blocks turn Solid Green (Action feedback)
                                             bg: isFilled ? "" : "green.50",
                                             borderColor: isFilled ? "white" : "green.500",
                                             borderStyle: "solid",
                                             boxShadow: "0 4px 10px rgba(0,0,0,0.2)"
                                         }}
-                                        // Inner bevel for filled blocks
                                         boxShadow={isFilled ? "inset 1px 1px 0px rgba(255,255,255,0.3), inset -1px -1px 0px rgba(0,0,0,0.2)" : "none"}
                                     >
                                         <Flex position="absolute" top="0" left="0" w="100%" h="100%" align="center" justify="center">
-                                            {/* Show number only on empty blocks to reduce noise, unless hovered */}
-                                            {!isFilled && (
-                                                <Text
-                                                    fontSize={["7px", "8px", "9px"]}
-                                                    color="green.700"
-                                                    fontWeight="bold"
-                                                    opacity={0.5}
-                                                >
-                                                    {blockNumber}
-                                                </Text>
-                                            )}
+                                            <Text
+                                                fontSize={["7px", "8px", "9px"]}
+                                                color={isFilled ? "white" : "green.700"}
+                                                fontWeight="bold"
+                                                opacity={isFilled ? 0.9 : 0.5}
+                                                userSelect="none"
+                                            >
+                                                {blockNumber}
+                                            </Text>
                                         </Flex>
-
-                                        {isFilled && block.isStart && (
-                                            <Icon
-                                                as={FaCheckCircle}
-                                                color="rgba(255,255,255,0.4)"
-                                                position="absolute"
-                                                top="50%"
-                                                left="50%"
-                                                transform="translate(-50%, -50%)"
-                                                w="50%"
-                                                h="50%"
-                                            />
-                                        )}
                                     </MotionBox>
                                 </Tooltip>
                             );
