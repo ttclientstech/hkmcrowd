@@ -150,7 +150,7 @@ export async function runLeaderboardLogic(env) {
 
 // --- MAIN SCHEDULER HANDLER ---
 export const scheduledHandler = async (event, env, ctx) => {
-    console.log("Cron Triggered: Starting execution...");
+    console.log("Cron Triggered: Starting execution....");
 
     // ✅ CRITICAL FIX: Use ctx.waitUntil to keep the worker alive
     // This tells Cloudflare "Don't kill this worker until this promise resolves"
