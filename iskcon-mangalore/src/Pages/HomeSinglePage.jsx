@@ -147,6 +147,10 @@ const HomeSinglePage = () => {
     const navigate = useNavigate();
 
     const isMobile = useBreakpointValue({ base: true, lg: false });
+    const posterImage = useBreakpointValue({
+        base: ddd_poster_mob,
+        md: ddd_poster_dektop
+    });
 
     const [formData, setFormData] = useState({
         email: "", mobileno: "", country: "Indian", pincode: "", panno: "",
@@ -418,7 +422,7 @@ const HomeSinglePage = () => {
 
                 <Box px={4} mt={4}>
                     <Box borderRadius="18px" overflow="hidden" boxShadow="0px 6px 25px rgba(0,0,0,0.25)" bg="white">
-                        <Image src={[ddd_poster_mob, ddd_poster_dektop]} alt="Dakshina Dwaraka Dham" w="100%" h="100%" objectFit="cover" />
+                        <Image src={posterImage} alt="Dakshina Dwaraka Dham" w="100%" h="100%" objectFit="cover" />
                     </Box>
                 </Box>
             </Box>
