@@ -17,7 +17,8 @@ import {
     Fade,
     Link,
     HStack,
-    Progress
+    Spinner,
+    Center
 } from "@chakra-ui/react";
 import {
     FaRulerCombined,
@@ -29,7 +30,8 @@ import {
     FaMinus,
     FaPlus,
     FaCrown,
-    FaArrowUp
+    FaArrowUp,
+    FaInfoCircle
 } from "react-icons/fa";
 
 // Assets & Components
@@ -73,6 +75,8 @@ const Step1 = ({
     const context = getContext(sqFt);
 
     // Calculate effective SqFt if custom amount is used, otherwise use sqFt state
+    // For Step 1 visualizer, we keep || 1 so the grid doesn't break for small amounts,
+    // but the badges in Step 2,3,4 will respect the "less than 1" rule.
     const displaySqFt = customAmount && parseInt(customAmount) >= 500
         ? Math.floor(parseInt(customAmount) / SQFT_PRICE) || 1
         : sqFt;
@@ -92,6 +96,11 @@ const Step1 = ({
 
                     {/* --- VISUALIZER GRID --- */}
                     <Box w="100%" position="relative">
+                        {/* Clarity Heading for Badge */}
+                        <Text fontSize="xs" fontWeight="bold" color="gray.400" textTransform="uppercase" letterSpacing="widest" textAlign="center" mb={2}>
+                            Your Impact Level
+                        </Text>
+
                         {/* Milestone/Status Card */}
                         <Box
                             bg="orange.50"
@@ -153,12 +162,14 @@ const Step1 = ({
                                         borderRadius="4px"
                                         position="relative"
                                         // Richer gradient for filled state
-                                        bg={isFilled ? "linear-gradient(135deg, #FFD700 0%, #F59E0B 50%, #B7791F 100%)" : "gray.50"}
-                                        border={isFilled ? "none" : "1px dashed #CBD5E0"}
+                                        bg={isFilled ? "linear-gradient(135deg, #FFD700 0%, #F59E0B 50%, #B7791F 100%)" : "white"}
+                                        // Unfilled now has GREEN border to encourage filling
+                                        border={isFilled ? "none" : "1px solid #48BB78"}
                                         // 3D Shadow effect for filled blocks
                                         boxShadow={isFilled ? "inset 0 0 0 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0,0,0,0.2)" : "none"}
                                         transition="all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
                                         transform={isFilled ? "scale(1)" : "scale(0.92)"}
+                                        opacity={isFilled ? 1 : 0.6} // Slight opacity for empty ones
                                     >
                                         {/* Inner gloss effect */}
                                         {isFilled && (
@@ -265,17 +276,20 @@ const Step1 = ({
 };
 
 const Step2 = ({ formData, handleOnChange, nextStep, prevStep, totalAmount }) => {
-    // Calculate effective SqFt (Reverse calculation if totalAmount doesn't match a clear preset)
+    // Calculate effective SqFt (No fallback to 1)
     const effectiveSqFt = Math.floor(totalAmount / SQFT_PRICE);
 
     return (
         <Fade in={true}>
             <Box bg="white" p={[6, 8]} borderRadius="20px" boxShadow="0 10px 35px rgba(0,0,0,0.25)" maxW="700px" mx="auto">
                 <VStack spacing={1} mb={6}>
-                    <Badge colorScheme="orange" variant="subtle" fontSize="sm" px={3} py={1} borderRadius="full">
-                        <Icon as={FaCrown} mr={1} mb="2px" />
-                        Sponsoring {effectiveSqFt || 1} Sq. Ft. of Dharma
-                    </Badge>
+                    {/* Only display if >= 1 SqFt */}
+                    {effectiveSqFt > 0 && (
+                        <Badge colorScheme="orange" variant="subtle" fontSize="sm" px={3} py={1} borderRadius="full">
+                            <Icon as={FaCrown} mr={1} mb="2px" />
+                            Proudly Building {effectiveSqFt} Sq. Ft. of Heritage
+                        </Badge>
+                    )}
                     <Text textAlign="center" fontWeight="800" color={NAVY} fontSize="3xl">
                         ₹{totalAmount.toLocaleString("en-IN")}
                     </Text>
@@ -291,6 +305,23 @@ const Step2 = ({ formData, handleOnChange, nextStep, prevStep, totalAmount }) =>
                             <Input name={field} value={formData?.[field] || ""} onChange={handleOnChange} placeholder={`Enter your ${field}`} border="1px solid #CCC" />
                         </VStack>
                     ))}
+
+                    {/* DOB moved here */}
+                    <VStack align="start" spacing={1}>
+                        <Text fontWeight="semibold" color="#0A1A33">
+                            Date of Birth (Optional)
+                        </Text>
+                        <Input
+                            type="date"
+                            name="dob"
+                            value={formData?.dob || ""}
+                            onChange={handleOnChange}
+                            border="1px solid #CCC"
+                        />
+                        <Text fontSize="xs" color="gray.500">
+                            A special Sankalp will be performed on your birthday.
+                        </Text>
+                    </VStack>
 
                     <VStack spacing={3} pt={4}>
                         <Button bg={RED} color="white" w="full" onClick={nextStep} size="lg">Continue</Button>
@@ -318,34 +349,28 @@ const Step3 = ({
     return (
         <Fade in={true}>
             <Box bg="white" p={[6, 8]} borderRadius="20px" boxShadow="0 10px 35px rgba(0,0,0,0.25)" maxW="700px" mx="auto">
-                <VStack spacing={1} mb={6}>
-                    <Badge colorScheme="orange" variant="subtle" fontSize="sm" px={3} py={1} borderRadius="full">
-                        <Icon as={FaCrown} mr={1} mb="2px" />
-                        Sponsoring {effectiveSqFt || 1} Sq. Ft. of Dharma
-                    </Badge>
+                <VStack spacing={1} mb={4}>
+                    {/* Only display if >= 1 SqFt */}
+                    {effectiveSqFt > 0 && (
+                        <Badge colorScheme="orange" variant="subtle" fontSize="sm" px={3} py={1} borderRadius="full">
+                            <Icon as={FaCrown} mr={1} mb="2px" />
+                            Proudly Building {effectiveSqFt} Sq. Ft. of Heritage
+                        </Badge>
+                    )}
                     <Text textAlign="center" fontWeight="800" color={NAVY} fontSize="3xl">
                         ₹{totalAmount.toLocaleString("en-IN")}
                     </Text>
                 </VStack>
 
-                <VStack align="stretch" spacing={4}>
-                    <VStack align="start" spacing={1}>
-                        <Text fontWeight="semibold" color="#0A1A33">
-                            Date of Birth (Optional)
-                        </Text>
-                        <Input
-                            type="date"
-                            name="dob"
-                            value={formData?.dob || ""}
-                            onChange={handleOnChange}
-                            border="1px solid #CCC"
-                        />
-                        <Text fontSize="xs" color="gray.500">
-                            A special Sankalp and Aarti will be performed on your birthday.
-                        </Text>
-                    </VStack>
+                {/* Optional Services Helper Text */}
+                <Flex bg="blue.50" p={3} borderRadius="md" mb={4} align="center">
+                    <Icon as={FaInfoCircle} color="blue.500" mr={2} />
+                    <Text fontSize="xs" color="blue.800" fontWeight="medium">
+                        Select optional services below if you wish to avail them.
+                    </Text>
+                </Flex>
 
-                    <Divider />
+                <VStack align="stretch" spacing={4}>
 
                     <VStack align="start" spacing={3}>
                         <Checkbox name="prasadRequired" isChecked={!!formData?.prasadRequired} onChange={handleOnChange}>
@@ -475,63 +500,110 @@ const Step3 = ({
 
 const Step4 = ({ formData, totalAmount, prevStep, handleSubmit }) => {
     const effectiveSqFt = Math.floor(totalAmount / SQFT_PRICE);
+    const [isProcessing, setIsProcessing] = useState(false);
+
+    const onPayClick = async () => {
+        setIsProcessing(true);
+        // Simulate a delay or wait for the actual handleSubmit logic to kick in
+        // Ideally handleSubmit should be async or we just show the loader until the page redirects
+        if(handleSubmit) {
+            await handleSubmit();
+        }
+        // Note: we don't set processing back to false usually, as the user is redirected away.
+    };
 
     return (
         <Fade in={true}>
-            <Box bg="white" p={[6, 8]} borderRadius="20px" boxShadow="0 10px 35px rgba(0,0,0,0.25)" maxW="700px" mx="auto">
-                <Text textAlign="center" fontWeight="bold" color="gray.600" fontSize="md" mb={4}>
-                    Please review the provided details
-                </Text>
+            <Box position="relative">
+                {/* Loader Overlay */}
+                {isProcessing && (
+                    <Box
+                        position="absolute"
+                        top="0" left="0" right="0" bottom="0"
+                        zIndex="10"
+                        bg="rgba(255,255,255,0.9)"
+                        borderRadius="20px"
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
+                        justifyContent="center"
+                    >
+                        <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color={RED} size="xl" mb={4} />
+                        <Text fontWeight="bold" color={NAVY} textAlign="center">
+                            Please wait while we are redirecting<br/>to the payment gateway...
+                        </Text>
+                    </Box>
+                )}
 
-                <VStack spacing={1} mb={6}>
-                    <Badge colorScheme="orange" variant="solid" fontSize="sm" px={4} py={1} borderRadius="full">
-                        <Icon as={FaCrown} mr={2} mb="2px" />
-                        Sponsoring {effectiveSqFt || 1} Sq. Ft. of Dharma
-                    </Badge>
-                    <Text textAlign="center" fontWeight="800" color={NAVY} fontSize="3xl">
-                        ₹{totalAmount.toLocaleString("en-IN")}
+                <Box bg="white" p={[6, 8]} borderRadius="20px" boxShadow="0 10px 35px rgba(0,0,0,0.25)" maxW="700px" mx="auto" opacity={isProcessing ? 0.4 : 1}>
+                    <Text textAlign="center" fontWeight="bold" color="gray.600" fontSize="md" mb={4}>
+                        Please review the provided details
                     </Text>
-                </VStack>
 
-                <VStack spacing={3} align="start" fontSize="sm" color="gray.700" w="full">
-                    <Text><b>Name:</b> {formData.username}</Text>
-                    <Text><b>WhatsApp:</b> {formData.mobileno}</Text>
-                    <Text><b>Email:</b> {formData.email}</Text>
-                    {formData.dob && <Text><b>DOB:</b> {formData.dob}</Text>}
+                    <VStack spacing={1} mb={6}>
+                        {/* Only display if >= 1 SqFt */}
+                        {effectiveSqFt > 0 && (
+                            <Badge colorScheme="orange" variant="solid" fontSize="sm" px={4} py={1} borderRadius="full">
+                                <Icon as={FaCrown} mr={2} mb="2px" />
+                                Proudly Building {effectiveSqFt} Sq. Ft. of Heritage
+                            </Badge>
+                        )}
+                        <Text textAlign="center" fontWeight="800" color={NAVY} fontSize="3xl">
+                            ₹{totalAmount.toLocaleString("en-IN")}
+                        </Text>
+                    </VStack>
 
-                    {formData.prasadRequired && (
-                        <Box w="100%" bg="gray.50" p={3} borderRadius="md" border="1px dashed" borderColor="gray.300">
-                            <Text fontWeight="bold" color="#0A1A33" mb={1}>✔️ Gift & Maha Prasadam Selected</Text>
-                            <Text><b>Delivery Address:</b></Text>
-                            <Text>{formData.houseNumber}, {formData.street}</Text>
-                            <Text>{formData.city}, {formData.state} - {formData.pincode}</Text>
-                        </Box>
-                    )}
+                    <VStack spacing={3} align="start" fontSize="sm" color="gray.700" w="full">
+                        <Text><b>Name:</b> {formData.username}</Text>
+                        <Text><b>WhatsApp:</b> {formData.mobileno}</Text>
+                        <Text><b>Email:</b> {formData.email}</Text>
+                        {formData.dob && <Text><b>DOB:</b> {formData.dob}</Text>}
 
-                    {formData.taxExemption && (
-                        <Box w="100%" bg="gray.50" p={3} borderRadius="md" border="1px dashed" borderColor="gray.300">
-                            <Text fontWeight="bold" color="#0A1A33" mb={1}>✔️ 80G Tax Benefit Opted</Text>
-                            <Text><b>PAN No:</b> {formData.panno}</Text>
-                            <Text><b>Tax Address:</b></Text>
-                            <Text>{formData.taxHouseNumber}, {formData.taxStreet}</Text>
-                            <Text>{formData.taxCity}, {formData.taxState} - {formData.taxPincode}</Text>
-                        </Box>
-                    )}
+                        {formData.prasadRequired && (
+                            <Box w="100%" bg="gray.50" p={3} borderRadius="md" border="1px dashed" borderColor="gray.300">
+                                <Text fontWeight="bold" color="#0A1A33" mb={1}>✔️ Gift & Maha Prasadam Selected</Text>
+                                <Text><b>Delivery Address:</b></Text>
+                                <Text>{formData.houseNumber}, {formData.street}</Text>
+                                <Text>{formData.city}, {formData.state} - {formData.pincode}</Text>
+                            </Box>
+                        )}
 
-                    {formData.isanonymous && (
-                        <Box w="100%" bg="gray.50" p={3} borderRadius="md" border="1px dashed" borderColor="gray.300">
-                            <Text fontWeight="bold" color="#0A1A33">✔️ Anonymous Donation Selected</Text>
-                        </Box>
-                    )}
-                </VStack>
-                <Divider my={4} />
-                <VStack spacing={4}>
-                    <HStack justify="center"><Icon as={FaLock} color="#6B7280" /><Text fontSize="sm" color="gray.600">Secure payment via Razorpay</Text></HStack>
-                    <Button bg={RED} color="white" w="full" size="lg" py={8} fontSize="xl" onClick={handleSubmit} boxShadow="xl" _hover={{ bg: "#C53030" }}>
-                        Pay Now
-                    </Button>
-                    <Link color="gray.500" fontSize="sm" onClick={prevStep} fontWeight="medium">Go Back</Link>
-                </VStack>
+                        {formData.taxExemption && (
+                            <Box w="100%" bg="gray.50" p={3} borderRadius="md" border="1px dashed" borderColor="gray.300">
+                                <Text fontWeight="bold" color="#0A1A33" mb={1}>✔️ 80G Tax Benefit Opted</Text>
+                                <Text><b>PAN No:</b> {formData.panno}</Text>
+                                <Text><b>Tax Address:</b></Text>
+                                <Text>{formData.taxHouseNumber}, {formData.taxStreet}</Text>
+                                <Text>{formData.taxCity}, {formData.taxState} - {formData.taxPincode}</Text>
+                            </Box>
+                        )}
+
+                        {formData.isanonymous && (
+                            <Box w="100%" bg="gray.50" p={3} borderRadius="md" border="1px dashed" borderColor="gray.300">
+                                <Text fontWeight="bold" color="#0A1A33">✔️ Anonymous Donation Selected</Text>
+                            </Box>
+                        )}
+                    </VStack>
+                    <Divider my={4} />
+                    <VStack spacing={4}>
+                        <HStack justify="center"><Icon as={FaLock} color="#6B7280" /><Text fontSize="sm" color="gray.600">Secure payment via Razorpay</Text></HStack>
+                        <Button
+                            bg={RED}
+                            color="white"
+                            w="full"
+                            size="lg"
+                            py={8}
+                            fontSize="xl"
+                            onClick={onPayClick}
+                            boxShadow="xl"
+                            _hover={{ bg: "#C53030" }}
+                            isDisabled={isProcessing}
+                        >
+                            Pay Now
+                        </Button>
+                        <Link color="gray.500" fontSize="sm" onClick={!isProcessing ? prevStep : undefined} fontWeight="medium" cursor={isProcessing ? "not-allowed" : "pointer"}>Go Back</Link>
+                    </VStack>
+                </Box>
             </Box>
         </Fade>
     );
@@ -687,7 +759,6 @@ const DonationPage = ({
 
     const renderHeader = () => (
         <Box textAlign="center" py={[10, 12]}>
-            {/* Logo added here */}
             <Image src={templeLogo} alt="Temple Logo" mx="auto" mb={4} maxW="100px" objectFit="contain" />
 
             <Text fontWeight="700" fontSize={["xl", "2xl"]} color="white" letterSpacing="wide">
