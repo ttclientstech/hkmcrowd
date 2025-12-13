@@ -17,12 +17,12 @@ const items = [
     },
     {
         img: kalaMadhuryamImg,
-        title: "Kala Madhuryam",
-        desc: "A platform for artists to perform, inspire, and share devotional art."
+        title: "Cultural Hall",
+        desc: "A 300 seater hall for artists to perform, inspire, and share devotional art."
     },
     {
         img: annadanamImg,
-        title: "Annadanam Hall",
+        title: "Prasadam Hall",
         desc: "A sacred hall serving sanctified Krishna-prasadam."
     },
     {
@@ -106,7 +106,7 @@ const TempleBlueprintSection = () => {
                                 top={0}
                                 left={0}
                                 w="100%"
-                                h="100%"
+                                h={["100%", "500px"]}
                                 bgImage={`url(${item.img})`}
                                 bgSize="cover"
                                 bgPos="center"
