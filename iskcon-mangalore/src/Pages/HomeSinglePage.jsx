@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchSingleUser, postPaymentFormData } from "../Redux/clientSlices/clientUsers";
 import avatar from "../assets/images/Avatar-PNG-Image.webp";
-import ddd_poster_mob from "../assets/images/ddd_poster_mob.png";
+import ddd_poster_mob from "../assets/images/ddd_poster_mob.jpg";
+import ddd_poster_dektop from "../assets/images/ddd_poster_desktop.jpg";
 import temple_main1 from "../assets/images/Front_View_from_AP.jpg";
 import temple_main2 from "../assets/images/Top_Valley_View.jpg";
 import temple_main3 from "../assets/images/Top_View.jpg";
@@ -182,7 +183,7 @@ const HomeSinglePage = () => {
 
     // Campaign details
     const cd = getSingleUser?.campaignDetails || {};
-    const PRICE_PER_SQFT = 5001; // as specified
+    const PRICE_PER_SQFT = 5000; // as specified
     const goalAmount = cd.targetAmount || 0;
     const raisedAmount = cd.raisedtotal || 0;
     const percent = goalAmount ? Math.min(100, Math.round((raisedAmount / goalAmount) * 100)) : 0;
@@ -408,7 +409,7 @@ const HomeSinglePage = () => {
             </Box>
 
             {/* ================== TEMPLE IMAGE SECTION (MOBILE ONLY) ================== */}
-            <Box w="100%" mt={8} display={{ base: "block", md: "block", lg: "none" }}>
+            <Box w="100%" mt={8} display={{ base: "block", md: "block", lg: "block" }}>
                 <Box bg="#FFE150" w="100%" py={[2, 3]} textAlign="center" px={3}>
                     <Text fontSize={["sm", "md"]} fontWeight="700" color={TEXT_DARK} fontFamily="'Poppins', sans-serif">
                         A fundraising initiative for the construction of Chennai's tallest cultural complex & temple for Lord Sri Krishna
@@ -417,7 +418,7 @@ const HomeSinglePage = () => {
 
                 <Box px={4} mt={4}>
                     <Box borderRadius="18px" overflow="hidden" boxShadow="0px 6px 25px rgba(0,0,0,0.25)" bg="white">
-                        <Image src={ddd_poster_mob} alt="Dakshina Dwaraka Dham" w="100%" h="100%" objectFit="cover" />
+                        <Image src={[ddd_poster_mob, ddd_poster_dektop]} alt="Dakshina Dwaraka Dham" w="100%" h="100%" objectFit="cover" />
                     </Box>
                 </Box>
             </Box>

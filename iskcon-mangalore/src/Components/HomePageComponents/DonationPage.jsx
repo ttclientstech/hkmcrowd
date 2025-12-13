@@ -88,7 +88,7 @@ const Step1 = ({
                         <Text fontSize="xl" fontWeight="800" textAlign="center" color={TEXT_DARK}>
                             Make Your Mark in History
                         </Text>
-                        <Text fontSize="sm" color="gray.500">Select the area you wish to sponsor</Text>
+                        <Text fontSize="sm" color="gray.500">Select the number of Sq.Ft you wish to sponsor</Text>
                     </VStack>
 
                     {/* --- VISUALIZER GRID --- */}

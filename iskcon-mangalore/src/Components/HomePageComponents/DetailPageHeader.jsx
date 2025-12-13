@@ -7,8 +7,11 @@ import bannerBg from "../../assets/images/002_temple_night_view.jpeg";
 import mobileHeroBg from "../../assets/images/campaigner_page_hero_1.png";
 import PoppinFont from "./PoppinFont";
 
+const COST_PER_SQFT = 5000;
+
 const DetailPageHeader = ({ getSingleUser }) => {
     const campaignerName = getSingleUser?.campaignDetails?.campaignName || "Campaigner";
+    const sqft =  Math.floor((getSingleUser?.campaignDetails?.targetAmount || 0) / COST_PER_SQFT);
 
     return (
         <Box
@@ -125,7 +128,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
                         textShadow="0px 4px 10px rgba(0,0,0,0.9)"
                     >
                         <Text as="span" color="#D4AF37" fontWeight="800">{campaignerName}</Text><br/> needs your support
-                        <br/>to raise <Text as="span" color="#D4AF37" fontWeight="800">1000</Text> Square Feet for <br/>
+                        <br/>to raise <Text as="span" color="#D4AF37" fontWeight="800">{sqft}</Text> Square Feet for <br/>
                         Chennai's <Text as="span" color="#FBD38D" fontWeight="700">Dakshina Dwaraka Dham</Text>
                     </Text>
 
