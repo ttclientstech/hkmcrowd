@@ -107,13 +107,10 @@ const TempleArchitecturalShowcase = () => {
                     Architectural <Text as="span" color="#E63946">Vision</Text>
                 </Text>
 
-                {/* Divider Line */}
-                <Box w="60px" h="4px" bg={GOLD} mx="auto" borderRadius="full" mb={4} />
-
                 {/* Subtitle / Description */}
                 <Text
-                    fontSize={["sm", "md"]}
-                    color={TEXT_DARK}
+                    fontSize={["md", "md"]}
+                    color="black"
                     opacity={0.8}
                     maxW="700px"
                     mx="auto"
@@ -134,7 +131,7 @@ const TempleArchitecturalShowcase = () => {
                 <GridItem colSpan={[1, 1, 8]} rowSpan={[1, 1, 2]}>
                     <ImageCard
                         src={render1}
-                        title="Grand Front Elevation"
+                        title="Grand Front View"
                         icon={FaCube}
                         height="100%" // Fills the grid cell
                     />
@@ -154,7 +151,7 @@ const TempleArchitecturalShowcase = () => {
                 <GridItem colSpan={[1, 1, 2]} rowSpan={[1, 1, 1]}>
                     <ImageCard
                         src={render3}
-                        title="Sanctum View"
+                        title="Beach View"
                         icon={FaCube}
                         height={isMobile ? "200px" : "100%"}
                     />
@@ -164,7 +161,7 @@ const TempleArchitecturalShowcase = () => {
                 <GridItem colSpan={[1, 1, 2]} rowSpan={[1, 1, 1]}>
                     <ImageCard
                         src={render4}
-                        title="Cultural Hall"
+                        title="Side View"
                         icon={FaCube}
                         height={isMobile ? "200px" : "100%"}
                     />

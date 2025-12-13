@@ -106,7 +106,7 @@ const TempleBlueprintSection = () => {
                                 top={0}
                                 left={0}
                                 w="100%"
-                                h="100%"
+                                h={i === 6 ? "500px" : "100%"}
                                 bgImage={`url(${item.img})`}
                                 bgSize="cover"
                                 bgPos="center"
