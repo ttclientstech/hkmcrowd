@@ -126,7 +126,7 @@ const WallOfDevotion_Engraved = () => {
                     </Text>
                 </MotionText>
 
-                <Text color="gray.600" maxW="600px" fontSize={["sm", "md"]} mt={2} fontFamily="'Satoshi', sans-serif">
+                <Text color="black" maxW="600px" fontSize={["sm", "md"]} mt={2} fontFamily="'Satoshi', sans-serif">
                     <Text as="span" fontWeight="bold" color="green.600">Green blocks are waiting for you.</Text> Gold blocks are history written forever. Donate a square feet to inscribe your name in the history.
                 </Text>
 

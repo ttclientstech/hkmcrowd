@@ -46,7 +46,7 @@ const WhyDonateQuotes = () => {
                 color="#082032"
                 mb={2}
             >
-                The Power of <Text as="span" color="#082032">Giving</Text>
+                The Power of <Text as="span" color="#E63946">Giving</Text>
             </Text>
 
             <Text
