@@ -2,7 +2,7 @@ import { Hono } from 'hono'
 import { env } from 'hono/adapter'
 import { drizzle, NeonHttpDatabase} from 'drizzle-orm/neon-http'
 import { neon, NeonQueryFunction } from '@neondatabase/serverless'
-import {  campaigns, paymentTable} from './db/schema'
+import {  campaigns, paymentTable, campaignerStreaks} from './db/schema'
 import { and, desc, eq, gte, ilike } from 'drizzle-orm/expressions'
 import { count,   sql,   sum } from 'drizzle-orm'
 import { bearerAuth } from 'hono/bearer-auth'
@@ -22,6 +22,82 @@ declare module "hono"{
 
 
 const app = new Hono();
+
+async function updateCampaignerStreak(db, campaignid) {
+    try {
+        console.log(`[Streak] Starting update for Campaign ID: ${campaignid}`);
+
+        // 1. Get Current Date (UTC) as YYYY-MM-DD
+        const now = new Date();
+        const todayStr = now.toISOString().split("T")[0];
+
+        // 2. Fetch existing streak record
+        const streakRecord = await db
+            .select()
+            .from(campaignerStreaks)
+            .where(eq(campaignerStreaks.campaignerId, campaignid));
+
+        // 3. CASE: First time donation (No record exists)
+        if (streakRecord.length === 0) {
+            console.log(`[Streak] No existing record. Creating new streak for ${campaignid}`);
+            await db.insert(campaignerStreaks).values({
+                campaignerId: campaignid,
+                currentStreak: 1,
+                longestStreak: 1,
+                lastDonationDate: todayStr,
+            });
+            return;
+        }
+
+        const s = streakRecord[0];
+        // Ensure we handle the date format correctly (Drizzle/Neon usually returns string YYYY-MM-DD)
+        const lastDonationStr = String(s.lastDonationDate);
+
+        console.log(`[Streak] Found record. Last Donation: ${lastDonationStr} | Today: ${todayStr}`);
+
+        // 4. CASE: Already donated today?
+        if (lastDonationStr === todayStr) {
+            console.log(`[Streak] Donation already recorded today. Skipping update.`);
+            return;
+        }
+
+        // 5. Calculate "Yesterday" string to check for consecutive days
+        const yesterday = new Date(now);
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayStr = yesterday.toISOString().split("T")[0];
+
+        let newStreak = 1;
+
+        // 6. Check Logic
+        if (lastDonationStr === yesterdayStr) {
+            // It was yesterday -> Increment Streak
+            newStreak = (s.currentStreak || 0) + 1;
+            console.log(`[Streak] Consecutive day detected! New Streak: ${newStreak}`);
+        } else {
+            // Gap detected -> Reset to 1
+            console.log(`[Streak] Streak broken (Last: ${lastDonationStr}, Yest: ${yesterdayStr}). Resetting to 1.`);
+            newStreak = 1;
+        }
+
+        const newLongest = Math.max(s.longestStreak || 0, newStreak);
+
+        // 7. Update Database
+        await db
+            .update(campaignerStreaks)
+            .set({
+                currentStreak: newStreak,
+                longestStreak: newLongest,
+                lastDonationDate: todayStr,
+                updatedAt: new Date(),
+            })
+            .where(eq(campaignerStreaks.campaignerId, campaignid));
+
+        console.log(`[Streak] Update successful.`);
+
+    } catch (error) {
+        console.error(`[Streak Error] Failed to update streak for ${campaignid}:`, error);
+    }
+}
 
 app.post("/webhook/razorpay", async (c) => {
 
@@ -136,6 +212,7 @@ app.post("/webhook/razorpay", async (c) => {
                 }).where(eq(campaigns.id, campaignid));
                 
                 console.log(`Campaign ${campaignid} totals updated successfully`);
+                  await updateCampaignerStreak(db, campaignid);
               } catch (campaignError) {
                 console.error(`Error updating campaign ${campaignid}:`, campaignError);
                 // Don't throw here, just log the error and continue
