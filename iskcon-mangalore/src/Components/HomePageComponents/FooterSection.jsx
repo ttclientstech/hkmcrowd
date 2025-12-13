@@ -46,11 +46,11 @@ const FooterSection = () => {
                     </Text>
 
                     <Text fontSize="md" w={["100%", "260px"]} lineHeight="1.6" opacity={0.9} fontFamily="'Satoshi', sans-serif">
-                        Sri Sri Krishna Rukmini Satyabhama Temple
+                        Sri Sri Rukmini Dwarakadhisha Temple
                         <br />
-                        (Hare Krishna Movement Chennai)
+                        Dakshina Dwaraka Dham
                         <br />
-                        63, 1st Seaward Rd, Valmiki Nagar, Thiruvanmiyur
+                        63, 1st Seaward Road, Valmiki Nagar, Thiruvanmiyur
                         <br />
                         Chennai – 600041, Tamil Nadu
                     </Text>
@@ -65,14 +65,14 @@ const FooterSection = () => {
                     <Text fontSize="md" opacity={0.9} fontFamily="'Satoshi', sans-serif">
                         Phone/WhatsApp:{" "}
                         <Box as="span" color="white" fontWeight="500">
-                            +91-XXXXXXXXXX
+                            +91-9150044121
                         </Box>
                     </Text>
 
                     <Text fontSize="md" opacity={0.9} fontFamily="'Satoshi', sans-serif">
                         Email:{" "}
                         <Box as="span" color="white" fontWeight="500">
-                            info@yourtemple.org
+                            connect@hkmchennai.org
                         </Box>
                     </Text>
                 </VStack>

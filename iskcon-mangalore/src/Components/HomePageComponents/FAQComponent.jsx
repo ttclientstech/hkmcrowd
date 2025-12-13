@@ -36,7 +36,7 @@ const faqData = [
     {
         question: "Who is the inspiration behind this project?",
         answer:
-            "Srila Prabhupada, Founder-Acarya of Worldwide Hare Krishna Movement, is the inspiration behind this project. He once told:\n" +
+            "His Divine Grace Vishwa Guru Srila Prabhupada, Founder-Acarya of Worldwide Hare Krishna Movement, is the inspiration behind this project. He once told:\n" +
             "\n" +
             "\"This is Krishna-Conscious vision: Oh! there are so many skyscrapers. Why not construct a nice skyscraper temple for Krishna? This is Krishna Consciousness.\"\n" +
             "\n" +

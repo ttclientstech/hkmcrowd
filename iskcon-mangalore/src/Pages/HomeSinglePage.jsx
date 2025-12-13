@@ -616,7 +616,7 @@ const HomeSinglePage = () => {
                 Got a question? We’d love to hear from you.
                 Call or WhatsApp us at{" "}
                 <Box as="span" color={URGENT_RED} fontWeight="600">
-                    +91-XXXXXXXXXX
+                    +91-9150044121
                 </Box>{" "}
                 and we’ll respond as soon as possible.
             </Text>

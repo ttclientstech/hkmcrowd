@@ -40,7 +40,7 @@ const PrabhupadaQuoteCTA = () => {
                 fontWeight="500"
                 mb={6}
             >
-                “Anyone who contributes even the smallest amount for constructing a temple of Krishna, his act is recorded by Krishna, and he becomes blessed eternally.”
+                “We are trying to give human society an opportunity for a life of happiness, good health, peace of mind and all good qualities through God Consciousness.”
             </Text>
 
             {/* AUTHOR */}

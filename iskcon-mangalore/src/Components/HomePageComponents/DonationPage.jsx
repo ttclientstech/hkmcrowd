@@ -589,7 +589,7 @@ const DonationPage = ({
                           formData,
                           errors,
                           setFormData,
-                          campaignerName = "ISKCON Chennai",
+                          campaignerName = "Campaigner Name",
                           campaignerPhoto = "/images/campaigner.jpg",
                           isLoading // ✅ Received prop
                       }) => {
@@ -812,9 +812,9 @@ const DonationPage = ({
 
                 <Box bg="white" textAlign="center" py={8} mt={16}>
                     <Text color="#111" fontSize="sm" mb={2}>
-                        Stuck somewhere? We’d love to help you. Message us at <Box as="span" fontWeight="bold">support@iskconchennai.org</Box> and we’ll respond as soon as possible.
+                        Stuck somewhere? We’d love to help you. Message us at <Box as="span" fontWeight="bold">connect@hkmchennai.org</Box> and we’ll respond as soon as possible.
                     </Text>
-                    <Text color="gray.600" fontSize="xs" mt={3}>© 2025 Hare Krishna Movement Chennai. All rights reserved.</Text>
+                    <Text color="gray.600" fontSize="xs" mt={3}>© 2025 Dakshina Dwaraka Dham Chennai. All rights reserved.</Text>
                 </Box>
             </Box>
         </Box>

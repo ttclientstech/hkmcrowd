@@ -81,7 +81,7 @@ const PrabhupadaSection = () => {
                     fontWeight="500"
                     fontFamily="'Satoshi', sans-serif"
                 >
-                    His Divine Grace A.C. Bhaktivedanta Swami Srila Prabhupada
+                    His Divine Grace Vishwa Guru A.C. Bhaktivedanta Swami Srila Prabhupada
                     brought the timeless teachings of Lord Krishna to the entire world.
                     Through unwavering devotion and compassion, he established ISKCON and
                     inspired millions to embrace a life of service, spirituality and love for God.
