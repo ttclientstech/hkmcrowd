@@ -23,7 +23,7 @@ const GOLD = "#D4AF37";
 const BEIGE = "#F9F5F0";
 const TEXT_DARK = "#1A1A1A";
 
-const SQFT_PRICE = 5001;
+const SQFT_PRICE = 5000;
 
 // Motion component for smooth entry
 const MotionHStack = motion(HStack);
