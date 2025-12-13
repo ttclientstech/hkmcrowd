@@ -10,7 +10,7 @@ import { cors } from 'hono/cors'
 import Razorpay from 'razorpay'
 import { basicAuth } from 'hono/basic-auth'
 import crypto from 'crypto'
-import { scheduledHandler } from './scheduler';
+import { scheduledHandler, runLeaderboardLogic } from './scheduler';
 declare module "hono"{
   interface ContextVariableMap{
     db:NeonHttpDatabase<Record<string, never>> & {
@@ -1000,7 +1000,31 @@ app.get("/api/campaigner/:id/donors", async (c) => {
     }
 });
 
+app.get('/test-cron', async (c) => {
+    // This allows you to run the leaderboard logic ON DEMAND via browser/Postman
+    // URL: https://your-worker.workers.dev/test-cron
+
+    console.log("⚠️ Manual Trigger: Starting Leaderboard Update...");
+
+    try {
+        // We pass the Cloudflare environment variables (DATABASE_URL) to the logic
+        await runLeaderboardLogic(c.env);
+        return c.json({
+            success: true,
+            message: "Leaderboard logic executed successfully. Check logs for details."
+        });
+    } catch (error) {
+        return c.json({
+            success: false,
+            error: "Manual trigger failed: " + error
+        }, 500);
+    }
+});
+
 export default {
+    // A. Handle API Requests (Hono)
     fetch: app.fetch,
+
+    // B. Handle Scheduled Events (Cron Triggers)
     scheduled: scheduledHandler
 }
