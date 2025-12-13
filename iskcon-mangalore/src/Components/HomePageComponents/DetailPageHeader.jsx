@@ -3,22 +3,24 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import transparentLogo from "../../assets/images/transparent_logo.png";
 import bannerBg from "../../assets/images/002_temple_night_view.jpeg";
+// ✅ 1. Import the new mobile image
+import mobileHeroBg from "../../assets/images/campainger_page_hero.jpg";
 import PoppinFont from "./PoppinFont";
 
 const DetailPageHeader = ({ getSingleUser }) => {
-    const campaignerName = getSingleUser?.campaignDetails?.campaignName || "A Devotee";
+    const campaignerName = getSingleUser?.campaignDetails?.campaignName || "Campaigner";
 
     return (
         <Box
             position="relative"
             w="100%"
-            bg="black" // Fallback color only
+            bg="black"
             overflow="hidden"
-            minH={["400px", "500px", "600px"]} // Adjusted height for cinematic feel
+            minH={["400px", "500px", "600px"]} // ✅ Kept exactly as your original
             display="flex"
             flexDirection="column"
             justifyContent="space-between"
-            boxShadow="2xl" // Adds depth at the bottom
+            boxShadow="2xl"
             fontFamily="'Poppins', sans-serif"
         >
             <PoppinFont />
@@ -30,25 +32,26 @@ const DetailPageHeader = ({ getSingleUser }) => {
             {/* ------------------------------------------------------- */}
             <Box
                 position="absolute" top="0" left="0" w="100%" h="100%"
-                backgroundImage={`url(${bannerBg})`}
+                backgroundImage={[
+                    `url(${mobileHeroBg})`, // Mobile view (0-480px approx)
+                    `url(${bannerBg})`      // Tablet/Desktop view
+                ]}
                 backgroundSize="cover"
                 backgroundPosition="center center"
-                // CHANGED: Increased opacity so people SEE the temple (Emotional Connection)
                 opacity="0.75"
-                transition="transform 10s ease" // Subtle zoom effect could be added here
+                transition="transform 10s ease"
                 _hover={{ transform: "scale(1.05)" }}
             />
 
             {/* ------------------------------------------------------- */}
             {/* 2. GRADIENT OVERLAY (Readability without "Walls") */}
             {/* ------------------------------------------------------- */}
-            {/* This makes text readable but keeps the "Transparent" feel */}
             <Box
                 position="absolute" top="0" left="0" w="100%" h="100%"
                 bgGradient="linear(to-b,
-                    rgba(0,0,0,0.8) 0%,   /* Dark at top for Logo/Button */
-                    rgba(44,10,10,0.3) 40%, /* Transparent Mahogany in middle */
-                    rgba(0,0,0,0.9) 100%  /* Dark at bottom for Text */
+                    rgba(0,0,0,0.8) 0%,
+                    rgba(44,10,10,0.3) 40%,
+                    rgba(0,0,0,0.9) 100%
                 )"
             />
 
@@ -64,7 +67,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
                 w={["80px", "140px"]}
                 objectFit="contain"
                 zIndex={10}
-                filter="drop-shadow(0px 0px 10px rgba(0,0,0,0.5))" // Shadow for pop
+                filter="drop-shadow(0px 0px 10px rgba(0,0,0,0.5))"
             />
 
             <Button
@@ -72,7 +75,7 @@ const DetailPageHeader = ({ getSingleUser }) => {
                 top="2rem"
                 right="2rem"
                 zIndex={10}
-                bgGradient="linear(to-r, #D4AF37, #C59D18)" // Premium Gradient Button
+                bgGradient="linear(to-r, #D4AF37, #C59D18)"
                 color="#2C0A0A"
                 size={["sm", "md"]}
                 px={8}
@@ -101,11 +104,11 @@ const DetailPageHeader = ({ getSingleUser }) => {
             <Flex
                 maxW="1200px" mx="auto" w="100%"
                 direction="column"
-                align={["center", "flex-end"]} // Centered on mobile, Right on Desktop
+                align={["center", "flex-end"]}
                 justify="flex-end"
                 px={["1rem", "2rem"]}
                 zIndex={2}
-                pb={8} // Space from bottom
+                pb={8}
             >
                 <VStack
                     spacing={4}
@@ -115,13 +118,13 @@ const DetailPageHeader = ({ getSingleUser }) => {
                 >
                     <Text
                         fontFamily="'Poppins', sans-serif"
-                        fontSize={["xl", "2xl", "4xl"]} // Larger font for impact
+                        fontSize={["xl", "2xl", "4xl"]}
                         color="#F9F5F0"
                         lineHeight="1.2"
                         fontWeight="500"
-                        textShadow="0px 4px 10px rgba(0,0,0,0.9)" // Text shadow is crucial on transparent bg
+                        textShadow="0px 4px 10px rgba(0,0,0,0.9)"
                     >
-                        <Text as="span" color="#D4AF37" fontWeight="800">{campaignerName}</Text> needs your support<br/>
+                        <Text as="span" color="#D4AF37" fontWeight="800">{campaignerName}</Text><br/> needs your support
                         to raise <Text as="span" color="#D4AF37" fontWeight="800">1000</Text> Square Feet for <br/>
                         Chennai's <Text as="span" color="#FBD38D" fontWeight="700">Dakshina Dwaraka Dham</Text>
                     </Text>

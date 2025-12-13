@@ -264,11 +264,6 @@ const PaymentPage = () => {
                                 </Button>
                             </VStack>
                         </Box>
-
-                        {/* Footer Message */}
-                        <Text mt={6} color="gray.400" fontSize="sm">
-                            A confirmation email has been sent to {paymentData.email}
-                        </Text>
                     </MotionVStack>
                 </Container>
             </Box>
