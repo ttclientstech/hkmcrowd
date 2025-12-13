@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Box, SimpleGrid, Tooltip, Text, Flex, Icon, VStack } from "@chakra-ui/react";
-import { FaUser, FaLeaf, FaCheckCircle } from "react-icons/fa";
+import { FaUser, FaLeaf, FaCheckCircle, FaAward } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { fetchAllContributers } from "../../utils/apiCall";
 
 const MotionBox = motion(Box);
 const SQFT_PRICE = 5001;
+
+// --- THEME CONSTANTS ---
+const GOLD_GRADIENT = "linear-gradient(135deg, #F3E5AB 0%, #CBA135 50%, #8C6A0A 100%)";
+const EMERALD_GRADIENT = "linear-gradient(135deg, #68D391 0%, #38A169 50%, #276749 100%)";
+const EMPTY_BLOCK_BG = "rgba(255, 252, 242, 0.5)";
+const FRAME_BORDER_COLOR = "#CBA135";
 
 // Build independent grid for each donor (no shared references)
 const prepareGrid = (donors, totalBlocks = 500) => {
@@ -99,125 +105,146 @@ const WallOfDevotion = ({ newDonor }) => {
 
     return (
         <Box
-            py={8}
-            px={[2, 4]}
-            bg="white"
+            py={10}
+            px={[4, 6]}
+            // ✅ Richer background gradient
+            bgGradient="linear(to-b, #FFFCF2, #FFF5E1)"
             textAlign="center"
             overflow="hidden"
             position="relative"
             maxW="1200px"
             mx="auto"
+            borderRadius="3xl"
+            boxShadow="0 10px 30px rgba(203, 161, 53, 0.2)" // Soft gold shadow
+            border="1px solid"
+            borderColor="orange.100"
         >
             {/* Header */}
-            <VStack spacing={3} mb={6}>
-                <Flex align="center" gap={2} color="#D4AF37">
-                    <Icon as={FaLeaf} />
+            <VStack spacing={4} mb={8}>
+                <Flex align="center" gap={2} color={FRAME_BORDER_COLOR}>
+                    <Icon as={FaAward} w={5} h={5} />
                     <Text
                         fontWeight="bold"
                         letterSpacing="widest"
                         textTransform="uppercase"
-                        fontSize="xs"
+                        fontSize="sm"
                     >
-                        Community Pillar
+                        Eternal Legacy
                     </Text>
-                    <Icon as={FaLeaf} />
+                    <Icon as={FaAward} w={5} h={5} />
                 </Flex>
 
                 <Text
-                    fontSize={["xl", "2xl"]}
+                    fontSize={["2xl", "4xl"]}
                     fontWeight="extrabold"
                     fontFamily="'Cinzel', serif"
-                    color="#082032"
+                    // ✅ Richer title color with subtle shadow
+                    color="#3D2B0F"
+                    textShadow="1px 1px 2px rgba(203, 161, 53, 0.3)"
                 >
                     The Wall of Devotion
                 </Text>
 
-                {/* 🎉 Message */}
+                {/* 🎉 Message - Styled like a plaque */}
                 {newDonor && newDonor.amount >= SQFT_PRICE && (
                     <Box
-                        mt={2}
-                        mb={2}
-                        p={3}
-                        bg="green.50"
-                        borderRadius="lg"
-                        border="1px dashed"
-                        borderColor="green.300"
+                        mt={3}
+                        mb={3}
+                        p={5}
+                        // ✅ Changed from simple green box to glowing gold/emerald plaque
+                        bgGradient="linear(to-r, orange.50, green.50)"
+                        borderRadius="xl"
+                        borderTop="3px solid"
+                        borderBottom="3px solid"
+                        borderColor="green.400"
+                        boxShadow="0 4px 15px rgba(56, 161, 105, 0.15)"
                         w="full"
-                        maxW="600px"
+                        maxW="650px"
+                        position="relative"
                     >
-                        <Text fontSize="md" fontWeight="bold" color="green.700">
+                        <Icon as={FaCheckCircle} color="green.500" w={8} h={8} position="absolute" top="-15px" left="50%" transform="translateX(-50%)" bg="white" borderRadius="full" />
+                        <Text fontSize="lg" fontWeight="800" color="green.800" fontFamily="'Cinzel', serif" mt={2}>
                             🎉 Congratulations!
                         </Text>
-                        <Text fontSize="sm" color="green.800" mt={1}>
-                            Your name has been permanently displayed starting at Block #
+                        <Text fontSize="md" color="green.900" mt={1} fontWeight="medium">
+                            Your name has been permanently enshrined starting at Block #
                             {startBlockNumber}!
                         </Text>
                     </Box>
                 )}
 
-                {/* Legend */}
+                {/* Legend - Styled with glowing examples */}
                 <Flex
-                    mt={2}
-                    bg="gray.50"
-                    p={2}
+                    mt={4}
+                    bg="whiteAlpha.800"
+                    p={3}
                     borderRadius="full"
-                    border="1px solid #E2E8F0"
-                    gap={4}
-                    fontSize="xs"
+                    border="1px solid"
+                    borderColor="orange.200"
+                    boxShadow="sm"
+                    gap={6}
+                    fontSize="sm"
                     justify="center"
                     wrap="wrap"
                 >
-                    <Flex align="center" gap={2}>
+                    <Flex align="center" gap={3}>
                         <Box
-                            w="12px"
-                            h="12px"
-                            bgGradient="linear(135deg, rgb(212, 175, 55) 0%, rgb(183, 149, 11) 100%)"
+                            w="16px"
+                            h="16px"
+                            bgGradient={GOLD_GRADIENT}
                             borderRadius="sm"
+                            boxShadow="0 0 5px rgba(203, 161, 53, 0.5)"
                         />
-                        <Text fontWeight="bold" color="gray.700">
-                            Donated
+                        <Text fontWeight="bold" color="#8C6A0A">
+                            Vested Patron
                         </Text>
                     </Flex>
                     {newDonor && newDonor.amount >= SQFT_PRICE && (
-                        <Flex align="center" gap={2}>
+                        <Flex align="center" gap={3}>
                             <Box
-                                w="12px"
-                                h="12px"
-                                bg="green.500"
+                                w="16px"
+                                h="16px"
+                                bgGradient={EMERALD_GRADIENT}
                                 borderRadius="sm"
-                                boxShadow="0 0 5px green"
+                                boxShadow="0 0 8px rgba(56, 161, 105, 0.8)"
+                                border="1px solid #fff"
                             />
-                            <Text fontWeight="bold" color="green.600">
-                                You Are Here
+                            <Text fontWeight="bold" color="green.700">
+                                Your Contribution
                             </Text>
                         </Flex>
                     )}
                 </Flex>
             </VStack>
 
-            {/* Wall Grid */}
+            {/* Wall Grid Frame */}
             <Box
                 maxW="1000px"
                 mx="auto"
-                bg="white"
-                borderRadius="lg"
-                border="1px solid"
-                borderColor="gray.300"
-                boxShadow="inner"
+                // ✅ Ornate frame styling
+                bg="#FFFCF2" // Light cream interior
+                borderRadius="xl"
+                border="4px solid"
+                borderColor={FRAME_BORDER_COLOR}
+                boxShadow={`inset 0 0 20px rgba(140, 106, 10, 0.15), 0 10px 25px -5px rgba(0,0,0,0.1)`} // Inner depth + outer shadow
+                p={2}
             >
                 <Box
                     p={4}
-                    maxH={["300px", "350px"]}
+                    maxH={["350px", "450px"]}
                     overflowY="auto"
+                    // ✅ Custom scrollbar to match theme
                     sx={{
-                        "&::-webkit-scrollbar": { width: "6px" },
+                        "&::-webkit-scrollbar": { width: "8px" },
+                        "&::-webkit-scrollbar-track": { background: "#FFF5E1", borderRadius: "4px" },
                         "&::-webkit-scrollbar-thumb": {
-                            background: "#CBD5E0",
+                            background: "linear-gradient(to-b, #CBA135, #8C6A0A)",
                             borderRadius: "4px",
+                            border: "2px solid #FFF5E1"
                         },
                     }}
                 >
-                    <SimpleGrid columns={[10, 15, 25]} spacing="3px">
+                    <SimpleGrid columns={[10, 15, 25]} spacing="4px">
                         {grid.map((block, i) => {
                             const isFilled = block !== null;
                             const blockNumber = i + 1;
@@ -228,7 +255,7 @@ const WallOfDevotion = ({ newDonor }) => {
                                 ? isMyBlock
                                     ? `🎉 ${block.name} (You!) - ${block.sqft} Sq. Ft.`
                                     : `${block.name} - ${block.sqft} Sq. Ft.`
-                                : "Available";
+                                : "Available for Seva";
 
                             return (
                                 <Tooltip
@@ -236,46 +263,55 @@ const WallOfDevotion = ({ newDonor }) => {
                                     label={tooltipText}
                                     hasArrow
                                     isOpen={isMyBlock && block.isStart ? true : undefined}
-                                    bg={isMyBlock ? "green.600" : isFilled ? "#2C0A0A" : "gray.500"}
+                                    // ✅ Richer tooltip theme
+                                    bg={isMyBlock ? "green.700" : isFilled ? "#3D2B0F" : "gray.600"}
                                     color="white"
                                     placement="top"
-                                    fontSize="xs"
+                                    fontSize="sm"
+                                    fontWeight="bold"
+                                    p={2}
+                                    borderRadius="md"
                                     isDisabled={!showTooltip}
                                 >
                                     <MotionBox
                                         w="100%"
                                         pt="100%"
+                                        // ✅ Updated Backgrounds for richer feel
                                         bg={
                                             isMyBlock
-                                                ? "linear-gradient(135deg, #38A169, #2F855A)"
+                                                ? EMERALD_GRADIENT
                                                 : isFilled
-                                                    ? "linear-gradient(135deg, rgb(212, 175, 55) 0%, rgb(183, 149, 11) 100%)"
-                                                    : "transparent"
+                                                    ? GOLD_GRADIENT
+                                                    : EMPTY_BLOCK_BG
                                         }
+                                        // ✅ Updated Borders for bevel effect
                                         border={
                                             isMyBlock
-                                                ? "2px solid #38A169"
+                                                ? "2px solid #9AE6B4" // Bright emerald border
                                                 : isFilled
-                                                    ? "1px solid #B7950B"
-                                                    : "1px dotted #CBD5E0"
+                                                    ? "1px solid #FBD38D" // Bright gold border
+                                                    : `1px solid ${"orange.100"}` // Subtle empty border
                                         }
                                         borderRadius="sm"
                                         position="relative"
+                                        // ✅ Added subtle inner shadow for depth to all blocks
+                                        boxShadow={isFilled ? "inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.1)" : "none"}
                                         animate={
                                             isMyBlock
                                                 ? {
-                                                    scale: [1, 1.3, 1],
+                                                    scale: [1, 1.15, 1], // Slightly more pronounced pulse
                                                     boxShadow: [
-                                                        "0px 0px 0px rgba(0,0,0,0)",
-                                                        "0px 0px 15px rgba(72, 187, 120, 0.8)",
-                                                        "0px 0px 0px rgba(0,0,0,0)",
+                                                        "0px 0px 0px rgba(56, 161, 105, 0)",
+                                                        "0px 0px 20px rgba(56, 161, 105, 0.7)", // Stronger emerald glow
+                                                        "0px 0px 0px rgba(56, 161, 105, 0)",
                                                     ],
+                                                    zIndex: [1, 10, 1]
                                                 }
                                                 : {}
                                         }
                                         transition={
                                             isMyBlock
-                                                ? { duration: 1.5, repeat: Infinity, repeatType: "loop" }
+                                                ? { duration: 2, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
                                                 : {}
                                         }
                                     >
@@ -284,25 +320,28 @@ const WallOfDevotion = ({ newDonor }) => {
                                             top="50%"
                                             left="50%"
                                             transform="translate(-50%, -50%)"
-                                            fontSize={["6px", "8px"]}
-                                            fontWeight="bold"
-                                            color={isFilled ? "whiteAlpha.700" : "gray.400"}
-                                            opacity={0.8}
+                                            fontSize={["7px", "9px"]}
+                                            fontWeight="900"
+                                            // ✅ Clearer contrast for numbers
+                                            color={isFilled ? (isMyBlock ? "white" : "#5C4208") : "orange.200"}
+                                            opacity={isFilled ? 1 : 0.8}
                                             userSelect="none"
+                                            fontFamily="'Cinzel', serif"
                                         >
                                             {blockNumber}
                                         </Text>
 
+                                        {/* ✅ Icon is now subtle watermark style */}
                                         {isFilled && block.isStart && block.amount > SQFT_PRICE && (
                                             <Icon
                                                 as={isMyBlock ? FaCheckCircle : FaUser}
-                                                color={isMyBlock ? "white" : "rgba(255,255,255,0.2)"}
+                                                color={isMyBlock ? "whiteAlpha.500" : "#8C6A0A30"}
                                                 position="absolute"
                                                 top="50%"
                                                 left="50%"
                                                 transform="translate(-50%, -50%)"
-                                                w="60%"
-                                                h="60%"
+                                                w="70%"
+                                                h="70%"
                                             />
                                         )}
                                     </MotionBox>

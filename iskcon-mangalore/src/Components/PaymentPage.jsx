@@ -1,9 +1,35 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Box, Button, Spinner, Text, useToast, VStack, Icon, Heading, Container, Flex } from "@chakra-ui/react";
-import { FaCheckCircle, FaWhatsapp, FaEnvelope } from "react-icons/fa";
+import {
+    Box,
+    Button,
+    Spinner,
+    Text,
+    useToast,
+    VStack,
+    Icon,
+    Heading,
+    Container,
+    Flex,
+    keyframes,
+    Badge,
+    Divider
+} from "@chakra-ui/react";
+import { FaCheckCircle, FaHeart, FaPrayingHands } from "react-icons/fa";
 import Confetti from "react-confetti";
 import WallOfDevotion from "./HomePageComponents/WallOfDevotion";
+
+// Animation for the success icon
+const popIn = keyframes`
+  0% { transform: scale(0); opacity: 0; }
+  80% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); }
+`;
+
+const fadeIn = keyframes`
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
 
 const PaymentPage = () => {
     const prevId = useRef(null);
@@ -116,59 +142,142 @@ const PaymentPage = () => {
     // ---------------------------------------------
     if (paymentStatus === 'success') {
         return (
-            <Box minH="100vh" bg="#F9FAFB" position="relative" overflowX="hidden">
+            <Box
+                minH="100vh"
+                bgGradient="linear(to-b, orange.50, white)" // Warm spiritual background
+                position="relative"
+                overflowX="hidden"
+                display="flex"
+                alignItems="center"
+            >
                 {/* Confetti Blast */}
                 <Confetti width={windowSize.width} height={windowSize.height} recycle={false} numberOfPieces={500} />
 
-                <Container maxW="container.md" py={10}>
-                    {/* 1. Main Success Card */}
+                <Container maxW="container.md" py={12}>
                     <VStack
-                        bg="white"
-                        p={[6, 8]}
-                        borderRadius="2xl"
-                        boxShadow="xl"
-                        spacing={6}
-                        textAlign="center"
-                        borderTop="8px solid #38A169"
+                        spacing={0}
+                        animation={`${fadeIn} 0.8s ease-out`} // Smooth entry animation
+                        w="full"
                     >
-                        <Icon as={FaCheckCircle} w={16} h={16} color="green.500" />
-
-                        <Box>
-                            <Heading size="lg" color="#2D3748" mb={2}>
-                                Thank You, {paymentData.name || "Devotee"}!
-                            </Heading>
-                            <Text fontSize="lg" color="gray.600">
-                                Your contribution ₹{paymentData.amount} has been successfully received.
-                            </Text>
-                            <Text fontSize="sm" color="gray.600">
-                                Payment Order ID : {id}
-                            </Text>
-                        </Box>
-
-                        <Box bg="green.50" p={4} borderRadius="lg" w="100%">
-                            <Text fontSize="md" color="green.800">
-                                You have successfully supported <b>{paymentData.campainerName || "the Campaigner"}'s</b> mission to build Dakshina Dwaraka Dham.
-                            </Text>
-                        </Box>
-                        {/* 2. The Wall of Devotion Integration */}
-                        <Box mt={8}>
-                            <WallOfDevotion
-                                newDonor={{
-                                    name: paymentData.name,
-                                    amount: paymentData.amount,
-                                    order_id: id
-                                }}
-                            />
-                        </Box>
-
-                        <Button
-                            colorScheme="green"
-                            size="lg"
+                        {/* 1. Main Success Card */}
+                        <Box
+                            bg="white"
+                            borderRadius="3xl"
+                            boxShadow="0 20px 60px -10px rgba(0,0,0,0.15)" // Premium Deep Shadow
+                            borderTop="8px solid"
+                            borderColor="green.400"
+                            overflow="hidden"
                             w="full"
-                            onClick={() => navigate(`/single/${paymentData.campaignsid}`)}
+                            position="relative"
                         >
-                            Return to Campaign Page
-                        </Button>
+                            {/* Decorative Top Pattern/Glow */}
+                            <Box
+                                position="absolute"
+                                top="0" left="0" right="0" h="150px"
+                                bgGradient="linear(to-b, green.50, transparent)"
+                                zIndex={0}
+                            />
+
+                            <VStack p={[8, 10]} spacing={6} position="relative" zIndex={1}>
+                                {/* Animated Check Icon */}
+                                <Box
+                                    animation={`${popIn} 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s forwards`}
+                                    opacity="0"
+                                    transform="scale(0)"
+                                >
+                                    <Box position="relative">
+                                        <Icon as={FaCheckCircle} w={24} h={24} color="green.400" bg="white" borderRadius="full" zIndex={2} position="relative"/>
+                                        <Box position="absolute" top={2} left={2} right={2} bottom={2} bg="green.100" borderRadius="full" zIndex={1} filter="blur(10px)" opacity={0.6}/>
+                                    </Box>
+                                </Box>
+
+                                <Box textAlign="center">
+                                    <Text
+                                        fontSize="xl"
+                                        fontFamily="serif"
+                                        color="green.600"
+                                        fontWeight="bold"
+                                        letterSpacing="wide"
+                                        mb={2}
+                                    >
+                                        PAYMENT SUCCESSFUL
+                                    </Text>
+                                    <Heading size="xl" color="gray.800" fontFamily="serif" mb={3}>
+                                        Thank You, {paymentData.name || "Devotee"}!
+                                    </Heading>
+                                    <Text fontSize="md" color="gray.500">
+                                        Your offering has been gratefully accepted.
+                                    </Text>
+                                </Box>
+
+                                {/* Receipt / Details Ticket */}
+                                <Box
+                                    bg="orange.50"
+                                    border="1px dashed"
+                                    borderColor="orange.300"
+                                    borderRadius="xl"
+                                    p={6}
+                                    w="full"
+                                    textAlign="center"
+                                >
+                                    <Text fontSize="sm" textTransform="uppercase" color="gray.500" letterSpacing="widest" mb={1}>
+                                        Contribution Amount
+                                    </Text>
+                                    <Heading size="2xl" color="orange.600" mb={4}>
+                                        ₹{Number(paymentData.amount).toLocaleString('en-IN')}
+                                    </Heading>
+
+                                    <Divider borderColor="orange.200" mb={4} />
+
+                                    <Flex align="center" justify="center" gap={2} color="orange.800" fontSize="lg">
+                                        <Icon as={FaPrayingHands} />
+                                        <Text>
+                                            Supporting: <b>{paymentData.campainerName || "the Campaigner"}</b>
+                                        </Text>
+                                    </Flex>
+                                    <Text fontSize="xs" color="gray.400" mt={3}>
+                                        Order ID: {id}
+                                    </Text>
+                                </Box>
+
+                                {/* 2. Wall of Devotion Integration */}
+                                <Box w="full" pt={2}>
+                                    <WallOfDevotion
+                                        newDonor={{
+                                            name: paymentData.name,
+                                            amount: paymentData.amount,
+                                            order_id: id
+                                        }}
+                                    />
+                                </Box>
+
+                                <Button
+                                    size="lg"
+                                    w="full"
+                                    h="60px"
+                                    bgGradient="linear(to-r, orange.400, red.500)"
+                                    color="white"
+                                    fontSize="xl"
+                                    borderRadius="xl"
+                                    boxShadow="0 10px 20px rgba(229, 62, 62, 0.3)"
+                                    _hover={{
+                                        bgGradient: "linear(to-r, orange.500, red.600)",
+                                        transform: "translateY(-2px)",
+                                        boxShadow: "0 15px 25px rgba(229, 62, 62, 0.4)"
+                                    }}
+                                    _active={{ transform: "scale(0.98)" }}
+                                    onClick={() => navigate(`/single/${paymentData.campaignsid}`)}
+                                    leftIcon={<Icon as={FaHeart} />}
+                                >
+                                    Return to Campaign Page
+                                </Button>
+                            </VStack>
+                        </Box>
+
+                        {/* Footer Message */}
+                        <Text mt={6} color="gray.400" fontSize="sm">
+                            A confirmation email has been sent to {paymentData.email}
+                        </Text>
                     </VStack>
                 </Container>
             </Box>

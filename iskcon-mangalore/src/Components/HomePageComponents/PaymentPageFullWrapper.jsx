@@ -17,7 +17,7 @@ const PaymentPageFullWrapper = () => {
     const [amount, setAmount] = useState(0);
     const [errors, setErrors] = useState({});
 
-    // ✅ New state to handle loading status
+    // ✅ 1. State for loading status
     const [isLoading, setIsLoading] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -47,10 +47,10 @@ const PaymentPageFullWrapper = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // ✅ Prevent double clicks
+        // ✅ 2. Prevent double submission if already loading
         if (isLoading) return;
 
-        // ✅ Start Loader immediately
+        // ✅ 3. Activate Loader and Grey out button
         setIsLoading(true);
 
         const payload = { ...formData, amount, campaignsid: id };
@@ -76,30 +76,26 @@ const PaymentPageFullWrapper = () => {
                         campainerName: formData.campainerName || "#Campainer Name",
                     });
                     navigate(`/payment/${orderId}?${params.toString()}`);
-                    // Note: We don't set isLoading(false) here because we are navigating away.
-                    // Keeping it true prevents user interaction during the transition.
                 } else {
-                    // If no orderId, something went wrong logic-wise
                     setIsLoading(false);
                 }
             })
             .catch((err) => {
                 console.error("Payment Error:", err);
-                // ✅ Stop loader if API fails so user can try again
                 setIsLoading(false);
             });
     };
 
     return (
         <>
-            {/* ✅ Full Screen Loader Overlay */}
+            {/* ✅ 4. Full Screen Loader Overlay */}
             {isLoading && (
                 <div style={styles.overlay}>
                     <div style={styles.loaderBox}>
                         <div style={styles.spinner}></div>
                         <h3 style={styles.loadingText}>Please wait...</h3>
                         <p style={styles.loadingSubText}>
-                            We are processing your request and taking you to the next step shortly.
+                            We are processing your request and taking you to the next step soon.
                         </p>
                     </div>
                 </div>
@@ -117,14 +113,14 @@ const PaymentPageFullWrapper = () => {
                 campaignerName={getSingleUser?.campaignDetails?.campaignName || "ISKCON Chennai"}
                 campaignerPhoto={getSingleUser?.campaignDetails?.imgurl || "/images/campaigner.jpg"}
                 campaignDetails={getSingleUser?.campaignDetails}
-                // Optional: Pass isLoading to child if you want to disable the button visually there too
+                // ✅ 5. Pass isLoading prop to DonationPage so it can disable the button
                 isLoading={isLoading}
             />
         </>
     );
 };
 
-// ✅ Simple inline styles for the loader
+// Styles for the loader
 const styles = {
     overlay: {
         position: "fixed",
@@ -149,7 +145,7 @@ const styles = {
     },
     spinner: {
         border: "5px solid #f3f3f3",
-        borderTop: "5px solid #d35400", // Using an orange shade suitable for donation themes
+        borderTop: "5px solid #d35400",
         borderRadius: "50%",
         width: "40px",
         height: "40px",
@@ -170,7 +166,6 @@ const styles = {
     }
 };
 
-// Add animation globally if not present
 const styleSheet = document.createElement("style");
 styleSheet.innerText = `
 @keyframes spin {

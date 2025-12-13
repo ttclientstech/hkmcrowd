@@ -49,10 +49,10 @@ const TEXT_DARK = "#1A1A1A";
 
 // ---------- Helper: Context Titles ----------
 const getContext = (n) => {
-    if (n === 1) return { title: "Foundation Seva", desc: "Laying the first stone of Dakshina Dwaraka Dham.", icon: FaRulerCombined, color: "gray", next: 5, nextTitle: "Festival Hall Benefactor" };
-    if (n < 5) return { title: "Foundation Seva", desc: "Every stone strengthens the base.", icon: FaRulerCombined, color: "gray", next: 5, nextTitle: "Festival Hall Benefactor" };
-    if (n < 10) return { title: "Festival Hall Seva", desc: "Supporting construction of our Festival Hall.", icon: FaHandsHelping, color: "blue", next: 10, nextTitle: "Kala Madhuryam Patron" };
-    if (n < 20) return { title: "Cultural Hall Seva", desc: "Helping artists share India’s cultural beauty.", icon: FaTheaterMasks, color: "cyan", next: 20, nextTitle: "Annadanam Contributor" };
+    if (n === 1) return { title: "Foundation Seva", desc: "Laying the first stone of Dakshina Dwaraka Dham.", icon: FaRulerCombined, color: "gray", next: 5, nextTitle: "Festival Hall Seva" };
+    if (n < 5) return { title: "Foundation Seva", desc: "Every stone strengthens the base.", icon: FaRulerCombined, color: "gray", next: 5, nextTitle: "Festival Hall Seva" };
+    if (n < 10) return { title: "Festival Hall Seva", desc: "Supporting construction of our Festival Hall.", icon: FaHandsHelping, color: "blue", next: 10, nextTitle: "Cultural Hall Seva" };
+    if (n < 20) return { title: "Cultural Hall Seva", desc: "Helping artists share India’s cultural beauty.", icon: FaTheaterMasks, color: "cyan", next: 20, nextTitle: "Annadanam Hall Seva" };
     if (n < 25) return { title: "Annadanam Hall Seva", desc: "Feeding thousands with love through the Annadanam Hall.", icon: FaUtensils, color: "orange", next: 25, nextTitle: "Cultural Visionary" };
     return { title: "Cultural Visionary", desc: "Building a legacy of heritage for future generations.", icon: FaGem, color: "purple", next: null, nextTitle: "Max Level Reached" };
 };
@@ -495,7 +495,8 @@ const Step3 = ({
     );
 };
 
-const Step4 = ({ formData, totalAmount, prevStep, handleSubmit }) => {
+// ✅ Updated Step4 to receive and use `isLoading`
+const Step4 = ({ formData, totalAmount, prevStep, handleSubmit, isLoading }) => {
     const effectiveSqFt = Math.floor(totalAmount / SQFT_PRICE);
 
     return (
@@ -552,6 +553,7 @@ const Step4 = ({ formData, totalAmount, prevStep, handleSubmit }) => {
                 <Divider my={4} />
                 <VStack spacing={4}>
                     <HStack justify="center"><Icon as={FaLock} color="#6B7280" /><Text fontSize="sm" color="gray.600">Secure payment via Razorpay</Text></HStack>
+                    {/* ✅ Updated Pay Now Button */}
                     <Button
                         bg={RED}
                         color="white"
@@ -562,6 +564,9 @@ const Step4 = ({ formData, totalAmount, prevStep, handleSubmit }) => {
                         onClick={handleSubmit}
                         boxShadow="xl"
                         _hover={{ bg: "#C53030" }}
+                        isLoading={isLoading} // Chakra UI handles disabling and grey-out
+                        loadingText="Processing Payment..."
+                        isDisabled={isLoading} // Explicit disable to be safe
                     >
                         Pay Now
                     </Button>
@@ -586,6 +591,7 @@ const DonationPage = ({
                           setFormData,
                           campaignerName = "ISKCON Chennai",
                           campaignerPhoto = "/images/campaigner.jpg",
+                          isLoading // ✅ Received prop
                       }) => {
     const [step, setStep] = useState(1);
     const [sqFt, setSqFt] = useState(1);
@@ -799,6 +805,7 @@ const DonationPage = ({
                             totalAmount={totalAmount}
                             prevStep={prevStep}
                             handleSubmit={handleSubmit}
+                            isLoading={isLoading} // ✅ Pass isLoading prop
                         />
                     )}
                 </Box>
