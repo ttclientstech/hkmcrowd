@@ -155,4 +155,4 @@ export const scheduledHandler = async (event, env, ctx) => {
     // ✅ CRITICAL FIX: Use ctx.waitUntil to keep the worker alive
     // This tells Cloudflare "Don't kill this worker until this promise resolves"
     ctx.waitUntil(runLeaderboardLogic(env));
-};₹
+};
