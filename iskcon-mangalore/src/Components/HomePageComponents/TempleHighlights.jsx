@@ -13,7 +13,8 @@ import highlightBg from "../../assets/images/high_light_bg.png";
 
 const NAVY = "#082032";
 const GOLD = "#FFD45E";
-const LIGHT_RED= "#FO9898";
+// ✅ Fixed typo in Hex code (O -> 0) to make it valid
+const LIGHT_RED = "#F09898";
 
 const HIGHLIGHTS = [
     {
@@ -38,7 +39,7 @@ const HIGHLIGHTS = [
     },
     {
         icon: FaCheck,
-        title: "Final Phase Under Construction",
+        title: "2nd Phase Under Construction",
         desc: "Your support helps complete the remaining works.",
     },
 ];
@@ -87,7 +88,14 @@ const TempleHighlights = () => {
                 </Text>
 
                 {/* Timeline */}
-                <VStack spacing={10} position="relative" align="stretch">
+                {/* ✅ Added maxW and mx="auto" to center the timeline list on desktop */}
+                <VStack
+                    spacing={10}
+                    position="relative"
+                    align="stretch"
+                    maxW="600px"
+                    mx="auto"
+                >
                     {/* Vertical line */}
                     <Box
                         position="absolute"
@@ -106,7 +114,8 @@ const TempleHighlights = () => {
                                 h="56px"
                                 borderRadius="full"
                                 bg="white"
-                                border={`1px solid ${LIGHT_RED}`}
+                                // ✅ Applied the corrected LIGHT_RED color here
+                                border={`2px solid ${LIGHT_RED}`}
                                 align="center"
                                 justify="center"
                                 zIndex={2}
