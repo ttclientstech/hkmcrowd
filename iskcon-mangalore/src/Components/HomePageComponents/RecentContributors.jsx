@@ -138,20 +138,9 @@ const RecentContributors = () => {
                 </HStack>
 
                 <VStack align="flex-end" spacing={0}>
-                    {!isLeaderboard ? (
                         <Text fontSize="xs" color="gray.400" fontStyle="italic">
                             {formatTimeAgo(user?.createdate)}
                         </Text>
-                    ) : (
-                        <Badge
-                            colorScheme={idx === 0 ? "yellow" : idx === 1 ? "gray" : idx === 2 ? "orange" : "blue"}
-                            variant="subtle"
-                            borderRadius="full"
-                            px={3}
-                        >
-                            Rank #{idx + 1}
-                        </Badge>
-                    )}
                 </VStack>
             </MotionHStack>
         );
@@ -176,7 +165,7 @@ const RecentContributors = () => {
                 >
                    Recent <Text as="span" color="#E63946">Contributors</Text>
                 </Text>
-                <Text fontSize="md" color="gray.500" maxW="500px" mx="auto" fontFamily="'Satoshi', sans-serif">
+                <Text fontSize="md" color="black" maxW="500px" mx="auto" fontFamily="'Satoshi', sans-serif">
                     Join the growing community of devotees building this spiritual legacy. Your name belongs here.
                 </Text>
             </Box>
@@ -230,12 +219,12 @@ const RecentContributors = () => {
 
             {/* CARD CONTAINER */}
             <Box
-                bg={BEIGE}
+                bg="#edf2f7"
                 borderRadius="24px"
                 p={[4, 6]}
                 boxShadow="inset 0 0 20px rgba(0,0,0,0.03)"
                 minH="300px"
-                border={`1px dashed ${GOLD}`}
+                border={`1px dashed #082132`}
             >
                 {loading ? (
                     <VStack gap={4}>
