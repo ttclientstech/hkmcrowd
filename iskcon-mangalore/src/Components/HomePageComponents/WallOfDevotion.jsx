@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { fetchAllContributers } from "../../utils/apiCall";
 
 const MotionBox = motion(Box);
-const SQFT_PRICE = 5001;
+const SQFT_PRICE = 5000;
 
 // --- THEME CONSTANTS ---
 const GOLD_GRADIENT = "linear-gradient(135deg, #F3E5AB 0%, #CBA135 50%, #8C6A0A 100%)";

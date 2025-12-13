@@ -53,7 +53,7 @@ const WallOfDevotion_Engraved = ({ getSingleUser }) => {
             setActiveBlock(activeBlock === index ? null : index);
         } else {
             // If empty, scroll to donate
-            handleScrollToDonate();
+           // handleScrollToDonate();
         }
     };
 
