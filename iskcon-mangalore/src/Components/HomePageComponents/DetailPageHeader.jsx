@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import transparentLogo from "../../assets/images/transparent_logo.png";
 import bannerBg from "../../assets/images/002_temple_night_view.jpeg";
 // ✅ 1. Import the new mobile image
-import mobileHeroBg from "../../assets/images/campainger_page_hero.jpg";
+import mobileHeroBg from "../../assets/images/campaigner_page_hero_1.png";
 import PoppinFont from "./PoppinFont";
 
 const DetailPageHeader = ({ getSingleUser }) => {
