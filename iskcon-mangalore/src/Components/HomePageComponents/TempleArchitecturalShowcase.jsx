@@ -151,7 +151,7 @@ const TempleArchitecturalShowcase = () => {
                 <GridItem colSpan={[1, 1, 2]} rowSpan={[1, 1, 1]}>
                     <ImageCard
                         src={render3}
-                        title="Beach View"
+                        title="Thiruvanmiyur Beach View"
                         icon={FaCube}
                         height={isMobile ? "200px" : "100%"}
                     />

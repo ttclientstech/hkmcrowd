@@ -3,7 +3,6 @@ import React from "react";
 
 import giftImg from "../../assets/images/gift.jpg";
 import taxImg from "../../assets/images/tax.jpg";
-import pujaImg from "../../assets/images/puja.jpg";
 
 const privileges = [
     {
@@ -17,12 +16,6 @@ const privileges = [
         desc: "Donors will receive an 80G certificate for tax exemption.",
         image: taxImg,
         bg: "#FFF4E5",
-    },
-    {
-        title: "Special Puja",
-        desc: "A special puja will be offered in your name at the temple altar on temple inauguration.",
-        image: pujaImg,
-        bg: "#F3E8FF",
     },
 ];
 
@@ -41,9 +34,20 @@ const DonorPrivilegeSection = () => {
                 fontSize={["2xl", "3xl"]}
                 fontWeight="800"
                 color="#082032"
-                mb={10}
+                mb={3}
             >
                 Donor <Text as="span" color="#E63946">Privileges</Text>
+            </Text>
+            <Text
+                fontSize={["md", "md"]}
+                color="black"
+                opacity={0.8}
+                maxW="700px"
+                mx="auto"
+                mb={10}
+                fontFamily="'Satoshi', sans-serif"
+            >
+               Each one of our respected contributors will receive below privileges
             </Text>
 
             <Box position="relative">

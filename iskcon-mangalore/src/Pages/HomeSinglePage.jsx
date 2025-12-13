@@ -71,6 +71,7 @@ import DonorWall from "../Components/HomePageComponents/DonorWall";
 import WallOfDevotion from "../Components/HomePageComponents/WallOfDevotion";
 import WallOfDevotion_Engraved from "../Components/HomePageComponents/WallOfDevotion_Engraved";
 import TempleArchitecturalShowcase from "../Components/HomePageComponents/TempleArchitecturalShowcase";
+import SpecialDonorPrivileges from "../Components/HomePageComponents/SpecialDonorPrivileges";
 
 /* =========================
    THEME CONSTANTS (CHANGED)
@@ -570,7 +571,7 @@ const HomeSinglePage = () => {
                     mb={1}
                     lineHeight="1.2"
                 >
-                    Construction Status
+                    Construction <Text as="span" color="#E63946">Status</Text>
                 </Text>
 
                 {/* SUBTITLE — NOW LARGER & SEPARATE */}
@@ -601,6 +602,7 @@ const HomeSinglePage = () => {
             {/* Reused sections (kept intact) */}
             <TestimonialSection />
             <DonorPrivilegeSection />
+            <SpecialDonorPrivileges />
             <RecentContributors getSingleUser={getSingleUser} />
             <DonateNowButton getSingleUser={getSingleUser} />
             <WallOfDevotion_Engraved />
