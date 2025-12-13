@@ -605,7 +605,7 @@ const HomeSinglePage = () => {
             <SpecialDonorPrivileges />
             <RecentContributors getSingleUser={getSingleUser} />
             <DonateNowButton getSingleUser={getSingleUser} />
-            <WallOfDevotion_Engraved />
+            <WallOfDevotion_Engraved getSingleUser={getSingleUser} />
             <WhyDonateQuotes />
             <FAQComponent />
             <DonateNowButton getSingleUser={getSingleUser} />
