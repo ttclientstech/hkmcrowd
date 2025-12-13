@@ -11,25 +11,16 @@ import {
     Heading,
     Container,
     Flex,
-    keyframes,
-    Badge,
     Divider
 } from "@chakra-ui/react";
 import { FaCheckCircle, FaHeart, FaPrayingHands } from "react-icons/fa";
 import Confetti from "react-confetti";
+import { motion } from "framer-motion"; // ✅ Import framer-motion
 import WallOfDevotion from "./HomePageComponents/WallOfDevotion";
 
-// Animation for the success icon
-const popIn = keyframes`
-  0% { transform: scale(0); opacity: 0; }
-  80% { transform: scale(1.1); opacity: 1; }
-  100% { transform: scale(1); }
-`;
-
-const fadeIn = keyframes`
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-`;
+// ✅ Create Motion components for animation
+const MotionVStack = motion(VStack);
+const MotionBox = motion(Box);
 
 const PaymentPage = () => {
     const prevId = useRef(null);
@@ -66,7 +57,6 @@ const PaymentPage = () => {
     const [paymentStatus, setPaymentStatus] = useState('');
     const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
 
-    // Update window size for confetti
     useEffect(() => {
         const handleResize = () => setWindowSize({ width: window.innerWidth, height: window.innerHeight });
         window.addEventListener('resize', handleResize);
@@ -136,7 +126,6 @@ const PaymentPage = () => {
         openRazorpay();
     }, [id, paymentData, Toast]);
 
-
     // ---------------------------------------------
     // SUCCESS VIEW (Celebration Page)
     // ---------------------------------------------
@@ -144,7 +133,7 @@ const PaymentPage = () => {
         return (
             <Box
                 minH="100vh"
-                bgGradient="linear(to-b, orange.50, white)" // Warm spiritual background
+                bgGradient="linear(to-b, orange.50, white)"
                 position="relative"
                 overflowX="hidden"
                 display="flex"
@@ -154,23 +143,25 @@ const PaymentPage = () => {
                 <Confetti width={windowSize.width} height={windowSize.height} recycle={false} numberOfPieces={500} />
 
                 <Container maxW="container.md" py={12}>
-                    <VStack
+                    {/* ✅ Using MotionVStack for fade-in animation */}
+                    <MotionVStack
                         spacing={0}
-                        animation={`${fadeIn} 0.8s ease-out`} // Smooth entry animation
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
                         w="full"
                     >
                         {/* 1. Main Success Card */}
                         <Box
                             bg="white"
                             borderRadius="3xl"
-                            boxShadow="0 20px 60px -10px rgba(0,0,0,0.15)" // Premium Deep Shadow
+                            boxShadow="0 20px 60px -10px rgba(0,0,0,0.15)"
                             borderTop="8px solid"
                             borderColor="green.400"
                             overflow="hidden"
                             w="full"
                             position="relative"
                         >
-                            {/* Decorative Top Pattern/Glow */}
                             <Box
                                 position="absolute"
                                 top="0" left="0" right="0" h="150px"
@@ -179,17 +170,17 @@ const PaymentPage = () => {
                             />
 
                             <VStack p={[8, 10]} spacing={6} position="relative" zIndex={1}>
-                                {/* Animated Check Icon */}
-                                <Box
-                                    animation={`${popIn} 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s forwards`}
-                                    opacity="0"
-                                    transform="scale(0)"
+                                {/* ✅ Animated Check Icon using MotionBox */}
+                                <MotionBox
+                                    initial={{ scale: 0, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
                                 >
                                     <Box position="relative">
                                         <Icon as={FaCheckCircle} w={24} h={24} color="green.400" bg="white" borderRadius="full" zIndex={2} position="relative"/>
                                         <Box position="absolute" top={2} left={2} right={2} bottom={2} bg="green.100" borderRadius="full" zIndex={1} filter="blur(10px)" opacity={0.6}/>
                                     </Box>
-                                </Box>
+                                </MotionBox>
 
                                 <Box textAlign="center">
                                     <Text
@@ -278,7 +269,7 @@ const PaymentPage = () => {
                         <Text mt={6} color="gray.400" fontSize="sm">
                             A confirmation email has been sent to {paymentData.email}
                         </Text>
-                    </VStack>
+                    </MotionVStack>
                 </Container>
             </Box>
         );
@@ -291,7 +282,7 @@ const PaymentPage = () => {
         return (
             <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" height="100vh" bg="gray.50" p={4}>
                 <Box bg="white" p={8} borderRadius="xl" boxShadow="lg" textAlign="center" maxW="400px">
-                    <Icon as={FaCheckCircle} color="red.500" w={12} h={12} mb={4} style={{ transform: 'rotate(45deg)' }} /> {/* X icon workaround */}
+                    <Icon as={FaCheckCircle} color="red.500" w={12} h={12} mb={4} style={{ transform: 'rotate(45deg)' }} />
                     <Heading size="md" mb={2} color="gray.800">Payment Failed</Heading>
                     <Text color="gray.600" mb={6}>Unfortunately, your transaction could not be completed.</Text>
                     <Button colorScheme="red" onClick={() => navigate(`/single/${paymentData.campaignsid}`)}>
