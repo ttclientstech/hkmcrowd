@@ -39,6 +39,7 @@ const DonorPrivilegeSection = () => {
                 Donor <Text as="span" color="#E63946">Privileges</Text>
             </Text>
             <Text
+                textAlign="center"
                 fontSize={["md", "md"]}
                 color="black"
                 opacity={0.8}

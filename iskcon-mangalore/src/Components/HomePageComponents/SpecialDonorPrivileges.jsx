@@ -9,7 +9,7 @@ const privileges = [
         title: "Special Puja",
         desc: "A special puja will be offered in your name at the temple altar on temple inauguration.",
         image: pujaImg,
-        bg: "#F3E8FF",
+        bg: "#E8F3FF",
     },
     {
         title: "Vedic Literatures",
@@ -39,6 +39,7 @@ const SpecialDonorPrivileges = () => {
                 Other Donor <Text as="span" color="#E63946">Privileges</Text>
             </Text>
             <Text
+                textAlign="center"
                 fontSize={["md", "md"]}
                 color="black"
                 opacity={0.8}
