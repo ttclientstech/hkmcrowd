@@ -93,7 +93,7 @@ const TrustStrip = () => (
         <Flex
             maxW="1200px"
             mx="auto"
-            justify={["center", "center", "flex-start"]}
+            justify={["center", "center", "center"]}
             gap={[4, 8, 12]}
             flexWrap="wrap"
             px={4}
