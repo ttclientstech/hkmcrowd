@@ -83,7 +83,7 @@ const AltarDonationBanner = ({ handleScrollToDonate }) => {
                         lineHeight={["1.4", "1.3"]}
                         fontFamily="'Poppins', sans-serif"
                     >
-                        Heart feature-<Text as="span" color={GOLD}>Three Majestic Altars</Text>
+                       <Text as="span" color={GOLD}>Three Majestic Altars</Text>
                     </Text>
 
                     {/* Descriptive Subtext */}
