@@ -71,7 +71,7 @@ const EducationWingDonationBanner = ({ handleScrollToDonate }) => {
                     <Flex align="center" gap={2} color="white" mb={0}>
                         {/*<Icon as={FaVihara} w={4} h={4} />*/}
                         <Text fontWeight="bold" letterSpacing="wider" fontSize={["lg", "xl"]} textTransform="uppercase">
-                            Nurturing Minds, Building Character
+                            Nurturing Minds, <Text as="span" color={GOLD}>Building Character</Text>
                         </Text>
                     </Flex>
 
