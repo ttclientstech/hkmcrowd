@@ -19,7 +19,7 @@ const AltarDonationBanner = ({ handleScrollToDonate }) => {
             overflow="hidden"
             // ✅ Height maintained: Double the height of a typical button
             //h={["250px", "250px"]}
-            mb={8}
+            mt={12}
             // ✅ Full width on mobile, rounded on desktop
             borderRadius={["0", "2xl"]}
             boxShadow="xl"
@@ -83,7 +83,7 @@ const AltarDonationBanner = ({ handleScrollToDonate }) => {
                         lineHeight={["1.4", "1.3"]}
                         fontFamily="'Poppins', sans-serif"
                     >
-                        The temple heart features <Text as="span" color={GOLD}>Three Majestic Altars</Text>
+                        Dakshina Dwaraka Dham heart feature <br /> <Text as="span" color={GOLD}>Three Majestic Altars</Text>
                     </Text>
 
                     {/* Descriptive Subtext */}
