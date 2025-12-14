@@ -76,6 +76,7 @@ import CulturalHallDonationBanner from "../Components/HomePageComponents/Cultura
 import EducationalWingBanner from "../Components/HomePageComponents/EducationalWingBanner";
 import GarbhagrihaDonationBanner from "../Components/HomePageComponents/GarbhagrihaDonationBanner";
 import AltarDonationBanner from "../Components/HomePageComponents/AltarDonationBanner";
+import EducationWingDonationBanner from "../Components/HomePageComponents/EducationWingDonationBanner";
 
 /* =========================
    THEME CONSTANTS (CHANGED)
@@ -614,6 +615,7 @@ const HomeSinglePage = () => {
             <WhyDonateQuotes />
             <FAQComponent />
             <DonateNowButton getSingleUser={getSingleUser} />
+            <EducationWingDonationBanner />
             <PrabhupadaSection />
             <PrabhupadaQuoteCTA />
 
