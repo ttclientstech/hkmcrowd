@@ -18,11 +18,11 @@ const CulturalHallDonationBanner = ({ handleScrollToDonate }) => {
             position="relative"
             overflow="hidden"
             // ✅ Height maintained: Double the height of a typical button
-            h={["250px", "250px"]}
+            //h={["250px", "250px"]}
             mt={12}
             mb={8}
             // ✅ Full width on mobile, rounded on desktop
-            borderRadius={["2xl", "2xl"]}
+            borderRadius={["0", "2xl"]}
             boxShadow="xl"
         >
             {/* 1. Background Image */}
