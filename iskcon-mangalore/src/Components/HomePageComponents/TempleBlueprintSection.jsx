@@ -53,7 +53,7 @@ const TempleBlueprintSection = () => {
             w="100%"
             maxW="900px"
             mx="auto"
-            mt={16}
+            mt={12}
             px={[4, 6]}
             fontFamily="'Poppins', sans-serif"
         >

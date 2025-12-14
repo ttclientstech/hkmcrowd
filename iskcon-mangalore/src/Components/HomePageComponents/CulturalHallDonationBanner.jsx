@@ -19,7 +19,6 @@ const CulturalHallDonationBanner = ({ handleScrollToDonate }) => {
             overflow="hidden"
             // ✅ Height maintained: Double the height of a typical button
             //h={["250px", "250px"]}
-            mt={12}
             mb={8}
             // ✅ Full width on mobile, rounded on desktop
             borderRadius={["0", "2xl"]}
@@ -46,7 +45,7 @@ const CulturalHallDonationBanner = ({ handleScrollToDonate }) => {
                 left="0"
                 w="100%"
                 h="100%"
-                bgGradient={`linear(to-r, ${NAVY}, rgba(8,32,50,0.8))`}
+                bgGradient={`linear(to-r, rgba(8,32,50,0.8), rgba(8,32,50,0.8))`}
                 opacity={0.95}
             />
 

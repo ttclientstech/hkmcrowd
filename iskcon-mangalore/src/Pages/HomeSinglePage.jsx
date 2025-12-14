@@ -485,7 +485,6 @@ const HomeSinglePage = () => {
                 </Box>
             </Box>
             <TempleHighlights />
-            <CulturalHallDonationBanner />
             {/* DESCRIPTION */}
             <Box w="100%" maxW="1200px" mx="auto" px={[4, 6]} mt={[4, 4]}>
                 <Box position="relative" textAlign="center" mb={8}>
@@ -535,9 +534,9 @@ const HomeSinglePage = () => {
                     </Text>
                 </Box>
             </Box>
+            <CulturalHallDonationBanner />
             <TempleBlueprintSection />
             <TempleArchitecturalShowcase />
-            <CulturalHallDonationBanner />
             {/* TEMPLE FEATURES
             <Box w="100%" maxW="1200px" mx="auto" mt={8} px={[4, 6]} fontFamily="'Poppins', sans-serif">
                 <Text fontSize={["2xl", "3xl"]} fontWeight="500" color={NAVY} textAlign="center" mb={6}>
