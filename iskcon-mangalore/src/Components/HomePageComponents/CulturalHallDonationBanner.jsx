@@ -91,29 +91,6 @@ const CulturalHallDonationBanner = ({ handleScrollToDonate }) => {
                         Contribute to sustain our culture.
                     </Text>
                 </VStack>
-
-                {/* Button */}
-                <MotionBox animate={{ scale: [1, 1.02, 1] }} transition={{ repeat: Infinity, duration: 2 }}>
-                    <Button
-                        size={["md", "lg"]} // Smaller button on mobile
-                        h={["48px", "56px"]} // Adjusted height
-                        bgGradient={`linear(to-r, ${GOLD}, #C59D18)`}
-                        color={NAVY}
-                        rightIcon={<FaCheckCircle />}
-                        onClick={handleScrollToDonate}
-                        boxShadow="0 4px 15px rgba(212, 175, 55, 0.4)"
-                        _hover={{
-                            transform: "translateY(-2px)",
-                            boxShadow: "0 6px 20px rgba(212, 175, 55, 0.6)"
-                        }}
-                        fontWeight="800"
-                        borderRadius="full"
-                        px={[6, 8]}
-                        fontSize={["sm", "md"]}
-                    >
-                        Contribute Now
-                    </Button>
-                </MotionBox>
             </Flex>
         </Box>
     );
