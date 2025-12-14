@@ -74,6 +74,7 @@ import TempleArchitecturalShowcase from "../Components/HomePageComponents/Temple
 import SpecialDonorPrivileges from "../Components/HomePageComponents/SpecialDonorPrivileges";
 import CulturalHallDonationBanner from "../Components/HomePageComponents/CulturalHallDonationBanner";
 import EducationalWingBanner from "../Components/HomePageComponents/EducationalWingBanner";
+import GarbhagrihaDonationBanner from "../Components/HomePageComponents/GarbhagrihaDonationBanner";
 
 /* =========================
    THEME CONSTANTS (CHANGED)
@@ -603,7 +604,7 @@ const HomeSinglePage = () => {
 
             {/* Reused sections (kept intact) */}
             <TestimonialSection />
-            <EducationalWingBanner />
+            <GarbhagrihaDonationBanner />
             <DonorPrivilegeSection />
             <SpecialDonorPrivileges />
             <RecentContributors getSingleUser={getSingleUser} />
