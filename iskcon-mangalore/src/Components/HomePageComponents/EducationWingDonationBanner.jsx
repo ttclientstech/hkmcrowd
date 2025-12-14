@@ -75,20 +75,9 @@ const EducationWingDonationBanner = ({ handleScrollToDonate }) => {
                         </Text>
                     </Flex>
 
-                    {/* Main Headline */}
-                    <Text
-                        color="white"
-                        fontSize={["lg", "2xl"]}
-                        fontWeight="800"
-                        lineHeight={["1.4", "1.3"]}
-                        fontFamily="'Poppins', sans-serif"
-                    >
-                        <Text as="span" color={GOLD}>Three Majestic Altars</Text>
-                    </Text>
-
                     {/* Descriptive Subtext */}
                     <Text color="white" fontSize={["sm", "md"]} fontFamily="'Satoshi', sans-serif" lineHeight="1.6">
-                        Four classrooms accommodating nearly 200 participants.Children and adults learn the Bhagavad-gita, ethics, and values rooted in Vedic wisdom.
+                        Four classrooms accommodating nearly 200 participants. Children and adults learn the Bhagavad-gita, ethics, and values rooted in Vedic wisdom.
                     </Text>
                 </VStack>
 
