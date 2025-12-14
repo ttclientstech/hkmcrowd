@@ -73,6 +73,7 @@ import WallOfDevotion_Engraved from "../Components/HomePageComponents/WallOfDevo
 import TempleArchitecturalShowcase from "../Components/HomePageComponents/TempleArchitecturalShowcase";
 import SpecialDonorPrivileges from "../Components/HomePageComponents/SpecialDonorPrivileges";
 import CulturalHallDonationBanner from "../Components/HomePageComponents/CulturalHallDonationBanner";
+import EducationalWingBanner from "../Components/HomePageComponents/EducationalWingBanner";
 
 /* =========================
    THEME CONSTANTS (CHANGED)
@@ -486,7 +487,7 @@ const HomeSinglePage = () => {
             </Box>
             <TempleHighlights />
             {/* DESCRIPTION */}
-            <Box w="100%" maxW="1200px" mx="auto" px={[4, 6]} mt={[4, 4]}>
+            <Box w="100%" maxW="1200px" mx="auto" px={[4, 6]} mt={[4, 4]} mb={8}>
                 <Box position="relative" textAlign="center" mb={8}>
                     <Box position="absolute" left="50%" transform="translate(-50%, -50%)" opacity={0.08} zIndex={0}>
                         <svg width="150" height="150" viewBox="0 0 24 24" fill={CORAL}>
@@ -602,6 +603,7 @@ const HomeSinglePage = () => {
 
             {/* Reused sections (kept intact) */}
             <TestimonialSection />
+            <EducationalWingBanner />
             <DonorPrivilegeSection />
             <SpecialDonorPrivileges />
             <RecentContributors getSingleUser={getSingleUser} />
