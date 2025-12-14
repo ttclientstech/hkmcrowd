@@ -22,7 +22,7 @@ const CulturalHallDonationBanner = ({ handleScrollToDonate }) => {
             mt={12}
             mb={8}
             // ✅ Full width on mobile, rounded on desktop
-            borderRadius={["0", "2xl"]}
+            borderRadius={["2xl", "2xl"]}
             boxShadow="xl"
         >
             {/* 1. Background Image */}
@@ -84,9 +84,8 @@ const CulturalHallDonationBanner = ({ handleScrollToDonate }) => {
                         fontWeight="800"
                         lineHeight={["1.2", "1.3"]}
                         fontFamily="'Poppins', sans-serif"
-                    >
-                        Dakshina Dwaraka Dham is built with a <br />
-                        <Text as="span" color={GOLD}>300-seater Cultural Hall</Text> to host cultural programs.
+                    >Dakshina Dwaraka Dham is built with a <br />
+                    <Text as="span" color={GOLD}>300-seater Cultural Hall</Text> to host cultural programs.
                     </Text>
 
                     <Text color="gray.300" fontSize={["sm", "md"]} fontFamily="'Satoshi', sans-serif">

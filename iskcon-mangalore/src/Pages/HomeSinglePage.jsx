@@ -485,7 +485,7 @@ const HomeSinglePage = () => {
                 </Box>
             </Box>
             <TempleHighlights />
-
+            <CulturalHallDonationBanner />
             {/* DESCRIPTION */}
             <Box w="100%" maxW="1200px" mx="auto" px={[4, 6]} mt={[4, 4]}>
                 <Box position="relative" textAlign="center" mb={8}>
