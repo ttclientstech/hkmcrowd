@@ -68,10 +68,10 @@ const AltarDonationBanner = ({ handleScrollToDonate }) => {
                     textAlign={["center", "left"]}
                 >
                     {/* Small Modern Title */}
-                    <Flex align="center" gap={2} color={GOLD} mb={0}>
-                        <Icon as={FaVihara} w={4} h={4} />
+                    <Flex align="center" gap={2} color="white" mb={0}>
+                        {/*<Icon as={FaVihara} w={4} h={4} />*/}
                         <Text fontWeight="bold" letterSpacing="wider" fontSize="xs" textTransform="uppercase">
-                            Divine Architecture
+                            The Heart of Dakshina Dwaraka Dham
                         </Text>
                     </Flex>
 
@@ -83,7 +83,7 @@ const AltarDonationBanner = ({ handleScrollToDonate }) => {
                         lineHeight={["1.4", "1.3"]}
                         fontFamily="'Poppins', sans-serif"
                     >
-                        Dakshina Dwaraka Dham heart feature <br /> <Text as="span" color={GOLD}>Three Majestic Altars</Text>
+                        Heart feature-<Text as="span" color={GOLD}>Three Majestic Altars</Text>
                     </Text>
 
                     {/* Descriptive Subtext */}
