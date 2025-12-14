@@ -72,6 +72,7 @@ import WallOfDevotion from "../Components/HomePageComponents/WallOfDevotion";
 import WallOfDevotion_Engraved from "../Components/HomePageComponents/WallOfDevotion_Engraved";
 import TempleArchitecturalShowcase from "../Components/HomePageComponents/TempleArchitecturalShowcase";
 import SpecialDonorPrivileges from "../Components/HomePageComponents/SpecialDonorPrivileges";
+import CulturalHallDonationBanner from "../Components/HomePageComponents/CulturalHallDonationBanner";
 
 /* =========================
    THEME CONSTANTS (CHANGED)
@@ -536,6 +537,7 @@ const HomeSinglePage = () => {
             </Box>
             <TempleBlueprintSection />
             <TempleArchitecturalShowcase />
+            <CulturalHallDonationBanner />
             {/* TEMPLE FEATURES
             <Box w="100%" maxW="1200px" mx="auto" mt={8} px={[4, 6]} fontFamily="'Poppins', sans-serif">
                 <Text fontSize={["2xl", "3xl"]} fontWeight="500" color={NAVY} textAlign="center" mb={6}>
