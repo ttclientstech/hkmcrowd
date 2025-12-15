@@ -77,6 +77,7 @@ import EducationalWingBanner from "../Components/HomePageComponents/EducationalW
 import GarbhagrihaDonationBanner from "../Components/HomePageComponents/GarbhagrihaDonationBanner";
 import AltarDonationBanner from "../Components/HomePageComponents/AltarDonationBanner";
 import EducationWingDonationBanner from "../Components/HomePageComponents/EducationWingDonationBanner";
+import OverallCampaignProgress from "../Components/HomePageComponents/OverallCampaignProgress";
 
 /* =========================
    THEME CONSTANTS (CHANGED)
@@ -603,6 +604,7 @@ const HomeSinglePage = () => {
                     ))}
                 </Flex>
             </Box>
+            <OverallCampaignProgress />
 
             {/* Reused sections (kept intact) */}
             <TestimonialSection />

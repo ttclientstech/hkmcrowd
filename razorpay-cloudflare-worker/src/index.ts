@@ -684,6 +684,23 @@ console.log("1",totalgoalamts)
   }
 });
 
+app.get("/get_overall_progress", async (c) => {
+    try {
+        const db = c.get("db");
+        const totalraised = await db.select({sum:sum(paymentTable.amount)}).from(paymentTable).where(eq(paymentTable.paymentstatus,true));
+        const totalgoalamts = await db.select({sum:sum(campaigns.targetAmount)}).from(campaigns);
+        return c.json({
+            totalraisedamt:totalraised[0].sum || 0,
+            totalgoalamt:totalgoalamts[0].sum || 0,
+        });
+
+    } catch (e) {
+        return c.json({
+            error: "Failed to fetch the details: " + e,
+            status: 404
+        });
+    }
+});
 
 app.delete('/delete-campaign/:id',cors({
   origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app"],
