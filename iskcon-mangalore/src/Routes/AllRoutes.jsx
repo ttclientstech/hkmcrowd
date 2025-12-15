@@ -14,6 +14,8 @@ import AdminLogin from "../Components/AdminPageComponents/AdminLogin";
 import PaymentPageFullWrapper from "../Components/HomePageComponents/PaymentPageFullWrapper"
 import Private from "../Private/Private";
 import CampaignerDashboard from "../Components/CampaignerComponents/CampaignerDashboard";
+import LoginPage from "../Components/Auth/LoginPage";
+import ProtectedRoute from "../Components/Auth/ProtectedRoute";
 const AllRoutes = () => {
   return (
     <Routes>
@@ -22,7 +24,17 @@ const AllRoutes = () => {
         <Route path="/single/:id" element={<HomeSinglePage />} />
         <Route path="/payment/:id" element={<PaymentPage />} />
           <Route path="/campaign/:id/donate" element={<PaymentPageFullWrapper />} />
-          <Route path="/dashboard/:id" element={<CampaignerDashboard />} />
+          {/*<Route path="/dashboard/:id" element={<CampaignerDashboard />} />*/}
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+              path="/dashboard"
+              element={
+                  <ProtectedRoute>
+                      {/* The Dashboard Component */}
+                      <CampaignerDashboard />
+                  </ProtectedRoute>
+              }
+          />
       </Route>
 
         <Route path="/admin" element={<AdminLogin />} />

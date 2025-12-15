@@ -39,7 +39,7 @@ const pulse = keyframes`
 
 const CampaignerDashboard = () => {
     const [data, setData] = useState(null);
-    const campaignerId = window.location.pathname.split("/").pop();
+    const campaignerId = localStorage.getItem('campaignerId');
 
     // 📱 Responsive Sizing Logic
     const lotusSize = useBreakpointValue({ base: "220px", md: "380px" });

@@ -46,7 +46,8 @@ export const campaigns = pgTable('campaigns', {
     enddate:date("end_date").notNull(),
     preacherName:varchar('preacher_name',{length:255}).notNull(),
     raisedtotal:integer("raised_total").notNull().default(0),
-    funderstotal:integer("funders_totaltotal").notNull().default(0)
+    funderstotal:integer("funders_totaltotal").notNull().default(0),
+    email: text("email"),
   }
 );
 

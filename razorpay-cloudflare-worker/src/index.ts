@@ -1021,6 +1021,65 @@ app.get('/test-cron', async (c) => {
     }
 });
 
+// ... existing imports ...
+
+// ✅ NEW AUTH ROUTE
+app.post('/auth/google', cors({
+    origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app", "http://localhost:3000"],
+    allowMethods: ['POST', 'OPTIONS'],
+    allowHeaders: ['Content-Type'],
+    credentials: true
+}), async (c) => {
+    const db = c.get('db');
+
+    try {
+        const body = await c.req.json();
+        const { token } = body;
+
+        if (!token) return c.json({ success: false, message: "No token provided" }, 400);
+
+        // 1. VERIFY TOKEN (Using Google's public endpoint - Works perfectly in Cloudflare Workers)
+        const googleResponse = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${token}`);
+
+        if (!googleResponse.ok) {
+            return c.json({ success: false, message: "Invalid Google Token" }, 401);
+        }
+
+        const payload = await googleResponse.json();
+        const email = payload.email;
+
+        // 2. CHECK DATABASE
+        // We look for a campaigner who has this email address
+        const campaigner = await db
+            .select()
+            .from(campaigns)
+            .where(eq(campaigns.email, email)) // ⚠️ MAKE SURE 'email' COLUMN EXISTS IN YOUR DB
+            .limit(1);
+
+        if (campaigner.length === 0) {
+            return c.json({
+                success: false,
+                message: "Access Denied: No campaigner found with this email."
+            }, 404);
+        }
+
+        // 3. SUCCESS
+        return c.json({
+            success: true,
+            message: "Login successful",
+            campaignerId: campaigner[0].id,
+            name: campaigner[0].campaignName,
+            image: payload.picture
+        });
+
+    } catch (error) {
+        console.error("Auth Error:", error);
+        return c.json({ success: false, message: "Server Error: " + error.message }, 500);
+    }
+});
+
+// ... existing routes ...
+
 export default {
     // A. Handle API Requests (Hono)
     fetch: app.fetch,
