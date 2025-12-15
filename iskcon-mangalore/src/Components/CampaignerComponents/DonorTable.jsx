@@ -23,7 +23,7 @@ const COST_PER_SQFT = 5000;
 const DonorTable = () => {
     const [donors, setDonors] = useState([]);
     const [loading, setLoading] = useState(true);
-    const campaignerId = window.location.pathname.split("/").pop();
+    const campaignerId = localStorage.getItem('campaignerId');
 
     useEffect(() => {
         axios.get(`${BE_API_URL}/api/campaigner/${campaignerId}/donors`)
