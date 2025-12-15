@@ -89,25 +89,12 @@ const OverallCampaignProgress = () => {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 bg="white"
-                borderRadius="2xl"
                 boxShadow="0 10px 40px rgba(0,0,0,0.1)"
-                borderTop={`6px solid ${NAVY}`}
                 p={[8, 10]}
                 textAlign="center"
                 position="relative"
                 overflow="hidden"
             >
-                {/* Decorative Background Icon */}
-                <Icon
-                    as={FaHandHoldingHeart}
-                    position="absolute"
-                    top="10%"
-                    right="-20px"
-                    w="200px"
-                    h="200px"
-                    color="gray.50"
-                    zIndex={0}
-                />
 
                 <VStack spacing={6} position="relative" zIndex={1}>
 
@@ -115,14 +102,14 @@ const OverallCampaignProgress = () => {
                     <Box>
                         {/* ✅ UPDATED TITLE FOR CLARITY */}
                         <Text
-                            fontSize={["xl", "3xl"]}
+                            fontSize={["3xl", "3xl"]}
                             fontWeight="800"
                             color={NAVY}
                             fontFamily="'Poppins', sans-serif"
                             lineHeight="1.3"
                         >
                             The Grand Vision: <br/>
-                            <Text as="span" color={GOLD}>Overall Campaign Progress</Text>
+                            <Text as="span" color={NAVY}>Overall Campaign Progress</Text>
                         </Text>
                         <Text fontSize="sm" color="gray.500" mt={2} fontFamily="'Satoshi', sans-serif">
                             Combining every contribution towards the complete construction of Dakshina Dwaraka Dham.
@@ -171,7 +158,7 @@ const OverallCampaignProgress = () => {
                         <VStack spacing={1} mt={6}>
                             <Text fontSize={["2xl", "4xl"]} fontWeight="800" color={URGENT_RED} lineHeight="1">
                                 {isInView ? Math.round((raisedSqFt * (animatedPercent / targetPercent)) || 0).toLocaleString() : 0}
-                                <Text as="span" fontSize="lg" color="gray.500" ml={1}>Sq. Ft.</Text>
+                                <Text as="span" fontSize="lg" color="black" ml={1}>Sq. Ft.</Text>
                             </Text>
                             <Text fontSize="md" color="gray.400" fontWeight="600" textTransform="uppercase" letterSpacing="wider">
                                 RAISED OF {goalSqFt.toLocaleString()} SQ. FT. GOAL
