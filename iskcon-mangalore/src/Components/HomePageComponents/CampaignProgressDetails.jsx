@@ -32,6 +32,7 @@ const CampaignProgressDetails = ({ currentAmount, goalAmount }) => {
 
     useEffect(() => {
         if (goalAmount > 0) {
+
             const targetPercentage = Math.min(
                 (currentAmount / goalAmount) * 100,
                 100
