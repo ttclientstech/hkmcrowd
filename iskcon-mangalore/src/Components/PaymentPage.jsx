@@ -257,7 +257,7 @@ const PaymentPage = () => {
                                         boxShadow: "0 15px 25px rgba(229, 62, 62, 0.4)"
                                     }}
                                     _active={{ transform: "scale(0.98)" }}
-                                    onClick={() => navigate(`/single/${paymentData.campaignsid}`)}
+                                    onClick={() => navigate(`/${paymentData.campaignsid}`)}
                                     leftIcon={<Icon as={FaHeart} />}
                                 >
                                     Return to Campaign Page
@@ -280,7 +280,7 @@ const PaymentPage = () => {
                     <Icon as={FaCheckCircle} color="red.500" w={12} h={12} mb={4} style={{ transform: 'rotate(45deg)' }} />
                     <Heading size="md" mb={2} color="gray.800">Payment Failed</Heading>
                     <Text color="gray.600" mb={6}>Unfortunately, your transaction could not be completed.</Text>
-                    <Button colorScheme="red" onClick={() => navigate(`/single/${paymentData.campaignsid}`)}>
+                    <Button colorScheme="red" onClick={() => navigate(`/${paymentData.campaignsid}`)}>
                         Try Again
                     </Button>
                 </Box>

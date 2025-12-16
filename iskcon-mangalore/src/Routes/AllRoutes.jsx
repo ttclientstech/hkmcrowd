@@ -21,7 +21,7 @@ const AllRoutes = () => {
     <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/single/:id" element={<HomeSinglePage />} />
+        <Route path="/:id" element={<HomeSinglePage />} />
         <Route path="/payment/:id" element={<PaymentPage />} />
           <Route path="/campaign/:id/donate" element={<PaymentPageFullWrapper />} />
           {/*<Route path="/dashboard/:id" element={<CampaignerDashboard />} />*/}
