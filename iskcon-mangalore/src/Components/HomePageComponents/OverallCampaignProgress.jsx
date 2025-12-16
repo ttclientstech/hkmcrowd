@@ -52,7 +52,9 @@ const OverallCampaignProgress = () => {
 
     const raisedSqFt = Math.floor(stats.raised / SQFT_PRICE);
     const goalSqFt = Math.floor(stats.goal / SQFT_PRICE);
-    const targetPercent = goalSqFt > 0 ? Math.min(100, Math.round((raisedSqFt / goalSqFt) * 100)) : 0;
+
+    // ✅ CHANGED: Removed Math.round() to allow floating point calculation
+    const targetPercent = goalSqFt > 0 ? Math.min(100, (raisedSqFt / goalSqFt) * 100) : 0;
 
     // Trigger the fill animation when in view
     useEffect(() => {
@@ -100,7 +102,6 @@ const OverallCampaignProgress = () => {
 
                     {/* Header */}
                     <Box>
-                        {/* ✅ UPDATED TITLE FOR CLARITY */}
                         <Text
                             fontSize={["3xl", "3xl"]}
                             fontWeight="800"
@@ -140,7 +141,8 @@ const OverallCampaignProgress = () => {
                                     fontWeight="900"
                                     color={NAVY}
                                 >
-                                    {loading ? "..." : `${Math.round(animatedPercent)}%`}
+                                    {/* ✅ CHANGED: Use .toFixed(1) for 1 decimal precision */}
+                                    {loading ? "..." : `${animatedPercent.toFixed(1)}%`}
                                 </CircularProgressLabel>
                             </CircularProgress>
 
