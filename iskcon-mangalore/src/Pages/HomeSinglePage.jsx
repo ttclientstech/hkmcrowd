@@ -115,8 +115,8 @@ const DivineLoader = ({ isVisible }) => (
         left="0"
         w="100vw"
         h="100vh"
-        bg={NAVY} // ✅ Ensuring Navy Background
-        zIndex="99999" // ✅ Increased zIndex to stay above everything
+        bg={NAVY}
+        zIndex="99999"
         display="flex"
         flexDirection="column"
         justifyContent="center"
@@ -262,7 +262,10 @@ const HomeSinglePage = () => {
     const PRICE_PER_SQFT = 5000;
     const goalAmount = cd.targetAmount || 0;
     const raisedAmount = cd.raisedtotal || 0;
+
+    // Percentage for overall campaign
     const percent = goalAmount ? Math.min(100, Math.round((raisedAmount / goalAmount) * 100)) : 0;
+
     const goalSqft = PRICE_PER_SQFT ? Math.round(goalAmount / PRICE_PER_SQFT) : 0;
     const raisedSqft = PRICE_PER_SQFT ? Math.round(raisedAmount / PRICE_PER_SQFT) : 0;
 
@@ -271,10 +274,14 @@ const HomeSinglePage = () => {
 
     const progressRef = useRef(null);
     const [progressValue, setProgressValue] = useState(0);
-    const finalPercent =
-        goalSqft > 0
-            ? Math.min(100, Math.round((raisedSqft / goalSqft) * 100))
-            : 0;
+
+    // ✅ FIXED: Calculate percentage with 1 floating point precision
+    // 1. Calculate raw percentage (e.g. 0.1 for 1/1000)
+    const rawPercent = goalSqft > 0 ? (raisedSqft / goalSqft) * 100 : 0;
+    // 2. Cap at 100 for the progress bar width (numeric)
+    const animationTarget = Math.min(100, rawPercent);
+    // 3. Format to 1 decimal place string for display (e.g. "0.1")
+    const displayPercent = Math.min(100, rawPercent).toFixed(1);
 
     useEffect(() => {
         if (!progressRef.current) return;
@@ -283,7 +290,8 @@ const HomeSinglePage = () => {
             ([entry]) => {
                 if (entry.isIntersecting) {
                     requestAnimationFrame(() => {
-                        setProgressValue(finalPercent);
+                        // ✅ Animate using the numeric value
+                        setProgressValue(animationTarget);
                     });
                     observer.disconnect();
                 }
@@ -293,7 +301,7 @@ const HomeSinglePage = () => {
 
         observer.observe(progressRef.current);
         return () => observer.disconnect();
-    }, [finalPercent]);
+    }, [animationTarget]);
 
     // ===================== YOUTUBE AUTO-PLAY LOGIC =====================
     const YT_VIDEO_ID = "Pzhrmkl4f28";
@@ -463,7 +471,8 @@ const HomeSinglePage = () => {
                     {/* PERCENT / SQFT */}
                     <Box mt={6} textAlign="center">
                         <Text fontFamily="'Poppins', sans-serif" fontSize={["lg", "2xl", "3xl"]} color={TEXT_DARK} fontWeight={800}>
-                            <Text as="span" color={URGENT_RED}>{finalPercent}%</Text> ({raisedSqft.toLocaleString()} Square Feet) of <Text as="span" color={URGENT_RED}>{goalSqft.toLocaleString()}</Text> Square Feet raised
+                            {/* ✅ FIXED: Use displayPercent for 1 decimal precision */}
+                            <Text as="span" color={URGENT_RED}>{displayPercent}%</Text> ({raisedSqft.toLocaleString()} Square Feet) of <Text as="span" color={URGENT_RED}>{goalSqft.toLocaleString()}</Text> Square Feet raised
                         </Text>
                     </Box>
                 </Flex>
@@ -656,7 +665,6 @@ const HomeSinglePage = () => {
 
             <FooterSection />
 
-            {/* ✅ FIXED: Sticky elements hidden while loader is active */}
             {!initialPageLoad && (
                 <>
                     <DonationBottomBar getSingleUser={getSingleUser} />
