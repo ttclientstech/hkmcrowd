@@ -304,7 +304,7 @@ const HomeSinglePage = () => {
     }, [animationTarget]);
 
     // ===================== YOUTUBE AUTO-PLAY LOGIC =====================
-    const YT_VIDEO_ID = "Pzhrmkl4f28";
+    const YT_VIDEO_ID = "uCuqCdKySBs";
     const [videoSrc, setVideoSrc] = useState("");
     const videoRef = useRef(null);
 
