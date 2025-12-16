@@ -348,7 +348,7 @@ const Step3 = ({
                                     <VStack align="start" spacing={1}>
                                         <Text fontSize="sm" color="#0A1A33">State *</Text>
                                         <AutoSuggestInput
-                                            label="state"
+                                            label="State"
                                             value={formData.state}
                                             onChange={(e) => handleOnChange({ target: { name: "state", value: e.target.value } })}
                                             suggestions={IndiaStates}
@@ -358,7 +358,7 @@ const Step3 = ({
                                     <VStack align="start" spacing={1}>
                                         <Text fontSize="sm" color="#0A1A33">District *</Text>
                                         <AutoSuggestInput
-                                            label="district"
+                                            label="District"
                                             value={formData.city}
                                             onChange={(e) => handleOnChange({ target: { name: "city", value: e.target.value } })}
                                             suggestions={DistrictsByState[formData.state] || []}
@@ -407,7 +407,7 @@ const Step3 = ({
                                     <VStack align="start" spacing={1}>
                                         <Text fontSize="sm" color="#0A1A33">State *</Text>
                                         <AutoSuggestInput
-                                            label="state"
+                                            label="State"
                                             value={formData.taxState}
                                             onChange={(e) => handleOnChange({ target: { name: "taxState", value: e.target.value } })}
                                             suggestions={IndiaStates}
@@ -417,7 +417,7 @@ const Step3 = ({
                                     <VStack align="start" spacing={1}>
                                         <Text fontSize="sm" color="#0A1A33">District *</Text>
                                         <AutoSuggestInput
-                                            label="district"
+                                            label="District"
                                             value={formData.taxCity}
                                             onChange={(e) => handleOnChange({ target: { name: "taxCity", value: e.target.value } })}
                                             suggestions={DistrictsByState[formData.taxState] || []}
