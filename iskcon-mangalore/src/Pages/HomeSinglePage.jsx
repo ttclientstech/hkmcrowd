@@ -3,7 +3,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchSingleUser, postPaymentFormData } from "../Redux/clientSlices/clientUsers";
-// ✅ Import keyframes for animation
 import { keyframes } from "@emotion/react";
 
 import avatar from "../assets/images/Avatar-PNG-Image.webp";
@@ -32,10 +31,9 @@ import {
     ListItem,
     Avatar,
     Spacer,
-    Spinner, // ✅ Added Spinner
-    Center   // ✅ Added Center
+    Spinner,
+    Center
 } from "@chakra-ui/react";
-// ✅ Added FaVihara for the temple icon in loader
 import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaPhoneAlt, FaClock, FaHandHoldingHeart, FaVihara } from "react-icons/fa";
 
 import DottedAnimation from "../Components/DottedAnimation";
@@ -97,16 +95,14 @@ const TEXT_DARK = "#1A1A1A";
 const TEXT_MUTED = "#444444";
 
 /* =========================
-   ✅ LOADER ANIMATIONS & COMPONENT
+   LOADER ANIMATIONS & COMPONENT
    ========================= */
-// Pulse animation for the logo
 const pulse = keyframes`
     0% { transform: scale(0.95); opacity: 0.8; }
     50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 10px ${GOLD}); }
     100% { transform: scale(0.95); opacity: 0.8; }
 `;
 
-// Fade out animation for the loader container
 const fadeOut = keyframes`
     from { opacity: 1; visibility: visible; }
     to { opacity: 0; visibility: hidden; }
@@ -119,8 +115,8 @@ const DivineLoader = ({ isVisible }) => (
         left="0"
         w="100vw"
         h="100vh"
-        bg={NAVY}
-        zIndex="9999"
+        bg={NAVY} // ✅ Ensuring Navy Background
+        zIndex="99999" // ✅ Increased zIndex to stay above everything
         display="flex"
         flexDirection="column"
         justifyContent="center"
@@ -129,12 +125,10 @@ const DivineLoader = ({ isVisible }) => (
         pointerEvents={!isVisible ? "none" : "all"}
     >
         <VStack spacing={6}>
-            {/* Animated Temple Icon */}
             <Box animation={`${pulse} 2s infinite ease-in-out`}>
                 <Icon as={FaVihara} w={20} h={20} color={GOLD} />
             </Box>
 
-            {/* Title */}
             <VStack spacing={1}>
                 <Text
                     fontSize={["xl", "2xl"]}
@@ -151,7 +145,6 @@ const DivineLoader = ({ isVisible }) => (
                 </Text>
             </VStack>
 
-            {/* Spinner */}
             <Box pt={4}>
                 <Spinner
                     thickness="3px"
@@ -208,7 +201,6 @@ const HomeSinglePage = () => {
     const { isLoading, getSingleUser } = useSelector((state) => state.clientUsers);
     const dispatch = useDispatch();
 
-    // ✅ State for our Custom Page Loader
     const [initialPageLoad, setInitialPageLoad] = useState(true);
 
     const [amount, setAmount] = useState(null);
@@ -233,13 +225,11 @@ const HomeSinglePage = () => {
 
     useEffect(() => { dispatch(fetchSingleUser(id)); }, [dispatch, id]);
 
-    // ✅ Logic to handle the Initial Page Loader
     useEffect(() => {
-        // We wait for Redux isLoading to be false AND a minimum timer to ensure visuals
         if (!isLoading) {
             const timer = setTimeout(() => {
                 setInitialPageLoad(false);
-            }, 2500); // 2.5 seconds minimum to show the attractive loader
+            }, 2500);
             return () => clearTimeout(timer);
         }
     }, [isLoading]);
@@ -286,7 +276,6 @@ const HomeSinglePage = () => {
             ? Math.min(100, Math.round((raisedSqft / goalSqft) * 100))
             : 0;
 
-    // Scroll-triggered fill animation (smooth)
     useEffect(() => {
         if (!progressRef.current) return;
 
@@ -389,7 +378,6 @@ const HomeSinglePage = () => {
 
     return (
         <Box w="100%" minH="100vh" bg={BEIGE} fontFamily="'Poppins', sans-serif" position="relative">
-            {/* ✅ INSERT THE LOADER HERE */}
             <DivineLoader isVisible={initialPageLoad} />
 
             <PoppinFont />
@@ -497,7 +485,7 @@ const HomeSinglePage = () => {
             </Box>
 
             {/* ============================================================
-               TEMPLE VIDEO + TITLE (IN SAME GRADIENT BLOCK)
+               TEMPLE VIDEO + TITLE
                ============================================================ */}
             <Box
                 w="100%"
@@ -667,22 +655,27 @@ const HomeSinglePage = () => {
             </Text>
 
             <FooterSection />
-            <DonationBottomBar getSingleUser={getSingleUser} />
 
-            {showScrollButton && (
-                <IconButton
-                    icon={<FaArrowUp />}
-                    position={"fixed"}
-                    bottom={["80px","60px"]}
-                    right={"20px"}
-                    zIndex={"999"}
-                    bg={NAVY}
-                    color={GOLD}
-                    onClick={handleScrollToTop}
-                    borderRadius="full"
-                    boxShadow="xl"
-                    border={`1px solid ${GOLD}`}
-                />
+            {/* ✅ FIXED: Sticky elements hidden while loader is active */}
+            {!initialPageLoad && (
+                <>
+                    <DonationBottomBar getSingleUser={getSingleUser} />
+                    {showScrollButton && (
+                        <IconButton
+                            icon={<FaArrowUp />}
+                            position={"fixed"}
+                            bottom={["80px","60px"]}
+                            right={"20px"}
+                            zIndex={"999"}
+                            bg={NAVY}
+                            color={GOLD}
+                            onClick={handleScrollToTop}
+                            borderRadius="full"
+                            boxShadow="xl"
+                            border={`1px solid ${GOLD}`}
+                        />
+                    )}
+                </>
             )}
         </Box>
     );
