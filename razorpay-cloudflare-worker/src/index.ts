@@ -174,12 +174,12 @@ app.post("/webhook/razorpay", async (c) => {
           // Extract campaignid from notes, handling both string and number types
           let campaignid = null;
           if (paymentEntity.notes && paymentEntity.notes.campaignsid) {
-            const rawCampaignId = paymentEntity.notes.campaignsid;
-            campaignid = Number(rawCampaignId);
+            //const rawCampaignId = paymentEntity.notes.campaignsid;
+              campaignid = String(paymentEntity.notes.campaignsid);
             
             // Validate campaign ID
-            if (isNaN(campaignid) || campaignid <= 0) {
-              console.error('Invalid campaign ID from notes:', rawCampaignId);
+            if (!campaignid || campaignid.trim() === "") {
+              console.error('Invalid campaign ID from notes:', campaignid);
               campaignid = null; // Reset to null if invalid
             } else {
               console.log(`Campaign ID from notes: ${campaignid}`);
@@ -413,9 +413,10 @@ app.get(
       }),
     async (c) => {
   const db = c.get("db");
-  const campaignId = Number(c.req.param("id"));
+  //const campaignId = Number(c.req.param("id"));
+        const campaignId = c.req.param("id");
 
-  if (isNaN(campaignId)) {
+  if (!campaignId) {
     return c.json({
       error: "Invalid campaign ID",
       status: 400,
@@ -531,8 +532,8 @@ app.post(
 
     const roundedAmount = Math.round(Number(amount));
 
-    if (campaignsid && isNaN(Number(campaignsid))) {
-      return c.json({ error: "Campaign ID must be a valid number.", status: 400 }, 400);
+    if (campaignsid && typeof campaignsid !== 'string' && typeof campaignsid !== 'number') {
+      return c.json({ error: "Campaign ID must be a valid one.", status: 400 }, 400);
     }
 
     if (campaignsid) {
@@ -569,7 +570,7 @@ app.post(
         address: address ? String(address) : null,
         amount: roundedAmount,
         username: String(username),
-        campaignsid: campaignsid ? Number(campaignsid) : null,
+        campaignsid: campaignsid ? String(campaignsid) : null,
         orderid: String(order.id),
         paymentstatus: false,
         createdate: new Date(),
@@ -712,9 +713,9 @@ app.delete('/delete-campaign/:id',cors({
   password: 'admin',
 }), async (c) => {
   const db = c.get('db');
-  const campaignId = Number(c.req.param('id'));
+    const campaignId = c.req.param('id');
 
-  if (isNaN(campaignId)) {
+    if (!campaignId) {
     return c.json({
       error: "Invalid campaign ID",
       status: 400,
@@ -768,10 +769,10 @@ app.put('/update-campaign/:id',cors({
     , async (c) => {
   const db = c.get('db');
   const body = await c.req.json();
-  const campaignId = Number(c.req.param('id'));
+        const campaignId = c.req.param('id');
 
   // Validate campaignId
-  if (isNaN(campaignId)) {
+        if (!campaignId) {
     return c.json({
       error: "Invalid campaign ID",
       status: 400,
@@ -871,7 +872,7 @@ app.post('/create-campaign',cors({
     }
 
     try{
-      const result = await db.insert(campaigns).values(campaignData);
+        const result = await db.insert(campaigns).values(campaignData).returning({ id: campaigns.id });
       return c.json({
         message: "Campaign created successfully",
         status: 201,
@@ -909,7 +910,7 @@ app.get("/show", async (c)=> {
 
 app.get("/api/campaigner/:id/streak", async (c) => {
     const db = c.get("db");
-    const id = Number(c.req.param("id"));
+    const id = c.req.param("id");
     const today = new Date();
     const startOfWeek = new Date(today);
     startOfWeek.setDate(today.getDate() - today.getDay());
@@ -986,9 +987,9 @@ app.get("/api/leaderboard", async (c) => {
 
 app.get("/api/campaigner/:id/donors", async (c) => {
     const db = c.get("db");
-    const id = Number(c.req.param("id"));
+    const id = c.req.param("id");
 
-    if (isNaN(id)) {
+    if (!id) {
         return c.json({ error: "Invalid Campaigner ID" }, 400);
     }
 

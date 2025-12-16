@@ -49,9 +49,9 @@ const TEXT_DARK = "#1A1A1A";
 
 // ---------- Helper: Context Titles ----------
 const getContext = (n) => {
-    if (n === 1) return { title: "Foundation Seva", desc: "Laying the first stone of Dakshina Dwaraka Dham.", icon: FaRulerCombined, color: "gray", next: 5, nextTitle: "Festival Hall Seva" };
-    if (n < 5) return { title: "Foundation Seva", desc: "Every stone strengthens the base.", icon: FaRulerCombined, color: "gray", next: 5, nextTitle: "Festival Hall Seva" };
-    if (n < 10) return { title: "Festival Hall Seva", desc: "Supporting construction of our Festival Hall.", icon: FaHandsHelping, color: "blue", next: 10, nextTitle: "Cultural Hall Seva" };
+    if (n === 1) return { title: "Bronze Sevak", desc: "You have taken the first precious step in this historic mission.", icon: FaRulerCombined, color: "gray", next: 5, nextTitle: "Festival Hall Seva" };
+    if (n < 5) return { title: "Bronze Sevak", desc: "Every stone strengthens the base.", icon: FaRulerCombined, color: "gray", next: 5, nextTitle: "Festival Hall Seva" };
+    if (n < 10) return { title: "Silver Guardian", desc: "Supporting construction of our Festival Hall.", icon: FaHandsHelping, color: "blue", next: 10, nextTitle: "Cultural Hall Seva" };
     if (n < 20) return { title: "Cultural Hall Seva", desc: "Helping artists share India’s cultural beauty.", icon: FaTheaterMasks, color: "cyan", next: 20, nextTitle: "Annadanam Hall Seva" };
     if (n < 25) return { title: "Annadanam Hall Seva", desc: "Feeding thousands with love through the Annadanam Hall.", icon: FaUtensils, color: "orange", next: 25, nextTitle: "Cultural Visionary" };
     return { title: "Cultural Visionary", desc: "Building a legacy of heritage for future generations.", icon: FaGem, color: "purple", next: null, nextTitle: "Max Level Reached" };
