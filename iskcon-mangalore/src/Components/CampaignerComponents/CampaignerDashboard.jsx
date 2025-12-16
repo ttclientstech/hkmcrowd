@@ -9,9 +9,10 @@ import {
     Spinner,
     Image,
     useBreakpointValue,
+    Icon
 } from "@chakra-ui/react";
-// ✅ FIX: Import keyframes from emotion (Chakra's engine) instead of chakra-ui
 import { keyframes } from "@emotion/react";
+import { FaVihara } from "react-icons/fa";
 
 import Navbar from "./Navbar";
 import WeeklyLotusRow from "./WeeklyLotusRow";
@@ -24,6 +25,13 @@ import lotusBloom from "../../assets/images/lotus_blossom.png";
 import MilestoneBadges from "./MilestoneBadges";
 import Leaderboard from "./Leaderboard";
 import DonorTable from "./DonorTable";
+
+/* =========================
+   THEME CONSTANTS & ANIMATIONS
+   ========================= */
+const DASHBOARD_BG = "#020c1b";
+const GOLD = "#FFD700";
+
 // 1. ⚡ Define Animations
 const float = keyframes`
     0% { transform: translateY(0px); }
@@ -37,8 +45,81 @@ const pulse = keyframes`
     100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
 `;
 
+// Pulse animation for the loader logo
+const logoPulse = keyframes`
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 10px ${GOLD}); }
+  100% { transform: scale(0.95); opacity: 0.8; }
+`;
+
+// Fade out animation for the loader container
+const fadeOut = keyframes`
+  from { opacity: 1; visibility: visible; }
+  to { opacity: 0; visibility: hidden; }
+`;
+
+/* =========================
+   ✅ DIVINE LOADER COMPONENT
+   ========================= */
+const DivineLoader = ({ isVisible }) => (
+    <Box
+        position="fixed"
+        top="0"
+        left="0"
+        w="100vw"
+        h="100vh"
+        bg={DASHBOARD_BG} // Matches dashboard background exactly
+        zIndex="99999"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        // Only animate fade out when isVisible becomes false
+        animation={!isVisible ? `${fadeOut} 0.8s ease-out forwards` : "none"}
+        pointerEvents={!isVisible ? "none" : "all"}
+    >
+        <VStack spacing={6}>
+            {/* Animated Temple Icon */}
+            <Box animation={`${logoPulse} 2s infinite ease-in-out`}>
+                <Icon as={FaVihara} w={20} h={20} color={GOLD} />
+            </Box>
+
+            {/* Title */}
+            <VStack spacing={1}>
+                <Text
+                    fontSize={["xl", "2xl"]}
+                    fontWeight="800"
+                    color="white"
+                    fontFamily="'Poppins', sans-serif"
+                    letterSpacing="wider"
+                    textTransform="uppercase"
+                >
+                    Dakshina Dwaraka Dham
+                </Text>
+                <Text fontSize="sm" color={GOLD} fontFamily="'Satoshi', sans-serif" letterSpacing="widest">
+                    PREPARING YOUR SEVA DASHBOARD
+                </Text>
+            </VStack>
+
+            {/* Spinner */}
+            <Box pt={4}>
+                <Spinner
+                    thickness="3px"
+                    speed="0.85s"
+                    emptyColor="gray.700"
+                    color={GOLD}
+                    size="xl"
+                />
+            </Box>
+        </VStack>
+    </Box>
+);
+
 const CampaignerDashboard = () => {
     const [data, setData] = useState(null);
+    // ✅ State to handle loader visibility transition
+    const [showLoader, setShowLoader] = useState(true);
+
     const campaignerId = localStorage.getItem('campaignerId');
 
     // 📱 Responsive Sizing Logic
@@ -48,16 +129,23 @@ const CampaignerDashboard = () => {
     useEffect(() => {
         axios
             .get(`${BE_API_URL}/api/campaigner/${campaignerId}/streak`)
-            .then((res) => setData(res.data))
-            .catch((err) => console.error("Error fetching campaigner data:", err));
+            .then((res) => {
+                setData(res.data); // 1. Set Data First
+
+                // 2. Only then remove loader (Added small delay for smooth visual transition)
+                setTimeout(() => {
+                    setShowLoader(false);
+                }, 800);
+            })
+            .catch((err) => {
+                console.error("Error fetching campaigner data:", err);
+                // Optional: You might want to turn off loader here if you have an error UI
+                // setShowLoader(false);
+            });
     }, [campaignerId]);
 
-    if (!data)
-        return (
-            <Flex justify="center" align="center" minH="100vh" bg="#020c1b">
-                <Spinner size="xl" color="#FFD700" thickness="4px" />
-            </Flex>
-        );
+    // ✅ BLOCKING RENDER: If data hasn't arrived yet, show Loader only.
+    if (!data) return <DivineLoader isVisible={true} />;
 
     const lotusImage = data.todayAchieved ? lotusBloom : lotusBud;
 
@@ -71,12 +159,15 @@ const CampaignerDashboard = () => {
 
     return (
         <Box
-            bg="#020c1b"
+            bg={DASHBOARD_BG}
             minH="100vh"
             fontFamily="'Poppins', sans-serif"
             position="relative"
             overflowX="hidden"
         >
+            {/* ✅ Loader Overlay: Fades out only after data is loaded */}
+            <DivineLoader isVisible={showLoader} />
+
             {/* Navbar */}
             <Box position="absolute" top="0" w="100%" zIndex="10">
                 <Navbar
@@ -88,7 +179,6 @@ const CampaignerDashboard = () => {
             {/* 🌟 HERO SECTION */}
             <Box
                 w="100%"
-                // 📱 Height adjusts: Taller on desktop to fit layout, compact on mobile
                 minH={["65vh", "75vh"]}
                 bgGradient="linear(to-b, #020c1b 0%, #0a192f 100%)"
                 position="relative"
@@ -96,7 +186,7 @@ const CampaignerDashboard = () => {
                 flexDirection="column"
                 alignItems="center"
                 justifyContent="center"
-                pt={["60px", "0px"]} // Add padding top on mobile so lotus isn't behind navbar
+                pt={["60px", "0px"]}
                 _after={{
                     content: '""',
                     position: "absolute",
@@ -131,7 +221,6 @@ const CampaignerDashboard = () => {
                     animation={animationStyle}
                     zIndex="1"
                     filter="drop-shadow(0 0 20px rgba(255, 215, 0, 0.3))"
-                    // 📱 Push lotus up slightly on mobile so it's not hidden by the card
                     mb={["0px", "-40px"]}
                 />
             </Box>
@@ -140,7 +229,6 @@ const CampaignerDashboard = () => {
             <Box
                 position="relative"
                 zIndex="2"
-                // 📱 Overlap Logic: Less overlap on mobile (-60px) vs desktop (-100px)
                 mt={["-60px", "-100px"]}
                 px={[4, 8]}
                 pb={20}
@@ -163,7 +251,7 @@ const CampaignerDashboard = () => {
                         bgGradient="linear(to-b, rgba(255,255,255,0.03), transparent)"
                     >
                         <Text
-                            fontSize={["xl", "3xl"]} // Smaller font on mobile
+                            fontSize={["xl", "3xl"]}
                             fontWeight="bold"
                             color="#FFD700"
                             letterSpacing="wide"
@@ -240,7 +328,6 @@ const CampaignerDashboard = () => {
                                 YOUR WEEKLY SEVA BLOSSOMS
                             </Text>
 
-                            {/* Ensure the row handles overflow nicely on very small screens */}
                             <Box overflowX="auto">
                                 <WeeklyLotusRow days={data.weekDays} />
                             </Box>
