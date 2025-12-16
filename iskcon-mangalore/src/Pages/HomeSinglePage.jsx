@@ -3,6 +3,9 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchSingleUser, postPaymentFormData } from "../Redux/clientSlices/clientUsers";
+// ✅ Import keyframes for animation
+import { keyframes } from "@emotion/react";
+
 import avatar from "../assets/images/Avatar-PNG-Image.webp";
 import ddd_poster_mob from "../assets/images/ddd_poster_mob.jpg";
 import ddd_poster_dektop from "../assets/images/ddd_poster_desktop.jpg";
@@ -29,8 +32,11 @@ import {
     ListItem,
     Avatar,
     Spacer,
+    Spinner, // ✅ Added Spinner
+    Center   // ✅ Added Center
 } from "@chakra-ui/react";
-import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaPhoneAlt, FaClock, FaHandHoldingHeart } from "react-icons/fa";
+// ✅ Added FaVihara for the temple icon in loader
+import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaPhoneAlt, FaClock, FaHandHoldingHeart, FaVihara } from "react-icons/fa";
 
 import DottedAnimation from "../Components/DottedAnimation";
 import PageNotFound from "../Components/HomePageComponents/PageNotFound";
@@ -80,25 +86,90 @@ import EducationWingDonationBanner from "../Components/HomePageComponents/Educat
 import OverallCampaignProgress from "../Components/HomePageComponents/OverallCampaignProgress";
 
 /* =========================
-   THEME CONSTANTS (CHANGED)
-   =========================
-   - Deep Temple Navy: NAVY
-   - Soft Divine Beige: BEIGE
-   - Gold accent: GOLD
-   - Coral: CORAL (used sparingly)
-   - Urgent Red CTA: URGENT_RED
-   - Text colors: TEXT_DARK, TEXT_MUTED
-*/
-const NAVY = "#082032";        /* THEME CHANGE */
-const BEIGE = "#FFFFFF";       /* THEME CHANGE */
-const GOLD = "#D4AF37";        /* THEME CHANGE */
-const CORAL = "#F28A7E";       /* THEME CHANGE */
-const URGENT_RED = "#E63946";  /* THEME CHANGE */
-const TEXT_DARK = "#1A1A1A";   /* THEME CHANGE */
-const TEXT_MUTED = "#444444";  /* THEME CHANGE */
+   THEME CONSTANTS
+   ========================= */
+const NAVY = "#082032";
+const BEIGE = "#FFFFFF";
+const GOLD = "#D4AF37";
+const CORAL = "#F28A7E";
+const URGENT_RED = "#E63946";
+const TEXT_DARK = "#1A1A1A";
+const TEXT_MUTED = "#444444";
 
+/* =========================
+   ✅ LOADER ANIMATIONS & COMPONENT
+   ========================= */
+// Pulse animation for the logo
+const pulse = keyframes`
+    0% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 10px ${GOLD}); }
+    100% { transform: scale(0.95); opacity: 0.8; }
+`;
+
+// Fade out animation for the loader container
+const fadeOut = keyframes`
+    from { opacity: 1; visibility: visible; }
+    to { opacity: 0; visibility: hidden; }
+`;
+
+const DivineLoader = ({ isVisible }) => (
+    <Box
+        position="fixed"
+        top="0"
+        left="0"
+        w="100vw"
+        h="100vh"
+        bg={NAVY}
+        zIndex="9999"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        animation={!isVisible ? `${fadeOut} 0.8s ease-out forwards` : "none"}
+        pointerEvents={!isVisible ? "none" : "all"}
+    >
+        <VStack spacing={6}>
+            {/* Animated Temple Icon */}
+            <Box animation={`${pulse} 2s infinite ease-in-out`}>
+                <Icon as={FaVihara} w={20} h={20} color={GOLD} />
+            </Box>
+
+            {/* Title */}
+            <VStack spacing={1}>
+                <Text
+                    fontSize={["xl", "2xl"]}
+                    fontWeight="800"
+                    color="white"
+                    fontFamily="'Poppins', sans-serif"
+                    letterSpacing="wider"
+                    textTransform="uppercase"
+                >
+                    Dakshina Dwaraka Dham
+                </Text>
+                <Text fontSize="sm" color={GOLD} fontFamily="'Satoshi', sans-serif" letterSpacing="widest">
+                    PREPARING THE DIVINE EXPERIENCE
+                </Text>
+            </VStack>
+
+            {/* Spinner */}
+            <Box pt={4}>
+                <Spinner
+                    thickness="3px"
+                    speed="0.85s"
+                    emptyColor="gray.700"
+                    color={GOLD}
+                    size="xl"
+                />
+            </Box>
+        </VStack>
+    </Box>
+);
+
+/* =========================
+   EXISTING COMPONENTS
+   ========================= */
 const TrustStrip = () => (
-    <Box w="100%" bg={BEIGE} borderBottom="1px solid rgba(0,0,0,0.06)" py={3}> {/* THEME CHANGE */}
+    <Box w="100%" bg={BEIGE} borderBottom="1px solid rgba(0,0,0,0.06)" py={3}>
         <Flex
             maxW="1200px"
             mx="auto"
@@ -129,17 +200,6 @@ const TrustStrip = () => (
     </Box>
 );
 
-const UrgencyBar = () => (
-    <Box bg={NAVY} w="100%" py={2} px={4}>
-        <Flex maxW="1200px" mx="auto" justify="center" align="center" gap={2}>
-            <Icon as={FaClock} color={URGENT_RED} />
-            <Text color="white" fontSize="sm" fontWeight="bold">
-                Donate <Text as="span" color={URGENT_RED}>1 SQFT</Text> & Receive Maha Prasadam at your home
-            </Text>
-        </Flex>
-    </Box>
-);
-
 const HomeSinglePage = () => {
     const { id } = useParams();
     const [tab, setTab] = useState(1);
@@ -147,6 +207,9 @@ const HomeSinglePage = () => {
     const [showScrollButton, setShowScrollButton] = useState(false);
     const { isLoading, getSingleUser } = useSelector((state) => state.clientUsers);
     const dispatch = useDispatch();
+
+    // ✅ State for our Custom Page Loader
+    const [initialPageLoad, setInitialPageLoad] = useState(true);
 
     const [amount, setAmount] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
@@ -169,6 +232,17 @@ const HomeSinglePage = () => {
     });
 
     useEffect(() => { dispatch(fetchSingleUser(id)); }, [dispatch, id]);
+
+    // ✅ Logic to handle the Initial Page Loader
+    useEffect(() => {
+        // We wait for Redux isLoading to be false AND a minimum timer to ensure visuals
+        if (!isLoading) {
+            const timer = setTimeout(() => {
+                setInitialPageLoad(false);
+            }, 2500); // 2.5 seconds minimum to show the attractive loader
+            return () => clearTimeout(timer);
+        }
+    }, [isLoading]);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -195,7 +269,7 @@ const HomeSinglePage = () => {
 
     // Campaign details
     const cd = getSingleUser?.campaignDetails || {};
-    const PRICE_PER_SQFT = 5000; // as specified
+    const PRICE_PER_SQFT = 5000;
     const goalAmount = cd.targetAmount || 0;
     const raisedAmount = cd.raisedtotal || 0;
     const percent = goalAmount ? Math.min(100, Math.round((raisedAmount / goalAmount) * 100)) : 0;
@@ -219,11 +293,9 @@ const HomeSinglePage = () => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    // Smooth animation: use CSS transitions, no step logic
                     requestAnimationFrame(() => {
                         setProgressValue(finalPercent);
                     });
-
                     observer.disconnect();
                 }
             },
@@ -258,18 +330,12 @@ const HomeSinglePage = () => {
 
     // Temple Feature Images
     const templeImages = [
-        img_annadanam,
-        img_festival,
-        img_kalamadhuryam,
-        img_harinam,
-        img_icvk,
-        img_gitalife
+        img_annadanam, img_festival, img_kalamadhuryam, img_harinam, img_icvk, img_gitalife
     ];
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isFading, setIsFading] = useState(false);
 
-    // Auto-slide every 3 seconds
     useEffect(() => {
         const interval = setInterval(() => {
             setIsFading(true);
@@ -278,7 +344,6 @@ const HomeSinglePage = () => {
                 setIsFading(false);
             }, 500);
         }, 3000);
-
         return () => clearInterval(interval);
     }, []);
 
@@ -301,19 +366,13 @@ const HomeSinglePage = () => {
     };
 
     // Temple construction updates
-    const templeStatusImages = [
-        temple_main1,
-        temple_main2,
-        temple_main3,
-    ];
-
+    const templeStatusImages = [temple_main1, temple_main2, temple_main3];
     const [statusIndex, setStatusIndex] = useState(0);
 
     useEffect(() => {
         const interval = setInterval(() => {
             setStatusIndex((prev) => (prev + 1) % templeStatusImages.length);
         }, 3000);
-
         return () => clearInterval(interval);
     }, []);
 
@@ -329,7 +388,10 @@ const HomeSinglePage = () => {
     }
 
     return (
-        <Box w="100%" minH="100vh" bg={BEIGE} fontFamily="'Poppins', sans-serif" position="relative"> {/* THEME CHANGE */}
+        <Box w="100%" minH="100vh" bg={BEIGE} fontFamily="'Poppins', sans-serif" position="relative">
+            {/* ✅ INSERT THE LOADER HERE */}
+            <DivineLoader isVisible={initialPageLoad} />
+
             <PoppinFont />
             <DetailPageHeader getSingleUser={getSingleUser} />
             <TrustStrip />
@@ -359,7 +421,6 @@ const HomeSinglePage = () => {
                             </Box>
                         </Box>
 
-                        {/* message box */}
                         <Box>
                             <Text color={NAVY} fontWeight={500} mb={5} align="center" fontSize={["md", "md", "lg"]}>A message from the campaigner</Text>
 
@@ -368,7 +429,7 @@ const HomeSinglePage = () => {
                                 border={`2px solid ${CORAL}`}
                                 p={[4, 5]}
                                 position="relative"
-                                bg="white" /* keep white for clarity */
+                                bg="white"
                                 minH="120px"
                             >
                                 <Text
@@ -402,7 +463,7 @@ const HomeSinglePage = () => {
                                     bg="rgba(0,0,0,0.04)"
                                     sx={{
                                         "& > div": {
-                                            bg: URGENT_RED, /* THEME CHANGE: urgent red fill */
+                                            bg: URGENT_RED,
                                         },
                                     }}
                                     transition="width 1.6s ease-out"
@@ -440,7 +501,7 @@ const HomeSinglePage = () => {
                ============================================================ */}
             <Box
                 w="100%"
-                bgGradient={`linear(to-b, ${NAVY}, rgba(8,32,50,0.03))`} /* THEME CHANGE */
+                bgGradient={`linear(to-b, ${NAVY}, rgba(8,32,50,0.03))`}
                 color="white"
                 borderRadius="0 0 32px 32px"
                 px={[4, 6]}
@@ -542,33 +603,9 @@ const HomeSinglePage = () => {
             <CulturalHallDonationBanner />
             <TempleBlueprintSection />
             <TempleArchitecturalShowcase />
-            {/* TEMPLE FEATURES
-            <Box w="100%" maxW="1200px" mx="auto" mt={8} px={[4, 6]} fontFamily="'Poppins', sans-serif">
-                <Text fontSize={["2xl", "3xl"]} fontWeight="500" color={NAVY} textAlign="center" mb={6}>
-                    Features
-                </Text>
-
-                <Box position="relative" overflow="hidden" borderRadius="12px" boxShadow="0 4px 20px rgba(0,0,0,0.25)">
-                    <Image src={templeImages[currentIndex]} alt="Temple Feature" w="100%" h="auto" transition="opacity 0.6s ease" opacity={isFading ? 0 : 1} />
-                    <Box position="absolute" top="50%" left="10px" transform="translateY(-50%)" cursor="pointer" fontSize="2xl" color="white" opacity="0.8" onClick={prevSlide} _hover={{ opacity: 1 }}>❮</Box>
-                    <Box position="absolute" top="50%" right="10px" transform="translateY(-50%)" cursor="pointer" fontSize="2xl" color="white" opacity="0.8" onClick={nextSlide} _hover={{ opacity: 1 }}>❯</Box>
-                </Box>
-
-                <Flex justify="center" mt={4} gap={3}>
-                    {templeImages.map((_, i) => (
-                        <Box key={i} w="10px" h="10px" borderRadius="full" bg={i === currentIndex ? NAVY : "#d0d0d0"} border={i === currentIndex ? `2px solid ${GOLD}` : "none"} cursor="pointer" onClick={() => setCurrentIndex(i)} />
-                    ))}
-                </Flex>
-            </Box>*/}
 
             {/* TEMPLE CONSTRUCTION STATUS */}
             <Box w="100%" maxW="1200px" mx="auto" mt={12} px={[4, 6]} fontFamily="'Poppins', sans-serif">
-                {/*
-                <Text fontSize={["2xl", "3xl"]} fontWeight="500" color={NAVY} textAlign="center" mb={6}>
-                    Construction Status <br /> <Text as="span" color={URGENT_RED} fontSize={["3xs", "3xs"]}>As on September 2025</Text>
-                </Text>*/}
-
-                {/* MAIN TITLE */}
                 <Text
                     fontSize={["2xl", "3xl"]}
                     fontWeight="800"
@@ -580,11 +617,10 @@ const HomeSinglePage = () => {
                     Construction <Text as="span" color="#E63946">Status</Text>
                 </Text>
 
-                {/* SUBTITLE — NOW LARGER & SEPARATE */}
                 <Text
                     textAlign="center"
-                    color={URGENT_RED}      // keep your current red
-                    fontSize={["sm", "md"]} // increased visibility
+                    color={URGENT_RED}
+                    fontSize={["sm", "md"]}
                     fontWeight="500"
                     mb={6}
                     fontFamily="'Satoshi', sans-serif"
@@ -606,7 +642,7 @@ const HomeSinglePage = () => {
             </Box>
             <OverallCampaignProgress />
 
-            {/* Reused sections (kept intact) */}
+            {/* Reused sections */}
             <TestimonialSection />
             <AltarDonationBanner />
             <DonorPrivilegeSection />
@@ -647,12 +683,6 @@ const HomeSinglePage = () => {
                     boxShadow="xl"
                     border={`1px solid ${GOLD}`}
                 />
-            )}
-
-            {isLoading && (
-                <Box display="flex" justifyContent="center" alignItems="center" height="100vh" position={"fixed"} w={"100%"} bgColor={"rgb(0,0,0,0.6)"} zIndex={999}>
-                    <DottedAnimation />
-                </Box>
             )}
         </Box>
     );
