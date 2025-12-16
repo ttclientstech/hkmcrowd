@@ -16,8 +16,7 @@ import {
     useBreakpointValue,
     Fade,
     Link,
-    HStack,
-    Center
+    HStack
 } from "@chakra-ui/react";
 import {
     FaRulerCombined,
@@ -43,7 +42,6 @@ import { IndiaStates, DistrictsByState } from "../../constants/indiaLocations";
 const SQFT_PRICE = 5000;
 const GOLD = "#FFD700";
 const RED = "#E63946";
-const MAROON = "#800000";
 const NAVY = "#081229";
 const TEXT_DARK = "#1A1A1A";
 
@@ -72,12 +70,9 @@ const Step1 = ({
                    totalAmount
                }) => {
     const context = getContext(sqFt);
-
-    // Calculate effective SqFt if custom amount is used, otherwise use sqFt state
     const displaySqFt = customAmount && parseInt(customAmount) >= 500
         ? Math.floor(parseInt(customAmount) / SQFT_PRICE) || 1
         : sqFt;
-
     const activeContext = getContext(displaySqFt);
 
     return (
@@ -91,63 +86,7 @@ const Step1 = ({
                         <Text fontSize="sm" color="gray.500">Select the number of Sq.Ft you wish to sponsor</Text>
                     </VStack>
 
-                    {/* --- VISUALIZER GRID --- */}
                     <Box w="100%" position="relative">
-                        {/* Clarity Heading for Badge */}
-                        <Text fontSize="xs" fontWeight="bold" color="gray.400" textTransform="uppercase" letterSpacing="widest" textAlign="center" mb={2}>
-                            Your Impact Level
-                        </Text>
-
-                        {/* Milestone/Status Card */}
-                        <Box
-                            bg="orange.50"
-                            border="1px solid"
-                            borderColor="orange.200"
-                            borderRadius="xl"
-                            p={4}
-                            mb={5}
-                            textAlign="center"
-                            boxShadow="sm"
-                        >
-                            <HStack justify="center" spacing={2} mb={1}>
-                                <Icon as={activeContext.icon} color="orange.600" w={5} h={5} />
-                                <Text fontWeight="800" fontSize="lg" color="orange.800" textTransform="uppercase" letterSpacing="wide">
-                                    {activeContext.title}
-                                </Text>
-                            </HStack>
-                            <Text fontSize="xs" color="orange.700" mb={3} fontWeight="medium">
-                                {activeContext.desc}
-                            </Text>
-
-                            {/* "Next Level" Motivation */}
-                            {activeContext.next && (
-                                <Flex
-                                    bg="white"
-                                    p={2}
-                                    borderRadius="lg"
-                                    align="center"
-                                    justify="space-between"
-                                    border="1px dashed"
-                                    borderColor="orange.300"
-                                    cursor="pointer"
-                                    onClick={() => handlePresetClick(activeContext.next)}
-                                    _hover={{ bg: "orange.100" }}
-                                    transition="all 0.2s"
-                                >
-                                    <HStack spacing={2}>
-                                        <Icon as={FaArrowUp} color="green.500" />
-                                        <Text fontSize="xs" fontWeight="bold" color="gray.600">
-                                            Unlock <Text as="span" color="orange.600">{activeContext.nextTitle}</Text>
-                                        </Text>
-                                    </HStack>
-                                    <Badge colorScheme="green" variant="solid" borderRadius="full" fontSize="10px">
-                                        Add {activeContext.next - displaySqFt} Sq. Ft.
-                                    </Badge>
-                                </Flex>
-                            )}
-                        </Box>
-
-                        {/* The Grid */}
                         <SimpleGrid columns={5} spacing="6px" mb={2} maxW="280px" mx="auto">
                             {[...Array(25)].map((_, i) => {
                                 const isFilled = i < displaySqFt;
@@ -158,17 +97,13 @@ const Step1 = ({
                                         paddingTop="100%"
                                         borderRadius="4px"
                                         position="relative"
-                                        // Richer gradient for filled state
                                         bg={isFilled ? "linear-gradient(135deg, #FFD700 0%, #F59E0B 50%, #B7791F 100%)" : "white"}
-                                        // Unfilled now has GREEN border to encourage filling
                                         border={isFilled ? "none" : "1px solid #48BB78"}
-                                        // 3D Shadow effect for filled blocks
                                         boxShadow={isFilled ? "inset 0 0 0 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0,0,0,0.2)" : "none"}
                                         transition="all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
                                         transform={isFilled ? "scale(1)" : "scale(0.92)"}
-                                        opacity={isFilled ? 1 : 0.6} // Slight opacity for empty ones
+                                        opacity={isFilled ? 1 : 0.6}
                                     >
-                                        {/* Inner gloss effect */}
                                         {isFilled && (
                                             <Box
                                                 position="absolute"
@@ -186,7 +121,6 @@ const Step1 = ({
                         </Text>
                     </Box>
 
-                    {/* --- CONTROLS --- */}
                     <VStack spacing={5} w="100%">
                         <Flex align="center" justify="space-between" w="100%" maxW="320px" bg="white" border="1px solid #E2E8F0" p={2} borderRadius="full" boxShadow="sm">
                             <IconButton
@@ -225,7 +159,6 @@ const Step1 = ({
                         </Flex>
                     </VStack>
 
-                    {/* --- TOTAL AMOUNT --- */}
                     <Box textAlign="center" bg="blue.50" w="full" py={3} borderRadius="lg" border="1px dashed" borderColor="blue.200">
                         <Text fontSize="sm" fontWeight="bold" color="blue.700">TOTAL CONTRIBUTION</Text>
                         <Text fontSize="2xl" fontWeight="900" color={NAVY} lineHeight="1.2">
@@ -273,14 +206,13 @@ const Step1 = ({
 };
 
 const Step2 = ({ formData, handleOnChange, nextStep, prevStep, totalAmount }) => {
-    // Calculate effective SqFt (No fallback to 1)
     const effectiveSqFt = Math.floor(totalAmount / SQFT_PRICE);
 
     return (
         <Fade in={true}>
-            <Box bg="white" p={[6, 8]} borderRadius="20px" boxShadow="0 10px 35px rgba(0,0,0,0.25)" maxW="700px" mx="auto">
+            {/* ✅ FIXED: maxW changed from 700px to 600px, padding matched to Step1 */}
+            <Box bg="white" p={[5, 8]} borderRadius="24px" boxShadow="0 20px 40px rgba(0,0,0,0.2)" maxW="600px" mx="auto">
                 <VStack spacing={1} mb={6}>
-                    {/* Only display if >= 1 SqFt */}
                     {effectiveSqFt > 0 && (
                         <Badge colorScheme="orange" variant="subtle" fontSize="sm" px={3} py={1} borderRadius="full">
                             <Icon as={FaCrown} mr={1} mb="2px" />
@@ -294,16 +226,40 @@ const Step2 = ({ formData, handleOnChange, nextStep, prevStep, totalAmount }) =>
 
                 <Text textAlign="center" color="gray.700" mb={4} fontWeight="600">Please fill in your details</Text>
                 <VStack spacing={4} align="stretch">
-                    {["username", "mobileno", "email"].map((field) => (
-                        <VStack align="start" key={field} spacing={1}>
-                            <Text fontWeight="semibold" color="#0A1A33">
-                                {field === "username" ? "Full Name *" : field === "mobileno" ? "WhatsApp Number *" : "Email *"}
-                            </Text>
-                            <Input name={field} value={formData?.[field] || ""} onChange={handleOnChange} placeholder={`Enter your ${field}`} border="1px solid #CCC" />
-                        </VStack>
-                    ))}
+                    {/* ✅ UPDATED: Specific placeholders for Name and Mobile */}
+                    <VStack align="start" spacing={1}>
+                        <Text fontWeight="semibold" color="#0A1A33">Full Name *</Text>
+                        <Input
+                            name="username"
+                            value={formData?.username || ""}
+                            onChange={handleOnChange}
+                            placeholder="Enter your full name"
+                            border="1px solid #CCC"
+                        />
+                    </VStack>
 
-                    {/* DOB moved here */}
+                    <VStack align="start" spacing={1}>
+                        <Text fontWeight="semibold" color="#0A1A33">WhatsApp Number *</Text>
+                        <Input
+                            name="mobileno"
+                            value={formData?.mobileno || ""}
+                            onChange={handleOnChange}
+                            placeholder="Enter your mobile number"
+                            border="1px solid #CCC"
+                        />
+                    </VStack>
+
+                    <VStack align="start" spacing={1}>
+                        <Text fontWeight="semibold" color="#0A1A33">Email *</Text>
+                        <Input
+                            name="email"
+                            value={formData?.email || ""}
+                            onChange={handleOnChange}
+                            placeholder="Enter your email"
+                            border="1px solid #CCC"
+                        />
+                    </VStack>
+
                     <VStack align="start" spacing={1}>
                         <Text fontWeight="semibold" color="#0A1A33">
                             Date of Birth (Optional)
@@ -345,9 +301,9 @@ const Step3 = ({
 
     return (
         <Fade in={true}>
-            <Box bg="white" p={[6, 8]} borderRadius="20px" boxShadow="0 10px 35px rgba(0,0,0,0.25)" maxW="700px" mx="auto">
+            {/* ✅ FIXED: Responsive maxW (600px on mobile to match Step1, 700px on desktop for grid) */}
+            <Box bg="white" p={[5, 8]} borderRadius="24px" boxShadow="0 20px 40px rgba(0,0,0,0.2)" maxW={["600px", "700px"]} mx="auto">
                 <VStack spacing={1} mb={4}>
-                    {/* Only display if >= 1 SqFt */}
                     {effectiveSqFt > 0 && (
                         <Badge colorScheme="orange" variant="subtle" fontSize="sm" px={3} py={1} borderRadius="full">
                             <Icon as={FaCrown} mr={1} mb="2px" />
@@ -359,7 +315,6 @@ const Step3 = ({
                     </Text>
                 </VStack>
 
-                {/* Optional Services Helper Text */}
                 <Flex bg="blue.50" p={3} borderRadius="md" mb={4} align="center">
                     <Icon as={FaInfoCircle} color="blue.500" mr={2} />
                     <Text fontSize="xs" color="blue.800" fontWeight="medium">
@@ -425,8 +380,11 @@ const Step3 = ({
 
                         {formData?.taxExemption && (
                             <Box w="100%" bg="gray.50" p={4} borderRadius="md" border="1px solid" borderColor="gray.200">
-                                <Text fontWeight="bold" fontSize="md" color="#0A1A33" mb={3}>
+                                <Text fontWeight="bold" fontSize="md" color="#0A1A33" mb={1}>
                                     80G Receipt Address
+                                </Text>
+                                <Text fontSize="10px" color="gray.500" mb={4} lineHeight="1.4">
+                                    Finance Act 2021 has made it mandatory to upload the details of donations collected by all those organisations collecting donations which qualify for 80G deduction in Form No. 10BD. The PAN and Address are mandatory details to be uploaded.
                                 </Text>
 
                                 {formData?.prasadRequired && (
@@ -495,19 +453,18 @@ const Step3 = ({
     );
 };
 
-// ✅ Updated Step4 to receive and use `isLoading`
 const Step4 = ({ formData, totalAmount, prevStep, handleSubmit, isLoading }) => {
     const effectiveSqFt = Math.floor(totalAmount / SQFT_PRICE);
 
     return (
         <Fade in={true}>
-            <Box bg="white" p={[6, 8]} borderRadius="20px" boxShadow="0 10px 35px rgba(0,0,0,0.25)" maxW="700px" mx="auto">
+            {/* ✅ FIXED: maxW changed to 600px, padding matched to Step1 */}
+            <Box bg="white" p={[5, 8]} borderRadius="24px" boxShadow="0 20px 40px rgba(0,0,0,0.2)" maxW="600px" mx="auto">
                 <Text textAlign="center" fontWeight="bold" color="gray.600" fontSize="md" mb={4}>
                     Please review the provided details
                 </Text>
 
                 <VStack spacing={1} mb={6}>
-                    {/* Only display if >= 1 SqFt */}
                     {effectiveSqFt > 0 && (
                         <Badge colorScheme="orange" variant="solid" fontSize="sm" px={4} py={1} borderRadius="full">
                             <Icon as={FaCrown} mr={2} mb="2px" />
@@ -553,7 +510,6 @@ const Step4 = ({ formData, totalAmount, prevStep, handleSubmit, isLoading }) => 
                 <Divider my={4} />
                 <VStack spacing={4}>
                     <HStack justify="center"><Icon as={FaLock} color="#6B7280" /><Text fontSize="sm" color="gray.600">Secure payment via Razorpay</Text></HStack>
-                    {/* ✅ Updated Pay Now Button */}
                     <Button
                         bg={RED}
                         color="white"
@@ -564,9 +520,9 @@ const Step4 = ({ formData, totalAmount, prevStep, handleSubmit, isLoading }) => 
                         onClick={handleSubmit}
                         boxShadow="xl"
                         _hover={{ bg: "#C53030" }}
-                        isLoading={isLoading} // Chakra UI handles disabling and grey-out
+                        isLoading={isLoading}
                         loadingText="Processing Payment..."
-                        isDisabled={isLoading} // Explicit disable to be safe
+                        isDisabled={isLoading}
                     >
                         Pay Now
                     </Button>
@@ -576,10 +532,6 @@ const Step4 = ({ formData, totalAmount, prevStep, handleSubmit, isLoading }) => 
         </Fade>
     );
 };
-
-// ==========================================
-// MAIN COMPONENT
-// ==========================================
 
 const DonationPage = ({
                           amount,
@@ -591,7 +543,7 @@ const DonationPage = ({
                           setFormData,
                           campaignerName = "Campaigner Name",
                           campaignerPhoto = "/images/campaigner.jpg",
-                          isLoading // ✅ Received prop
+                          isLoading
                       }) => {
     const [step, setStep] = useState(1);
     const [sqFt, setSqFt] = useState(1);
@@ -604,12 +556,10 @@ const DonationPage = ({
             ? parseInt(customAmount)
             : sqFt * SQFT_PRICE;
 
-    // Scroll to top on step change
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     }, [step]);
 
-    // Clear tax fields if exemption unchecked
     useEffect(() => {
         if (!formData?.taxExemption) {
             setFormData((prev) => ({
@@ -620,7 +570,6 @@ const DonationPage = ({
         }
     }, [formData?.taxExemption, setFormData]);
 
-    // Handle "Same as delivery address"
     const handleCopyAddress = (e) => {
         const checked = e.target.checked;
         setCopyTaxAddress(checked);
@@ -641,7 +590,6 @@ const DonationPage = ({
         }
     };
 
-    // Validation
     const validatePersonal = () => {
         let e = {};
         if (!formData?.username?.trim()) e.username = "Full name is required";
@@ -652,11 +600,9 @@ const DonationPage = ({
 
     const validateStep3 = () => {
         let e = {};
-        // REGEX PATTERNS
         const pincodeRegex = /^\d{6}$/;
         const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
 
-        // Delivery Validation
         if (formData?.prasadRequired) {
             if (!formData?.houseNumber?.trim()) e.houseNumber = "Required";
             if (!formData?.street?.trim()) e.street = "Required";
@@ -669,7 +615,6 @@ const DonationPage = ({
             }
         }
 
-        // Tax Validation
         if (formData?.taxExemption) {
             if (!formData?.taxHouseNumber?.trim()) e.taxHouseNumber = "Required";
             if (!formData?.taxStreet?.trim()) e.taxStreet = "Required";
@@ -694,7 +639,7 @@ const DonationPage = ({
     const nextStep = () => {
         if(step === 1) {
             if (customAmount && parseInt(customAmount) < 500) {
-                return; // Block progress if custom amount is too low
+                return;
             }
             if(setAmount) setAmount(totalAmount);
         }
@@ -723,7 +668,7 @@ const DonationPage = ({
     const handleDecrement = () => setSqFt(prev => Math.max(prev - 1, 1));
     const handlePresetClick = (val) => {
         setSqFt(val);
-        setCustomAmount(""); // Clear custom amount when using presets
+        setCustomAmount("");
     };
 
     const renderHeader = () => (
@@ -737,7 +682,6 @@ const DonationPage = ({
                 “You are standing with us to build a timeless cultural sanctuary.”
             </Text>
 
-            {/* Your Campaigner Section */}
             <VStack mt={6} spacing={2}>
                 <Text fontSize="sm" color="gold" fontWeight="bold" letterSpacing="widest" textTransform="uppercase">
                     Your Campaigner
@@ -805,7 +749,7 @@ const DonationPage = ({
                             totalAmount={totalAmount}
                             prevStep={prevStep}
                             handleSubmit={handleSubmit}
-                            isLoading={isLoading} // ✅ Pass isLoading prop
+                            isLoading={isLoading}
                         />
                     )}
                 </Box>
