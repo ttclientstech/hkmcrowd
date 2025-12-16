@@ -125,9 +125,10 @@ const LoginPage = () => {
                     {isLoading ? (
                         <Spinner color="#FFD700" size="lg" thickness="3px" label="Verifying..." />
                     ) : (
-                        <Box
-                            display="flex"
-                            justify="center"
+                        // ✅ FIXED: Changed to Flex with explicit centering props
+                        <Flex
+                            justifyContent="center"
+                            alignItems="center"
                             w="100%"
                             mt={4}
                             transform="scale(1.1)"
@@ -141,7 +142,7 @@ const LoginPage = () => {
                                 text="continue_with"
                                 width="280"
                             />
-                        </Box>
+                        </Flex>
                     )}
 
                     <Text fontSize="xs" color="gray.500" pt={4}>
