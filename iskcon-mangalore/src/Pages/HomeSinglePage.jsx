@@ -557,7 +557,7 @@ const HomeSinglePage = () => {
                         </svg>
                     </Box>
 
-                    <Text fontSize={["2xl", "3xl"]} fontWeight="500" color={NAVY} fontFamily="'Poppins', sans-serif" mb={4} position="relative" zIndex={1} lineHeight="1.3">
+                    <Text fontSize={["3xl", "3xl"]} fontWeight="500" color={NAVY} fontFamily="'Poppins', sans-serif" mb={4} position="relative" zIndex={1} lineHeight="1.3">
                         Dakshina Dwaraka Dham: <br />
                         Inspiration & Aspiration
                     </Text>
@@ -577,7 +577,7 @@ const HomeSinglePage = () => {
                             color={TEXT_DARK}
                             lineHeight="1.7"
                             mt={2}
-                            fontFamily="'Satoshi', sans-serif"
+                            fontFamily="'Poppins', sans-serif"
                             textAlign="justify"
                         >
                             The temple hall, measuring 108 ft × 57 ft with a soaring 27 ft ceiling, can comfortably accommodate over 600 devotees at a time for congregational worship and festivals. Its most striking feature is the presence of two majestic Gopurams above the main mandapam — one rising to 113 ft and the other to an awe-inspiring 175 ft, making it the 7th tallest Gopuram in Tamil Nadu and the tallest in Chennai. The main sanctum (garbhagriha) will feature three divine altars: The central altar, dedicated to Sri Sri Rukmini Dwarakadhisha, will have a Vimana rising nearly 90 ft above the ground, symbolizing the Lord’s supreme majesty. The other two altars will be dedicated to Sri Narasimha and Sri Sri Gaura Nitai, offering devotees a complete experience of divine worship and spiritual inspiration. The ground floor of the complex is thoughtfully designed to serve educational and cultural needs, featuring: Four classrooms accommodating nearly 200 participants, where children and adults will learn the Bhagavad-gita, ethics, and values rooted in Vedic wisdom. A 300-seater multipurpose hall (57 ft × 57 ft) to host cultural programs, traditional art performances, heritage festivals, and student competitions — all aimed at nurturing Indian art, music, dance, and culture. With a total built-up area of about 40,000 sq. ft., Dakshina Dwaraka Dham will be a spiritual, educational, and cultural beacon — uniting devotion, knowledge, and heritage for the upliftment of society.

@@ -53,14 +53,14 @@ const TempleBlueprintSection = () => {
             w="100%"
             maxW="900px"
             mx="auto"
-            mt={8}
+            mt={12}
             px={[4, 6]}
             fontFamily="'Poppins', sans-serif"
         >
             {/* TITLE */}
             <Text
                 textAlign="center"
-                fontSize={["2xl", "3xl"]}
+                fontSize={["3xl", "3xl"]}
                 fontWeight="500"
                 color="#082032"
                 mb={4}
@@ -77,7 +77,7 @@ const TempleBlueprintSection = () => {
                 mx="auto"
                 mb={10}
                 lineHeight="1.6"
-                fontFamily="'Satoshi', sans-serif"
+                fontFamily="'Poppins', sans-serif"
             >
                 Each contribution helps build sacred spaces that uplift hearts,
                 nurture values, and bring thousands closer to Lord Krishna.
