@@ -79,7 +79,7 @@ const TempleBlueprintSection = () => {
                 lineHeight="1.6"
                 fontFamily="'Poppins', sans-serif"
             >
-                Each contribution helps build sacred spaces that uplift hearts,
+                Each contribution helps build the spaces that uplift hearts,
                 nurture values, and bring thousands closer to Lord Krishna.
             </Text>
 

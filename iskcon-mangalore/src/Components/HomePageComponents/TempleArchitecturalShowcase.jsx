@@ -89,7 +89,7 @@ const TempleArchitecturalShowcase = () => {
             maxW="1200px"
             mx="auto"
             px={[4, 6]}
-            mt={12}
+            mt={18}
             mb={12}
             fontFamily="'Poppins', sans-serif"
         >
@@ -98,7 +98,7 @@ const TempleArchitecturalShowcase = () => {
 
                 {/* Main Title */}
                 <Text
-                    fontSize={["2xl", "3xl", "4xl"]}
+                    fontSize={["3xl", "3xl", "4xl"]}
                     fontWeight="800"
                     color={NAVY}
                     lineHeight="1.2"
@@ -114,7 +114,7 @@ const TempleArchitecturalShowcase = () => {
                     opacity={0.8}
                     maxW="700px"
                     mx="auto"
-                    fontFamily="'Satoshi', sans-serif"
+                    fontFamily="'Poppins', sans-serif"
                 >
                     A fusion of traditional Pallava craftsmanship and modern engineering.
                     Explore the visualizations of Chennai's Dakshina Dwaraka Dham.
