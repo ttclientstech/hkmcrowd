@@ -79,7 +79,7 @@ const TempleHighlights = () => {
                 {/* Title */}
                 <Text
                     textAlign="center"
-                    fontSize={["2xl", "3xl"]}
+                    fontSize={["3xl", "3xl"]}
                     fontWeight="700"
                     color={NAVY}
                     mb={8}

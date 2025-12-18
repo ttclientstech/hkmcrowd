@@ -54,11 +54,11 @@ const RecentContributors = () => {
         loadContributors();
     }, []);
 
-    // Initial 4-second delay
+    // ✅ UPDATED: Initial 8-second delay (was 4s)
     useEffect(() => {
         const timer = setTimeout(() => {
             setStartToasting(true);
-        }, 4000);
+        }, 8000); // 8 Seconds initial delay
         return () => clearTimeout(timer);
     }, []);
 
@@ -183,7 +183,6 @@ const RecentContributors = () => {
                 {showToast && currentToastUser && (
                     <MotionBox
                         // Animation: Pop up from bottom center
-                        // x: "-50%" ensures it stays strictly centered on both Mobile and Desktop
                         initial={{ opacity: 0, y: 50, x: "-50%", scale: 0.8 }}
                         animate={{ opacity: 1, y: 0, x: "-50%", scale: 1 }}
                         exit={{ opacity: 0, y: 20, x: "-50%", scale: 0.8 }}
@@ -192,8 +191,8 @@ const RecentContributors = () => {
                         position="fixed"
                         // Responsive Bottom Spacing:
                         // Mobile: 100px (Clears sticky button)
-                        // Desktop: 30px (Looks cleaner, less intrusive)
-                        bottom={["100px", "30px"]}
+                        // Desktop: 90px (Clears sticky button comfortably)
+                        bottom={["100px", "90px"]}
                         left="50%"
                         zIndex="9999"
 
@@ -205,7 +204,7 @@ const RecentContributors = () => {
                         p={2}
                         pr={6}
 
-                        // Responsive Width: Wider on desktop for elegance
+                        // Responsive Width
                         minW={["280px", "340px"]}
 
                         display="flex"

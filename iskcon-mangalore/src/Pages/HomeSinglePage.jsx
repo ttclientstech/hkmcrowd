@@ -504,7 +504,7 @@ const HomeSinglePage = () => {
                 px={[4, 6]}
                 pt={[10, 14]}
                 pb={[10, 14]}
-                mt={6}
+                mt={12}
                 textAlign="center"
             >
                 <Text fontSize={["md", "lg"]} opacity={0.95} fontFamily="'Poppins', sans-serif" mb={2}>
@@ -525,7 +525,7 @@ const HomeSinglePage = () => {
                     (Project by Hare Krishna Movement Chennai, an affiliate of ISKCON: S-49/78-79, Bengaluru)
                 </Text>
 
-                <Text fontSize={["md", "lg"]} opacity={0.95} fontFamily="'Satoshi', sans-serif" maxW="600px" mx="auto" mb={[6, 8]}>
+                <Text fontSize={["md", "lg"]} opacity={0.95} fontFamily="'Poppins', sans-serif" maxW="600px" mx="auto" mb={[6, 8]}>
                     A sacred cultural complex to uplift society through devotion, heritage & values.
                 </Text>
 
@@ -563,7 +563,7 @@ const HomeSinglePage = () => {
                     </Text>
                 </Box>
 
-                <Text fontSize="md" color={TEXT_DARK} lineHeight="1.7" mb={4} fontFamily="'Satoshi', sans-serif" textAlign="justify">
+                <Text fontSize="md" color={TEXT_DARK} lineHeight="1.7" mb={4} fontFamily="'Poppins', sans-serif" textAlign="justify">
                     Nestled along the scenic seashore of the Bay of Bengal in Thiruvanmiyur,
                     Chennai, the Dakshina Dwaraka Dham Cultural Complex is envisioned as a
                     magnificent center to promote and preserve India’s timeless spiritual and

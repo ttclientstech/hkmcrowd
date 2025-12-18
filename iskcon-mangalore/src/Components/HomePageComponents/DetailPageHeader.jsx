@@ -132,8 +132,8 @@ const DetailPageHeader = ({ getSingleUser }) => {
                         fontWeight="500"
                         textShadow="0px 4px 10px rgba(0,0,0,0.9)"
                     >
-                        <Text as="span" color="#D4AF37" fontWeight="800">{campaignerName}</Text><br/> needs your support
-                        <br/>to raise <Text as="span" color="#D4AF37" fontWeight="800">{sqft}</Text> Square Feet for <br/>
+                        <Text as="span" color="#FBD38D" fontWeight="800">{campaignerName}</Text><br/> needs your support
+                        <br/>to raise <Text as="span" color="#FBD38D" fontWeight="800">{sqft}</Text> Square Feet for <br/>
                         Chennai's <Text as="span" color="#FBD38D" fontWeight="700">Dakshina Dwaraka Dham</Text>
                     </Text>
 
