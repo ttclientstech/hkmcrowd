@@ -1,7 +1,6 @@
 import { Box, Flex, Image, Text, VStack, Button, Link as ChakraLink } from '@chakra-ui/react';
 import React from 'react';
 import { useNavigate, useParams } from "react-router-dom";
-import { Link } from 'react-router-dom';
 import transparentLogo from "../../assets/images/transparent_logo.png";
 import bannerBg from "../../assets/images/002_temple_night_view.jpeg";
 // ✅ 1. Import the new mobile image
@@ -86,16 +85,22 @@ const DetailPageHeader = ({ getSingleUser }) => {
                 top="2rem"
                 right="2rem"
                 zIndex={10}
-                bgGradient="linear(to-r, #D4AF37, #C59D18)"
-                color="#2C0A0A"
+                // ✅ CHANGED: Urgent Red gradient to pop against the dark/gold theme
+                bgGradient="linear(to-r, #E63946, #C53030)"
+                color="white"
                 size={["sm", "md"]}
                 px={8}
                 fontSize="sm"
                 fontWeight="800"
                 letterSpacing="widest"
                 borderRadius="full"
-                boxShadow="0px 0px 20px rgba(212, 175, 55, 0.5)"
-                _hover={{ transform: "scale(1.05)", boxShadow: "0px 0px 30px rgba(212, 175, 55, 0.7)" }}
+                // ✅ CHANGED: Red glow shadow
+                boxShadow="0px 0px 20px rgba(230, 57, 70, 0.6)"
+                _hover={{
+                    transform: "scale(1.05)",
+                    bgGradient: "linear(to-r, #C53030, #9B2C2C)",
+                    boxShadow: "0px 0px 30px rgba(230, 57, 70, 0.8)"
+                }}
                 onClick={handleClick}
             >
                 DONATE
@@ -132,9 +137,34 @@ const DetailPageHeader = ({ getSingleUser }) => {
                         fontWeight="500"
                         textShadow="0px 4px 10px rgba(0,0,0,0.9)"
                     >
-                        <Text as="span" color="#FBD38D" fontWeight="800">{campaignerName}</Text><br/> needs your support
-                        <br/>to raise <Text as="span" color="#FBD38D" fontWeight="800">{sqft}</Text> Square Feet for <br/>
-                        Chennai's <Text as="span" color="#FBD38D" fontWeight="700">Dakshina Dwaraka Dham</Text>
+                        {/* ✅ CHANGED: Lighter Gold + Glow Effect for better attention */}
+                        <Text
+                            as="span"
+                            color="#FFD700"
+                            fontWeight="800"
+                            textShadow="0px 0px 20px rgba(255, 215, 0, 0.6)"
+                        >
+                            {campaignerName}
+                        </Text>
+                        <br/> needs your support <br/>to raise{" "}
+                        <Text
+                            as="span"
+                            color="#FFD700"
+                            fontWeight="800"
+                            textShadow="0px 0px 20px rgba(255, 215, 0, 0.6)"
+                        >
+                            {sqft}
+                        </Text>{" "}
+                        Square Feet for <br/>
+                        Chennai's{" "}
+                        <Text
+                            as="span"
+                            color="#FFD700"
+                            fontWeight="700"
+                            textShadow="0px 0px 20px rgba(255, 215, 0, 0.6)"
+                        >
+                            Dakshina Dwaraka Dham
+                        </Text>
                     </Text>
 
                     {/* Subtext */}
