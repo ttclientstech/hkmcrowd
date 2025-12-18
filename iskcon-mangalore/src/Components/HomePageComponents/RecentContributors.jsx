@@ -13,7 +13,7 @@ import {
     Avatar
 } from "@chakra-ui/react";
 import { FaTrophy, FaHistory, FaHeart, FaMedal } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion"; // ✅ Added AnimatePresence
 import { formatCurrency, formatTimeAgo } from "../utils";
 import { fetchAllContributers } from "../../utils/apiCall";
 
@@ -22,16 +22,21 @@ const NAVY = "#082032";
 const GOLD = "#D4AF37";
 const BEIGE = "#F9F5F0";
 const TEXT_DARK = "#1A1A1A";
-
 const SQFT_PRICE = 5000;
 
 // Motion component for smooth entry
 const MotionHStack = motion(HStack);
+const MotionBox = motion(Box); // ✅ For the Toast
 
 const RecentContributors = () => {
     const [tab, setTab] = useState("latest");
     const [loading, setLoading] = useState(true);
     const [contributors, setContributors] = useState([]);
+
+    // ✅ TOAST STATE
+    const [showToast, setShowToast] = useState(false);
+    const [currentToastIndex, setCurrentToastIndex] = useState(0);
+    const [startToasting, setStartToasting] = useState(false);
 
     const isMobile = useBreakpointValue({ base: true, md: false });
 
@@ -50,16 +55,52 @@ const RecentContributors = () => {
         loadContributors();
     }, []);
 
-    // Logic preserved
+    // ✅ Logic: Initial 4-second delay before starting toasts
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setStartToasting(true);
+        }, 4000); // 4 Seconds initial delay
+        return () => clearTimeout(timer);
+    }, []);
+
+    // Logic preserved for main list
     const latestData = contributors
         .filter((c) => c?.finalpaymentstatus === "captured")
-        .slice(-10)
+        .slice(-20) // Take last 20 for the toast loop
         .reverse();
 
     const largestData = [...contributors]
         .filter((c) => c?.paymentstatus === true || c?.finalpaymentstatus === "captured")
         .sort((a, b) => b.amount - a.amount)
         .slice(0, 5);
+
+    // ✅ Logic: Toast Cycle (Show 3s -> Hide 3s -> Next)
+    useEffect(() => {
+        if (!startToasting || latestData.length === 0) return;
+
+        const triggerToast = () => {
+            setShowToast(true);
+
+            // Hide after 3 seconds
+            setTimeout(() => {
+                setShowToast(false);
+
+                // Prepare next index after hiding
+                setTimeout(() => {
+                    setCurrentToastIndex((prev) => (prev + 1) % latestData.length);
+                }, 500);
+            }, 3000);
+        };
+
+        triggerToast();
+
+        // Repeat every 6 seconds (3s show + 3s hide gap)
+        const interval = setInterval(() => {
+            triggerToast();
+        }, 6000);
+
+        return () => clearInterval(interval);
+    }, [startToasting, latestData.length]);
 
     const formatSqftOrAmount = (amt) => {
         if (amt >= SQFT_PRICE) {
@@ -69,13 +110,19 @@ const RecentContributors = () => {
         return formatCurrency(amt);
     };
 
+    // --- TOAST CONTENT HELPERS ---
+    const currentToastUser = latestData[currentToastIndex];
+    // ✅ CHANGED: Uses 'Anonymous' exactly as requested
+    const toastName = currentToastUser?.isanonymous ? "Anonymous" : currentToastUser?.username;
+    const toastAmount = formatSqftOrAmount(currentToastUser?.amount);
+
     const renderContributorCard = (user, idx, isLeaderboard = false) => {
         const name = user?.isanonymous ? "Anonymous" : user?.username;
         const displayValue = formatSqftOrAmount(user?.amount);
 
         // Special styling for Top 3 in Leaderboard
         const isTop3 = isLeaderboard && idx < 3;
-        const medalColor = idx === 0 ? "#FFD700" : idx === 1 ? "#C0C0C0" : "#CD7F32"; // Gold, Silver, Bronze
+        const medalColor = idx === 0 ? "#FFD700" : idx === 1 ? "#C0C0C0" : "#CD7F32";
 
         return (
             <MotionHStack
@@ -138,9 +185,9 @@ const RecentContributors = () => {
                 </HStack>
 
                 <VStack align="flex-end" spacing={0}>
-                        <Text fontSize="xs" color="gray.400" fontStyle="italic">
-                            {formatTimeAgo(user?.createdate)}
-                        </Text>
+                    <Text fontSize="xs" color="gray.400" fontStyle="italic">
+                        {formatTimeAgo(user?.createdate)}
+                    </Text>
                 </VStack>
             </MotionHStack>
         );
@@ -155,6 +202,62 @@ const RecentContributors = () => {
             px={[4, 6]}
             fontFamily="'Poppins', sans-serif"
         >
+            {/* ✅ LIVE DONATION TOAST COMPONENT */}
+            <AnimatePresence>
+                {showToast && currentToastUser && (
+                    <MotionBox
+                        initial={{ opacity: 0, y: 50, x: -20, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 0, x: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 20, scale: 0.9 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                        position="fixed"
+                        // Mobile: 100px from bottom (clears sticky button), Centered
+                        // Desktop: 30px from bottom, Left aligned
+                        bottom={["100px", "30px"]}
+                        left={["50%", "30px"]}
+                        transform={["translateX(-50%)", "none"]}
+                        zIndex="9999" // High z-index but below Modals
+                        bg="white"
+                        borderRadius="12px"
+                        boxShadow="0 8px 30px rgba(0,0,0,0.15)"
+                        p={3}
+                        pr={5}
+                        minW="280px"
+                        borderLeft={`4px solid ${GOLD}`} // Gold accent styling
+                        display="flex"
+                        alignItems="center"
+                        gap={3}
+                    >
+                        <Box position="relative">
+                            <Avatar
+                                size="sm"
+                                name={toastName}
+                                src={currentToastUser?.avatar}
+                                bg={NAVY}
+                                color="white"
+                            />
+                            <Box
+                                position="absolute" bottom="-2px" right="-2px"
+                                bg="green.400" border="2px solid white"
+                                borderRadius="full" w="10px" h="10px"
+                            />
+                        </Box>
+
+                        <VStack align="start" spacing={0}>
+                            <HStack spacing={1}>
+                                <Text fontSize="sm" fontWeight="700" color={NAVY}>
+                                    {toastName}
+                                </Text>
+                                <Text fontSize="xs" color="gray.400">• Just now</Text>
+                            </HStack>
+                            <Text fontSize="xs" color="gray.600">
+                                contributed <Text as="span" fontWeight="800" color={GOLD}>{toastAmount}</Text>
+                            </Text>
+                        </VStack>
+                    </MotionBox>
+                )}
+            </AnimatePresence>
+
             <Box textAlign="center" mb={8}>
                 <Text
                     fontSize={["2xl", "3xl"]}
@@ -163,7 +266,7 @@ const RecentContributors = () => {
                     mb={2}
                     letterSpacing="tight"
                 >
-                   Recent <Text as="span" color="#E63946">Contributors</Text>
+                    Recent <Text as="span" color="#E63946">Contributors</Text>
                 </Text>
                 <Text fontSize="md" color="black" maxW="500px" mx="auto" fontFamily="'Satoshi', sans-serif">
                     Join the growing community of devotees building this spiritual legacy. Your name belongs here.
@@ -243,7 +346,7 @@ const RecentContributors = () => {
                         {tab === "latest" && (
                             <VStack gap={3}>
                                 {latestData.length > 0 ? (
-                                    latestData.map((user, idx) =>
+                                    latestData.slice(0, 10).map((user, idx) =>
                                         renderContributorCard(user, idx, false)
                                     )
                                 ) : (

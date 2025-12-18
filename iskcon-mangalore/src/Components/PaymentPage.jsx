@@ -47,7 +47,8 @@ const PaymentPage = () => {
             taxState: getParam("taxState"),
             taxPincode: getParam("taxPincode"),
             panno: getParam("panno"),
-            dob: getParam("dob")
+            dob: getParam("dob"),
+            campaignerMob: getParam("campaignerMob"),
         };
     }, [query]);
 

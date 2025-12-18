@@ -652,7 +652,7 @@ const HomeSinglePage = () => {
             <DonateNowButton getSingleUser={getSingleUser} />
             <EducationWingDonationBanner />
             <PrabhupadaSection />
-            <PrabhupadaQuoteCTA />
+            <PrabhupadaQuoteCTA getSingleUser={getSingleUser} />
 
             <Text textAlign="center" fontSize={["md", "lg"]} color={NAVY} mt={10} px={4} fontFamily="'Satoshi', sans-serif">
                 Got a question? We’d love to hear from you.

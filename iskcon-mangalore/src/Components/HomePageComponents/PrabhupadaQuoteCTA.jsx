@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Text, Button, Flex } from "@chakra-ui/react";
 import DonateNowButton from "./DonateNowButton";
 
-const PrabhupadaQuoteCTA = () => {
+const PrabhupadaQuoteCTA = ({ getSingleUser }) => {
     return (
         <Box
             w="100%"
@@ -50,7 +50,7 @@ const PrabhupadaQuoteCTA = () => {
 
             {/* DONATE BUTTON */}
             <Flex justify="center">
-                <DonateNowButton />
+                <DonateNowButton getSingleUser={getSingleUser} />
             </Flex>
         </Box>
     );

@@ -74,6 +74,7 @@ const PaymentPageFullWrapper = () => {
                         panno: formData.panno || "",
                         dob: formData.dob || "",
                         campainerName: formData.campainerName || "#Campainer Name",
+                        campaignerMob: getSingleUser?.campaignDetails?.phoneno
                     });
                     navigate(`/payment/${orderId}?${params.toString()}`);
                 } else {
