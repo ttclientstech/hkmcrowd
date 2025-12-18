@@ -89,8 +89,7 @@ const TempleArchitecturalShowcase = () => {
             maxW="1200px"
             mx="auto"
             px={[4, 6]}
-            mt={30}
-            mb={12}
+            mt={16}
             fontFamily="'Poppins', sans-serif"
         >
             {/* --- HEADER SECTION --- */}

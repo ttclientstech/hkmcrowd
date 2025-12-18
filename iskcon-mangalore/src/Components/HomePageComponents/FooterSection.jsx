@@ -36,7 +36,7 @@ const FooterSection = () => {
                 gap={[10, 0]}
             >
                 {/* Left Column — Address */}
-                <VStack align="flex-start" spacing={3}>
+                <VStack align={["center", "flex-start"]} spacing={3}>
                     <Text
                         fontSize="xl"
                         fontWeight="500"
