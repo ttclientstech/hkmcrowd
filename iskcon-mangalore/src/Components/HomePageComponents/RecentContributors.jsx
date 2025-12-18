@@ -12,21 +12,20 @@ import {
     Badge,
     Avatar
 } from "@chakra-ui/react";
-import { FaTrophy, FaHistory, FaHeart, FaMedal } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion"; // ✅ Added AnimatePresence
+import { FaTrophy, FaHistory, FaHeart, FaMedal, FaBolt } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
 import { formatCurrency, formatTimeAgo } from "../utils";
 import { fetchAllContributers } from "../../utils/apiCall";
 
 // Theme Constants
 const NAVY = "#082032";
 const GOLD = "#D4AF37";
-const BEIGE = "#F9F5F0";
 const TEXT_DARK = "#1A1A1A";
 const SQFT_PRICE = 5000;
 
-// Motion component for smooth entry
+// Motion component
 const MotionHStack = motion(HStack);
-const MotionBox = motion(Box); // ✅ For the Toast
+const MotionBox = motion(Box);
 
 const RecentContributors = () => {
     const [tab, setTab] = useState("latest");
@@ -55,18 +54,17 @@ const RecentContributors = () => {
         loadContributors();
     }, []);
 
-    // ✅ Logic: Initial 4-second delay before starting toasts
+    // Initial 4-second delay
     useEffect(() => {
         const timer = setTimeout(() => {
             setStartToasting(true);
-        }, 4000); // 4 Seconds initial delay
+        }, 4000);
         return () => clearTimeout(timer);
     }, []);
 
-    // Logic preserved for main list
     const latestData = contributors
         .filter((c) => c?.finalpaymentstatus === "captured")
-        .slice(-20) // Take last 20 for the toast loop
+        .slice(-20)
         .reverse();
 
     const largestData = [...contributors]
@@ -74,18 +72,14 @@ const RecentContributors = () => {
         .sort((a, b) => b.amount - a.amount)
         .slice(0, 5);
 
-    // ✅ Logic: Toast Cycle (Show 3s -> Hide 3s -> Next)
+    // Toast Cycle Logic
     useEffect(() => {
         if (!startToasting || latestData.length === 0) return;
 
         const triggerToast = () => {
             setShowToast(true);
-
-            // Hide after 3 seconds
             setTimeout(() => {
                 setShowToast(false);
-
-                // Prepare next index after hiding
                 setTimeout(() => {
                     setCurrentToastIndex((prev) => (prev + 1) % latestData.length);
                 }, 500);
@@ -94,7 +88,6 @@ const RecentContributors = () => {
 
         triggerToast();
 
-        // Repeat every 6 seconds (3s show + 3s hide gap)
         const interval = setInterval(() => {
             triggerToast();
         }, 6000);
@@ -110,17 +103,14 @@ const RecentContributors = () => {
         return formatCurrency(amt);
     };
 
-    // --- TOAST CONTENT HELPERS ---
+    // --- TOAST CONTENT ---
     const currentToastUser = latestData[currentToastIndex];
-    // ✅ CHANGED: Uses 'Anonymous' exactly as requested
     const toastName = currentToastUser?.isanonymous ? "Anonymous" : currentToastUser?.username;
     const toastAmount = formatSqftOrAmount(currentToastUser?.amount);
 
     const renderContributorCard = (user, idx, isLeaderboard = false) => {
         const name = user?.isanonymous ? "Anonymous" : user?.username;
         const displayValue = formatSqftOrAmount(user?.amount);
-
-        // Special styling for Top 3 in Leaderboard
         const isTop3 = isLeaderboard && idx < 3;
         const medalColor = idx === 0 ? "#FFD700" : idx === 1 ? "#C0C0C0" : "#CD7F32";
 
@@ -141,12 +131,8 @@ const RecentContributors = () => {
                 position="relative"
                 overflow="hidden"
             >
-                {/* Decorative sheen for top donors */}
                 {isTop3 && (
-                    <Box
-                        position="absolute" top={0} left={0} w="4px" h="100%"
-                        bg={medalColor}
-                    />
+                    <Box position="absolute" top={0} left={0} w="4px" h="100%" bg={medalColor}/>
                 )}
 
                 <HStack gap={4}>
@@ -161,11 +147,7 @@ const RecentContributors = () => {
                             borderColor={isTop3 ? medalColor : "transparent"}
                         />
                         {isTop3 && (
-                            <Box
-                                position="absolute" bottom="-5px" right="-5px"
-                                bg="white" borderRadius="full" p="2px"
-                                boxShadow="sm"
-                            >
+                            <Box position="absolute" bottom="-5px" right="-5px" bg="white" borderRadius="full" p="2px" boxShadow="sm">
                                 <Icon as={FaMedal} color={medalColor} w={4} h={4} />
                             </Box>
                         )}
@@ -194,64 +176,76 @@ const RecentContributors = () => {
     };
 
     return (
-        <Box
-            w="100%"
-            maxW="900px"
-            mx="auto"
-            mt={16}
-            px={[4, 6]}
-            fontFamily="'Poppins', sans-serif"
-        >
-            {/* ✅ LIVE DONATION TOAST COMPONENT */}
+        <Box w="100%" maxW="900px" mx="auto" mt={16} px={[4, 6]} fontFamily="'Poppins', sans-serif">
+
+            {/* ✅ ACTION-ORIENTED CENTERED TOAST (Desktop Compatible) */}
             <AnimatePresence>
                 {showToast && currentToastUser && (
                     <MotionBox
-                        initial={{ opacity: 0, y: 50, x: -20, scale: 0.9 }}
-                        animate={{ opacity: 1, y: 0, x: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 20, scale: 0.9 }}
-                        transition={{ duration: 0.4, ease: "easeOut" }}
+                        // Animation: Pop up from bottom center
+                        // x: "-50%" ensures it stays strictly centered on both Mobile and Desktop
+                        initial={{ opacity: 0, y: 50, x: "-50%", scale: 0.8 }}
+                        animate={{ opacity: 1, y: 0, x: "-50%", scale: 1 }}
+                        exit={{ opacity: 0, y: 20, x: "-50%", scale: 0.8 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+
                         position="fixed"
-                        // Mobile: 100px from bottom (clears sticky button), Centered
-                        // Desktop: 30px from bottom, Left aligned
+                        // Responsive Bottom Spacing:
+                        // Mobile: 100px (Clears sticky button)
+                        // Desktop: 30px (Looks cleaner, less intrusive)
                         bottom={["100px", "30px"]}
-                        left={["50%", "30px"]}
-                        transform={["translateX(-50%)", "none"]}
-                        zIndex="9999" // High z-index but below Modals
-                        bg="white"
-                        borderRadius="12px"
-                        boxShadow="0 8px 30px rgba(0,0,0,0.15)"
-                        p={3}
-                        pr={5}
-                        minW="280px"
-                        borderLeft={`4px solid ${GOLD}`} // Gold accent styling
+                        left="50%"
+                        zIndex="9999"
+
+                        // Theme: Action Oriented
+                        bg="rgba(8, 32, 50, 0.95)"
+                        backdropFilter="blur(12px)"
+                        borderRadius="full"
+                        boxShadow={`0 8px 30px rgba(0,0,0,0.4), 0 0 0 1px ${GOLD}40`}
+                        p={2}
+                        pr={6}
+
+                        // Responsive Width: Wider on desktop for elegance
+                        minW={["280px", "340px"]}
+
                         display="flex"
                         alignItems="center"
                         gap={3}
                     >
+                        {/* Avatar with Activity Dot */}
                         <Box position="relative">
                             <Avatar
                                 size="sm"
                                 name={toastName}
                                 src={currentToastUser?.avatar}
-                                bg={NAVY}
-                                color="white"
+                                bg={GOLD}
+                                color={NAVY}
+                                fontWeight="bold"
                             />
                             <Box
-                                position="absolute" bottom="-2px" right="-2px"
-                                bg="green.400" border="2px solid white"
+                                position="absolute" bottom="0" right="0"
+                                bg="green.400" border="2px solid #082032"
                                 borderRadius="full" w="10px" h="10px"
+                                animation="pulse 2s infinite"
                             />
                         </Box>
 
-                        <VStack align="start" spacing={0}>
-                            <HStack spacing={1}>
-                                <Text fontSize="sm" fontWeight="700" color={NAVY}>
+                        {/* Text Content */}
+                        <VStack align="start" spacing={0} flex="1">
+                            <HStack spacing={1} w="100%" justify="space-between">
+                                <Text fontSize="xs" fontWeight="700" color="white" noOfLines={1} maxW={["150px", "200px"]}>
                                     {toastName}
                                 </Text>
-                                <Text fontSize="xs" color="gray.400">• Just now</Text>
+                                <HStack spacing={1}>
+                                    <Icon as={FaBolt} color={GOLD} w={2.5} h={2.5} />
+                                    <Text fontSize="10px" color={GOLD} fontWeight="bold" textTransform="uppercase">
+                                        Just Now
+                                    </Text>
+                                </HStack>
                             </HStack>
-                            <Text fontSize="xs" color="gray.600">
-                                contributed <Text as="span" fontWeight="800" color={GOLD}>{toastAmount}</Text>
+
+                            <Text fontSize="xs" color="gray.300">
+                                contributed <Text as="span" fontWeight="800" color="white" fontSize="sm">{toastAmount}</Text>
                             </Text>
                         </VStack>
                     </MotionBox>
@@ -259,13 +253,7 @@ const RecentContributors = () => {
             </AnimatePresence>
 
             <Box textAlign="center" mb={8}>
-                <Text
-                    fontSize={["2xl", "3xl"]}
-                    fontWeight="800"
-                    color={NAVY}
-                    mb={2}
-                    letterSpacing="tight"
-                >
+                <Text fontSize={["2xl", "3xl"]} fontWeight="800" color={NAVY} mb={2} letterSpacing="tight">
                     Recent <Text as="span" color="#E63946">Contributors</Text>
                 </Text>
                 <Text fontSize="md" color="black" maxW="500px" mx="auto" fontFamily="'Satoshi', sans-serif">
@@ -274,61 +262,26 @@ const RecentContributors = () => {
             </Box>
 
             {/* MODERN TAB SWITCH */}
-            <Flex
-                bg="gray.100"
-                p={1.5}
-                borderRadius="full"
-                w="fit-content"
-                mx="auto"
-                mb={8}
-                boxShadow="inner"
-            >
+            <Flex bg="gray.100" p={1.5} borderRadius="full" w="fit-content" mx="auto" mb={8} boxShadow="inner">
                 <Flex
-                    as="button"
-                    onClick={() => setTab("latest")}
-                    align="center"
-                    gap={2}
-                    px={6}
-                    py={2}
-                    borderRadius="full"
-                    bg={tab === "latest" ? NAVY : "transparent"}
-                    color={tab === "latest" ? "white" : "gray.500"}
-                    transition="all 0.3s ease"
-                    fontWeight="600"
-                    fontSize="sm"
+                    as="button" onClick={() => setTab("latest")} align="center" gap={2} px={6} py={2}
+                    borderRadius="full" bg={tab === "latest" ? NAVY : "transparent"} color={tab === "latest" ? "white" : "gray.500"}
+                    transition="all 0.3s ease" fontWeight="600" fontSize="sm"
                 >
-                    <Icon as={FaHistory} />
-                    Latest
+                    <Icon as={FaHistory} /> Latest
                 </Flex>
 
                 <Flex
-                    as="button"
-                    onClick={() => setTab("leaderboard")}
-                    align="center"
-                    gap={2}
-                    px={6}
-                    py={2}
-                    borderRadius="full"
-                    bg={tab === "leaderboard" ? GOLD : "transparent"}
-                    color={tab === "leaderboard" ? "white" : "gray.500"}
-                    transition="all 0.3s ease"
-                    fontWeight="600"
-                    fontSize="sm"
+                    as="button" onClick={() => setTab("leaderboard")} align="center" gap={2} px={6} py={2}
+                    borderRadius="full" bg={tab === "leaderboard" ? GOLD : "transparent"} color={tab === "leaderboard" ? "white" : "gray.500"}
+                    transition="all 0.3s ease" fontWeight="600" fontSize="sm"
                 >
-                    <Icon as={FaTrophy} />
-                    Top Donors
+                    <Icon as={FaTrophy} /> Top Donors
                 </Flex>
             </Flex>
 
             {/* CARD CONTAINER */}
-            <Box
-                bg="#edf2f7"
-                borderRadius="24px"
-                p={[4, 6]}
-                boxShadow="inset 0 0 20px rgba(0,0,0,0.03)"
-                minH="300px"
-                border={`1px dashed #082132`}
-            >
+            <Box bg="#edf2f7" borderRadius="24px" p={[4, 6]} boxShadow="inset 0 0 20px rgba(0,0,0,0.03)" minH="300px" border={`1px dashed #082132`}>
                 {loading ? (
                     <VStack gap={4}>
                         {[1, 2, 3].map((i) => (
