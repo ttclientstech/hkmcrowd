@@ -41,11 +41,12 @@ const FooterSection = () => {
                         fontSize="xl"
                         fontWeight="500"
                         color="white"
+                        textAlign={["center", "left"]}
                     >
                         Dakshina Dwaraka Dham
                     </Text>
 
-                    <Text fontSize="md" w={["100%", "260px"]} lineHeight="1.6" opacity={0.9} fontFamily="'Satoshi', sans-serif">
+                    <Text fontSize="md" w={["100%", "260px"]} lineHeight="1.6" opacity={0.9} fontFamily="'Satoshi', sans-serif" textAlign={["center", "left"]}>
                         Sri Sri Rukmini Dwarakadhisha Temple
                         <br />
                         Dakshina Dwaraka Dham
