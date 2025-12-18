@@ -10,14 +10,14 @@ const PrabhupadaSection = () => {
             w="100%"
             maxW="1200px"
             mx="auto"
-            mt={8}
+            mt={16}
             px={[4, 6]}
             textAlign="center"
             fontFamily="'Poppins', sans-serif"
         >
             {/* SECTION TITLE */}
             <Text
-                fontSize={["2xl", "3xl", "4xl"]}
+                fontSize={["3xl", "3xl", "4xl"]}
                 fontWeight="500"
                 color="#082032"
             >

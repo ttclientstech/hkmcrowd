@@ -89,7 +89,7 @@ const TempleArchitecturalShowcase = () => {
             maxW="1200px"
             mx="auto"
             px={[4, 6]}
-            mt={18}
+            mt={30}
             mb={12}
             fontFamily="'Poppins', sans-serif"
         >

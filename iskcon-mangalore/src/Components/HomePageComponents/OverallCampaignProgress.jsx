@@ -112,7 +112,7 @@ const OverallCampaignProgress = () => {
                             The Grand Vision: <br/>
                             <Text as="span" color={NAVY}>Overall Campaign Progress</Text>
                         </Text>
-                        <Text fontSize="sm" color="gray.500" mt={2} fontFamily="'Satoshi', sans-serif">
+                        <Text fontSize="sm" color="black" mt={2} fontFamily="'Poppins', sans-serif">
                             Combining every contribution towards the complete construction of Dakshina Dwaraka Dham.
                         </Text>
                     </Box>

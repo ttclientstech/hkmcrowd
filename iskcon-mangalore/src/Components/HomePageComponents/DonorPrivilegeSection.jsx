@@ -25,13 +25,13 @@ const DonorPrivilegeSection = () => {
             w="100%"
             maxW="900px"
             mx="auto"
-            mt={12}
+            mt={16}
             px={[4, 6]}
             fontFamily="'Poppins', sans-serif"
         >
             <Text
                 textAlign="center"
-                fontSize={["2xl", "3xl"]}
+                fontSize={["3xl", "3xl"]}
                 fontWeight="800"
                 color="#082032"
                 mb={3}
@@ -46,7 +46,7 @@ const DonorPrivilegeSection = () => {
                 maxW="700px"
                 mx="auto"
                 mb={10}
-                fontFamily="'Satoshi', sans-serif"
+                fontFamily="'Poppins', sans-serif"
             >
                Each one of our respected contributors will receive below privileges
             </Text>

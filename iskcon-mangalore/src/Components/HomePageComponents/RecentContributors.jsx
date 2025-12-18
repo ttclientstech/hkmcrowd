@@ -252,10 +252,10 @@ const RecentContributors = () => {
             </AnimatePresence>
 
             <Box textAlign="center" mb={8}>
-                <Text fontSize={["2xl", "3xl"]} fontWeight="800" color={NAVY} mb={2} letterSpacing="tight">
+                <Text fontSize={["3xl", "3xl"]} fontWeight="800" color={NAVY} mb={2} letterSpacing="tight">
                     Recent <Text as="span" color="#E63946">Contributors</Text>
                 </Text>
-                <Text fontSize="md" color="black" maxW="500px" mx="auto" fontFamily="'Satoshi', sans-serif">
+                <Text fontSize="md" color="black" maxW="500px" mx="auto" fontFamily="'Poppins', sans-serif">
                     Join the growing community of devotees building this spiritual legacy. Your name belongs here.
                 </Text>
             </Box>

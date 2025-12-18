@@ -34,14 +34,14 @@ const WhyDonateQuotes = () => {
             w="100%"
             maxW="1200px"
             mx="auto"
-            mt={10}
+            mt={16}
             px={[4, 6]}
             fontFamily="'Poppins', sans-serif"
         >
             {/* Title */}
             <Text
                 textAlign="center"
-                fontSize={["2xl", "3xl"]}
+                fontSize={["3xl", "3xl"]}
                 fontWeight="800"
                 color="#082032"
                 mb={2}
@@ -54,7 +54,7 @@ const WhyDonateQuotes = () => {
                 fontSize={["md", "lg"]}
                 color="#082032"
                 mb={10}
-                fontFamily="'Satoshi', sans-serif"
+                fontFamily="'Poppins', sans-serif"
             >
                 Sacred scriptures glorify those who support spiritual causes
             </Text>

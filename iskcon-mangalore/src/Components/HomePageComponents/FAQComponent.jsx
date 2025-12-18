@@ -74,7 +74,7 @@ const FAQComponent = () => {
             {/* TITLE */}
             <Text
                 textAlign="center"
-                fontSize={["xl", "2xl"]}
+                fontSize={["2xl", "2xl"]}
                 fontWeight="800"
                 mb={8}
                 color="#082032"

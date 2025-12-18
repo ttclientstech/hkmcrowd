@@ -57,7 +57,7 @@ const FooterSection = () => {
                 </VStack>
 
                 {/* Middle Column — Contact */}
-                <VStack align="flex-start" spacing={3}>
+                <VStack align={["center", "flex-start"]} spacing={3}>
                     <Text fontSize="xl" fontWeight="500" color="white">
                         Contact Us
                     </Text>

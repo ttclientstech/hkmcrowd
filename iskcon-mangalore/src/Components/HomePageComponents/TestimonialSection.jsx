@@ -49,7 +49,7 @@ const TestimonialSection = () => {
             {/* TOP TITLE */}
             <Flex justify="center" mb={3}>
                 <Text
-                    fontSize="sm"
+                    fontSize="xl"
                     fontWeight="700"
                     bg="#082032"
                     px={6}
