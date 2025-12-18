@@ -80,26 +80,32 @@ const DetailPageHeader = ({ getSingleUser }) => {
                 filter="drop-shadow(0px 0px 10px rgba(0,0,0,0.5))"
             />
 
+            {/* DONATE BUTTON (Desktop Only + Elegant Style) */}
             <Button
+                // ✅ HIDDEN on Mobile (['none', 'flex']), Visible on Desktop
+                display={['none', 'flex']}
                 position="absolute"
                 top="2rem"
                 right="2rem"
                 zIndex={10}
-                // ✅ CHANGED: Urgent Red gradient to pop against the dark/gold theme
-                bgGradient="linear(to-r, #E63946, #C53030)"
-                color="white"
-                size={["sm", "md"]}
+
+                // ✅ STYLE: Elegant Glass & Gold (Passive until hovered)
+                bg="rgba(0,0,0,0.4)"
+                border="1px solid #FFD700"
+                color="#FFD700"
+
+                size="md"
                 px={8}
                 fontSize="sm"
-                fontWeight="800"
+                fontWeight="600"
                 letterSpacing="widest"
                 borderRadius="full"
-                // ✅ CHANGED: Red glow shadow
-                boxShadow="0px 0px 20px rgba(230, 57, 70, 0.6)"
+                backdropFilter="blur(5px)"
+
                 _hover={{
-                    transform: "scale(1.05)",
-                    bgGradient: "linear(to-r, #C53030, #9B2C2C)",
-                    boxShadow: "0px 0px 30px rgba(230, 57, 70, 0.8)"
+                    bg: "#FFD700", // Fills with gold only on hover
+                    color: "#2C0A0A",
+                    boxShadow: "0px 0px 15px rgba(255, 215, 0, 0.6)"
                 }}
                 onClick={handleClick}
             >
