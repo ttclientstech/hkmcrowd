@@ -664,7 +664,15 @@ const DonationPage = ({
 
     const prevStep = () => setStep((s) => s - 1);
 
-    const handleIncrement = () => setSqFt(prev => Math.min(prev + 1, 25));
+    // ✅ MODIFIED handleIncrement: Smooth 50ms vibration on mobile
+    const handleIncrement = () => {
+        if (typeof navigator !== "undefined" && navigator.vibrate) {
+            // Short, smooth vibration for tactile feedback
+            navigator.vibrate(50);
+        }
+        setSqFt(prev => Math.min(prev + 1, 25));
+    };
+
     const handleDecrement = () => setSqFt(prev => Math.max(prev - 1, 1));
     const handlePresetClick = (val) => {
         setSqFt(val);
