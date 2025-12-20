@@ -12,7 +12,6 @@ import {
   } from "@chakra-ui/react";
   import React, { useEffect, useState } from "react";
   import { useDispatch, useSelector } from "react-redux";
-//   import DottedAnimation from "../DottedAnimation";
 import { fetchDonorsList } from "../../Redux/adminSlice/adminSlice";
   
   const AdminDonorsList = () => {

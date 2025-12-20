@@ -1,5 +1,5 @@
 import React from "react";
-import { HStack, Image, Text, VStack, Box, SimpleGrid, Center } from "@chakra-ui/react";
+import { Image, Text, VStack, Box, SimpleGrid, Center } from "@chakra-ui/react";
 import lotusBud from "../../assets/images/lotus_bud_small.png";
 import lotusBloom from "../../assets/images/lotus_bloom_small.png";
 

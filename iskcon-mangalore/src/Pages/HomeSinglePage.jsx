@@ -15,40 +15,22 @@ import {
     Box,
     IconButton,
     Flex,
-    Button,
     useBreakpointValue,
     Text,
     Icon,
     Stack,
     VStack,
-    HStack,
     Progress,
     Grid,
     Image,
-    Divider,
-    Badge,
-    List,
-    ListItem,
-    Avatar,
-    Spacer,
     Spinner,
-    Center
 } from "@chakra-ui/react";
-import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaPhoneAlt, FaClock, FaHandHoldingHeart, FaVihara } from "react-icons/fa";
+import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaVihara } from "react-icons/fa";
 
-import DottedAnimation from "../Components/DottedAnimation";
 import PageNotFound from "../Components/HomePageComponents/PageNotFound";
 import DetailPageHeader from "../Components/HomePageComponents/DetailPageHeader";
-import Funders from "../Components/HomePageComponents/Funders";
-import { campaign } from "../constants/homePage";
-import CapaignerProgressBox from "../Components/HomePageComponents/CapaignerProgressBox";
 import PaymentPageFull from "../Components/HomePageComponents/PaymentPageFull";
-import AdditionalDetails from "../Components/HomePageComponents/AdditionalDetails";
-import CampaignTabs from "../Components/HomePageComponents/Tabs";
-import ProjectVedio from "../Components/HomePageComponents/ProjectVedio";
-import Fotter from "../Components/HomePageComponents/Fotter";
 import PoppinFont from "../Components/HomePageComponents/PoppinFont";
-import VCMTopHeaderTab from "../Components/HomePageComponents/VCMTopHeaderTab";
 import img_annadanam from "../assets/images/annadanam_hall_1.png";
 import img_festival from "../assets/images/festival_hall_1.png";
 import img_kalamadhuryam from "../assets/images/kalamadhuryam_1.png";
@@ -66,19 +48,11 @@ import FooterSection from "../Components/HomePageComponents/FooterSection";
 import DonateNowButton from "../Components/HomePageComponents/DonateNowButton";
 import DonationBottomBar from "../Components/HomePageComponents/DonationBottomBar";
 import TempleBlueprintSection from "../Components/HomePageComponents/TempleBlueprintSection";
-import TemplePurposeSection from "../Components/HomePageComponents/TemplePurposeSection";
-import TempleFeaturesSplitScroll from "../Components/HomePageComponents/TempleFeaturesSplitScroll";
 import TempleHighlights from "../Components/HomePageComponents/TempleHighlights";
-import DailyGoalSection from "../Components/HomePageComponents/DailyGoalSection";
-import DonorGrid from "../Components/HomePageComponents/DonorGrid";
-import DonorWall from "../Components/HomePageComponents/DonorWall";
-import WallOfDevotion from "../Components/HomePageComponents/WallOfDevotion";
 import WallOfDevotion_Engraved from "../Components/HomePageComponents/WallOfDevotion_Engraved";
 import TempleArchitecturalShowcase from "../Components/HomePageComponents/TempleArchitecturalShowcase";
 import SpecialDonorPrivileges from "../Components/HomePageComponents/SpecialDonorPrivileges";
 import CulturalHallDonationBanner from "../Components/HomePageComponents/CulturalHallDonationBanner";
-import EducationalWingBanner from "../Components/HomePageComponents/EducationalWingBanner";
-import GarbhagrihaDonationBanner from "../Components/HomePageComponents/GarbhagrihaDonationBanner";
 import AltarDonationBanner from "../Components/HomePageComponents/AltarDonationBanner";
 import EducationWingDonationBanner from "../Components/HomePageComponents/EducationWingDonationBanner";
 import OverallCampaignProgress from "../Components/HomePageComponents/OverallCampaignProgress";

@@ -1,10 +1,8 @@
 import React from "react";
 import { Box, Flex, Text, Icon, VStack } from "@chakra-ui/react";
 import {
-    FaBuilding,
     FaLandmark,
     FaMountain,
-    FaUniversity,
     FaUmbrellaBeach,
     FaRegBuilding,
     FaCheck

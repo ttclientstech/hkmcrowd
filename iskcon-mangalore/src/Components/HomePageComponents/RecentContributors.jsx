@@ -9,7 +9,6 @@ import {
     SkeletonCircle,
     useBreakpointValue,
     Icon,
-    Badge,
     Avatar
 } from "@chakra-ui/react";
 import { FaTrophy, FaHistory, FaHeart, FaMedal, FaBolt } from "react-icons/fa";

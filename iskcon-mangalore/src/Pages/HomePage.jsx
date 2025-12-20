@@ -11,9 +11,6 @@ import Fotter from '../Components/HomePageComponents/Fotter'
 
 import Banner from "../assets/images/mandir_nirman_seva_banner.png";
 
-// import { IskconBgColor } from "../Components/utils.jsx";
-import {CountdownTimer} from '../Components/HomePageComponents/countdownConfetti';
-
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(null);

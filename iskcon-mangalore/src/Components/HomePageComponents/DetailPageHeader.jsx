@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Text, VStack, Button, Link as ChakraLink } from '@chakra-ui/react';
+import { Box, Flex, Image, Text, VStack, Button } from '@chakra-ui/react';
 import React from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import transparentLogo from "../../assets/images/transparent_logo.png";

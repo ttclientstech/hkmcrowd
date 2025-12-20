@@ -1,6 +1,5 @@
 import React from "react";
-import { Box, Text, Button, Flex, Icon, VStack, useBreakpointValue } from "@chakra-ui/react";
-import {FaCheckCircle, FaMusic, FaVihara} from "react-icons/fa";
+import { Box, Text, Flex, VStack, useBreakpointValue } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import culturalHallBg from "../../assets/images/majestic_altar.jpg"; // ✅ Replace with your actual image path
 

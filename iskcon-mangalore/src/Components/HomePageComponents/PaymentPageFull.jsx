@@ -10,9 +10,7 @@ import {
   Button,
   Divider,
   SimpleGrid,
-  Textarea,
   Stack,
-  Image,
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { LuBriefcase } from "react-icons/lu";

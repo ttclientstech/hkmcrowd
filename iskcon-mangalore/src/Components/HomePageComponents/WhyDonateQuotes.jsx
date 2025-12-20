@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Text, Flex, Grid, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Text, Flex, Grid } from "@chakra-ui/react";
 
 // IMPORT YOUR QUOTE VIDEOS
 import vishnu_purana from "../../assets/videos/vishnu_purana.mp4";

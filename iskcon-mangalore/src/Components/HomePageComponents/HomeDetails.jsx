@@ -1,8 +1,5 @@
 import { Box, Table, Tbody, Td, Tr, VStack, Text, Link } from "@chakra-ui/react";
 import React from "react";
-import cor from '../../assets/pdfFiles/CertificateofRegistration.pdf';
-// import csr from '../../assets/pdfFiles/ISKCON_CSR.pdf';
-import g from '../../assets/pdfFiles/80G.pdf';
 
 const HomeDetails = () => {
   return (

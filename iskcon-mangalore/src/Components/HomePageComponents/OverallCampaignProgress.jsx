@@ -10,7 +10,6 @@ import {
     Icon,
     useBreakpointValue
 } from "@chakra-ui/react";
-import { FaHandHoldingHeart } from "react-icons/fa";
 import { motion, useInView } from "framer-motion";
 import { BE_API_URL } from "../../constants/homePage";
 

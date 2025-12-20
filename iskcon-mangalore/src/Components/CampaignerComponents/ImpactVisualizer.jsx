@@ -7,7 +7,6 @@ import {
     HStack,
     Tooltip,
     useBreakpointValue,
-    Circle
 } from "@chakra-ui/react";
 
 const COST_PER_SQFT = 5000;

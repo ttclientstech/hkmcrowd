@@ -28,7 +28,6 @@ import {
     FaMinus,
     FaPlus,
     FaCrown,
-    FaArrowUp,
     FaInfoCircle
 } from "react-icons/fa";
 
