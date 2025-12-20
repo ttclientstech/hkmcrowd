@@ -1,7 +1,7 @@
 import { Box, Text, Image, Grid, Flex } from "@chakra-ui/react";
 import t1 from "../../assets/images/t1.jpeg";
 import t2 from "../../assets/images/t2.jpg";
-import t3 from "../../assets/images/t3.png";
+import t3 from "../../assets/images/t3.jpg";
 import t4 from "../../assets/images/t4.jpg";
 import SupporterCount from "./SupporterCount";
 

@@ -19,8 +19,8 @@ import ImpactVisualizer from "./ImpactVisualizer";
 import { BE_API_URL } from "../../constants/homePage";
 
 // Images
-import lotusBud from "../../assets/images/lotus_bud.png";
-import lotusBloom from "../../assets/images/lotus_blossom.png";
+import lotusBud from "../../assets/images/lotus_bud.jpg";
+import lotusBloom from "../../assets/images/lotus_blossom.jpg";
 import MilestoneBadges from "./MilestoneBadges";
 import Leaderboard from "./Leaderboard";
 import DonorTable from "./DonorTable";
