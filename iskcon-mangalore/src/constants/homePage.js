@@ -1,14 +1,6 @@
-import front_view from "../assets/images/001_temple_front_view.jpeg";
-import night_view from "../assets/images/002_temple_night_view.jpeg";
-import side_view from "../assets/images/003_temple_side_view.jpeg";
-//import footfall from "../assets/images/004_footfall.jpg";
-import procession from "../assets/images/005_RK_Procession.jpg";
-import cost_breakup from "../assets/images/006_cost_breakup.png";
-import wall_of_gratitude from "../assets/images/007_wall_of_gratitude.jpeg";
 import construction_img from "../assets/images/Front_View_from_AP.jpg";
 import land_img from "../assets/images/Top_Valley_View.jpg";
 import land_img2 from "../assets/images/Top_View.jpg";
-import impact_img from "../assets/images/009_impact.png";
 //import image1 from "../assets/images/image1.jpg";
 //import image2 from "../assets/images/image2.jpg";
 //import image3 from "../assets/images/image3.jpg";
@@ -30,25 +22,18 @@ import image19 from "../assets/images/image19.png";
 // import 001_temple_front_view from "../assets/images/001_temple_front_view.jpg";
 
 export const campaign = {
-  front_view,
   context:
     "Join us in building Dakshina Dwaraka Dham, the divine abode of Their Lordships Sri Sri Rukmini Dwarakadhisha, a monumental spiritual and cultural project by the Hare Krishna Movement Chennai (An Affiliate of ISKCON: S-49/78-79, Bengaluru).\nEnvisioned as a spiritual and cultural landmark of South India, Dakshina Dwaraka Dham will be a radiant center of devotion, culture, and education — a place where people from all walks of life can discover peace, wisdom, and divine joy.\nInspired by the glorious city of Dwaraka, the eternal kingdom of Lord Krishna, this grand temple will stand as a beacon of spiritual learning and service, reviving India’s timeless heritage while addressing the needs of modern society through education, outreach, and community care.\nThrough this crowdfunding campaign, we aim to raise ₹ 5 Crores to complete the next phase of temple construction. Every contribution, big or small, brings us closer to manifesting this sacred vision — a spiritual sanctuary for generations to come.\nTogether, let us build Dakshina Dwaraka Dham — a magnificent temple for the pleasure of Sri Sri Rukmini Dwarakadhisha, and a place where hearts awaken to devotion and life finds its divine purpose.",
-  night_view,
   background1:
     "Architect’s rendition of the stunning temple view from thiruvanmiyur beach.",
   vision:
     "Our vision is to create a society centered on spiritual values, where every individual can experience true happiness, harmony, and fulfillment through God consciousness.\nAs Srila Prabhupada, the Founder-Acharya of the International Society for Krishna Consciousness (ISKCON), beautifully said:\nWe are therefore trying to give human society the opportunity for a life of happiness, good health, peace of mind and all good qualities through God consciousness.\n— Srila A.C. Bhaktivedanta Swami Prabhupada",
   temple_complex:
     "Nestled along the scenic seashore of the Bay of Bengal in Thiruvanmiyur, Chennai, the Dakshina Dwaraka Dham Cultural Complex is envisioned as a magnificent center to promote and preserve India’s timeless spiritual and cultural heritage.\nDesigned in the traditional Pallava style of architecture, this will be the second shore temple in Tamil Nadu, reflecting the grandeur and sacred artistry of India’s ancient temple builders.\nThe temple hall, measuring 108 ft × 57 ft with a soaring 27 ft ceiling, can comfortably accommodate over 600 devotees at a time for congregational worship and festivals. Its most striking feature is the presence of two majestic Gopurams above the main mandapam — one rising to 113 ft and the other to an awe-inspiring 175 ft, making it the 7th tallest Gopuram in Tamil Nadu and the tallest in Chennai.\nThe main sanctum (garbhagriha) will feature three divine altars:\nThe central altar, dedicated to Sri Sri Rukmini Dwarakadhisha, will have a Vimana rising nearly 90 ft above the ground, symbolizing the Lord’s supreme majesty.\nThe other two altars will be dedicated to Sri Narasimha and Sri Sri Gaura Nitai, offering devotees a complete experience of divine worship and spiritual inspiration.\nThe ground floor of the complex is thoughtfully designed to serve educational and cultural needs, featuring:\nFour classrooms accommodating nearly 200 participants, where children and adults will learn the Bhagavad-gita, ethics, and values rooted in Vedic wisdom.\nA 300-seater multipurpose hall (57 ft × 57 ft) to host cultural programs, traditional art performances, heritage festivals, and student competitions — all aimed at nurturing Indian art, music, dance, and culture.\nWith a total built-up area of about 40,000 sq. ft., Dakshina Dwaraka Dham will be a spiritual, educational, and cultural beacon — uniting devotion, knowledge, and heritage for the upliftment of society.",
-  side_view,
   impact: "This center will be a hub for spiritual education and will provide an immersive cultural experience. It will feature traditional rituals, festivals, multimedia performances, and educational programs designed to deepen the connection to inner values. The temple will also provide nourishment through prasadam (sanctified food), creating a nurturing environment for visitors.",
-  impact_img,
-  procession,
   need: "The construction of Dakshina Dwaraka Dham, the grand temple and cultural complex dedicated to Sri Sri Rukmini Dwarakadhisha, began in June 2021 with the vision of creating a lasting spiritual and cultural landmark for Chennai and beyond.\nBy the blessings of the Lord and the generous support of devotees, the first two phases of construction have been successfully completed. The project now stands at its final and most crucial stage — Phase 3.\nTo complete this sacred endeavor, we now seek your support to raise ₹ 5 Crores. This final phase will include the completion of the main temple structure, interior finishing, sanctum areas, classrooms, multipurpose hall, and other essential facili",
-  cost_breakup,
   your_contrinution: "Every contribution -  big or small — brings us closer to completing Dakshina Dwaraka Dham, a divine abode that will stand as a beacon of spirituality, culture, and compassion for generations to come.\nYour generous donation will directly support the final phase of construction, helping us manifest this sacred vision of Sri Sri Rukmini Dwarakadhisha’s magnificent temple and cultural complex.\nAll donations are eligible for tax benefits under Section 80G of the Income Tax Act. As a token of our heartfelt appreciation, major donors will be honored on the Temple’s Wall of Gratitude, with their names inscribed as a lasting tribute to their devotion and service.",
   join_us: "Join us in creating a temple that will serve as a beacon of spirituality and culture for millions. Together, we can make this dream a reality.",
-  wall_of_gratitude,
   ongoing: "With your support, the new temple will further enhance this space, drawing millions of pilgrims and devotees annually.",
   construction_img,
   land_img,
@@ -87,28 +72,17 @@ export const campaign = {
     "This campaign aims to raise funds to build this temple complex. There is no amount that is too small and no amount that is too large. Read this story to learn more about the complex. As we said we estimate it will benefit 200 Lakh (20 million) visitors over a 10-year period. Your support will help us build this brick-by-brick.",
   radhaKrishnaHeading:
     "The pictures below show the 4 main deities of the Sri Radha Krishna Temple.",
-  radhaKrishnaImage:
-    image9,
-  image9,
+  radhaKrishnaImage:"",
   image9Para:
     "The picture above shows the Sri Srinivasa Govinda - A separate hall that would be build for Lord Venkateshwara.",
-  image10,
   image10Para:
     "Sri Radha Krishna Temple & Cultural Complex in Hubli-Dharwad is dedicated to ensuring a peaceful and enriching experience for all pilgrims. The temple's commitment is to provide a serene and spiritually uplifting environment where pilgrims can connect with their beliefs and find solace. Through its services, facilities, and serene atmosphere, the temple aims to enhance the pilgrimage experience, allowing visitors to immerse themselves in their spiritual journey and find tranquillity amidst the bustling world.",
-  projectStatus: image12,
   projectMatter:
     "The above picture shows the construction status and images of the ISKCON Sri Radha Krishna Temple and Cultural Complex (Phase -1) which is coming up at Hubli-Dharwad in Karnataka. ",
   projectMatter1:
     "The construction of the first phase has begun, and people are already hard at work, pouring their hearts, minds, and talent into creating this wonderful temple. The temple will shine as a symbol of hope and will bring people together. It will encourage spiritual development and harmony in the community.",
-  image11: image13,
   gratitude:
     "For those of you who can and want to fund large amounts, we would like to acknowledge the same by showcasing your name ( or the name of any relative or friend of yours) on the WALL OF GRATITUDE. ",
-  image12: image14,
-  iskconIcon: image15,
-  iskconIcon2: image16,
-  image13: image17,
-  image14: image18,
-  taxBenfits: image19,
 };
 
 export const BE_API_URL = process.env.REACT_APP_CLOUD_FLARE_BACKEND_URL;

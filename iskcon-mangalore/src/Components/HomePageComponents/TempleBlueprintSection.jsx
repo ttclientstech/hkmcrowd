@@ -2,11 +2,11 @@ import React from "react";
 import { Box, Text } from "@chakra-ui/react";
 
 import altarImg from "../../assets/images/altar.jpg";
-import festivalImg from "../../assets/images/festival_hall_1.jpg";
-import annadanamImg from "../../assets/images/annadanam_hall_1.jpg";
-import harinamImg from "../../assets/images/harinaam_mandap_1.jpg";
-import icvkImg from "../../assets/images/icvk_1.jpg";
-import gitaImg from "../../assets/images/gita_life_1.jpg";
+import festivalImg from "../../assets/images/festival_hall.jpg";
+import annadanamImg from "../../assets/images/annadanam_hall.jpg";
+import harinamImg from "../../assets/images/harinaam_mandap.jpg";
+import icvkImg from "../../assets/images/icvk.jpg";
+import gitaImg from "../../assets/images/gita_life.jpg";
 import kalaMadhuryamImg from "../../assets/images/kala_madhuryam.jpg";
 
 const items = [
