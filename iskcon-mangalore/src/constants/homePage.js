@@ -1,25 +1,6 @@
 import construction_img from "../assets/images/Front_View_from_AP.jpg";
 import land_img from "../assets/images/Top_Valley_View.jpg";
 import land_img2 from "../assets/images/Top_View.jpg";
-//import image1 from "../assets/images/image1.jpg";
-//import image2 from "../assets/images/image2.jpg";
-//import image3 from "../assets/images/image3.jpg";
-//import image4 from "../assets/images/image4.jpg";
-//import image5 from "../assets/images/image5.jpg";
-//import image6 from "../assets/images/image6.jpg";
-//import image8 from "../assets/images/image8.jpg";
-import image9 from "../assets/images/image9.jpg";
-import image10 from "../assets/images/image10.jpg";
-import image12 from "../assets/images/image12.jpg";
-import image13 from "../assets/images/image13.jpg";
-import image14 from "../assets/images/image14.png";
-import image15 from "../assets/images/logo.png";
-import image16 from "../assets/images/logo.jpeg";
-import image17 from "../assets/images/image17.jpg";
-import image18 from "../assets/images/image18.jpg";
-import image19 from "../assets/images/image19.png";
-
-// import 001_temple_front_view from "../assets/images/001_temple_front_view.jpg";
 
 export const campaign = {
   context:
