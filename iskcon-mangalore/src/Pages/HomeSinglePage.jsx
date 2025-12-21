@@ -502,7 +502,7 @@ const HomeSinglePage = () => {
                         >
                             See how we are building <br display={{base: "block", md: "none"}} />
                             <Text as="span" color="#C53030" fontWeight="800">
-                                Chennai's Tallest Krishna Temple
+                                Chennai's Tallest Seashore Temple
                             </Text>
                         </Text>
 

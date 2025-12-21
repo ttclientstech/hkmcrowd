@@ -4,7 +4,8 @@ import { drizzle, NeonHttpDatabase} from 'drizzle-orm/neon-http'
 import { neon, NeonQueryFunction } from '@neondatabase/serverless'
 import {  campaigns, paymentTable, campaignerStreaks, leaderboard} from './db/schema'
 import { and, desc, eq, gte, ilike } from 'drizzle-orm/expressions'
-import { count,   sql,   sum } from 'drizzle-orm'
+import { count,   sql,   sum, notExists } from 'drizzle-orm'
+import { alias } from 'drizzle-orm/pg-core'
 import { bearerAuth } from 'hono/bearer-auth'
 import { cors } from 'hono/cors'
 import Razorpay from 'razorpay'
@@ -1096,7 +1097,73 @@ app.post('/auth/google', cors({
     }
 });
 
-// ... existing routes ...
+app.get('/api/get_dropped_donors', async (c) => {
+    const DATABASE_URL = c.env.DATABASE_URL;
+    const sqlConnection = neon(DATABASE_URL);
+    const db = drizzle(sqlConnection);
+
+    try {
+        // 1. Create an alias for the same table to check for successful payments
+        const successfulPayment = alias(paymentTable, 'successful_payment');
+
+        const results = await db
+            // 2. Use distinctOn to avoid sending multiple messages if they failed multiple times
+            .selectDistinctOn([paymentTable.mobileno], {
+                donorName: paymentTable.username,
+                donorNumber: paymentTable.mobileno,
+                amount: paymentTable.amount,
+                campaignerId: paymentTable.campaignsid,
+                campaignerName: campaigns.campaignName,
+                createdAt: paymentTable.createdate
+            })
+            .from(paymentTable)
+            .leftJoin(campaigns, eq(paymentTable.campaignsid, campaigns.id))
+            .where(
+                and(
+                    // --- Condition A: It must be a failed payment ---
+                    eq(paymentTable.paymentstatus, false),
+                    eq(paymentTable.finalpaymentstatus, 'created'),
+
+                    // --- Condition B: It must be from Yesterday ---
+                    sql`DATE(${paymentTable.createdate}) = CURRENT_DATE - 1`,
+
+                    // --- Condition C: Ensure NO success exists for this number on the same day ---
+                    notExists(
+                        db.select()
+                            .from(successfulPayment)
+                            .where(and(
+                                // Link to the outer query via Mobile Number
+                                eq(successfulPayment.mobileno, paymentTable.mobileno),
+                                // Check if they have a SUCCESS (true) status
+                                eq(successfulPayment.paymentstatus, true),
+                                // Check if that success happened Yesterday
+                                sql`DATE(${successfulPayment.createdate}) = CURRENT_DATE - 1`
+                            ))
+                    )
+                )
+            )
+            // Order by mobileno is required for distinctOn, desc(createdate) keeps the latest attempt
+            .orderBy(paymentTable.mobileno, desc(paymentTable.createdate));
+
+        if (results.length === 0) {
+            return c.json({
+                message: "No incomplete payments found for yesterday (filtered successful retries).",
+                count: 0,
+                data: []
+            });
+        }
+
+        return c.json({
+            message: "Success",
+            count: results.length,
+            data: results
+        });
+
+    } catch (error) {
+        console.error("Error fetching dropped donors:", error);
+        return c.json({ error: "Internal Server Error", details: error.message }, 500);
+    }
+});
 
 export default {
     // A. Handle API Requests (Hono)
