@@ -1165,6 +1165,65 @@ app.get('/api/get_dropped_donors', async (c) => {
     }
 });
 
+app.post('/onboard_campaigner', async (c) => {
+    const body = await c.req.json();
+    const { name, mobile, email, gdrive_file_id, target_sqft, preacher_name } = body;
+
+    const DATABASE_URL = c.env.DATABASE_URL;
+    const R2_BUCKET = c.env.MY_R2_BUCKET;
+    const CDN_BASE_URL = c.env.CDN_BASE_URL;
+    const SQFT_PRICE = 5000;
+
+    try {
+        // 1. GENERATE ID & FILENAME
+        const cleanName = name.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+        const campaignId = `${cleanName}-${crypto.randomUUID().split('-')[0]}`;
+        const r2FileName = `campaigners/${campaignId}.jpg`;
+
+        // 2. FETCH & UPLOAD IMAGE
+        const gDriveUrl = `https://drive.google.com/uc?export=download&id=${gdrive_file_id}`;
+        const imageRes = await fetch(gDriveUrl);
+
+        if (!imageRes.ok) throw new Error("Failed to fetch image from GDrive");
+
+        const imageBlob = await imageRes.blob();
+        await R2_BUCKET.put(r2FileName, imageBlob, {
+            httpMetadata: { contentType: imageRes.headers.get('content-type') || 'image/jpeg' },
+        });
+
+        const publicPhotoUrl = `${CDN_BASE_URL}/${r2FileName}`;
+
+        // 3. CALCULATE TARGET AMOUNT
+        const calculatedTarget = (parseInt(target_sqft) || 10) * SQFT_PRICE;
+
+        // 4. INSERT INTO DB
+        const sqlConnection = neon(DATABASE_URL);
+        const db = drizzle(sqlConnection);
+
+        await db.insert(campaigns).values({
+            id: campaignId,
+            campaignName: name,
+            phoneno: mobile,
+            email: email,
+            imgurl: publicPhotoUrl,
+            targetAmount: calculatedTarget,
+            preacherName: preacher_name,
+            startdate: new Date(),
+            enddate: new Date('2026-01-30'),
+            raisedtotal: 0,
+            funderstotal: 0
+        });
+
+        // ✅ REMOVED: WhatsApp sending logic is now handled by Pabbly via App Script
+
+        return c.json({ status: "Success", campaignId: campaignId });
+
+    } catch (err) {
+        console.error(err);
+        return c.json({ status: "Error", message: err.message }, 500);
+    }
+});
+
 export default {
     // A. Handle API Requests (Hono)
     fetch: app.fetch,

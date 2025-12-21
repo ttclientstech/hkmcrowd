@@ -45,3 +45,8 @@ head_sampling_rate = 1
 # Run every hour at minute 0
 [triggers]
 crons = ["0 * * * *"]
+
+[[r2_buckets]]
+binding = "MY_R2_BUCKET"       # <--- This matches 'c.env.MY_R2_BUCKET'
+bucket_name = "ddd-campaign-photos" # <--- The actual name of your bucket in Cloudflare dashboard
+preview_bucket_name = "ddd-campaign-photos" # (Optional) For testing
