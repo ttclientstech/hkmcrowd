@@ -53,11 +53,11 @@ const RecentContributors = () => {
         loadContributors();
     }, []);
 
-    // ✅ UPDATED: Initial 8-second delay (was 4s)
+    // ✅ UPDATED: Initial 10-second delay (was 4s)
     useEffect(() => {
         const timer = setTimeout(() => {
             setStartToasting(true);
-        }, 8000); // 8 Seconds initial delay
+        }, 10000); // 10 Seconds initial delay
         return () => clearTimeout(timer);
     }, []);
 

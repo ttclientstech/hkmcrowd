@@ -454,10 +454,46 @@ const HomeSinglePage = () => {
 
             {/* ================== TEMPLE IMAGE SECTION (MOBILE ONLY) ================== */}
             <Box w="100%" mt={8} display={{ base: "block", md: "block", lg: "block" }}>
-                <Box bg="#FFE150" w="100%" py={[2, 3]} textAlign="center" px={3}>
-                    <Text fontSize={["sm", "md"]} fontWeight="700" color={TEXT_DARK} fontFamily="'Poppins', sans-serif">
-                        A fundraising initiative for the construction of Chennai's tallest cultural complex & temple for Lord Sri Krishna
-                    </Text>
+                {/* ================== TEMPLE IMAGE SECTION (MOBILE ONLY) ================== */}
+                <Box w="100%" mt={8} display={{ base: "block", md: "block", lg: "block" }}>
+
+                    {/* ✅ UPDATED: Premium Announcement Bar */}
+                    <Flex
+                        w="100%"
+                        py={[3, 4]}
+                        px={4}
+                        bgGradient="linear(to-r, #FFF5C3, #FFD700)" // Soft Gold -> Rich Gold
+                        align="center"
+                        justify="center"
+                        borderBottom="2px solid"
+                        borderColor="orange.300"
+                        boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1)"
+                        textAlign="center"
+                        gap={3}
+                    >
+                        {/* Subtle Icon to grab eye */}
+                        <Icon as={FaVihara} color={NAVY} w={5} h={5} display={["none", "block"]} />
+
+                        <Text
+                            fontSize={["sm", "md"]}
+                            fontWeight="600"
+                            color={NAVY}
+                            fontFamily="'Poppins', sans-serif"
+                            lineHeight="1.4"
+                        >
+                            A fundraising initiative for the construction of <br display={{base: "block", md: "none"}} />
+                            <Text as="span" fontWeight="800" color="#C53030" textTransform="uppercase">
+                                Chennai's tallest cultural complex
+                            </Text>
+                            {" "}& temple for Lord Sri Krishna
+                        </Text>
+                    </Flex>
+
+                    <Box px={4} mt={5}>
+                        <Box borderRadius="18px" overflow="hidden" boxShadow="0px 6px 25px rgba(0,0,0,0.25)" bg="white">
+                            <Image src={posterImage} alt="Dakshina Dwaraka Dham" w="100%" h="100%" objectFit="cover" />
+                        </Box>
+                    </Box>
                 </Box>
 
                 <Box px={4} mt={4}>
