@@ -347,13 +347,10 @@ const HomeSinglePage = () => {
         return () => clearInterval(interval);
     }, []);
 
-
-    // 1. Define the Bounce Animation
     const bounce = keyframes`
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(4px); }
     `;
-
 
     if (getSingleUser?.status === 404) return <PageNotFound />;
 
@@ -515,13 +512,6 @@ const HomeSinglePage = () => {
                             <Icon as={FaChevronDown} color={NAVY} w={4} h={4} />
                         </Box>
                     </Flex>
-                </Box>
-
-                    <Box px={4} mt={5}>
-                        <Box borderRadius="18px" overflow="hidden" boxShadow="0px 6px 25px rgba(0,0,0,0.25)" bg="white">
-                            <Image src={posterImage} alt="Dakshina Dwaraka Dham" w="100%" h="100%" objectFit="cover" />
-                        </Box>
-                    </Box>
                 </Box>
 
                 <Box px={4} mt={4}>
