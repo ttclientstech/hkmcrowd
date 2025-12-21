@@ -25,7 +25,7 @@ import {
     Image,
     Spinner,
 } from "@chakra-ui/react";
-import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaVihara } from "react-icons/fa";
+import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaVihara, FaChevronDown, FaEye } from "react-icons/fa";
 
 import PageNotFound from "../Components/HomePageComponents/PageNotFound";
 import DetailPageHeader from "../Components/HomePageComponents/DetailPageHeader";
@@ -347,6 +347,14 @@ const HomeSinglePage = () => {
         return () => clearInterval(interval);
     }, []);
 
+
+    // 1. Define the Bounce Animation
+    const bounce = keyframes`
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(4px); }
+    `;
+
+
     if (getSingleUser?.status === 404) return <PageNotFound />;
 
     if (paymentModel) {
@@ -454,40 +462,60 @@ const HomeSinglePage = () => {
 
             {/* ================== TEMPLE IMAGE SECTION (MOBILE ONLY) ================== */}
             <Box w="100%" mt={8} display={{ base: "block", md: "block", lg: "block" }}>
-                {/* ================== TEMPLE IMAGE SECTION (MOBILE ONLY) ================== */}
-                <Box w="100%" mt={8} display={{ base: "block", md: "block", lg: "block" }}>
-
-                    {/* ✅ UPDATED: Premium Announcement Bar */}
+                {/* THE HOOK BAR */}
+                <Box
+                    w="100%"
+                    py={[3, 4]}
+                    px={4}
+                    // Premium Gold Gradient
+                    bgGradient="linear(to-r, #FFF5C3, #FFD700, #FFF5C3)"
+                    borderBottom="1px solid"
+                    borderColor="orange.300"
+                    boxShadow="0 4px 12px -2px rgba(0, 0, 0, 0.15)"
+                    textAlign="center"
+                    position="relative"
+                    overflow="hidden"
+                >
                     <Flex
-                        w="100%"
-                        py={[3, 4]}
-                        px={4}
-                        bgGradient="linear(to-r, #FFF5C3, #FFD700)" // Soft Gold -> Rich Gold
+                        direction="column"
                         align="center"
                         justify="center"
-                        borderBottom="2px solid"
-                        borderColor="orange.300"
-                        boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1)"
-                        textAlign="center"
-                        gap={3}
+                        gap={1}
                     >
-                        {/* Subtle Icon to grab eye */}
-                        <Icon as={FaVihara} color={NAVY} w={5} h={5} display={["none", "block"]} />
+                        {/* The Hook Text: "Witness the Vision" */}
+                        <Flex align="center" gap={2} mb={1}>
+                            <Icon as={FaEye} color={NAVY} />
+                            <Text
+                                fontSize={["xs", "sm"]}
+                                fontWeight="800"
+                                letterSpacing="wider"
+                                color={NAVY}
+                                textTransform="uppercase"
+                            >
+                                Witness the Vision
+                            </Text>
+                        </Flex>
 
+                        {/* The Main Pitch */}
                         <Text
                             fontSize={["sm", "md"]}
                             fontWeight="600"
-                            color={NAVY}
+                            color={TEXT_DARK}
                             fontFamily="'Poppins', sans-serif"
-                            lineHeight="1.4"
+                            lineHeight="1.3"
                         >
-                            A fundraising initiative for the construction of <br display={{base: "block", md: "none"}} />
-                            <Text as="span" fontWeight="800" color="#C53030" textTransform="uppercase">
-                                Chennai's tallest cultural complex
+                            See how we are building <br display={{base: "block", md: "none"}} />
+                            <Text as="span" color="#C53030" fontWeight="800">
+                                Chennai's Tallest Krishna Temple
                             </Text>
-                            {" "}& temple for Lord Sri Krishna
                         </Text>
+
+                        {/* The Subconscious Cue: Bouncing Arrow */}
+                        <Box animation={`${bounce} 1.5s infinite ease-in-out`} mt={1} opacity={0.7}>
+                            <Icon as={FaChevronDown} color={NAVY} w={4} h={4} />
+                        </Box>
                     </Flex>
+                </Box>
 
                     <Box px={4} mt={5}>
                         <Box borderRadius="18px" overflow="hidden" boxShadow="0px 6px 25px rgba(0,0,0,0.25)" bg="white">
