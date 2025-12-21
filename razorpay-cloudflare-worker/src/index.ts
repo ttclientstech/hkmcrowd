@@ -284,7 +284,7 @@ app.post("/webhook/razorpay", async (c) => {
 });
 
 app.post("/checkpayment", cors({
-  origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app"],
+  origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app","https://hkmchennaicrowdfundinguat.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:false
@@ -361,7 +361,7 @@ const razorpay = new Razorpay({
 });
 
 app.use("*", cors({
-  origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app"],
+  origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app","https://hkmchennaicrowdfundinguat.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:false
@@ -406,7 +406,7 @@ const razorpay = new Razorpay({
 app.get(
     '/campaign/:id',
     cors({
-        origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app"],
+        origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app","https://hkmchennaicrowdfundinguat.vercel.app"],
         allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
         credentials: true,
@@ -476,7 +476,7 @@ app.get(
 app.post(
   '/create-payment',
   cors({
-    origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app"],
+    origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app","https://hkmchennaicrowdfundinguat.vercel.app"],
     allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
     credentials: true,
@@ -704,7 +704,7 @@ app.get("/get_overall_progress", async (c) => {
 });
 
 app.delete('/delete-campaign/:id',cors({
-  origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app"],
+  origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app","https://hkmchennaicrowdfundinguat.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
@@ -761,7 +761,7 @@ app.delete('/delete-campaign/:id',cors({
 
 
 app.put('/update-campaign/:id',cors({
-  origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app"],
+  origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app","https://hkmchennaicrowdfundinguat.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
@@ -838,7 +838,7 @@ app.put('/update-campaign/:id',cors({
 
 
 app.post('/create-campaign',cors({
-  origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app"],
+  origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app","https://hkmchennaicrowdfundinguat.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
@@ -1043,7 +1043,7 @@ app.get('/test-cron', async (c) => {
 
 // ✅ NEW AUTH ROUTE
 app.post('/auth/google', cors({
-    origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app", "http://localhost:3000"],
+    origin: ["https://hkm-chennai-crowd-funding.vercel.app","https://hkmchennaicrowdfunding-dev.vercel.app","https://hkmchennaicrowdfundinguat.vercel.app"],
     allowMethods: ['POST', 'OPTIONS'],
     allowHeaders: ['Content-Type'],
     credentials: true
