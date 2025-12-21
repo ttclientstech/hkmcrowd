@@ -89,7 +89,7 @@ const DivineLoader = ({ isVisible }) => (
         left="0"
         w="100vw"
         h="100vh"
-        bg={NAVY}
+        bg="#020c1b"
         zIndex="99999"
         display="flex"
         flexDirection="column"
@@ -481,7 +481,6 @@ const HomeSinglePage = () => {
                     >
                         {/* The Hook Text: "Witness the Vision" */}
                         <Flex align="center" gap={2} mb={1}>
-                            <Icon as={FaEye} color={NAVY} />
                             <Text
                                 fontSize={["xs", "sm"]}
                                 fontWeight="800"
