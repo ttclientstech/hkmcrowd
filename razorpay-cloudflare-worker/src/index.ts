@@ -1175,10 +1175,10 @@ app.post('/onboard_campaigner', async (c) => {
     const SQFT_PRICE = 5000;
 
     try {
-        // 1. GENERATE ID & FILENAME
+        // 1. GENERATE FILENAME FOR IMAGE (Independent of DB ID)
         const cleanName = name.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-        const campaignId = `${cleanName}-${crypto.randomUUID().split('-')[0]}`;
-        const r2FileName = `campaigners/${campaignId}.jpg`;
+        const uniqueSuffix = crypto.randomUUID().split('-')[0];
+        const r2FileName = `campaigners/${cleanName}-${uniqueSuffix}.jpg`;
 
         // 2. FETCH & UPLOAD IMAGE
         const gDriveUrl = `https://drive.google.com/uc?export=download&id=${gdrive_file_id}`;
@@ -1200,8 +1200,9 @@ app.post('/onboard_campaigner', async (c) => {
         const sqlConnection = neon(DATABASE_URL);
         const db = drizzle(sqlConnection);
 
-        await db.insert(campaigns).values({
-            id: campaignId,
+        // ✅ MODIFIED: Removed 'id' (DB handles it) and added .returning() to get the ID back
+        const insertResult = await db.insert(campaigns).values({
+            // id: campaignId, <--- REMOVED
             campaignName: name,
             phoneno: mobile,
             email: email,
@@ -1212,11 +1213,11 @@ app.post('/onboard_campaigner', async (c) => {
             enddate: new Date('2026-01-30'),
             raisedtotal: 0,
             funderstotal: 0
-        });
+        }).returning({ id: campaigns.id }); // Fetch the auto-generated ID
 
-        // ✅ REMOVED: WhatsApp sending logic is now handled by Pabbly via App Script
+        const newCampaignId = insertResult[0].id;
 
-        return c.json({ status: "Success", campaignId: campaignId });
+        return c.json({ status: "Success", campaignId: newCampaignId });
 
     } catch (err) {
         console.error(err);
