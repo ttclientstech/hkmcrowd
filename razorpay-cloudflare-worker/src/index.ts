@@ -278,7 +278,7 @@ app.post("/webhook/razorpay", async (c) => {
         return c.json({ status: "ok" });
 
     } catch (error) {
-        console.error("Error processing Razorpay webhook:", error);
+        console.error("Error processing Razorpay webhook: ", error);
         return c.json({ error: "Webhook processing failed", message: error.message }, 500);
     }
 });
