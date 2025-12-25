@@ -92,6 +92,8 @@ const Step1 = ({
                                 return (
                                     <Box
                                         key={i}
+                                        onClick={() => handlePresetClick(i + 1)} // ✅ ADDED: Click logic to select sqft
+                                        cursor="pointer" // ✅ ADDED: Cursor pointer
                                         w="100%"
                                         paddingTop="100%"
                                         borderRadius="4px"
@@ -99,9 +101,10 @@ const Step1 = ({
                                         bg={isFilled ? "linear-gradient(135deg, #FFD700 0%, #F59E0B 50%, #B7791F 100%)" : "white"}
                                         border={isFilled ? "none" : "1px solid #48BB78"}
                                         boxShadow={isFilled ? "inset 0 0 0 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0,0,0,0.2)" : "none"}
-                                        transition="all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+                                        transition="all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
                                         transform={isFilled ? "scale(1)" : "scale(0.92)"}
                                         opacity={isFilled ? 1 : 0.6}
+                                        _hover={{ transform: "scale(1.1)", zIndex: 10, borderColor: "#F59E0B" }} // ✅ ADDED: Hover effect
                                     >
                                         {isFilled && (
                                             <Box
@@ -116,7 +119,7 @@ const Step1 = ({
                             })}
                         </SimpleGrid>
                         <Text fontSize="10px" color="gray.400" textAlign="center" mt={1}>
-                            1 Block = 1 Sq. Ft. of Construction
+                            Click blocks to select quantity (1 Block = 1 Sq. Ft.)
                         </Text>
                     </Box>
 
@@ -209,7 +212,6 @@ const Step2 = ({ formData, handleOnChange, nextStep, prevStep, totalAmount }) =>
 
     return (
         <Fade in={true}>
-            {/* ✅ FIXED: maxW changed from 700px to 600px, padding matched to Step1 */}
             <Box bg="white" p={[5, 8]} borderRadius="24px" boxShadow="0 20px 40px rgba(0,0,0,0.2)" maxW="600px" mx="auto">
                 <VStack spacing={1} mb={6}>
                     {effectiveSqFt > 0 && (
@@ -225,7 +227,6 @@ const Step2 = ({ formData, handleOnChange, nextStep, prevStep, totalAmount }) =>
 
                 <Text textAlign="center" color="gray.700" mb={4} fontWeight="600">Please fill in your details</Text>
                 <VStack spacing={4} align="stretch">
-                    {/* ✅ UPDATED: Specific placeholders for Name and Mobile */}
                     <VStack align="start" spacing={1}>
                         <Text fontWeight="semibold" color="#0A1A33">Full Name *</Text>
                         <Input
@@ -300,7 +301,6 @@ const Step3 = ({
 
     return (
         <Fade in={true}>
-            {/* ✅ FIXED: Responsive maxW (600px on mobile to match Step1, 700px on desktop for grid) */}
             <Box bg="white" p={[5, 8]} borderRadius="24px" boxShadow="0 20px 40px rgba(0,0,0,0.2)" maxW={["600px", "700px"]} mx="auto">
                 <VStack spacing={1} mb={4}>
                     {effectiveSqFt > 0 && (
@@ -457,7 +457,6 @@ const Step4 = ({ formData, totalAmount, prevStep, handleSubmit, isLoading }) => 
 
     return (
         <Fade in={true}>
-            {/* ✅ FIXED: maxW changed to 600px, padding matched to Step1 */}
             <Box bg="white" p={[5, 8]} borderRadius="24px" boxShadow="0 20px 40px rgba(0,0,0,0.2)" maxW="600px" mx="auto">
                 <Text textAlign="center" fontWeight="bold" color="gray.600" fontSize="md" mb={4}>
                     Please review the provided details
