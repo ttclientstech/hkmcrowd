@@ -92,8 +92,14 @@ const Step1 = ({
                                 return (
                                     <Box
                                         key={i}
-                                        onClick={() => handlePresetClick(i + 1)} // ✅ ADDED: Click logic to select sqft
-                                        cursor="pointer" // ✅ ADDED: Cursor pointer
+                                        onClick={() => {
+                                            // ✅ ADDED: Vibration logic
+                                            if (typeof navigator !== "undefined" && navigator.vibrate) {
+                                                navigator.vibrate(50);
+                                            }
+                                            handlePresetClick(i + 1);
+                                        }}
+                                        cursor="pointer"
                                         w="100%"
                                         paddingTop="100%"
                                         borderRadius="4px"
@@ -104,7 +110,7 @@ const Step1 = ({
                                         transition="all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
                                         transform={isFilled ? "scale(1)" : "scale(0.92)"}
                                         opacity={isFilled ? 1 : 0.6}
-                                        _hover={{ transform: "scale(1.1)", zIndex: 10, borderColor: "#F59E0B" }} // ✅ ADDED: Hover effect
+                                        _hover={{ transform: "scale(1.1)", zIndex: 10, borderColor: "#F59E0B" }}
                                     >
                                         {isFilled && (
                                             <Box
