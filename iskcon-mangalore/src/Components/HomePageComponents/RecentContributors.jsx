@@ -7,14 +7,15 @@ import {
     VStack,
     Skeleton,
     SkeletonCircle,
-    useBreakpointValue,
     Icon,
     Avatar
 } from "@chakra-ui/react";
 import { FaTrophy, FaHistory, FaHeart, FaMedal, FaBolt } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { formatCurrency, formatTimeAgo } from "../utils";
-import { fetchAllContributers } from "../../utils/apiCall";
+import { fetchRecentDonors } from "../../utils/apiCall"; // Kept for 'Latest' tab
+// ✅ NEW IMPORT: Ensure you add this API call function
+import { fetchLeaderboard } from "../../utils/apiCall";
 
 // Theme Constants
 const NAVY = "#082032";
@@ -29,49 +30,46 @@ const MotionBox = motion(Box);
 const RecentContributors = () => {
     const [tab, setTab] = useState("latest");
     const [loading, setLoading] = useState(true);
-    const [contributors, setContributors] = useState([]);
+
+    // ✅ SEPARATE STATES
+    const [latestData, setLatestData] = useState([]);
+    const [leaderboardData, setLeaderboardData] = useState([]);
 
     // ✅ TOAST STATE
     const [showToast, setShowToast] = useState(false);
     const [currentToastIndex, setCurrentToastIndex] = useState(0);
     const [startToasting, setStartToasting] = useState(false);
 
-    const isMobile = useBreakpointValue({ base: true, md: false });
-
+    // 1. FETCH DATA BASED ON ACTIVE TAB
     useEffect(() => {
-        const loadContributors = async () => {
+        const loadData = async () => {
             setLoading(true);
             try {
-                const data = await fetchAllContributers();
-                setContributors(data || []);
+                if (tab === "latest") {
+                    // Optimized: You should ideally have an API that returns only last 20
+                    // For now, using your existing one
+                    const allData = await fetchRecentDonors();
+                    setLatestData(allData || []);
+                } else if (tab === "leaderboard") {
+                    // ✅ CALL THE NEW BACKEND API
+                    const top5 = await fetchLeaderboard();
+                    setLeaderboardData(top5 || []);
+                }
             } catch (err) {
-                console.error("Error fetching contributors:", err);
+                console.error("Error fetching data:", err);
             }
             setLoading(false);
         };
 
-        loadContributors();
-    }, []);
+        loadData();
+    }, [tab]); // Re-runs when tab changes
 
-    // ✅ UPDATED: Initial 10-second delay (was 4s)
+    // 2. TOAST LOGIC (Only runs if we have latest data)
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setStartToasting(true);
-        }, 10000); // 10 Seconds initial delay
+        const timer = setTimeout(() => setStartToasting(true), 10000);
         return () => clearTimeout(timer);
     }, []);
 
-    const latestData = contributors
-        .filter((c) => c?.finalpaymentstatus === "captured")
-        .slice(-20)
-        .reverse();
-
-    const largestData = [...contributors]
-        .filter((c) => c?.paymentstatus === true || c?.finalpaymentstatus === "captured")
-        .sort((a, b) => b.amount - a.amount)
-        .slice(0, 5);
-
-    // Toast Cycle Logic
     useEffect(() => {
         if (!startToasting || latestData.length === 0) return;
 
@@ -86,13 +84,9 @@ const RecentContributors = () => {
         };
 
         triggerToast();
-
-        const interval = setInterval(() => {
-            triggerToast();
-        }, 6000);
-
+        const interval = setInterval(triggerToast, 6000);
         return () => clearInterval(interval);
-    }, [startToasting, latestData.length]);
+    }, [startToasting, latestData]);
 
     const formatSqftOrAmount = (amt) => {
         if (amt >= SQFT_PRICE) {
@@ -102,7 +96,7 @@ const RecentContributors = () => {
         return formatCurrency(amt);
     };
 
-    // --- TOAST CONTENT ---
+    // Toast Content Helper
     const currentToastUser = latestData[currentToastIndex];
     const toastName = currentToastUser?.isanonymous ? "Anonymous" : currentToastUser?.username;
     const toastAmount = formatSqftOrAmount(currentToastUser?.amount);
@@ -115,7 +109,7 @@ const RecentContributors = () => {
 
         return (
             <MotionHStack
-                key={idx}
+                key={`${isLeaderboard ? 'top' : 'lat'}-${idx}`} // Unique Key
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: idx * 0.1 }}
@@ -138,7 +132,6 @@ const RecentContributors = () => {
                     <Box position="relative">
                         <Avatar
                             name={name}
-                            src={user?.avatar}
                             size="md"
                             bg={isTop3 ? `${medalColor}20` : "blue.50"}
                             color={NAVY}
@@ -177,79 +170,48 @@ const RecentContributors = () => {
     return (
         <Box w="100%" maxW="900px" mx="auto" mt={16} px={[4, 6]} fontFamily="'Poppins', sans-serif">
 
-            {/* ✅ ACTION-ORIENTED CENTERED TOAST (Desktop Compatible) */}
+            {/* TOAST NOTIFICATION */}
             <AnimatePresence>
                 {showToast && currentToastUser && (
                     <MotionBox
-                        // Animation: Pop up from bottom center
                         initial={{ opacity: 0, y: 50, x: "-50%", scale: 0.8 }}
                         animate={{ opacity: 1, y: 0, x: "-50%", scale: 1 }}
                         exit={{ opacity: 0, y: 20, x: "-50%", scale: 0.8 }}
                         transition={{ type: "spring", stiffness: 400, damping: 25 }}
-
                         position="fixed"
-                        // Responsive Bottom Spacing:
-                        // Mobile: 100px (Clears sticky button)
-                        // Desktop: 90px (Clears sticky button comfortably)
                         bottom={["100px", "90px"]}
                         left="50%"
                         zIndex="9999"
-
-                        // Theme: Action Oriented
-                        bg="#020c1b"
+                        bg="rgba(8, 32, 50, 0.95)"
                         backdropFilter="blur(12px)"
                         borderRadius="full"
                         boxShadow={`0 8px 30px rgba(0,0,0,0.4), 0 0 0 1px ${GOLD}40`}
                         p={2}
                         pr={6}
-
-                        // Responsive Width
                         minW={["280px", "340px"]}
-
                         display="flex"
                         alignItems="center"
                         gap={3}
                     >
-                        {/* Avatar with Activity Dot */}
                         <Box position="relative">
-                            <Avatar
-                                size="sm"
-                                name={toastName}
-                                src={currentToastUser?.avatar}
-                                bg={GOLD}
-                                color={NAVY}
-                                fontWeight="bold"
-                            />
-                            <Box
-                                position="absolute" bottom="0" right="0"
-                                bg="green.400" border="2px solid #082032"
-                                borderRadius="full" w="10px" h="10px"
-                                animation="pulse 2s infinite"
-                            />
+                            <Avatar size="sm" name={toastName} bg={GOLD} color={NAVY} fontWeight="bold" />
+                            <Box position="absolute" bottom="0" right="0" bg="green.400" border="2px solid #082032" borderRadius="full" w="10px" h="10px" animation="pulse 2s infinite" />
                         </Box>
-
-                        {/* Text Content */}
                         <VStack align="start" spacing={0} flex="1">
                             <HStack spacing={1} w="100%" justify="space-between">
-                                <Text fontSize="xs" fontWeight="700" color="white" noOfLines={1} maxW={["150px", "200px"]}>
-                                    {toastName}
-                                </Text>
+                                <Text fontSize="xs" fontWeight="700" color="white" noOfLines={1} maxW={["150px", "200px"]}>{toastName}</Text>
                                 <HStack spacing={1}>
                                     <Icon as={FaBolt} color={GOLD} w={2.5} h={2.5} />
-                                    <Text fontSize="10px" color={GOLD} fontWeight="bold" textTransform="uppercase">
-                                        Just Now
-                                    </Text>
+                                    <Text fontSize="10px" color={GOLD} fontWeight="bold" textTransform="uppercase">Just Now</Text>
                                 </HStack>
                             </HStack>
-
-                            <Text fontSize="xs" color="gray.300">
-                                contributed <Text as="span" fontWeight="800" color="white" fontSize="sm">{toastAmount}</Text>
-                            </Text>
+                            <Text fontSize="xs" color="gray.300">contributed <Text as="span" fontWeight="800" color="white" fontSize="sm">{toastAmount}</Text></Text>
                         </VStack>
                     </MotionBox>
                 )}
             </AnimatePresence>
 
+            {/* HEADER */}
             <Box textAlign="center" mb={8}>
                 <Text fontSize={["3xl", "3xl"]} fontWeight="800" color={NAVY} mb={2} letterSpacing="tight">
                     Recent <Text as="span" color="#E63946">Contributors</Text>
@@ -259,7 +221,7 @@ const RecentContributors = () => {
                 </Text>
             </Box>
 
-            {/* MODERN TAB SWITCH */}
+            {/* TABS */}
             <Flex bg="gray.100" p={1.5} borderRadius="full" w="fit-content" mx="auto" mb={8} boxShadow="inner">
                 <Flex
                     as="button" onClick={() => setTab("latest")} align="center" gap={2} px={6} py={2}
@@ -278,7 +240,7 @@ const RecentContributors = () => {
                 </Flex>
             </Flex>
 
-            {/* CARD CONTAINER */}
+            {/* LIST CONTENT */}
             <Box bg="#edf2f7" borderRadius="24px" p={[4, 6]} boxShadow="inset 0 0 20px rgba(0,0,0,0.03)" minH="300px" border={`1px dashed #082132`}>
                 {loading ? (
                     <VStack gap={4}>
@@ -294,24 +256,22 @@ const RecentContributors = () => {
                     </VStack>
                 ) : (
                     <>
+                        {/* SHOW LATEST */}
                         {tab === "latest" && (
                             <VStack gap={3}>
                                 {latestData.length > 0 ? (
-                                    latestData.slice(0, 10).map((user, idx) =>
-                                        renderContributorCard(user, idx, false)
-                                    )
+                                    latestData.map((user, idx) => renderContributorCard(user, idx, false))
                                 ) : (
                                     <Text color="gray.500" pt={10}>Be the first to donate today!</Text>
                                 )}
                             </VStack>
                         )}
 
+                        {/* SHOW LEADERBOARD (Fetched from new API) */}
                         {tab === "leaderboard" && (
                             <VStack gap={3}>
-                                {largestData.length > 0 ? (
-                                    largestData.map((user, idx) =>
-                                        renderContributorCard(user, idx, true)
-                                    )
+                                {leaderboardData.length > 0 ? (
+                                    leaderboardData.map((user, idx) => renderContributorCard(user, idx, true))
                                 ) : (
                                     <Text color="gray.500" pt={10}>Leaderboard updating...</Text>
                                 )}

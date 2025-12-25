@@ -4,7 +4,7 @@ import { drizzle, NeonHttpDatabase} from 'drizzle-orm/neon-http'
 import { neon, NeonQueryFunction } from '@neondatabase/serverless'
 import {  campaigns, paymentTable, campaignerStreaks, leaderboard} from './db/schema'
 import { and, desc, eq, gte, ilike } from 'drizzle-orm/expressions'
-import { count,   sql,   sum, notExists } from 'drizzle-orm'
+import { count,   sql,   sum, notExists, or, asc } from 'drizzle-orm'
 import { alias } from 'drizzle-orm/pg-core'
 import { bearerAuth } from 'hono/bearer-auth'
 import { cors } from 'hono/cors'
@@ -903,11 +903,42 @@ app.get('/', (c) => {
 
 
 
-app.get("/show", async (c)=> {
+app.get("/show", async (c) => {
     const db = c.get('db');
-    const res = await db.select().from(paymentTable).then((res)=>res);
-    return c.json(res)
+
+    const res = await db.select()
+        .from(paymentTable)
+        .where(
+            or(
+                eq(paymentTable.paymentstatus, true),
+                eq(paymentTable.finalpaymentstatus, 'captured')
+            )
+        )
+        // ✅ CHANGED: Sorts by Oldest date first (Ascending)
+        .orderBy(asc(paymentTable.createdate));
+
+    return c.json(res);
 })
+
+
+app.get("/recentdonors", async (c) => {
+    const db = c.get('db');
+
+    const res = await db.select()
+        .from(paymentTable)
+        .where(
+            // Filter: Payment Status is TRUE or 'captured'
+            or(
+                eq(paymentTable.paymentstatus, true),
+                eq(paymentTable.finalpaymentstatus, 'captured')
+            )
+        )
+        // Sort: Latest date first (Descending Order)
+        .orderBy(desc(paymentTable.createdate))
+        .limit(20);
+
+    return c.json(res);
+});
 
 app.get("/api/campaigner/:id/streak", async (c) => {
     const db = c.get("db");
@@ -1222,6 +1253,38 @@ app.post('/onboard_campaigner', async (c) => {
     } catch (err) {
         console.error(err);
         return c.json({ status: "Error", message: err.message }, 500);
+    }
+});
+
+app.get('/api/get_leaderboard', async (c) => {
+    const DATABASE_URL = c.env.DATABASE_URL;
+    const sqlConnection = neon(DATABASE_URL);
+    const db = drizzle(sqlConnection);
+
+    try {
+        const topDonors = await db
+            .select({
+                username: paymentTable.username,
+                amount: paymentTable.amount,
+                isanonymous: paymentTable.isanonymous,
+                createdate: paymentTable.createdate,
+                // Add avatar column if it exists in your schema, otherwise handle in UI
+            })
+            .from(paymentTable)
+            .where(
+                or(
+                    eq(paymentTable.paymentstatus, true),
+                    eq(paymentTable.finalpaymentstatus, 'captured')
+                )
+            )
+            .orderBy(desc(paymentTable.amount))
+            .limit(5);
+
+        return c.json(topDonors);
+
+    } catch (error) {
+        console.error("Error fetching leaderboard:", error);
+        return c.json({ error: "Internal Server Error" }, 500);
     }
 });
 
