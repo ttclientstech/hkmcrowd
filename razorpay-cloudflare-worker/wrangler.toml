@@ -1,4 +1,4 @@
-name = "razor-uat"
+name = "razor-dev"
 main = "src/index.ts"
 compatibility_date = "2025-01-02"
 
