@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Text, Flex, Icon, VStack, useBreakpointValue } from "@chakra-ui/react";
 import { FaMusic } from "react-icons/fa";
 import { motion } from "framer-motion";
-import culturalHallBg from "../../assets/images/cultural_hall_bg.jpg"; // ✅ Replace with your actual image path
+import { culturalHallBg } from "../../constants/cdnImages"; // ✅ Replace with your actual image path
 
 const MotionBox = motion(Box);
 const NAVY = "#082032";

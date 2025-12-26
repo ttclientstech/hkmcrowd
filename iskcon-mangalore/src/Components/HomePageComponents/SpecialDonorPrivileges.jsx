@@ -1,8 +1,7 @@
 import { Box, Text, Image } from "@chakra-ui/react";
 import React from "react";
 
-import booksImg from "../../assets/images/vedic_books.jpg";
-import pujaImg from "../../assets/images/puja.jpg";
+import { booksImg, pujaImg } from "../../constants/cdnImages";
 
 const privileges = [
     {

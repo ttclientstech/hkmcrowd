@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Text, Flex, VStack, useBreakpointValue } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import culturalHallBg from "../../assets/images/education_wing.jpg"; // ✅ Replace with your actual image path
+import  { education_wing } from "../../constants/cdnImages"; // ✅ Replace with your actual image path
 
 const MotionBox = motion(Box);
 const NAVY = "#082032";
@@ -30,7 +30,7 @@ const EducationWingDonationBanner = ({ handleScrollToDonate }) => {
                 left="0"
                 w="100%"
                 h="100%"
-                bgImage={`url(${culturalHallBg})`}
+                bgImage={`url(${education_wing})`}
                 bgSize="cover"
                 bgPosition="center"
                 transition="transform 10s ease"

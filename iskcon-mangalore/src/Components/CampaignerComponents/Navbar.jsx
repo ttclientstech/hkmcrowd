@@ -1,6 +1,6 @@
 import React from "react";
 import { Flex, Image } from "@chakra-ui/react";
-import templeLogo from "../../assets/images/transparent_logo.png";
+import { transparentLogo } from "../../constants/cdnImages";
 
 const Navbar = ({ campaignerName, campaignerImage }) => (
     <Flex
@@ -15,7 +15,7 @@ const Navbar = ({ campaignerName, campaignerImage }) => (
         boxShadow="none"                // Removed shadow for a cleaner integration
         // ✅ UPDATED STYLES END
     >
-        <Image src={templeLogo} alt="Temple Logo" height="40px" width="85px"/>
+        <Image src={transparentLogo} alt="Temple Logo" height="40px" width="85px"/>
 
         <Image
             src={campaignerImage}

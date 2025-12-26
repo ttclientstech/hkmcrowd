@@ -3,10 +3,7 @@ import { Box, Text, Grid, GridItem, Image, Flex, Icon, useBreakpointValue } from
 import { FaExpand, FaCube } from "react-icons/fa";
 
 // PLEASE UPDATE THESE IMPORTS WITH YOUR NEW 3D RENDER IMAGES
-import render1 from "../../assets/images/ddd_arc_1.jpg"; // Main View
-import render2 from "../../assets/images/ddd_arc_4.jpg";    // Side/Aerial View
-import render3 from "../../assets/images/ddd_arc_2.jpg";           // Close-up View
-import render4 from "../../assets/images/ddd_arc_3.jpg";    // Interior View
+import { render1, render2, render3, render4 } from "../../constants/cdnImages";
 
 // Theme Constants
 const NAVY = "#082032";

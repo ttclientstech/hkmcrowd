@@ -1,9 +1,7 @@
 import { Box, Flex, Image, Text, VStack, Button } from '@chakra-ui/react';
 import React from 'react';
 import { useNavigate, useParams } from "react-router-dom";
-import transparentLogo from "../../assets/images/transparent_logo.png";
-import bannerBg from "../../assets/images/campaigner_page_banner_desktop.jpeg";
-import mobileHeroBg from "../../assets/images/campaigner_page_banner_mobile.png";
+import { transparentLogo, bannerBg, mobileHeroBg } from "../../constants/cdnImages";
 import PoppinFont from "./PoppinFont";
 
 const COST_PER_SQFT = 5000;

@@ -4,13 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchSingleUser, postPaymentFormData } from "../Redux/clientSlices/clientUsers";
 import { keyframes } from "@emotion/react";
-
-import avatar from "../assets/images/Avatar-PNG-Image.webp";
-import ddd_poster_mob from "../assets/images/ddd_poster_mob.jpg";
-import ddd_poster_dektop from "../assets/images/ddd_poster_desktop.jpg";
-import temple_main1 from "../assets/images/Front_View_from_AP.jpg";
-import temple_main2 from "../assets/images/Top_Valley_View.jpg";
-import temple_main3 from "../assets/images/Top_View.jpg";
+import {avatar, ddd_poster_mob,ddd_poster_dektop,temple_main1, temple_main2, temple_main3, img_annadanam, img_festival, img_kalamadhuryam, img_harinam, img_icvk, img_gitalife }  from "../constants/cdnImages";
 import {
     Box,
     IconButton,
@@ -31,12 +25,6 @@ import PageNotFound from "../Components/HomePageComponents/PageNotFound";
 import DetailPageHeader from "../Components/HomePageComponents/DetailPageHeader";
 import PaymentPageFull from "../Components/HomePageComponents/PaymentPageFull";
 import PoppinFont from "../Components/HomePageComponents/PoppinFont";
-import img_annadanam from "../assets/images/annadanam_hall.jpg";
-import img_festival from "../assets/images/festival_hall.jpg";
-import img_kalamadhuryam from "../assets/images/kala_madhuryam.jpg";
-import img_harinam from "../assets/images/harinaam_mandap.jpg";
-import img_icvk from "../assets/images/icvk.jpg";
-import img_gitalife from "../assets/images/gita_life.jpg";
 import TestimonialSection from "../Components/HomePageComponents/TestimonialSection";
 import DonorPrivilegeSection from "../Components/HomePageComponents/DonorPrivilegeSection";
 import WhyDonateQuotes from "../Components/HomePageComponents/WhyDonateQuotes";

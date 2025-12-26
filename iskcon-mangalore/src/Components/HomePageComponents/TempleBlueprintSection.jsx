@@ -1,13 +1,7 @@
 import React from "react";
 import { Box, Text } from "@chakra-ui/react";
 
-import altarImg from "../../assets/images/altar.jpg";
-import festivalImg from "../../assets/images/festival_hall.jpg";
-import annadanamImg from "../../assets/images/annadanam_hall.jpg";
-import harinamImg from "../../assets/images/harinaam_mandap.jpg";
-import icvkImg from "../../assets/images/icvk.jpg";
-import gitaImg from "../../assets/images/gita_life.jpg";
-import kalaMadhuryamImg from "../../assets/images/kala_madhuryam.jpg";
+import { altarImg, img_festival, img_annadanam, img_harinam, img_icvk, img_gitalife, img_kalamadhuryam  } from "../../constants/cdnImages";
 
 const items = [
     {
@@ -16,32 +10,32 @@ const items = [
         desc: "The beautifully carved altar of Sri Sri Rukmini Dwarakadish."
     },
     {
-        img: kalaMadhuryamImg,
+        img: img_kalamadhuryam,
         title: "Cultural Hall",
         desc: "A 300 seater hall for artists to perform, inspire, and share devotional art."
     },
     {
-        img: annadanamImg,
+        img: img_annadanam,
         title: "Prasadam Hall",
         desc: "A sacred hall serving sanctified Krishna-prasadam."
     },
     {
-        img: festivalImg,
+        img: img_festival,
         title: "Festival Hall",
         desc: "A grand space for kirtans, festivals & cultural celebrations."
     },
     {
-        img: harinamImg,
+        img: img_harinam,
         title: "Harinam Mandap",
         desc: "A serene space for chanting & meditation."
     },
     {
-        img: icvkImg,
+        img: img_icvk,
         title: "ICVK Kids Program",
         desc: "Value-based cultural learning for children."
     },
     {
-        img: gitaImg,
+        img: img_gitalife,
         title: "Gita Life Program",
         desc: "Transforming youth & families with Gita wisdom."
     }

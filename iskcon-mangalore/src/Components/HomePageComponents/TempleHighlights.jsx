@@ -7,7 +7,7 @@ import {
     FaRegBuilding,
     FaCheck
 } from "react-icons/fa";
-import highlightBg from "../../assets/images/high_light_bg.png";
+import { highlightBg } from "../../constants/cdnImages";
 
 const NAVY = "#082032";
 const GOLD = "#FFD45E";

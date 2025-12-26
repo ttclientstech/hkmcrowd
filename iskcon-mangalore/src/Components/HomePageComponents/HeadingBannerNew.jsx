@@ -1,5 +1,5 @@
 import { Flex, Image, Box, Text } from "@chakra-ui/react";
-import logo from "../../assets/images/logo.png";
+import { logo } from "../../constants/cdnImages";
 
 // import { IskconFontColor, IskconBgColor, banner } from "../utils.jsx";
 

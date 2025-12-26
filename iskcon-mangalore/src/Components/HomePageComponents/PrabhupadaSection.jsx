@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Text, Flex, Image } from "@chakra-ui/react";
 
 // IMPORT YOUR PRABHUPADA PHOTO
-import prabhupadaImg from "../../assets/images/prabhupada.jpg";
+import { prabhupadaImg } from "../../constants/cdnImages";
 
 const PrabhupadaSection = () => {
     return (

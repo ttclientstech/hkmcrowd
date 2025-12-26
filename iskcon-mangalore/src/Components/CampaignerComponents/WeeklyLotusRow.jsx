@@ -1,7 +1,6 @@
 import React from "react";
 import { Image, Text, VStack, Box, SimpleGrid, Center } from "@chakra-ui/react";
-import lotusBud from "../../assets/images/lotus_bud_small.png";
-import lotusBloom from "../../assets/images/lotus_bloom_small.png";
+import { weekly_lotusBud, weekly_lotusBloom }  from "../../constants/cdnImages";
 
 const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -53,7 +52,7 @@ const WeeklyLotusRow = ({ days: blossomed }) => {
                                     {isToday && !hasBlossomed ? (
                                         <>
                                             <Image
-                                                src={lotusBloom}
+                                                src={weekly_lotusBloom}
                                                 boxSize="90px" // ✅ 90px Height
                                                 objectFit="contain"
                                                 opacity={0.6}
@@ -94,7 +93,7 @@ const WeeklyLotusRow = ({ days: blossomed }) => {
                                         </>
                                     ) : (
                                         <Image
-                                            src={hasBlossomed ? lotusBloom : lotusBud}
+                                            src={hasBlossomed ? weekly_lotusBloom : weekly_lotusBud}
                                             boxSize="90px" // ✅ 90px Height
                                             objectFit="contain"
                                             transition="transform 0.3s ease"

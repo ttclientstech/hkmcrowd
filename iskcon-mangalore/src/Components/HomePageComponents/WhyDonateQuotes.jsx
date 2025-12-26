@@ -1,11 +1,7 @@
 import React from "react";
 import { Box, Text, Flex, Grid } from "@chakra-ui/react";
 
-// IMPORT YOUR QUOTE VIDEOS
-import vishnu_purana from "../../assets/videos/vishnu_purana.mp4";
-import vamana_purana from "../../assets/videos/vamana_purana.mp4";
-import garuda_purana from "../../assets/videos/garuda_purana.mp4";
-
+import { vishnu_purana,vamana_purana,garuda_purana } from "../../constants/cdnImages";
 // QUOTES DATA
 const quotes = [
     {

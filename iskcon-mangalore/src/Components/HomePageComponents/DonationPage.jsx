@@ -32,8 +32,7 @@ import {
 } from "react-icons/fa";
 
 // Assets & Components
-import donorBg from "../../assets/images/donation_page_bg.jpg";
-import templeLogo from "../../assets/images/logo.png";
+import { donorBg, templeLogo } from "../../constants/cdnImages";
 import AutoSuggestInput from "./AutoSuggestInput";
 import { IndiaStates, DistrictsByState } from "../../constants/indiaLocations";
 
