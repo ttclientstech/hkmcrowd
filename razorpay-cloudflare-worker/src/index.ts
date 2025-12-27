@@ -47,7 +47,7 @@ async function updateCampaignerStreak(db, campaignid) {
 
         // 3. CASE: First time donation (No record exists)
         if (streakRecord.length === 0) {
-            console.log(`[Streak] No existing record. Creating new streak for ${campaignid}`);
+            console.log(`[Streak] No existing record. Creating new streak for  ${campaignid}`);
             await db.insert(campaignerStreaks).values({
                 campaignerId: campaignid,
                 currentStreak: 1,
