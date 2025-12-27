@@ -1,4 +1,4 @@
-const CDN_BASE = "https://pub-b9635d65c1914c4f902ad5cc420a61eb.r2.dev/cdn_files";
+const CDN_BASE = "https://cdn.hkmchennai.org/cdn-files";
 export const Banner = `${CDN_BASE}/mandir_nirman_seva_banner.png`;
 export const avatar = `${CDN_BASE}/Avatar-PNG-Image.webp`;
 export const ddd_poster_mob = `${CDN_BASE}/ddd_poster_mob.jpg`;
