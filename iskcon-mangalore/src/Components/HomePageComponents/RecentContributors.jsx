@@ -182,7 +182,7 @@ const RecentContributors = () => {
                         bottom={["100px", "90px"]}
                         left="50%"
                         zIndex="9999"
-                        bg="rgba(8, 32, 50, 0.95)"
+                        bg="#020c1b"
                         backdropFilter="blur(12px)"
                         borderRadius="full"
                         boxShadow={`0 8px 30px rgba(0,0,0,0.4), 0 0 0 1px ${GOLD}40`}
