@@ -6,8 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { BE_API_URL } from "../../constants/homePage";
 
 // ✅ REPLACE WITH YOUR ACTUAL IMAGE PATHS
-import templeBg from "../../assets/images/ddd_arc_1.jpg";
-import templeLogo from "../../assets/images/logo.png";
+import {render1, logo} from "../../constants/cdnImages";
 
 const LoginPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -63,7 +62,7 @@ const LoginPage = () => {
             <Box
                 position="fixed" // Locks bg so it doesn't move when scrolling
                 top="0" left="0" right="0" bottom="0"
-                bgImage={`url(${templeBg})`}
+                bgImage={`url(${render1})`}
                 bgSize="cover"
                 bgPosition="center"
                 bgRepeat="no-repeat"
@@ -96,7 +95,7 @@ const LoginPage = () => {
                 <VStack spacing={6}>
                     {/* Temple Logo */}
                     <Image
-                        src={templeLogo}
+                        src={logo}
                         w={logoSize}
                         filter="drop-shadow(0 0 15px rgba(255, 215, 0, 0.6))"
                         alt="Dakshina Dwaraka Dham Logo"
