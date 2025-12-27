@@ -1,7 +1,3 @@
-import construction_img from "../assets/images/Front_View_from_AP.jpg";
-import land_img from "../assets/images/Top_Valley_View.jpg";
-import land_img2 from "../assets/images/Top_View.jpg";
-
 export const campaign = {
   context:
     "Join us in building Dakshina Dwaraka Dham, the divine abode of Their Lordships Sri Sri Rukmini Dwarakadhisha, a monumental spiritual and cultural project by the Hare Krishna Movement Chennai (An Affiliate of ISKCON: S-49/78-79, Bengaluru).\nEnvisioned as a spiritual and cultural landmark of South India, Dakshina Dwaraka Dham will be a radiant center of devotion, culture, and education — a place where people from all walks of life can discover peace, wisdom, and divine joy.\nInspired by the glorious city of Dwaraka, the eternal kingdom of Lord Krishna, this grand temple will stand as a beacon of spiritual learning and service, reviving India’s timeless heritage while addressing the needs of modern society through education, outreach, and community care.\nThrough this crowdfunding campaign, we aim to raise ₹ 5 Crores to complete the next phase of temple construction. Every contribution, big or small, brings us closer to manifesting this sacred vision — a spiritual sanctuary for generations to come.\nTogether, let us build Dakshina Dwaraka Dham — a magnificent temple for the pleasure of Sri Sri Rukmini Dwarakadhisha, and a place where hearts awaken to devotion and life finds its divine purpose.",
@@ -16,9 +12,6 @@ export const campaign = {
   your_contrinution: "Every contribution -  big or small — brings us closer to completing Dakshina Dwaraka Dham, a divine abode that will stand as a beacon of spirituality, culture, and compassion for generations to come.\nYour generous donation will directly support the final phase of construction, helping us manifest this sacred vision of Sri Sri Rukmini Dwarakadhisha’s magnificent temple and cultural complex.\nAll donations are eligible for tax benefits under Section 80G of the Income Tax Act. As a token of our heartfelt appreciation, major donors will be honored on the Temple’s Wall of Gratitude, with their names inscribed as a lasting tribute to their devotion and service.",
   join_us: "Join us in creating a temple that will serve as a beacon of spirituality and culture for millions. Together, we can make this dream a reality.",
   ongoing: "With your support, the new temple will further enhance this space, drawing millions of pilgrims and devotees annually.",
-  construction_img,
-  land_img,
-  land_img2,
 
 
 
