@@ -1191,7 +1191,7 @@ app.get('/api/get_dropped_donors', async (c) => {
         });
 
     } catch (error) {
-        console.error("Error fetching dropped donors:", error);
+        console.error("Error fetching dropped donors :", error);
         return c.json({ error: "Internal Server Error", details: error.message }, 500);
     }
 });
