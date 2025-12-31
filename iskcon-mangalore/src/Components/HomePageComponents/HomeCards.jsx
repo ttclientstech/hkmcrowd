@@ -16,7 +16,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import ProgressBar from "./ProgressBar";
 import { Link } from "react-router-dom";
 import DottedAnimation from "../DottedAnimation";
-import { calculatePercentage, formatCurrency, getDaysDifference, themeColor } from "../utils";
+import { calculatePercentage, getDaysDifference, themeColor } from "../utils"; // Removed formatCurrency as it is no longer used here
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { debounce, fetchAllCampaigners } from "../../utils/apiCall";
 import BadgeForTopCampaigners from "./BadgeForTopCapaigners";
@@ -55,6 +55,9 @@ const HomeCards = ({
     setSearchQuery(query.trim());
   }, 300);
 
+  // Conversion Constant
+  const PRICE_PER_SQFT = 5000;
+
   return (
     <Box
       mx="auto"
@@ -66,7 +69,6 @@ const HomeCards = ({
       boxShadow="lg"
       mb={'10px'}
       minH={'30vh'}
-
     >
       <Box w="100%">
         <Box mx="auto" textAlign="center" mb={1} mt={3} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
@@ -101,7 +103,6 @@ const HomeCards = ({
               } finally {
                 setIsLoading(false);
               }
-
             }}
           />
         </Box>
@@ -124,100 +125,108 @@ const HomeCards = ({
               mx="auto"
               p="10px"
             >
-              {filteredSearch(campaigns, searchQuery)?.map((user, i) => (
-                <Link key={user.campaignId} to={`/${user.campaignId}`}>
-                  <Card border={'2px solid #444444'} w="100%" overflow="hidden" h="100%" boxShadow="md" borderRadius="14px">
-                    <Box w="100%" h={["250px", "250px", "250px", "300px", "250px"]} position='relative' >
-                      <Image
-                        w="100%"
-                        h="100%"
-                        src={user?.imgurl}
-                        alt={user?.campaignName}
-                        objectFit="cover"
-                        borderTopRadius="10px"
-                      />
-                      {!searchQuery && <>
-                        <BadgeForTopCampaigners name={donorTitles[i]} />
+              {filteredSearch(campaigns, searchQuery)?.map((user, i) => {
 
-                        {(i + 1) <= 50 && <Badge
-                          colorScheme='green'
-                          bg='transparent'
-                          fontSize='100px'
-                          position='absolute'
-                          top={'-22px'}
-                          marginLeft={'8px'}
-                          left={0}
-                          p={0}
-                          display='flex'
-                          justifyContent='flex-start'
-                          alignItems='flex-start'
-                          opacity={0.3}
-                          transition={{ duration: 5, repeat: Infinity, repeatType: "reverse" }}
-                          initial={{ scale: 1 }}
-                          animate={{ scale: [1, 1.1, 1] }}
-                        >
-                          {i + 1}
-                        </Badge>}
-                      </>}
-                    </Box>
-                    <CardBody bg="gray.100" px="7px">
-                      <Text fontSize="1.1rem"  fontWeight="700" mb={2} color="gray.700">
-                        {user.campaignName.toUpperCase()}'S Campaign to build a
-                        magnificent {' '}
-                        <span style={{ color: '#6A1B9A' }}>
+                // Calculate Square Feet
+                const raisedSqFt = Math.floor((user?.totalRaisedAmount || 0) / PRICE_PER_SQFT);
+                const goalSqFt = Math.floor((user?.targetamt || 0) / PRICE_PER_SQFT);
+
+                return (
+                  <Link key={user.campaignId} to={`/${user.campaignId}`}>
+                    <Card border={'2px solid #444444'} w="100%" overflow="hidden" h="100%" boxShadow="md" borderRadius="14px">
+                      <Box w="100%" h={["250px", "250px", "250px", "300px", "250px"]} position='relative' >
+                        <Image
+                          w="100%"
+                          h="100%"
+                          src={user?.imgurl}
+                          alt={user?.campaignName}
+                          objectFit="cover"
+                          borderTopRadius="10px"
+                        />
+                        {!searchQuery && <>
+                          <BadgeForTopCampaigners name={donorTitles[i]} />
+
+                          {(i + 1) <= 50 && <Badge
+                            colorScheme='green'
+                            bg='transparent'
+                            fontSize='100px'
+                            position='absolute'
+                            top={'-22px'}
+                            marginLeft={'8px'}
+                            left={0}
+                            p={0}
+                            display='flex'
+                            justifyContent='flex-start'
+                            alignItems='flex-start'
+                            opacity={0.3}
+                            transition={{ duration: 5, repeat: Infinity, repeatType: "reverse" }}
+                            initial={{ scale: 1 }}
+                            animate={{ scale: [1, 1.1, 1] }}
+                          >
+                            {i + 1}
+                          </Badge>}
+                        </>}
+                      </Box>
+                      <CardBody bg="gray.100" px="7px">
+                        <Text fontSize="1.1rem" fontWeight="700" mb={2} color="gray.700">
+                          {user.campaignName.toUpperCase()}'S Campaign to build a
+                          magnificent {' '}
+                          <span style={{ color: '#6A1B9A' }}>
                             Dakshina Dwaraka Dham - The cultural complex to preserve and promote Indian heritage
                           </span>{' '}
-                        in Chennai, Tamil Nadu.
-                      </Text>
-                      <Text fontSize="0.9rem" mb={2} color="gray.600">{user.desc}</Text>
-                      <HStack fontSize="0.8rem" py="0.5rem" color="gray.500">
-                        <Box color="red.500">Hare Krishna Movement Chennai</Box>{" "}
-                        <Box>|</Box>
-                        <HStack>
-                          <Box color="red.500">
-                            <FaLocationDot />
-                          </Box>
-                          <Box>Thiruvanmiyur</Box>
+                          in Chennai, Tamil Nadu.
+                        </Text>
+                        <Text fontSize="0.9rem" mb={2} color="gray.600">{user.desc}</Text>
+                        <HStack fontSize="0.8rem" py="0.5rem" color="gray.500">
+                          <Box color="red.500">Hare Krishna Movement Chennai</Box>{" "}
+                          <Box>|</Box>
+                          <HStack>
+                            <Box color="red.500">
+                              <FaLocationDot />
+                            </Box>
+                            <Box>Thiruvanmiyur</Box>
+                          </HStack>
                         </HStack>
-                      </HStack>
 
-                    </CardBody>
-                    <CardFooter
-                      // bgColor="teal.600"
-                      bgColor={IskconBgColor}
-                      display="flex"
-                      flexDirection="column"
-                      py="5px"
-                      px="8px"
-                      borderBottomRadius="10px"
-                    >
-                      <HStack
-                        color="white"
-                        fontWeight="700"
-                        justifyContent="space-between"
-                        w="100%"
+                      </CardBody>
+                      <CardFooter
+                        // bgColor="teal.600"
+                        bgColor={IskconBgColor}
+                        display="flex"
+                        flexDirection="column"
+                        py="5px"
+                        px="8px"
+                        borderBottomRadius="10px"
                       >
-                        <Box>{formatCurrency(user?.totalRaisedAmount)}</Box>
-                        <Box>{formatCurrency(user?.targetamt)}</Box>
-                      </HStack>
-                      <ProgressBar
-                        currentAmount={user?.totalRaisedAmount}
-                        goalAmount={user?.targetamt}
-                      />
-                      <HStack
-                        color="white"
-                        fontWeight="700"
-                        justifyContent="space-between"
-                        w="100%"
-                      >
-                        <Box>{calculatePercentage(user?.targetamt, user?.totalRaisedAmount)}%</Box>
-                        <Box color="#d481f0" fontWeight={900} fontSize={"20px"}>{calculatePercentage(user?.targetamt, user?.totalRaisedAmount) >= 100 ? "Goal Achieved!" : (calculatePercentage(user?.targetamt, user?.totalRaisedAmount) >= 80 ? "Almost there!" : "") }</Box>
-                        <Box>{getDaysDifference(user?.enddate.split("T")[0])} Days LEFT</Box>
-                      </HStack>
-                    </CardFooter>
-                  </Card>
-                </Link>
-              ))}
+                        <HStack
+                          color="white"
+                          fontWeight="700"
+                          justifyContent="space-between"
+                          w="100%"
+                        >
+                          {/* UPDATED: Show Sq.ft instead of Currency */}
+                          <Box>{raisedSqFt.toLocaleString()} Sq.ft</Box>
+                          <Box>{goalSqFt.toLocaleString()} Sq.ft</Box>
+                        </HStack>
+                        <ProgressBar
+                          currentAmount={user?.totalRaisedAmount}
+                          goalAmount={user?.targetamt}
+                        />
+                        <HStack
+                          color="white"
+                          fontWeight="700"
+                          justifyContent="space-between"
+                          w="100%"
+                        >
+                          <Box>{calculatePercentage(user?.targetamt, user?.totalRaisedAmount)}%</Box>
+                          <Box color="#d481f0" fontWeight={900} fontSize={"20px"}>{calculatePercentage(user?.targetamt, user?.totalRaisedAmount) >= 100 ? "Goal Achieved!" : (calculatePercentage(user?.targetamt, user?.totalRaisedAmount) >= 80 ? "Almost there!" : "")}</Box>
+                          <Box>{getDaysDifference(user?.enddate.split("T")[0])} Days LEFT</Box>
+                        </HStack>
+                      </CardFooter>
+                    </Card>
+                  </Link>
+                );
+              })}
             </SimpleGrid>
           </InfiniteScroll>
         ) : (
