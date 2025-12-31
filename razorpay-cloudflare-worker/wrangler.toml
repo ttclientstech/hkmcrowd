@@ -14,11 +14,11 @@ compatibility_flags = [ "nodejs_compat" ]
 [vars]
 # MY_VAR = "my-variable"
 DATABASE_URL = "postgresql://neondb_owner:npg_S5gRmAMo9yYZ@ep-floral-mode-ahb4xvuu-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
-RAZ_ID = "rzp_test_h80a9qdKzKl9pm"
-RAZ_SECRET = "G8oBD7K4CUECcc7GNc0q0vH5"
+RAZ_ID = "rzp_live_AB77FptOTrvd1S"
+RAZ_SECRET = "bbXok2hxIQ8xVCuU2F5ixNdv"
 AUTH_TOKEN = "iskonhublicampaign"
 WEBHOOK_SECRET = "hkmc_chennai_webhook_2025"
-CDN_BASE_URL = "https://cdn.hkmchennai.org/cdn-files"
+CDN_BASE_URL = "https://cdn.hkmchennai.org"
 
 [logs]
 level = "info"
