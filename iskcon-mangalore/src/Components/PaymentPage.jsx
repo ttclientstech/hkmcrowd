@@ -46,6 +46,7 @@ const PaymentPage = () => {
             taxCity: getParam("taxCity"),
             taxState: getParam("taxState"),
             taxPincode: getParam("taxPincode"),
+            taxLocation: getParam("taxLocation"),
             panno: getParam("panno"),
             dob: getParam("dob"),
             campaignerMob: getParam("campaignerMob"),
