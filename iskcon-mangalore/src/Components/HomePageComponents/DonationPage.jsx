@@ -698,7 +698,7 @@ const DonationPage = ({
         <Box textAlign="center" py={[10, 12]}>
             <Image src={templeLogo} alt="Temple Logo" mx="auto" mb={4} maxW="100px" objectFit="contain" />
 
-            <Text fontWeight="700" fontSize="["xl", "2xl"]" color="white" letterSpacing="wide">
+            <Text fontWeight="700" fontSize={["xl", "2xl"]} color="white" letterSpacing="wide">
                 Dakshina Dwaraka Dham
             </Text>
             <Text fontSize="sm" mt={3} opacity={0.9} color="white" fontStyle="italic" maxW="600px" mx="auto">
