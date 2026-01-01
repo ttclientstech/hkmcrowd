@@ -92,7 +92,6 @@ const Step1 = ({
                                     <Box
                                         key={i}
                                         onClick={() => {
-                                            // ✅ ADDED: Vibration logic
                                             if (typeof navigator !== "undefined" && navigator.vibrate) {
                                                 navigator.vibrate(50);
                                             }
@@ -341,13 +340,18 @@ const Step3 = ({
                                 <SimpleGrid columns={gridCols} spacing={3}>
                                     <VStack align="start" spacing={1}>
                                         <Text fontSize="sm" color="#0A1A33">House / Apt / Building *</Text>
-                                        <Input name="houseNumber" value={formData?.houseNumber || ""} onChange={handleOnChange} placeholder="House No." bg="white" border="1px solid #CCC" />
+                                        <Input name="houseNumber" value={formData?.houseNumber || ""} onChange={handleOnChange} placeholder="House No." bg="white" border="1px solid #CCC" maxLength={40} />
                                         {errors?.houseNumber && <Text fontSize="xs" color="red.500">{errors.houseNumber}</Text>}
                                     </VStack>
                                     <VStack align="start" spacing={1}>
-                                        <Text fontSize="sm" color="#0A1A33">Street / Area *</Text>
-                                        <Input name="street" value={formData?.street || ""} onChange={handleOnChange} placeholder="Street" bg="white" border="1px solid #CCC" />
+                                        <Text fontSize="sm" color="#0A1A33">Street Name *</Text>
+                                        <Input name="street" value={formData?.street || ""} onChange={handleOnChange} placeholder="Street Name" bg="white" border="1px solid #CCC" maxLength={40} />
                                         {errors?.street && <Text fontSize="xs" color="red.500">{errors.street}</Text>}
+                                    </VStack>
+                                    <VStack align="start" spacing={1}>
+                                        <Text fontSize="sm" color="#0A1A33">Location / Area *</Text>
+                                        <Input name="location" value={formData?.location || ""} onChange={handleOnChange} placeholder="Location / Area" bg="white" border="1px solid #CCC" maxLength={40} />
+                                        {errors?.location && <Text fontSize="xs" color="red.500">{errors.location}</Text>}
                                     </VStack>
                                     <VStack align="start" spacing={1}>
                                         <Text fontSize="sm" color="#0A1A33">State *</Text>
@@ -400,13 +404,18 @@ const Step3 = ({
                                 <SimpleGrid columns={gridCols} spacing={3}>
                                     <VStack align="start" spacing={1}>
                                         <Text fontSize="sm" color="#0A1A33">House / Apt / Building *</Text>
-                                        <Input name="taxHouseNumber" value={formData?.taxHouseNumber || ""} onChange={handleOnChange} placeholder="House No." bg="white" border="1px solid #CCC" />
+                                        <Input name="taxHouseNumber" value={formData?.taxHouseNumber || ""} onChange={handleOnChange} placeholder="House No." bg="white" border="1px solid #CCC" maxLength={40} />
                                         {errors?.taxHouseNumber && <Text fontSize="xs" color="red.500">{errors.taxHouseNumber}</Text>}
                                     </VStack>
                                     <VStack align="start" spacing={1}>
-                                        <Text fontSize="sm" color="#0A1A33">Street / Area *</Text>
-                                        <Input name="taxStreet" value={formData?.taxStreet || ""} onChange={handleOnChange} placeholder="Street" bg="white" border="1px solid #CCC" />
+                                        <Text fontSize="sm" color="#0A1A33">Street Name *</Text>
+                                        <Input name="taxStreet" value={formData?.taxStreet || ""} onChange={handleOnChange} placeholder="Street Name" bg="white" border="1px solid #CCC" maxLength={40} />
                                         {errors?.taxStreet && <Text fontSize="xs" color="red.500">{errors.taxStreet}</Text>}
+                                    </VStack>
+                                    <VStack align="start" spacing={1}>
+                                        <Text fontSize="sm" color="#0A1A33">Location / Area *</Text>
+                                        <Input name="taxLocation" value={formData?.taxLocation || ""} onChange={handleOnChange} placeholder="Location / Area" bg="white" border="1px solid #CCC" maxLength={40} />
+                                        {errors?.taxLocation && <Text fontSize="xs" color="red.500">{errors.taxLocation}</Text>}
                                     </VStack>
                                     <VStack align="start" spacing={1}>
                                         <Text fontSize="sm" color="#0A1A33">State *</Text>
@@ -490,6 +499,7 @@ const Step4 = ({ formData, totalAmount, prevStep, handleSubmit, isLoading }) => 
                             <Text fontWeight="bold" color="#0A1A33" mb={1}>✔️ Gift & Maha Prasadam Selected</Text>
                             <Text><b>Delivery Address:</b></Text>
                             <Text>{formData.houseNumber}, {formData.street}</Text>
+                            <Text>{formData.location}</Text>
                             <Text>{formData.city}, {formData.state} - {formData.pincode}</Text>
                         </Box>
                     )}
@@ -500,6 +510,7 @@ const Step4 = ({ formData, totalAmount, prevStep, handleSubmit, isLoading }) => 
                             <Text><b>PAN No:</b> {formData.panno}</Text>
                             <Text><b>Tax Address:</b></Text>
                             <Text>{formData.taxHouseNumber}, {formData.taxStreet}</Text>
+                            <Text>{formData.taxLocation}</Text>
                             <Text>{formData.taxCity}, {formData.taxState} - {formData.taxPincode}</Text>
                         </Box>
                     )}
@@ -567,7 +578,7 @@ const DonationPage = ({
         if (!formData?.taxExemption) {
             setFormData((prev) => ({
                 ...prev,
-                taxHouseNumber: "", taxStreet: "", taxState: "", taxCity: "", taxPincode: "", panno: ""
+                taxHouseNumber: "", taxStreet: "", taxLocation: "", taxState: "", taxCity: "", taxPincode: "", panno: ""
             }));
             setCopyTaxAddress(false);
         }
@@ -581,6 +592,7 @@ const DonationPage = ({
                 ...prev,
                 taxHouseNumber: prev.houseNumber || "",
                 taxStreet: prev.street || "",
+                taxLocation: prev.location || "",
                 taxState: prev.state || "",
                 taxCity: prev.city || "",
                 taxPincode: prev.pincode || "",
@@ -588,7 +600,7 @@ const DonationPage = ({
         } else {
             setFormData((prev) => ({
                 ...prev,
-                taxHouseNumber: "", taxStreet: "", taxState: "", taxCity: "", taxPincode: "",
+                taxHouseNumber: "", taxStreet: "", taxLocation: "", taxState: "", taxCity: "", taxPincode: "",
             }));
         }
     };
@@ -609,6 +621,7 @@ const DonationPage = ({
         if (formData?.prasadRequired) {
             if (!formData?.houseNumber?.trim()) e.houseNumber = "Required";
             if (!formData?.street?.trim()) e.street = "Required";
+            if (!formData?.location?.trim()) e.location = "Required";
             if (!formData?.city?.trim()) e.city = "Required";
             if (!formData?.state?.trim()) e.state = "Required";
             if (!formData?.pincode?.trim()) {
@@ -621,6 +634,7 @@ const DonationPage = ({
         if (formData?.taxExemption) {
             if (!formData?.taxHouseNumber?.trim()) e.taxHouseNumber = "Required";
             if (!formData?.taxStreet?.trim()) e.taxStreet = "Required";
+            if (!formData?.taxLocation?.trim()) e.taxLocation = "Required";
             if (!formData?.taxCity?.trim()) e.taxCity = "Required";
             if (!formData?.taxState?.trim()) e.taxState = "Required";
 
@@ -667,10 +681,8 @@ const DonationPage = ({
 
     const prevStep = () => setStep((s) => s - 1);
 
-    // ✅ MODIFIED handleIncrement: Smooth 50ms vibration on mobile
     const handleIncrement = () => {
         if (typeof navigator !== "undefined" && navigator.vibrate) {
-            // Short, smooth vibration for tactile feedback
             navigator.vibrate(50);
         }
         setSqFt(prev => Math.min(prev + 1, 25));
@@ -686,7 +698,7 @@ const DonationPage = ({
         <Box textAlign="center" py={[10, 12]}>
             <Image src={templeLogo} alt="Temple Logo" mx="auto" mb={4} maxW="100px" objectFit="contain" />
 
-            <Text fontWeight="700" fontSize={["xl", "2xl"]} color="white" letterSpacing="wide">
+            <Text fontWeight="700" fontSize="["xl", "2xl"]" color="white" letterSpacing="wide">
                 Dakshina Dwaraka Dham
             </Text>
             <Text fontSize="sm" mt={3} opacity={0.9} color="white" fontStyle="italic" maxW="600px" mx="auto">

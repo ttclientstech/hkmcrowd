@@ -52,6 +52,26 @@ const PaymentPage = () => {
         };
     }, [query]);
 
+    const razorpayNotes = useMemo(() => {
+        return {
+            name: paymentData.name,
+            phone: paymentData.phone,
+            email: paymentData.email,
+            pan_number: paymentData.pan_number,
+            amount: paymentData.amount,
+            campainerName: paymentData.campainerName,
+            taxHouseNumber: paymentData.taxHouseNumber,
+            taxStreet: paymentData.taxStreet,
+            taxCity: paymentData.taxCity,
+            taxState: paymentData.taxState,
+            taxPincode: paymentData.taxPincode,
+            panno: paymentData.panno,
+            dob: paymentData.dob,
+            campaignerMob: paymentData.campaignerMob,
+            taxLocation: paymentData.taxLocation,
+        };
+    }, [paymentData]);
+
     const [orderConfirmId, setOrderConfirmId] = useState(null)
     const Toast = useToast();
     const navigate = useNavigate();
@@ -111,7 +131,7 @@ const PaymentPage = () => {
                     email: paymentData.email || '',
                     contact: paymentData.phone || '',
                 },
-                notes: { ...paymentData },
+                notes: { ...razorpayNotes },
                 theme: { color: "#3399cc" },
             };
 
