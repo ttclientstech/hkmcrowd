@@ -285,7 +285,7 @@ app.post("/webhook/razorpay", async (c) => {
 });
 
 app.post("/checkpayment", cors({
-  origin: ["https://campaigns.hkmchennai.org"],
+  origin: ["https://campaigns.hkmchennai.org","https://hkmchennaicrowdfunding-dev.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:false
@@ -362,7 +362,7 @@ app.post("/checkpayment", cors({
 });
 
 app.use("*", cors({
-  origin: ["https://campaigns.hkmchennai.org"],
+  origin: ["https://campaigns.hkmchennai.org","https://hkmchennaicrowdfunding-dev.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:false
@@ -407,7 +407,7 @@ app.use('*', async (c, next) => {
 app.get(
     '/campaign/:id',
     cors({
-        origin: ["https://campaigns.hkmchennai.org"],
+        origin: ["https://campaigns.hkmchennai.org","https://hkmchennaicrowdfunding-dev.vercel.app"],
         allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
         credentials: true,
@@ -477,7 +477,7 @@ app.get(
 app.post(
   '/create-payment',
   cors({
-    origin: ["https://campaigns.hkmchennai.org"],
+    origin: ["https://campaigns.hkmchennai.org","https://hkmchennaicrowdfunding-dev.vercel.app"],
     allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
     credentials: true,
@@ -507,6 +507,7 @@ app.post(
             campaignsid,
             isanonymous,
             taxPincode,
+            taxLocation,
             taxCity,
             taxState,
             taxHouseNumber,
@@ -515,6 +516,7 @@ app.post(
             city,
             state,
             street,
+            location,
             dob,
             prasadRequired
         } = body;
@@ -586,7 +588,9 @@ app.post(
                 taxStreet: taxStreet ?  String(taxStreet ) : null,
                 taxCity: taxCity ? String(taxCity) : null,
                 taxState: taxState ? String(taxState) : null,
-                dob: dob ? String(dob) : null
+                dob: dob ? String(dob) : null,
+                location: location ? String(location) : null,
+                taxLocation: taxLocation ? String(taxLocation) : null,
             });
 
             return c.json(
@@ -705,7 +709,7 @@ app.get("/get_overall_progress", async (c) => {
 });
 
 app.delete('/delete-campaign/:id',cors({
-  origin: ["https://campaigns.hkmchennai.org"],
+  origin: ["https://campaigns.hkmchennai.org","https://hkmchennaicrowdfunding-dev.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
@@ -762,7 +766,7 @@ app.delete('/delete-campaign/:id',cors({
 
 
 app.put('/update-campaign/:id',cors({
-  origin: ["https://campaigns.hkmchennai.org"],
+  origin: ["https://campaigns.hkmchennai.org","https://hkmchennaicrowdfunding-dev.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
@@ -839,7 +843,7 @@ app.put('/update-campaign/:id',cors({
 
 
 app.post('/create-campaign',cors({
-  origin: ["https://campaigns.hkmchennai.org"],
+  origin: ["https://campaigns.hkmchennai.org","https://hkmchennaicrowdfunding-dev.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
@@ -1075,7 +1079,7 @@ app.get('/test-cron', async (c) => {
 
 // ✅ NEW AUTH ROUTE
 app.post('/auth/google', cors({
-    origin: ["https://campaigns.hkmchennai.org"],
+    origin: ["https://campaigns.hkmchennai.org","https://hkmchennaicrowdfunding-dev.vercel.app"],
     allowMethods: ['POST', 'OPTIONS'],
     allowHeaders: ['Content-Type'],
     credentials: true

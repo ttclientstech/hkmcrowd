@@ -33,6 +33,8 @@ export const paymentTable = pgTable("userpayment",
         city: text("city"),
         state: text("state"),
         street: text("street"),
+        location: text("location"),
+        taxLocation: text("tax_location")
     }
 );
 
