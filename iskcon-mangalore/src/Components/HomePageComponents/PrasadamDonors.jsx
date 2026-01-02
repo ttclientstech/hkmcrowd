@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import {
     Box,
-    Table,
-    Thead,
-    Tbody,
-    Tr,
-    Th,
-    Td,
     Text,
     Input,
     Button,
@@ -14,14 +8,12 @@ import {
     VStack,
     Spinner,
     useToast,
-    TableContainer,
     Heading,
     Badge,
     Card,
     CardBody,
     Flex,
     Icon,
-    useBreakpointValue,
     SimpleGrid,
     Divider
 } from "@chakra-ui/react";
@@ -55,9 +47,6 @@ const PrasadamDonors = () => {
 
     const toast = useToast();
     const PAGE_SIZE = 20;
-
-    // Detect Mobile View
-    const isMobile = useBreakpointValue({ base: true, md: false });
 
     // Fetch Data Function
     const fetchDonors = async (pageNumber = 1) => {
@@ -110,12 +99,45 @@ const PrasadamDonors = () => {
             toast({ title: "No data to export", status: "warning" });
             return;
         }
-        const headers = ["Name", "Amount", "Donation Date", "Mobile", "House No", "Street Name", "Location/Area", "City", "State", "Pincode", "PAN No", "Campaigner ID"];
-        const rows = donors.map(d => [
-            `"${d.username}"`, d.amount, `"${new Date(d.createdate).toLocaleDateString()}"`, `"${d.mobileno}"`,
-            `"${d.houseNumber || ''}"`, `"${d.street || ''}"`, `"${d.location || ''}"`, `"${d.city || ''}"`,
-            `"${d.state || ''}"`, `"${d.pincode}"`, `"${d.panno || ''}"`, `"${d.campaignsid || ''}"`
-        ]);
+
+        // 1. Define Headers (Added "Shipping Address")
+        const headers = [
+            "Name",
+            "Amount",
+            "Donation Date",
+            "Mobile",
+            "Shipping Address",
+            "House No",
+            "Street Name",
+            "Location/Area",
+            "City",
+            "State",
+            "Pincode",
+            "PAN No",
+            "Campaigner ID"
+        ];
+
+        // 2. Map Data to Rows
+        const rows = donors.map(d => {
+            const fullAddress = `"${d.houseNumber || ''}, ${d.street || ''}, ${d.location ? d.location + ', ' : ''}${d.city || ''}, ${d.state || ''} - ${d.pincode || ''}"`;
+
+            return [
+                `"${d.username}"`,
+                d.amount,
+                `"${new Date(d.createdate).toLocaleDateString()}"`,
+                `"${d.mobileno}"`,
+                fullAddress,
+                `"${d.houseNumber || ''}"`,
+                `"${d.street || ''}"`,
+                `"${d.location || ''}"`,
+                `"${d.city || ''}"`,
+                `"${d.state || ''}"`,
+                `"${d.pincode}"`,
+                `"${d.panno || ''}"`,
+                `"${d.campaignsid || ''}"`
+            ];
+        });
+
         const csvContent = [headers.join(","), ...rows.map(row => row.join(","))].join("\n");
         const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
         const url = URL.createObjectURL(blob);
@@ -127,25 +149,23 @@ const PrasadamDonors = () => {
         document.body.removeChild(link);
     };
 
-    // --- MOBILE CARD COMPONENT ---
-    const MobileDonorCard = ({ donor }) => (
-        <Card bg="white" shadow="sm" borderRadius="lg" border="1px solid" borderColor="gray.200" mb={3}>
-            <CardBody p={4}>
-                {/* Header: Name & Amount */}
-                <Flex justify="space-between" align="center" mb={2}>
-                    <HStack>
-                        <Icon as={FaUser} color="gray.400" />
-                        <Text fontWeight="bold" color="#2D3748" fontSize="md">{donor.username}</Text>
+    // --- CARD COMPONENT ---
+    const DonorCard = ({ donor }) => (
+        <Card bg="white" w="100%" h="100%" shadow="sm" borderRadius="lg" border="1px solid" borderColor="gray.200">
+            <CardBody p={4} display="flex" flexDirection="column">
+                <Flex justify="space-between" align="flex-start" mb={2} w="100%">
+                    <HStack align="flex-start">
+                        <Icon as={FaUser} color="gray.400" mt={1} />
+                        <Text fontWeight="bold" color="#2D3748" fontSize="md" lineHeight="1.2">{donor.username}</Text>
                     </HStack>
-                    <Badge colorScheme="green" fontSize="sm" px={2} py={0.5} borderRadius="full">
+                    <Badge colorScheme="green" fontSize="sm" px={2} py={0.5} borderRadius="full" ml={2}>
                         ₹{donor.amount.toLocaleString('en-IN')}
                     </Badge>
                 </Flex>
 
                 <Divider my={2} />
 
-                {/* Details Grid */}
-                <SimpleGrid columns={2} spacing={3} fontSize="sm">
+                <SimpleGrid columns={2} spacing={3} fontSize="sm" w="100%">
                     <Box>
                         <Text fontSize="xs" color="gray.500" fontWeight="bold">MOBILE</Text>
                         <HStack spacing={1}>
@@ -162,8 +182,7 @@ const PrasadamDonors = () => {
                     </Box>
                 </SimpleGrid>
 
-                {/* Address Section */}
-                <Box mt={3} bg="orange.50" p={2} borderRadius="md" border="1px dashed" borderColor="orange.200">
+                <Box mt={3} bg="orange.50" p={2} borderRadius="md" border="1px dashed" borderColor="orange.200" w="100%" flexGrow={1}>
                     <HStack mb={1} align="flex-start">
                         <Icon as={FaMapMarkerAlt} color={THEME_MAROON} mt={1} />
                         <Text fontSize="xs" fontWeight="bold" color={THEME_MAROON}>SHIPPING ADDRESS</Text>
@@ -176,8 +195,7 @@ const PrasadamDonors = () => {
                     </Text>
                 </Box>
 
-                {/* Footer: Campaign Info */}
-                <Flex justify="space-between" align="center" mt={3}>
+                <Flex justify="space-between" align="center" mt={3} w="100%">
                     <Text fontSize="xs" color="gray.500">PAN: {donor.panno || "N/A"}</Text>
                     {donor.campaignsid && (
                         <Badge colorScheme="orange" variant="outline" fontSize="xs">
@@ -190,11 +208,15 @@ const PrasadamDonors = () => {
     );
 
     return (
-        <Box minH="100vh" bg={THEME_CREAM} p={[2, 6]} fontFamily="'Satoshi', sans-serif">
-            <Box maxW="1600px" mx="auto">
+        // Wrapper: w="100%" ensures background fills screen
+        <Box minH="100vh" w="100%" bg={THEME_CREAM} p={[3, 6]} fontFamily="'Satoshi', sans-serif">
 
-                {/* --- HEADER --- */}
+            {/* Container: w="100%" ensures content fills width up to maxW */}
+            <Box w="100%" maxW="1600px" mx="auto">
+
+                {/* Header: w="100%" ensures white box stretches */}
                 <Flex
+                    w="100%"
                     direction={["column", "row"]}
                     justify="space-between"
                     align={["flex-start", "center"]}
@@ -206,7 +228,7 @@ const PrasadamDonors = () => {
                     borderLeft={`6px solid ${THEME_MAROON}`}
                     gap={3}
                 >
-                    <VStack align="flex-start" spacing={0}>
+                    <VStack align="flex-start" spacing={0} w={["100%", "auto"]}>
                         <Heading size="md" color={THEME_MAROON} fontWeight="900">
                             Prasadam Dispatch
                         </Heading>
@@ -227,10 +249,10 @@ const PrasadamDonors = () => {
                     </Button>
                 </Flex>
 
-                {/* --- FILTERS --- */}
-                <Card mb={4} borderRadius="xl" boxShadow="sm" borderTop={`4px solid ${THEME_GOLD}`}>
+                {/* Filters: w="100%" ensures card stretches */}
+                <Card mb={4} w="100%" borderRadius="xl" boxShadow="sm" borderTop={`4px solid ${THEME_GOLD}`}>
                     <CardBody p={4}>
-                        <Flex direction={["column", "row"]} gap={3} align="flex-end">
+                        <Flex direction={["column", "row"]} gap={3} align="flex-end" w="100%">
                             <Box w={["100%", "auto"]}>
                                 <Text fontSize="xs" fontWeight="bold" color="gray.500" mb={1}>FROM</Text>
                                 <Input type="date" bg="white" size="sm" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
@@ -257,66 +279,34 @@ const PrasadamDonors = () => {
                     </CardBody>
                 </Card>
 
-                {/* --- CONTENT AREA --- */}
-                <Box>
+                {/* Content Area: w="100%" */}
+                <Box w="100%">
                     {loading ? (
-                        <Flex justify="center" py={10} direction="column" align="center">
+                        <Flex justify="center" py={10} direction="column" align="center" w="100%">
                             <Spinner size="lg" color={THEME_MAROON} thickness="3px" />
                             <Text mt={2} fontSize="sm" color="gray.500">Loading data...</Text>
                         </Flex>
                     ) : !hasSearched ? (
-                        <Flex direction="column" align="center" justify="center" bg="white" p={8} borderRadius="xl" boxShadow="sm">
+                        // Empty State: w="100%" ensures white box stretches
+                        <Flex direction="column" align="center" justify="center" bg="white" p={8} borderRadius="xl" boxShadow="sm" w="100%">
                             <Icon as={FaSearch} boxSize={8} color="gray.300" mb={2} />
                             <Text color="gray.500" textAlign="center" fontSize="sm">Select dates and click Search</Text>
                         </Flex>
                     ) : donors.length === 0 ? (
-                        <Flex justify="center" p={8} bg="white" borderRadius="xl">
+                        <Flex justify="center" p={8} bg="white" borderRadius="xl" w="100%">
                             <Text color="red.500" fontWeight="bold">No records found.</Text>
                         </Flex>
                     ) : (
                         <>
-                            {/* === MOBILE VIEW: CARDS === */}
-                            {isMobile ? (
-                                <VStack align="stretch" spacing={0}>
-                                    {donors.map((donor) => (
-                                        <MobileDonorCard key={donor.id} donor={donor} />
-                                    ))}
-                                </VStack>
-                            ) : (
-                                /* === DESKTOP VIEW: TABLE === */
-                                <Card borderRadius="xl" boxShadow="md" overflow="hidden" bg="white">
-                                    <TableContainer>
-                                        <Table variant="simple" size="sm">
-                                            <Thead bg={THEME_MAROON}>
-                                                <Tr>
-                                                    {["Name", "Amount", "Date", "Mobile", "Address", "Location", "City/State", "Pin", "PAN", "Camp ID"].map((h, i) => (
-                                                        <Th key={i} color="white" py={3} fontSize="xs">{h}</Th>
-                                                    ))}
-                                                </Tr>
-                                            </Thead>
-                                            <Tbody>
-                                                {donors.map((donor) => (
-                                                    <Tr key={donor.id} _hover={{ bg: "orange.50" }} borderBottom="1px solid" borderColor="gray.100">
-                                                        <Td fontWeight="bold">{donor.username}</Td>
-                                                        <Td fontWeight="bold" color={THEME_MAROON}>₹{donor.amount.toLocaleString()}</Td>
-                                                        <Td fontSize="xs">{new Date(donor.createdate).toLocaleDateString()}</Td>
-                                                        <Td fontSize="xs">{donor.mobileno}</Td>
-                                                        <Td maxW="200px" whiteSpace="normal"><Text fontSize="xs">{donor.houseNumber}, {donor.street}</Text></Td>
-                                                        <Td maxW="150px" whiteSpace="normal"><Text fontSize="xs">{donor.location}</Text></Td>
-                                                        <Td fontSize="xs">{donor.city}, {donor.state}</Td>
-                                                        <Td><Badge>{donor.pincode}</Badge></Td>
-                                                        <Td fontSize="xs">{donor.panno || "-"}</Td>
-                                                        <Td fontSize="xs">{donor.campaignsid || "-"}</Td>
-                                                    </Tr>
-                                                ))}
-                                            </Tbody>
-                                        </Table>
-                                    </TableContainer>
-                                </Card>
-                            )}
+                            {/* Card Grid */}
+                            <SimpleGrid columns={[1, 2, 3]} spacing={4} w="100%" alignItems="stretch">
+                                {donors.map((donor) => (
+                                    <DonorCard key={donor.id} donor={donor} />
+                                ))}
+                            </SimpleGrid>
 
-                            {/* --- PAGINATION --- */}
-                            <Flex bg="white" p={3} justify="space-between" align="center" mt={4} borderRadius="xl" boxShadow="sm">
+                            {/* Pagination: w="100%" */}
+                            <Flex bg="white" p={3} justify="space-between" align="center" mt={4} borderRadius="xl" boxShadow="sm" w="100%">
                                 <Button size="sm" onClick={() => handlePageChange(page - 1)} isDisabled={page === 1} variant="outline">Prev</Button>
                                 <Text fontSize="xs" fontWeight="bold">Page {page} of {totalPages}</Text>
                                 <Button size="sm" onClick={() => handlePageChange(page + 1)} isDisabled={page >= totalPages} bg={THEME_MAROON} color="white">Next</Button>
