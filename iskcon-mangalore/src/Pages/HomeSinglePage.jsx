@@ -155,6 +155,17 @@ const TrustStrip = () => (
     </Box>
 );
 
+const UrgencyBar = () => (
+    <Box bg={NAVY} w="100%" py={2} px={4}>
+        <Flex maxW="1200px" mx="auto" justify="center" align="center" gap={2}>
+            <Icon as={FaClock} color={URGENT_RED} />
+            <Text color="white" fontSize="sm" fontWeight="bold">
+                Donate <Text as="span" color={URGENT_RED}>1 SQFT</Text> & Receive Maha Prasadam at your home
+            </Text>
+        </Flex>
+    </Box>
+);
+
 const HomeSinglePage = () => {
     const { id } = useParams();
     const [tab, setTab] = useState(1);
@@ -356,6 +367,7 @@ const HomeSinglePage = () => {
             <DivineLoader isVisible={initialPageLoad} />
 
             <PoppinFont />
+            <UrgencyBar />
             <DetailPageHeader getSingleUser={getSingleUser} />
             <TrustStrip />
 
