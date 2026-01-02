@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { Box, SimpleGrid, Tooltip, Text, Flex, Icon, Button, VStack, Badge } from "@chakra-ui/react";
-import { keyframes } from "@emotion/react";
-import { FaCheckCircle, FaChevronDown, FaHandPointer, FaHistory, FaVihara, FaGem } from "react-icons/fa";
-import { motion } from "framer-motion";
-import { fetchAllContributers } from "../../utils/apiCall";
-import { useNavigate, useParams } from "react-router-dom";
+import { FaCheckCircle, FaChevronDown, FaHandPointer, FaGem, FaVihara } from "react-icons/fa";
 import { BsStars } from "react-icons/bs";
-
-const MotionBox = motion(Box);
-const MotionText = motion(Text);
+import { fetchAllContributers } from "../../utils/apiCall";
+import { keyframes } from "@emotion/react";
+import { useNavigate, useParams } from "react-router-dom";
 
 // --- THEME CONSTANTS ---
 const NAVY = "#082032";
@@ -16,38 +12,23 @@ const GOLD = "#D4AF37";
 const BEIGE = "#FFFFFF";
 const SQFT_PRICE = 5000;
 
-// --- STYLING CONSTANTS ---
-const PREMIUM_GOLD_GRADIENT = "linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%)";
+// --- STYLING CONSTANTS (Optimized for Performance) ---
+// Static gradients are much faster than animated ones
+const PREMIUM_GOLD_GRADIENT = "linear-gradient(135deg, #BF953F 0%, #FCF6BA 40%, #B38728 100%)";
 const GOLD_TEXT_GRADIENT = "linear-gradient(to-r, #BF953F, #FCF6BA, #B38728, #AA771C)";
 
-// 3D Shadows
-const GOLD_BEVEL_SHADOW = `
-    inset 2px 2px 5px rgba(255,255,255,0.7),
-    inset -2px -2px 5px rgba(0,0,0,0.4),
-    4px 4px 10px rgba(0,0,0,0.3)
-`;
-const EMPTY_CARVE_SHADOW = `
-    inset 3px 3px 8px rgba(0,0,0,0.25),
-    inset -1px -1px 2px rgba(255,255,255,0.6)
-`;
+// Simplified Shadows (Faster rendering)
+const GOLD_BEVEL_SHADOW = "inset 1px 1px 2px rgba(255,255,255,0.6), inset -1px -1px 2px rgba(0,0,0,0.3), 2px 2px 5px rgba(0,0,0,0.2)";
+const EMPTY_CARVE_SHADOW = "inset 2px 2px 5px rgba(0,0,0,0.15)";
 
-// Animations
-const shimmerSlow = keyframes`
-  0% { background-position: -250% center; opacity: 0.3; }
-  50% { opacity: 0.8; }
-  100% { background-position: 250% center; opacity: 0.3; }
-`;
+// Single lightweight animation for the "Next Available" block only
 const pulseBorder = keyframes`
   0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); border-color: ${GOLD}; }
-  70% { box-shadow: 0 0 0 6px rgba(212, 175, 55, 0); border-color: #FFE57F; }
+  70% { box-shadow: 0 0 0 4px rgba(212, 175, 55, 0); border-color: #FFE57F; }
   100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); border-color: ${GOLD}; }
 `;
-const divineGlow = keyframes`
-  0%, 100% { box-shadow: 0 10px 30px -12px rgba(8, 32, 50, 0.6), 0 0 10px rgba(212, 175, 55, 0.1); }
-  50% { box-shadow: 0 15px 40px -12px rgba(8, 32, 50, 0.7), 0 0 20px rgba(212, 175, 55, 0.3); }
-`;
 
-// Helper: Convert Donor List to Grid Blocks
+// Helper: Grid Logic
 const prepareGrid = (donors, totalBlocks = 500) => {
     let grid = Array(totalBlocks).fill(null);
     let currentIndex = 0;
@@ -61,7 +42,6 @@ const prepareGrid = (donors, totalBlocks = 500) => {
                 grid[currentIndex] = {
                     ...donor,
                     isStart: i === 0,
-                    isCluster: blocksCount > 1,
                 };
                 currentIndex++;
             }
@@ -70,340 +50,299 @@ const prepareGrid = (donors, totalBlocks = 500) => {
     return { grid, filledCount: currentIndex };
 };
 
+// --- MEMOIZED BLOCK COMPONENT (Prevents re-rendering entire grid on interaction) ---
+const GridBlock = React.memo(({ block, index, isActive, onClick, isNextAvailable }) => {
+    const isFilled = block !== null;
+    const blockNumber = index + 1;
+
+    // Standard CSS Transition is faster than Framer Motion
+    return (
+        <Tooltip
+            label={isFilled ? `${block.name}` : `Tap to Donate`}
+            hasArrow
+            bg={NAVY}
+            color={GOLD}
+            placement="top"
+            fontSize="xs"
+            fontWeight="bold"
+            isOpen={isActive}
+            p={2}
+            closeOnClick={false}
+        >
+            <Box
+                w="100%"
+                pt="100%" // Aspect Ratio Hack
+                position="relative"
+                cursor="pointer"
+                borderRadius="sm"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onClick(index, isFilled);
+                }}
+                bg={isFilled ? PREMIUM_GOLD_GRADIENT : "#e2e8f0"}
+                boxShadow={isFilled ? GOLD_BEVEL_SHADOW : EMPTY_CARVE_SHADOW}
+                border={isFilled ? `1px solid #B8860B` : `1px solid #cbd5e0`}
+                zIndex={isActive ? 10 : 1}
+                transform={isActive ? "scale(1.3)" : "scale(1)"}
+                transition="transform 0.2s ease-out" // GPU accelerated transition
+                animation={isNextAvailable ? `${pulseBorder} 2s infinite` : undefined}
+            >
+                <Flex
+                    position="absolute"
+                    top="0"
+                    left="0"
+                    w="100%"
+                    h="100%"
+                    align="center"
+                    justify="center"
+                >
+                    <Text
+                        fontSize={["8px", "9px"]} // Slightly larger for readability
+                        color={isFilled ? "#422a05" : "gray.400"}
+                        fontWeight="900"
+                        opacity={isFilled ? 0.9 : 0.6}
+                    >
+                        {blockNumber}
+                    </Text>
+                </Flex>
+            </Box>
+        </Tooltip>
+    );
+});
+
 const WallOfDevotion_Engraved = ({ getSingleUser }) => {
     const [donors, setDonors] = useState([]);
+    const [activeBlock, setActiveBlock] = useState(null);
     const navigate = useNavigate();
     const { id } = useParams();
-    const [activeBlock, setActiveBlock] = useState(null);
 
-    const handleScrollToDonate = () => {
+    const handleScrollToDonate = useCallback(() => {
         navigate(`/campaign/${id}/donate`, { state: { getSingleUser } });
-    };
+    }, [navigate, id, getSingleUser]);
 
-    const handleBlockClick = (index, isFilled) => {
+    const handleBlockClick = useCallback((index, isFilled) => {
         if (isFilled) {
-            setActiveBlock(activeBlock === index ? null : index);
+            setActiveBlock(prev => (prev === index ? null : index));
         } else {
-             handleScrollToDonate();
+            handleScrollToDonate();
         }
-    };
+    }, [handleScrollToDonate]);
+
+    // Clear active tooltip when clicking outside
+    const clearSelection = useCallback(() => setActiveBlock(null), []);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await fetchAllContributers();
                 if (Array.isArray(data)) {
-                    const validDonors = data.filter(
-                        (d) => d?.finalpaymentstatus === "captured" && d.amount >= SQFT_PRICE
-                    );
-                    const processed = validDonors.map((d) => ({
+                    const validDonors = data.filter(d => d?.finalpaymentstatus === "captured" && d.amount >= SQFT_PRICE);
+                    const processed = validDonors.map(d => ({
                         name: d?.isanonymous ? "Anonymous" : d?.username,
                         amount: Math.round(d.amount),
-                        sqft: Math.round(d.amount / SQFT_PRICE),
-                        createdate: d?.createdate,
                     }));
                     setDonors(processed);
                 }
             } catch (err) {
-                console.error("Error fetching contributors:", err);
+                console.error("Error fetching contributors");
             }
         };
         fetchData();
     }, []);
 
-    const { grid, filledCount } = prepareGrid(donors, 500);
+    // Memoize grid calculation to prevent recalc on every render
+    const { grid, filledCount } = useMemo(() => prepareGrid(donors, 500), [donors]);
     const remaining = 500 - filledCount;
 
     return (
         <Box
-            w="100%" // Ensure full width
-            py={[12, 16, 20]} // Reduced padding on mobile
-            px={[4, 6]}
+            w="100%"
+            py={[10, 16]}
+            px={[2, 6]}
             bg={`radial-gradient(circle at center, ${BEIGE}, #F5F0E5)`}
             textAlign="center"
-            overflow="hidden" // ✅ CRITICAL: Prevents horizontal scrolling crash
+            overflow="hidden"
             position="relative"
-            id="wall-of-devotion"
+            onClick={clearSelection} // Close tooltip on background click
         >
-            {/* Background Decor - Adjusted for mobile */}
-            <Box position="absolute" top="2%" left="-10%" opacity={0.05} transform="rotate(-15deg)">
-                <Icon as={FaVihara} boxSize={["100px", "150px"]} color={NAVY} />
-            </Box>
-            <Box position="absolute" bottom="2%" right="-10%" opacity={0.05} transform="rotate(15deg)">
-                <Icon as={FaVihara} boxSize={["100px", "150px"]} color={NAVY} />
-            </Box>
-
             {/* Header Section */}
-            <VStack spacing={4} mb={[8, 10]} position="relative" zIndex={2}>
+            <VStack spacing={4} mb={8} position="relative" zIndex={2}>
                 <Badge
                     bg={NAVY}
                     color={GOLD}
                     px={4}
-                    py={1.5}
+                    py={1}
                     borderRadius="full"
-                    fontSize={["xs", "sm"]}
+                    fontSize="xs"
                     fontWeight="800"
                     letterSpacing="1px"
                     display="flex"
                     alignItems="center"
                     gap={2}
-                    boxShadow="sm"
                     fontFamily="'Satoshi', sans-serif"
                     border={`1px solid ${GOLD}`}
                 >
-                    <Icon as={BsStars} boxSize={3} animation={`${pulseBorder} 2s infinite`}/>
+                    <Icon as={BsStars} boxSize={3} color={GOLD} />
                     LIVE DONATION WALL
                 </Badge>
 
-                <MotionText
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    fontSize={["2xl", "3xl", "4xl", "5xl"]} // ✅ Adjusted font sizes for mobile
-                    fontWeight="900"
-                    fontFamily="'Poppins', sans-serif"
-                    color={NAVY}
-                    lineHeight="1.2"
-                    letterSpacing="tight"
-                    px={2}
-                >
-                    Etch Your Name in <br />
+                <Box>
                     <Text
-                        as="span"
-                        bgClip="text"
-                        bgGradient={GOLD_TEXT_GRADIENT}
-                        filter="drop-shadow(0px 3px 3px rgba(0,0,0,0.25))"
-                        fontSize={["3xl", "4xl", "5xl", "6xl"]}
+                        fontSize={["3xl", "4xl", "5xl"]}
+                        fontWeight="900"
+                        fontFamily="'Poppins', sans-serif"
+                        color={NAVY}
+                        lineHeight="1.2"
                     >
-                        Golden History
+                        Etch Your Name in <br />
+                        <Text
+                            as="span"
+                            bgClip="text"
+                            bgGradient={GOLD_TEXT_GRADIENT}
+                            filter="drop-shadow(0px 2px 0px rgba(0,0,0,0.1))"
+                        >
+                            Golden History
+                        </Text>
                     </Text>
-                </MotionText>
+                </Box>
 
-                {/* --- INSTRUCTION PLAQUE --- */}
+                {/* Instruction Plaque */}
                 <Box
                     bg="white"
-                    borderTop="4px solid"
-                    borderBottom="1px solid"
-                    borderColor={GOLD}
-                    p={[4, 6]} // Reduced padding on mobile
-                    borderRadius="2xl"
+                    borderTop={`3px solid ${GOLD}`}
+                    p={4}
+                    borderRadius="xl"
                     maxW="750px"
-                    w="100%"
-                    boxShadow="lg"
-                    position="relative"
-                    mt={4}
+                    w="95%"
+                    boxShadow="md"
+                    mt={2}
                 >
-                     <Icon as={FaHandPointer} color={GOLD} boxSize={8} position="absolute" top="-16px" left="50%" transform="translateX(-50%)" bg="white" borderRadius="full" p={1.5} border={`1px solid ${GOLD}`}/>
-
-                    <VStack spacing={3} mt={2} align="center">
-                        <Text color={NAVY} fontSize={["xs", "sm", "md"]} fontFamily="'Poppins', sans-serif" fontWeight="500">
-                            <strong>1. Explore:</strong> Tap on any <Text as="span" color="#B8860B" fontWeight="800">Gold Block</Text> to see the name.
+                    <Icon as={FaHandPointer} color={GOLD} boxSize={6} mx="auto" mb={2} display="block"/>
+                    <VStack spacing={2}>
+                        <Text color={NAVY} fontSize={["xs", "sm"]} fontFamily="'Poppins', sans-serif">
+                            <strong>1. Explore:</strong> Tap <Text as="span" color="#B8860B" fontWeight="800">Gold Blocks</Text> to see names.
                         </Text>
-                        <Box w="100%" h="1px" bg="gray.100" />
-                        <Text color={NAVY} fontSize={["xs", "sm", "md"]} fontFamily="'Poppins', sans-serif" fontWeight="500">
-                            <strong>2. Join:</strong> Donate <Text as="span" color="#C53030" fontWeight="800">one or more sq. ft.</Text> to inscribe your name.
+                        <Box w="80%" h="1px" bg="gray.100" />
+                        <Text color={NAVY} fontSize={["xs", "sm"]} fontFamily="'Poppins', sans-serif">
+                            <strong>2. Join:</strong> Donate <Text as="span" color="#C53030" fontWeight="800">one or more sq. ft.</Text> to join.
                         </Text>
                     </VStack>
                 </Box>
             </VStack>
 
-            {/* --- TEMPLE WALL FRAME --- */}
+            {/* --- WALL FRAME --- */}
             <Box
                 maxW="1100px"
                 mx="auto"
-                position="relative"
-                p={[2, 3, 5]} // Responsive padding
+                p={[2, 4]}
                 bg={NAVY}
                 borderRadius={["xl", "3xl"]}
-                animation={`${divineGlow} 4s ease-in-out infinite alternate`}
+                boxShadow="xl"
             >
-                {/* Gold Trim */}
-                <Box position="absolute" top="4px" left="4px" right="4px" bottom="4px" border="2px solid" borderColor={GOLD} borderRadius={["lg", "2xl"]} opacity={0.6} pointerEvents="none" boxShadow={`inset 0 0 10px ${GOLD}`}/>
-
                 <Box
                     bg="#f0f4f8"
-                    borderRadius={["lg", "xl"]}
+                    borderRadius={["lg", "2xl"]}
                     overflow="hidden"
-                    position="relative"
-                    boxShadow="inset 0 0 40px rgba(0,0,0,0.3)"
                     border="1px solid #2a4365"
+                    position="relative"
                 >
-                    {/* LEGEND / KEY */}
+                    {/* Key/Legend */}
                     <Flex
                         justify="space-between"
                         align="center"
-                        bgGradient="linear(to-b, #e2e8f0, #cbd5e0)"
-                        p={[2, 4]}
-                        borderBottom="2px solid"
-                        borderColor="gray.300"
-                        fontSize={["9px", "xs"]} // Smaller font on mobile
+                        bg="#e2e8f0"
+                        p={3}
+                        borderBottom="1px solid #cbd5e0"
+                        fontSize="xs"
                         color={NAVY}
-                        fontWeight="800"
+                        fontWeight="700"
                         fontFamily="'Satoshi', sans-serif"
-                        textTransform="uppercase"
-                        letterSpacing="wider"
-                        boxShadow="sm"
-                        wrap="wrap"
-                        gap={2}
                     >
                         <Flex align="center" gap={2}>
-                            <Box w="10px" h="10px" bg={PREMIUM_GOLD_GRADIENT} borderRadius="sm" border="1px solid #8C6A0A"/>
+                            <Box w="10px" h="10px" bg={PREMIUM_GOLD_GRADIENT} borderRadius="sm" border="1px solid #B8860B"/>
                             <Text>Taken</Text>
                         </Flex>
-
-                        <Flex align="center" gap={1} opacity={0.8} display={{base:'none', md:'flex'}}>
-                            <Text>Scroll Wall</Text>
-                            <Icon as={FaChevronDown} color={NAVY}/>
-                        </Flex>
-
                         <Flex align="center" gap={2}>
-                            <Box w="10px" h="10px" bg="#e2e8f0" border="1px solid #a0aec0" borderRadius="sm" />
+                            <Box w="10px" h="10px" bg="#fff" border="1px solid #a0aec0" borderRadius="sm" />
                             <Text>Available</Text>
                         </Flex>
                     </Flex>
 
-                    {/* THE WALL GRID */}
+                    {/* --- THE GRID (SCROLLABLE AREA) --- */}
                     <Box
-                        p={[2, 4, 6]}
-                        maxH={["350px", "400px", "550px"]}
+                        p={[2, 4]}
+                        maxH={["350px", "500px"]}
                         overflowY="auto"
                         sx={{
+                            WebkitOverflowScrolling: "touch", // Smooth scrolling on iOS
                             "&::-webkit-scrollbar": { width: "6px" },
-                            "&::-webkit-scrollbar-track": { background: "#1a365d" },
                             "&::-webkit-scrollbar-thumb": { background: GOLD, borderRadius: "5px" },
                         }}
                     >
-                        {/* ✅ CHANGED: 8 columns on mobile for better touch targets */}
-                        <SimpleGrid columns={[8, 12, 18, 25]} spacing={["3px", "4px", "5px", "6px"]}>
-                            {grid.map((block, i) => {
-                                const isFilled = block !== null;
-                                const blockNumber = i + 1;
-                                const isNextAvailable = !isFilled && (i === 0 || grid[i - 1] !== null);
-                                const isOpen = activeBlock === i;
-
-                                return (
-                                    <Tooltip
-                                        key={i}
-                                        label={
-                                            isFilled
-                                                ? `${block.name} • ${block.sqft} SqFt`
-                                                : `Available: Donate to Join`
-                                        }
-                                        hasArrow
-                                        bg={NAVY}
-                                        color={GOLD}
-                                        placement="top"
-                                        fontSize="xs"
-                                        fontFamily="'Satoshi', sans-serif"
-                                        fontWeight="bold"
-                                        isOpen={isOpen}
-                                        p={2}
-                                    >
-                                        <MotionBox
-                                            w="100%"
-                                            pt="100%"
-                                            role="button"
-                                            position="relative"
-                                            cursor="pointer"
-                                            borderRadius="sm"
-                                            // Handle Touch for Mobile Tooltips
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleBlockClick(i, isFilled);
-                                            }}
-                                            onMouseEnter={() => setActiveBlock(i)}
-                                            onMouseLeave={() => setActiveBlock(null)}
-                                            bg={isFilled ? PREMIUM_GOLD_GRADIENT : "#e2e8f0"}
-                                            boxShadow={isFilled ? GOLD_BEVEL_SHADOW : EMPTY_CARVE_SHADOW}
-                                            border={isFilled ? `1px solid #B8860B` : `1px solid #cbd5e0`}
-                                            animation={isNextAvailable ? `${pulseBorder} 2s infinite` : undefined}
-                                            zIndex={isNextAvailable ? 2 : 1}
-                                            whileHover={{ scale: 1.2, zIndex: 10 }} // Reduced scale for mobile safety
-                                            transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                                        >
-                                            {isFilled && (
-                                                <Box
-                                                    position="absolute"
-                                                    top="0" left="0" w="300%" h="100%"
-                                                    bg="linear-gradient(to right, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%)"
-                                                    opacity={0.5}
-                                                    animation={`${shimmerSlow} 5s infinite linear`}
-                                                />
-                                            )}
-                                            <Flex position="absolute" top="0" left="0" w="100%" h="100%" align="center" justify="center">
-                                                <Text
-                                                    fontSize={["6px", "7px", "8px"]}
-                                                    color={isFilled ? "#422a05" : "gray.400"}
-                                                    fontWeight="900"
-                                                    fontFamily="'Satoshi', sans-serif"
-                                                    opacity={isFilled ? 0.9 : 0.6}
-                                                >
-                                                    {blockNumber}
-                                                </Text>
-                                            </Flex>
-                                        </MotionBox>
-                                    </Tooltip>
-                                );
-                            })}
+                        {/* 8 Columns on mobile is safe, 20 on desktop */}
+                        <SimpleGrid columns={[8, 12, 18, 22]} spacing="4px">
+                            {grid.map((block, i) => (
+                                <GridBlock
+                                    key={i}
+                                    index={i}
+                                    block={block}
+                                    isActive={activeBlock === i}
+                                    onClick={handleBlockClick}
+                                    isNextAvailable={!block && (i === 0 || grid[i - 1] !== null)}
+                                />
+                            ))}
                         </SimpleGrid>
                     </Box>
                 </Box>
             </Box>
 
-            {/* CTA Section - Adjusted margins for mobile */}
-            <Box mt={[-8, -10]} position="relative" zIndex={3} px={[2, 4]} pb={4}>
-                <MotionBox
-                    initial={{ y: 30, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.7, delay: 0.2 }}
-                    viewport={{ once: true }}
+            {/* CTA Section */}
+            <Box mt={-8} position="relative" zIndex={3} px={2} pb={4}>
+                <Box
                     bg="white"
-                    p={[5, 6, 8]}
-                    borderRadius="3xl"
+                    p={[5, 6]}
+                    borderRadius="2xl"
                     boxShadow="xl"
                     borderTop={`4px solid ${GOLD}`}
                     maxW="750px"
                     mx="auto"
                 >
-                    <Icon as={FaGem} color={GOLD} position="absolute" top="-15px" left="20px" boxSize={[8, 10]} bg="white" p={1} borderRadius="full" border={`2px solid ${GOLD}`}/>
+                    <Icon as={FaGem} color={GOLD} position="absolute" top="-16px" left="20px" boxSize={8} bg="white" p={1} borderRadius="full" border={`2px solid ${GOLD}`}/>
 
-                    <Flex direction={["column", "row"]} align="center" justify="space-between" gap={[4, 6]} mt={2}>
+                    <Flex direction={["column", "row"]} align="center" justify="space-between" gap={4} mt={2}>
                         <VStack spacing={0} align={["center", "flex-start"]}>
-                            <Text fontSize="xs" color={NAVY} fontWeight="bold" textTransform="uppercase" fontFamily="'Satoshi', sans-serif" letterSpacing="wider">
+                            <Text fontSize="xs" color="gray.500" fontWeight="bold" textTransform="uppercase">
                                 Availability
                             </Text>
                             <Flex align="baseline" gap={2}>
-                                <Text fontSize={["3xl", "4xl", "5xl"]} fontWeight="900" color={NAVY} lineHeight="1" fontFamily="'Poppins', sans-serif">
+                                <Text fontSize={["3xl", "4xl"]} fontWeight="900" color={NAVY} lineHeight="1">
                                     {remaining}
                                 </Text>
-                                <Text fontSize={["md", "xl"]} color={GOLD} fontWeight="700" fontFamily="'Satoshi', sans-serif">
+                                <Text fontSize={["md", "lg"]} color={GOLD} fontWeight="bold">
                                     blocks left
                                 </Text>
                             </Flex>
                         </VStack>
 
                         <Button
-                            w={["100%", "auto"]} // Full width button on mobile
+                            w={["100%", "auto"]}
                             size="lg"
-                            h="auto"
-                            py={[4, 5]}
                             bgGradient="linear(to-r, #FFD700, #FFB200)"
                             color="#2C0A0A"
-                            rightIcon={<FaCheckCircle boxSize={5} />}
+                            rightIcon={<FaCheckCircle />}
                             onClick={handleScrollToDonate}
-                            px={[6, 12]}
-                            fontSize={["md", "xl"]}
+                            px={8}
+                            fontSize="lg"
                             fontWeight="800"
                             borderRadius="full"
-                            fontFamily="'Poppins', sans-serif"
-                            boxShadow="lg"
-                            _hover={{ transform: "translateY(-2px)", boxShadow: "xl" }}
+                            boxShadow="md"
+                            _hover={{ transform: "translateY(-2px)", boxShadow: "lg" }}
                             active={{ transform: "scale(0.98)" }}
                         >
                             Donate & Join
                         </Button>
                     </Flex>
-                </MotionBox>
+                </Box>
             </Box>
         </Box>
     );
