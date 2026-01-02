@@ -1,17 +1,50 @@
 import React, { useEffect, useState } from "react";
-import { Box, SimpleGrid, Tooltip, Text, Flex, Icon, Button, VStack, Badge } from "@chakra-ui/react";
-import { FaCheckCircle, FaCircle, FaChevronDown } from "react-icons/fa";
+import { Box, SimpleGrid, Tooltip, Text, Flex, Icon, Button, VStack, Badge, keyframes } from "@chakra-ui/react";
+import { FaCheckCircle, FaChevronDown, FaHandPointer, FaHistory, FaVihara, FaGem } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { fetchAllContributers } from "../../utils/apiCall";
 import { useNavigate, useParams } from "react-router-dom";
+import { BsStars } from "react-icons/bs";
 
 const MotionBox = motion(Box);
 const MotionText = motion(Text);
-const SQFT_PRICE = 5000;
 
-// Theme Constants
+// --- THEME CONSTANTS ---
 const NAVY = "#082032";
 const GOLD = "#D4AF37";
+const BEIGE = "#FFFFFF";
+const SQFT_PRICE = 5000; // Kept for calculation logic only
+
+// --- STYLING CONSTANTS ---
+const PREMIUM_GOLD_GRADIENT = "linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%)";
+const GOLD_TEXT_GRADIENT = "linear-gradient(to-r, #BF953F, #FCF6BA, #B38728, #AA771C)";
+
+// 3D Shadows
+const GOLD_BEVEL_SHADOW = `
+    inset 2px 2px 5px rgba(255,255,255,0.7),
+    inset -2px -2px 5px rgba(0,0,0,0.4),
+    4px 4px 10px rgba(0,0,0,0.3)
+`;
+const EMPTY_CARVE_SHADOW = `
+    inset 3px 3px 8px rgba(0,0,0,0.25),
+    inset -1px -1px 2px rgba(255,255,255,0.6)
+`;
+
+// Animations
+const shimmerSlow = keyframes`
+  0% { background-position: -250% center; opacity: 0.3; }
+  50% { opacity: 0.8; }
+  100% { background-position: 250% center; opacity: 0.3; }
+`;
+const pulseBorder = keyframes`
+  0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); border-color: ${GOLD}; }
+  70% { box-shadow: 0 0 0 6px rgba(212, 175, 55, 0); border-color: #FFE57F; }
+  100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); border-color: ${GOLD}; }
+`;
+const divineGlow = keyframes`
+  0%, 100% { box-shadow: 0 20px 50px -12px rgba(8, 32, 50, 0.6), 0 0 20px rgba(212, 175, 55, 0.1); }
+  50% { box-shadow: 0 25px 60px -12px rgba(8, 32, 50, 0.7), 0 0 40px rgba(212, 175, 55, 0.3); }
+`;
 
 // Helper: Convert Donor List to Grid Blocks
 const prepareGrid = (donors, totalBlocks = 500) => {
@@ -20,7 +53,6 @@ const prepareGrid = (donors, totalBlocks = 500) => {
 
     donors.forEach((donor) => {
         const blocksCount = Math.max(1, Math.floor(donor.amount / SQFT_PRICE));
-
         for (let i = 0; i < blocksCount; i++) {
             if (currentIndex < totalBlocks) {
                 grid[currentIndex] = {
@@ -39,8 +71,6 @@ const WallOfDevotion_Engraved = ({ getSingleUser }) => {
     const [donors, setDonors] = useState([]);
     const navigate = useNavigate();
     const { id } = useParams();
-
-    // ✅ State to control tooltips manually (Fixes mobile view issue)
     const [activeBlock, setActiveBlock] = useState(null);
 
     const handleScrollToDonate = () => {
@@ -49,11 +79,9 @@ const WallOfDevotion_Engraved = ({ getSingleUser }) => {
 
     const handleBlockClick = (index, isFilled) => {
         if (isFilled) {
-            // If filled, toggle tooltip on tap (especially for mobile)
             setActiveBlock(activeBlock === index ? null : index);
         } else {
-            // If empty, scroll to donate
-           // handleScrollToDonate();
+             handleScrollToDonate();
         }
     };
 
@@ -83,292 +111,284 @@ const WallOfDevotion_Engraved = ({ getSingleUser }) => {
 
     return (
         <Box
-            py={12}
-            px={[2, 4]}
-            bgGradient="linear(to-b, white, #F9F5F0)"
+            py={[16, 20]}
+            px={[4, 6]}
+            bg={`radial-gradient(circle at center, ${BEIGE}, #F5F0E5)`}
             textAlign="center"
             overflow="hidden"
             position="relative"
-            maxW="1200px"
-            mx="auto"
+            id="wall-of-devotion"
         >
+            {/* Background Decor */}
+            <Box position="absolute" top="5%" left="5%" opacity={0.05} transform="rotate(-15deg)"><Icon as={FaVihara} boxSize="150px" color={NAVY} /></Box>
+            <Box position="absolute" bottom="5%" right="5%" opacity={0.05} transform="rotate(15deg)"><Icon as={FaVihara} boxSize="150px" color={NAVY} /></Box>
+
             {/* Header Section */}
-            <VStack spacing={2} mb={8}>
+            <VStack spacing={5} mb={10} position="relative" zIndex={2}>
                 <Badge
-                    colorScheme="red"
-                    variant="subtle"
-                    px={3}
-                    py={1}
-                    borderRadius="full"
-                    fontSize="xs"
-                    display="flex"
-                    alignItems="center"
-                    gap={2}
-                    mb={1}
-                >
-                    <MotionBox
-                        animate={{ opacity: [1, 0.4, 1] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                    >
-                        <Icon as={FaCircle} boxSize={2} color="red.500" />
-                    </MotionBox>
-                    LIVE DONATION UPDATES
-                </Badge>
-
-                <MotionText
-                    fontSize={["3xl", "4xl"]}
-                    fontWeight="800"
-                    fontFamily="'Poppins', sans-serif"
-                    color={NAVY}
-                    lineHeight="1.2"
-                >
-                    Claim Your Spot on the <br />
-                    <Text as="span" color={GOLD} textShadow="1px 1px 0px rgba(0,0,0,0.1)">
-                        Wall of Devotion
-                    </Text>
-                </MotionText>
-
-                <Text color="black" maxW="600px" fontSize={["sm", "md"]} mt={2} fontFamily="'Poppins', sans-serif">
-                    <Text as="span" fontWeight="bold" color="black">Green blocks are waiting for you.</Text> Gold blocks are history written forever. Donate a square feet to inscribe your name in the history.
-                </Text>
-
-                {/* Legend */}
-                <Flex
-                    mt={5}
-                    bg="white"
-                    p={3}
-                    borderRadius="full"
-                    boxShadow="sm"
-                    gap={6}
-                    fontSize="xs"
-                    justify="center"
-                    wrap="wrap"
-                    border="1px solid"
-                    borderColor="gray.100"
-                >
-                    <Flex align="center" gap={2}>
-                        <Box
-                            w="16px" h="16px"
-                            bgGradient="linear(135deg, #F3E5AB 0%, #CBA135 100%)"
-                            borderRadius="sm"
-                            boxShadow="inset 0 0 2px rgba(255,255,255,0.5)"
-                        />
-                        <Text fontWeight="bold" color={NAVY} fontFamily="'Satoshi', sans-serif">Taken (Permanent)</Text>
-                    </Flex>
-                    <Flex align="center" gap={2}>
-                        <Box
-                            w="16px" h="16px"
-                            bg="transparent"
-                            border="1px dashed #38A169"
-                            borderRadius="sm"
-                        />
-                        <Text fontWeight="bold" color="green.600" fontFamily="'Satoshi', sans-serif">Available (Join Now)</Text>
-                    </Flex>
-                </Flex>
-            </VStack>
-
-            {/* Grid Container */}
-            <Box
-                maxW="1000px"
-                mx="auto"
-                bg="white"
-                borderRadius="xl"
-                border="2px solid"
-                borderColor={`${GOLD}40`}
-                boxShadow="0 10px 40px -10px rgba(212, 175, 55, 0.15)"
-                position="relative"
-                p={1}
-            >
-                {/* Phase Badge */}
-                <Box
-                    position="absolute"
-                    top="-14px"
-                    left="50%"
-                    transform="translateX(-50%)"
-                    zIndex={5}
                     bg={NAVY}
                     color={GOLD}
                     px={5}
-                    py={1}
-                    fontSize="xs"
-                    fontWeight="800"
+                    py={2}
                     borderRadius="full"
-                    fontFamily="'Poppins', sans-serif"
-                    letterSpacing="wider"
-                    boxShadow="md"
+                    fontSize="sm"
+                    fontWeight="800"
+                    letterSpacing="1.5px"
+                    display="flex"
+                    alignItems="center"
+                    gap={3}
+                    boxShadow="0 6px 15px rgba(0,0,0,0.2)"
+                    fontFamily="'Satoshi', sans-serif"
+                    border={`1px solid ${GOLD}`}
                 >
-                    PHASE 2: FILLING FAST
-                </Box>
+                    <Icon as={BsStars} boxSize={4} animation={`${pulseBorder} 2s infinite`}/>
+                    LIVE DONATION WALL
+                </Badge>
 
-                {/* ✅ SCROLL HINT ABOVE BLOCKS */}
-                <Flex justify="center" align="center" mt={3} mb={1} gap={1} opacity={0.7}>
-                    <Text fontSize="xs" fontWeight="600" color="gray.500" fontFamily="'Satoshi', sans-serif">
-                        Scroll down to see more
-                    </Text>
-                    <MotionBox
-                        animate={{ y: [0, 3, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
+                <MotionText
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    fontSize={["3xl", "4xl", "5xl"]}
+                    fontWeight="900"
+                    fontFamily="'Poppins', sans-serif"
+                    color={NAVY}
+                    lineHeight="1.15"
+                    letterSpacing="tight"
+                >
+                    Etch Your Name in <br />
+                    <Text
+                        as="span"
+                        bgClip="text"
+                        bgGradient={GOLD_TEXT_GRADIENT}
+                        filter="drop-shadow(0px 3px 3px rgba(0,0,0,0.25))"
+                        fontSize={["4xl", "5xl", "6xl"]}
                     >
-                        <Icon as={FaChevronDown} fontSize="xs" color="gray.500" />
-                    </MotionBox>
-                </Flex>
+                        Golden History
+                    </Text>
+                </MotionText>
+
+                {/* --- CLEAR INSTRUCTION PLAQUE --- */}
+                <Box
+                    bg="white"
+                    borderTop="4px solid"
+                    borderBottom="1px solid"
+                    borderColor={GOLD}
+                    p={6}
+                    borderRadius="2xl"
+                    maxW="750px"
+                    boxShadow="0 15px 40px -10px rgba(212, 175, 55, 0.15)"
+                    position="relative"
+                >
+                     <Icon as={FaHandPointer} color={GOLD} boxSize={8} position="absolute" top="-16px" left="50%" transform="translateX(-50%)" bg="white" borderRadius="full" p={1.5} border={`1px solid ${GOLD}`}/>
+
+                    <VStack spacing={3} mt={2}>
+                        <Text color={NAVY} fontSize={["sm", "md"]} fontFamily="'Poppins', sans-serif" fontWeight="500">
+                            <strong>1. Explore:</strong> Hover or tap on any <Text as="span" color="#B8860B" fontWeight="800">Gold Block</Text> to reveal the donor's name.
+                        </Text>
+                        <Box w="100%" h="1px" bg="gray.100" />
+                        <Text color={NAVY} fontSize={["sm", "md"]} fontFamily="'Poppins', sans-serif" fontWeight="500">
+                            <strong>2. Join:</strong> Donate <Text as="span" color="#C53030" fontWeight="800">one or more square feet</Text> to inscribe your name in the wall forever.
+                        </Text>
+                    </VStack>
+                </Box>
+            </VStack>
+
+            {/* --- TEMPLE WALL FRAME --- */}
+            <Box
+                maxW="1100px"
+                mx="auto"
+                position="relative"
+                p={[3, 5]}
+                bg={NAVY}
+                borderRadius="3xl"
+                animation={`${divineGlow} 4s ease-in-out infinite alternate`}
+            >
+                {/* Gold Trim */}
+                <Box position="absolute" top="6px" left="6px" right="6px" bottom="6px" border="3px solid" borderColor={GOLD} borderRadius="2xl" opacity={0.6} pointerEvents="none" boxShadow={`inset 0 0 15px ${GOLD}`}/>
 
                 <Box
-                    p={4}
-                    pt={2}
-                    maxH={["350px", "400px", "450px"]}
-                    overflowY="auto"
-                    sx={{
-                        "&::-webkit-scrollbar": { width: "6px" },
-                        "&::-webkit-scrollbar-track": { background: "transparent" },
-                        "&::-webkit-scrollbar-thumb": { background: "#CBD5E0", borderRadius: "4px" },
-                    }}
+                    bg="#f0f4f8"
+                    borderRadius="xl"
+                    overflow="hidden"
+                    position="relative"
+                    boxShadow="inset 0 0 40px rgba(0,0,0,0.3)"
+                    border="1px solid #2a4365"
                 >
-                    <SimpleGrid columns={[10, 15, 25]} spacing="4px">
-                        {grid.map((block, i) => {
-                            const isFilled = block !== null;
-                            const blockNumber = i + 1;
-                            const isNextAvailable = !isFilled && (i === 0 || grid[i - 1] !== null);
-                            const isOpen = activeBlock === i;
+                    {/* LEGEND / KEY */}
+                    <Flex
+                        justify="space-between"
+                        align="center"
+                        bgGradient="linear(to-b, #e2e8f0, #cbd5e0)"
+                        p={4}
+                        borderBottom="2px solid"
+                        borderColor="gray.300"
+                        fontSize="xs"
+                        color={NAVY}
+                        fontWeight="800"
+                        fontFamily="'Satoshi', sans-serif"
+                        textTransform="uppercase"
+                        letterSpacing="wider"
+                        boxShadow="0 2px 5px rgba(0,0,0,0.1)"
+                        wrap="wrap"
+                        gap={2}
+                    >
+                        <Flex align="center" gap={3}>
+                            <Box w="14px" h="14px" bg={PREMIUM_GOLD_GRADIENT} borderRadius="sm" boxShadow="0 1px 3px rgba(0,0,0,0.4)" border="1px solid #8C6A0A"/>
+                            <Text>Gold = Taken (Tap to see)</Text>
+                        </Flex>
 
-                            return (
-                                <Tooltip
-                                    key={i}
-                                    label={
-                                        isFilled
-                                            ? `${block.name} • ${Math.round(block.amount / SQFT_PRICE)} SqFt`
-                                            : `#${blockNumber}: Available to Donate`
-                                    }
-                                    hasArrow
-                                    bg={isFilled ? NAVY : "green.600"}
-                                    color="white"
-                                    placement="top"
-                                    fontSize="xs"
-                                    fontFamily="'Satoshi', sans-serif"
-                                    // ✅ MANUAL CONTROL for mobile support
-                                    isOpen={isOpen}
-                                >
-                                    <MotionBox
-                                        w="100%"
-                                        pt="100%"
-                                        role="button"
-                                        aria-label={isFilled ? `Donated by ${block.name}` : `Available block ${blockNumber}`}
-                                        bg={
+                        <Flex align="center" gap={2} opacity={0.8} display={{base:'none', md:'flex'}}>
+                            <Text>Scroll Wall</Text>
+                            <Icon as={FaChevronDown} color={NAVY}/>
+                        </Flex>
+
+                        <Flex align="center" gap={3}>
+                            <Box w="14px" h="14px" bg="#e2e8f0" border="1px solid #a0aec0" borderRadius="sm" boxShadow="inset 1px 1px 3px rgba(0,0,0,0.3)" />
+                            <Text>Grey = Available (Join)</Text>
+                        </Flex>
+                    </Flex>
+
+                    {/* THE WALL GRID */}
+                    <Box
+                        p={[4, 6]}
+                        maxH={["400px", "550px"]}
+                        overflowY="auto"
+                        sx={{
+                            "&::-webkit-scrollbar": { width: "10px" },
+                            "&::-webkit-scrollbar-track": { background: "#1a365d", borderRight: `1px solid ${GOLD}` },
+                            "&::-webkit-scrollbar-thumb": { background: `linear-gradient(to-b, ${GOLD}, #B38728)`, borderRadius: "5px", border: `1px solid ${NAVY}` },
+                        }}
+                    >
+                        <SimpleGrid columns={[10, 15, 20, 25]} spacing={["4px", "5px", "6px"]}>
+                            {grid.map((block, i) => {
+                                const isFilled = block !== null;
+                                const blockNumber = i + 1;
+                                const isNextAvailable = !isFilled && (i === 0 || grid[i - 1] !== null);
+                                const isOpen = activeBlock === i;
+
+                                return (
+                                    <Tooltip
+                                        key={i}
+                                        label={
                                             isFilled
-                                                ? "linear-gradient(135deg, #F3E5AB 0%, #CBA135 50%, #8C6A0A 100%)"
-                                                : "rgba(56, 161, 105, 0.02)"
+                                                ? `${block.name} • ${block.sqft} SqFt`
+                                                : `Available: Donate & Join Wall`
                                         }
-                                        border={isFilled ? "1px solid #B8860B" : "1px dashed #A0AEC0"}
-                                        borderRadius="sm"
-                                        position="relative"
-                                        cursor="pointer"
-
-                                        // ✅ TAP/CLICK HANDLER
-                                        onClick={(e) => {
-                                            e.stopPropagation(); // Prevent bubbling issues
-                                            handleBlockClick(i, isFilled);
-                                        }}
-                                        // ✅ HOVER HANDLER (Desktop)
-                                        onMouseEnter={() => setActiveBlock(i)}
-                                        onMouseLeave={() => setActiveBlock(null)}
-
-                                        animate={
-                                            isNextAvailable
-                                                ? {
-                                                    boxShadow: ["0 0 0 0 rgba(56, 161, 105, 0.4)", "0 0 0 4px rgba(56, 161, 105, 0)"],
-                                                    borderColor: ["#38A169", "#2F855A", "#38A169"],
-                                                }
-                                                : {}
-                                        }
-                                        transition={isNextAvailable ? { repeat: Infinity, duration: 2 } : {}}
-
-                                        _hover={{
-                                            transform: "scale(1.15)",
-                                            zIndex: 10,
-                                            bg: isFilled ? "" : "green.50",
-                                            borderColor: isFilled ? "white" : "green.500",
-                                            borderStyle: "solid",
-                                            boxShadow: "0 4px 10px rgba(0,0,0,0.2)"
-                                        }}
-                                        boxShadow={isFilled ? "inset 1px 1px 0px rgba(255,255,255,0.3), inset -1px -1px 0px rgba(0,0,0,0.2)" : "none"}
+                                        hasArrow
+                                        bg={NAVY}
+                                        color={GOLD}
+                                        placement="top"
+                                        fontSize="sm"
+                                        fontFamily="'Satoshi', sans-serif"
+                                        fontWeight="bold"
+                                        isOpen={isOpen}
+                                        boxShadow="dark-lg"
+                                        p={3}
                                     >
-                                        <Flex position="absolute" top="0" left="0" w="100%" h="100%" align="center" justify="center">
-                                            <Text
-                                                fontSize={["7px", "8px", "9px"]}
-                                                color={isFilled ? "white" : "green.700"}
-                                                fontWeight="bold"
-                                                opacity={isFilled ? 0.9 : 0.5}
-                                                userSelect="none"
-                                            >
-                                                {blockNumber}
-                                            </Text>
-                                        </Flex>
-                                    </MotionBox>
-                                </Tooltip>
-                            );
-                        })}
-                    </SimpleGrid>
+                                        <MotionBox
+                                            w="100%"
+                                            pt="100%"
+                                            role="button"
+                                            position="relative"
+                                            cursor="pointer"
+                                            borderRadius="md"
+                                            onClick={(e) => { e.stopPropagation(); handleBlockClick(i, isFilled); }}
+                                            onMouseEnter={() => setActiveBlock(i)}
+                                            onMouseLeave={() => setActiveBlock(null)}
+                                            bg={isFilled ? PREMIUM_GOLD_GRADIENT : "#e2e8f0"}
+                                            boxShadow={isFilled ? GOLD_BEVEL_SHADOW : EMPTY_CARVE_SHADOW}
+                                            border={isFilled ? `1px solid #B8860B` : `1px solid #cbd5e0`}
+                                            animation={isNextAvailable ? `${pulseBorder} 2s infinite` : undefined}
+                                            zIndex={isNextAvailable ? 2 : 1}
+                                            whileHover={{ scale: 1.5, zIndex: 20, boxShadow: isFilled ? "0 15px 30px rgba(212, 175, 55, 0.5)" : "inset 0 0 0 2px " + GOLD }}
+                                            transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                                        >
+                                            {isFilled && (
+                                                <Box
+                                                    position="absolute"
+                                                    top="0" left="0" w="300%" h="100%"
+                                                    bg="linear-gradient(to right, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%)"
+                                                    opacity={0.5}
+                                                    animation={`${shimmerSlow} 5s infinite linear`}
+                                                    transform="skewX(-20deg)"
+                                                />
+                                            )}
+                                            <Flex position="absolute" top="0" left="0" w="100%" h="100%" align="center" justify="center">
+                                                <Text
+                                                    fontSize={["7px", "9px"]}
+                                                    color={isFilled ? "#422a05" : "gray.400"}
+                                                    fontWeight="900"
+                                                    fontFamily="'Satoshi', sans-serif"
+                                                    opacity={isFilled ? 0.9 : 0.6}
+                                                    textShadow={isFilled ? "0px 1px 0px rgba(255,255,255,0.3)" : "none"}
+                                                >
+                                                    {blockNumber}
+                                                </Text>
+                                            </Flex>
+                                        </MotionBox>
+                                    </Tooltip>
+                                );
+                            })}
+                        </SimpleGrid>
+                    </Box>
                 </Box>
             </Box>
 
-            {/* Footer / Call to Action */}
-            <MotionBox
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                mt={8}
-            >
-                <Flex
-                    direction={["column", "row"]}
-                    justify="center"
-                    align="center"
-                    gap={[4, 8]}
-                    p={6}
-                    bgGradient="linear(to-r, orange.50, white, orange.50)"
-                    borderRadius="xl"
-                    border="1px solid"
-                    borderColor="orange.200"
-                    maxW="800px"
+            {/* CTA Section */}
+            <Box mt={-10} position="relative" zIndex={3} px={4}>
+                <MotionBox
+                    initial={{ y: 30, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.7, delay: 0.2 }}
+                    viewport={{ once: true }}
+                    bg="white"
+                    p={[6, 8]}
+                    borderRadius="3xl"
+                    boxShadow="0 20px 40px -10px rgba(8, 32, 50, 0.2)"
+                    borderTop={`4px solid ${GOLD}`}
+                    maxW="750px"
                     mx="auto"
-                    boxShadow="sm"
                 >
-                    <VStack spacing={0} align={["center", "flex-end"]}>
-                        <Text fontSize={["3xl", "4xl"]} fontWeight="900" color="#C05621" lineHeight="1">
-                            {remaining}
-                        </Text>
-                        <Text fontSize="xs" color="gray.500" fontWeight="bold" letterSpacing="wide">
-                            BLOCKS LEFT
-                        </Text>
-                    </VStack>
+                    <Icon as={FaGem} color={GOLD} position="absolute" top="-15px" left="20px" boxSize={10} bg="white" p={1} borderRadius="full" border={`2px solid ${GOLD}`}/>
 
-                    <Box h={["1px", "50px"]} w={["100%", "1px"]} bg="orange.200" opacity={0.5} />
+                    <Flex direction={["column", "row"]} align="center" justify="space-between" gap={6} mt={4}>
+                        <VStack spacing={1} align={["center", "flex-start"]}>
+                            <Text fontSize="sm" color={NAVY} fontWeight="bold" textTransform="uppercase" fontFamily="'Satoshi', sans-serif" letterSpacing="wider">
+                                Current Availability
+                            </Text>
+                            <Flex align="baseline" gap={3}>
+                                <Text fontSize={["4xl", "5xl"]} fontWeight="900" color={NAVY} lineHeight="1" fontFamily="'Poppins', sans-serif">
+                                    {remaining}
+                                </Text>
+                                <Text fontSize="xl" color={GOLD} fontWeight="700" fontFamily="'Satoshi', sans-serif">
+                                    blocks left
+                                </Text>
+                            </Flex>
+                        </VStack>
 
-                    <VStack spacing={3} align={["center", "flex-start"]}>
-                        <MotionBox animate={{ scale: [1, 1.02, 1] }} transition={{ repeat: Infinity, duration: 2 }}>
-                            <Button
-                                size="lg"
-                                bgGradient={`linear(to-r, ${GOLD}, #C59D18)`}
-                                color={NAVY}
-                                rightIcon={<FaCheckCircle />}
-                                onClick={handleScrollToDonate}
-                                boxShadow="0 4px 15px rgba(212, 175, 55, 0.4)"
-                                _hover={{
-                                    transform: "translateY(-2px)",
-                                    boxShadow: "0 6px 20px rgba(212, 175, 55, 0.6)"
-                                }}
-                                fontWeight="800"
-                                borderRadius="full"
-                                px={8}
-                            >
-                                Secure Your Block Now
-                            </Button>
-                        </MotionBox>
-                        <Text fontSize="xs" fontWeight="600" color="gray.500">
-                            Join {filledCount} other devotees in this historic seva.
-                        </Text>
-                    </VStack>
-                </Flex>
-            </MotionBox>
+                        <Button
+                            size="lg"
+                            h="auto"
+                            py={5}
+                            bgGradient="linear(to-r, #FFD700, #FFB200)"
+                            color="#2C0A0A"
+                            rightIcon={<FaCheckCircle boxSize={6} />}
+                            onClick={handleScrollToDonate}
+                            px={12}
+                            fontSize="xl"
+                            fontWeight="800"
+                            borderRadius="full"
+                            fontFamily="'Poppins', sans-serif"
+                            boxShadow="0 10px 25px rgba(255,183,0,0.5)"
+                            _hover={{ transform: "scale(1.05) translateY(-3px)", boxShadow: "0 15px 35px rgba(255,183,0,0.6)" }}
+                            transition="all 0.3s cubic-bezier(.08,.52,.52,1)"
+                        >
+                            Donate & Join The Wall
+                        </Button>
+                    </Flex>
+                </MotionBox>
+            </Box>
         </Box>
     );
 };

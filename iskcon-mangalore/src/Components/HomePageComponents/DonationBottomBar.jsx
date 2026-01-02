@@ -1,27 +1,45 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Flex, Text, Button } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const DonationBottomBar = ({ getSingleUser={getSingleUser} }) => {
+const DonationBottomBar = ({ getSingleUser }) => {
     const navigate = useNavigate();
     const { id } = useParams();
+    const [isVisible, setIsVisible] = useState(false);
+
+    // ✅ Track Scroll Position
+    useEffect(() => {
+        const toggleVisibility = () => {
+            if (window.scrollY > 100) {
+                setIsVisible(true);
+            } else {
+                setIsVisible(false);
+            }
+        };
+
+        window.addEventListener("scroll", toggleVisibility);
+        return () => window.removeEventListener("scroll", toggleVisibility);
+    }, []);
 
     const handleClick = () => {
-        // ✅ navigate and send campaign details through state
         navigate(`/campaign/${id}/donate`, { state: { getSingleUser } });
     };
+
     return (
         <Box
             position="fixed"
             bottom="0"
             left="0"
             w="100%"
-            bg="#0e1a2b"  // Premium navy (matches your site)
+            bg="#0e1a2b"
             color="white"
             py={3}
             px={5}
             zIndex="9999"
             boxShadow="0 -4px 20px rgba(0,0,0,0.25)"
+            // ✅ Animation: Slide up/down based on scroll
+            transform={isVisible ? "translateY(0)" : "translateY(100%)"}
+            transition="transform 0.4s ease-in-out"
         >
             <Flex
                 align="center"
@@ -33,7 +51,7 @@ const DonationBottomBar = ({ getSingleUser={getSingleUser} }) => {
                 {/* LEFT SIDE MESSAGE */}
                 <Text
                     fontSize={["xs","sm"]}
-                    color="#ffd476"   // soft gold tone
+                    color="#ffd476"
                     fontWeight="600"
                 >
                     Every Square Feet You Donate Lives Forever ✨
