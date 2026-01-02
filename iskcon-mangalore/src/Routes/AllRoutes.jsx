@@ -16,6 +16,8 @@ import Private from "../Private/Private";
 import CampaignerDashboard from "../Components/CampaignerComponents/CampaignerDashboard";
 import LoginPage from "../Components/Auth/LoginPage";
 import ProtectedRoute from "../Components/Auth/ProtectedRoute";
+import PrasadamDonors from "../Components/HomePageComponents/PrasadamDonors";
+
 const AllRoutes = () => {
   return (
     <Routes>
@@ -23,9 +25,10 @@ const AllRoutes = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/:id" element={<HomeSinglePage />} />
         <Route path="/payment/:id" element={<PaymentPage />} />
-          <Route path="/campaign/:id/donate" element={<PaymentPageFullWrapper />} />
-          {/*<Route path="/dashboard/:id" element={<CampaignerDashboard />} />*/}
-          <Route path="/login" element={<LoginPage />} />
+        <Route path="/campaign/:id/donate" element={<PaymentPageFullWrapper />} />
+        {/*<Route path="/dashboard/:id" element={<CampaignerDashboard />} />*/}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/prasadam" element={<PrasadamDonors />} />
           <Route
               path="/dashboard"
               element={

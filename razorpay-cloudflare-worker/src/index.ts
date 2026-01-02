@@ -3,7 +3,7 @@ import { env } from 'hono/adapter'
 import { drizzle, NeonHttpDatabase} from 'drizzle-orm/neon-http'
 import { neon, NeonQueryFunction } from '@neondatabase/serverless'
 import {  campaigns, paymentTable, campaignerStreaks, leaderboard} from './db/schema'
-import { and, desc, eq, gte, ilike } from 'drizzle-orm/expressions'
+import { and, desc, eq, gte, ilike, lte } from 'drizzle-orm/expressions'
 import { count,   sql,   sum, notExists, or, asc } from 'drizzle-orm'
 import { alias } from 'drizzle-orm/pg-core'
 import { bearerAuth } from 'hono/bearer-auth'
@@ -1291,6 +1291,88 @@ app.get('/api/get_leaderboard', async (c) => {
         return c.json({ error: "Internal Server Error" }, 500);
     }
 });
+
+app.get('/api/admin/prasadam-donors',
+    cors({
+        origin: ["https://campaigns.hkmchennai.org", "https://hkmchennaicrowdfunding-dev.vercel.app"],
+        allowMethods: ['GET', 'OPTIONS'],
+        allowHeaders: ['Authorization', 'Content-Type'],
+        credentials: true
+    }),
+    async (c) => {
+        const db = c.get('db');
+
+        // 1. Get Query Params
+        const page = parseInt(c.req.query('page') || '1');
+        const limit = parseInt(c.req.query('limit') || '20');
+        const fromDate = c.req.query('fromDate');
+        const toDate = c.req.query('toDate');
+
+        const offset = (page - 1) * limit;
+
+        try {
+            // 2. Build Query Conditions
+            // Base Condition: Payment success AND Prasad Required
+            const conditions = [
+                or(
+                    eq(paymentTable.paymentstatus, true),
+                    eq(paymentTable.finalpaymentstatus, 'captured')
+                ),
+                eq(paymentTable.prasadRequired, true)
+            ];
+
+            // 3. Timezone Fix (IST to UTC)
+            if (fromDate) {
+                const start = new Date(fromDate);
+                // Shift back 5.5 hours to get 18:30 prev day (00:00 IST)
+                start.setHours(start.getHours() - 5);
+                start.setMinutes(start.getMinutes() - 30);
+                conditions.push(gte(paymentTable.createdate, start));
+            }
+
+            if (toDate) {
+                const end = new Date(toDate);
+                end.setDate(end.getDate() + 1);
+                // Shift back 5.5 hours to get 18:30 today (24:00 IST)
+                end.setHours(end.getHours() - 5);
+                end.setMinutes(end.getMinutes() - 30);
+                conditions.push(lte(paymentTable.createdate, end));
+            }
+
+            // 4. Fetch Paginated Data
+            const donors = await db
+                .select()
+                .from(paymentTable)
+                .where(and(...conditions))
+                .orderBy(desc(paymentTable.createdate))
+                .limit(limit)
+                .offset(offset);
+
+            // 5. Get Total Count
+            const countResult = await db
+                .select({ count: count() })
+                .from(paymentTable)
+                .where(and(...conditions));
+
+            const totalCount = countResult[0]?.count || 0;
+            const totalPages = Math.ceil(totalCount / limit);
+
+            return c.json({
+                donors,
+                totalPages,
+                currentPage: page,
+                totalCount
+            });
+
+        } catch (error) {
+            console.error("Error fetching prasadam donors:", error);
+            return c.json({
+                error: "Failed to fetch data: " + error.message,
+                status: 500
+            }, 500);
+        }
+    }
+);
 
 export default {
     // A. Handle API Requests (Hono)
