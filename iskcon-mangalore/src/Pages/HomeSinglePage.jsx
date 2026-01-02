@@ -19,7 +19,7 @@ import {
     Image,
     Spinner,
 } from "@chakra-ui/react";
-import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaVihara, FaChevronDown, FaEye } from "react-icons/fa";
+import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaVihara, FaChevronDown, FaEye, FaClock } from "react-icons/fa";
 
 import PageNotFound from "../Components/HomePageComponents/PageNotFound";
 import DetailPageHeader from "../Components/HomePageComponents/DetailPageHeader";
