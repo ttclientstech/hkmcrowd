@@ -25,7 +25,8 @@ import {
     FaMapMarkerAlt,
     FaUser,
     FaPhone,
-    FaCalendarAlt
+    FaCalendarAlt,
+    FaListOl
 } from "react-icons/fa";
 import { BE_API_URL } from "../../constants/homePage";
 
@@ -39,6 +40,7 @@ const PrasadamDonors = () => {
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(0); // ✅ New State for Total Count
     const [hasSearched, setHasSearched] = useState(false);
 
     // Date Filters
@@ -78,6 +80,7 @@ const PrasadamDonors = () => {
             if (response.ok) {
                 setDonors(data.donors);
                 setTotalPages(data.totalPages);
+                setTotalCount(data.totalCount || 0); // ✅ Capture Total Count
             } else {
                 toast({ title: "Error fetching data", status: "error" });
             }
@@ -100,24 +103,12 @@ const PrasadamDonors = () => {
             return;
         }
 
-        // 1. Define Headers (Added "Shipping Address")
         const headers = [
-            "Name",
-            "Amount",
-            "Donation Date",
-            "Mobile",
-            "Shipping Address",
-            "House No",
-            "Street Name",
-            "Location/Area",
-            "City",
-            "State",
-            "Pincode",
-            "PAN No",
-            "Campaigner ID"
+            "Name", "Amount", "Donation Date", "Mobile", "Shipping Address",
+            "House No", "Street Name", "Location/Area", "City", "State",
+            "Pincode", "PAN No", "Campaigner ID"
         ];
 
-        // 2. Map Data to Rows
         const rows = donors.map(d => {
             const fullAddress = `"${d.houseNumber || ''}, ${d.street || ''}, ${d.location ? d.location + ', ' : ''}${d.city || ''}, ${d.state || ''} - ${d.pincode || ''}"`;
 
@@ -208,13 +199,13 @@ const PrasadamDonors = () => {
     );
 
     return (
-        // Wrapper: w="100%" ensures background fills screen
-        <Box minH="100vh" w="100%" bg={THEME_CREAM} p={[3, 6]} fontFamily="'Satoshi', sans-serif">
+        // ✅ Outer wrapper fills 100% width
+        <Box minH="100vh" w="100%" bg={THEME_CREAM} p={[2, 4]} fontFamily="'Satoshi', sans-serif">
 
-            {/* Container: w="100%" ensures content fills width up to maxW */}
-            <Box w="100%" maxW="1600px" mx="auto">
+            {/* ✅ UPDATED: Changed maxW="1600px" to maxW="100%" to force full width */}
+            <Box w="100%" maxW="100%" mx="auto">
 
-                {/* Header: w="100%" ensures white box stretches */}
+                {/* --- HEADER --- */}
                 <Flex
                     w="100%"
                     direction={["column", "row"]}
@@ -249,7 +240,7 @@ const PrasadamDonors = () => {
                     </Button>
                 </Flex>
 
-                {/* Filters: w="100%" ensures card stretches */}
+                {/* --- FILTERS --- */}
                 <Card mb={4} w="100%" borderRadius="xl" boxShadow="sm" borderTop={`4px solid ${THEME_GOLD}`}>
                     <CardBody p={4}>
                         <Flex direction={["column", "row"]} gap={3} align="flex-end" w="100%">
@@ -279,7 +270,19 @@ const PrasadamDonors = () => {
                     </CardBody>
                 </Card>
 
-                {/* Content Area: w="100%" */}
+                {/* ✅ NEW SECTION: Total Count Display */}
+                {hasSearched && (
+                    <Flex w="100%" justify="flex-start" align="center" mb={4} px={1}>
+                        <HStack bg="white" px={4} py={2} borderRadius="full" shadow="sm" border="1px solid" borderColor="gray.200">
+                            <Icon as={FaListOl} color={THEME_MAROON} />
+                            <Text fontSize="sm" fontWeight="bold" color="gray.700">
+                                Total Donors Found: <Box as="span" color={THEME_MAROON} fontSize="md">{totalCount}</Box>
+                            </Text>
+                        </HStack>
+                    </Flex>
+                )}
+
+                {/* --- CONTENT AREA --- */}
                 <Box w="100%">
                     {loading ? (
                         <Flex justify="center" py={10} direction="column" align="center" w="100%">
@@ -287,7 +290,6 @@ const PrasadamDonors = () => {
                             <Text mt={2} fontSize="sm" color="gray.500">Loading data...</Text>
                         </Flex>
                     ) : !hasSearched ? (
-                        // Empty State: w="100%" ensures white box stretches
                         <Flex direction="column" align="center" justify="center" bg="white" p={8} borderRadius="xl" boxShadow="sm" w="100%">
                             <Icon as={FaSearch} boxSize={8} color="gray.300" mb={2} />
                             <Text color="gray.500" textAlign="center" fontSize="sm">Select dates and click Search</Text>
@@ -298,14 +300,14 @@ const PrasadamDonors = () => {
                         </Flex>
                     ) : (
                         <>
-                            {/* Card Grid */}
+                            {/* Card Grid - Full Width */}
                             <SimpleGrid columns={[1, 2, 3]} spacing={4} w="100%" alignItems="stretch">
                                 {donors.map((donor) => (
                                     <DonorCard key={donor.id} donor={donor} />
                                 ))}
                             </SimpleGrid>
 
-                            {/* Pagination: w="100%" */}
+                            {/* Pagination */}
                             <Flex bg="white" p={3} justify="space-between" align="center" mt={4} borderRadius="xl" boxShadow="sm" w="100%">
                                 <Button size="sm" onClick={() => handlePageChange(page - 1)} isDisabled={page === 1} variant="outline">Prev</Button>
                                 <Text fontSize="xs" fontWeight="bold">Page {page} of {totalPages}</Text>
