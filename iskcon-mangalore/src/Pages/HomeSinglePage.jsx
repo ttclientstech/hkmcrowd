@@ -19,8 +19,8 @@ import {
     Image,
     Spinner,
 } from "@chakra-ui/react";
-import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaVihara, FaChevronDown, FaEye, FaClock } from "react-icons/fa";
-
+import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaVihara, FaChevronDown, FaEye, FaClock, FaGift } from "react-icons/fa";
+import { BsStars } from "react-icons/bs";
 import PageNotFound from "../Components/HomePageComponents/PageNotFound";
 import DetailPageHeader from "../Components/HomePageComponents/DetailPageHeader";
 import PaymentPageFull from "../Components/HomePageComponents/PaymentPageFull";
@@ -155,16 +155,88 @@ const TrustStrip = () => (
     </Box>
 );
 
-const UrgencyBar = () => (
-    <Box bg={NAVY} w="100%" py={2} px={4}>
-        <Flex maxW="1200px" mx="auto" justify="center" align="center" gap={2}>
-            <Icon as={FaClock} color={URGENT_RED} />
-            <Text color="white" fontSize="sm" fontWeight="bold">
-                Donate <Text as="span" color={URGENT_RED}>1 SQFT</Text> & Receive Maha Prasadam at your home
-            </Text>
+const shine = keyframes`
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+`;
+
+const urgency_pulse = keyframes`
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+`;
+
+const UrgencyBar = () => {
+  return (
+    <Box
+      w="100%"
+      // Rich Royal Maroon to Gold Gradient (Dignified & Festive)
+      bgGradient="linear(to-r, #580808, #8B0000, #B7791F, #8B0000, #580808)"
+      backgroundSize="200% 200%"
+      animation={`${shine} 6s ease infinite`} // Slower animation for dignity
+      py={3}
+      px={4}
+      boxShadow="0px 4px 15px rgba(0, 0, 0, 0.3)"
+      borderBottom="2px solid #FFD700"
+      position="relative"
+      zIndex={100}
+    >
+      <Flex
+        maxW="1200px"
+        mx="auto"
+        justify="center"
+        align="center"
+        gap={[2, 4]}
+        direction={["column", "row"]}
+        textAlign="center"
+      >
+        {/* Left Badge: "Divine Opportunity" instead of Limited Offer */}
+        <Flex align="center" gap={2} color="#FFD700">
+          <Icon as={BsStars} boxSize={5} animation={`${pulse} 3s infinite`} />
+          <Text
+            fontSize={["xs", "sm"]}
+            fontWeight="900"
+            letterSpacing="wider"
+            textTransform="uppercase"
+            bg="white"
+            color="#6A1B1A"
+            px={3}
+            py={0.5}
+            borderRadius="full" // Rounded looks more organic/friendly
+            boxShadow="0 0 10px rgba(255, 255, 255, 0.4)"
+          >
+            Divine Opportunity
+          </Text>
         </Flex>
+
+        {/* Main Text */}
+        <Text color="white" fontSize={["sm", "md"]} fontWeight="medium" letterSpacing="wide">
+          Sponsor just{" "}
+          <Box
+            as="span"
+            display="inline-block"
+            bg="#FFD700"
+            color="#580808"
+            px={3}
+            py={0.5}
+            borderRadius="md"
+            fontWeight="900"
+            mx={1}
+            boxShadow="0 0 15px rgba(255, 215, 0, 0.6)"
+            animation={`${urgency_pulse} 2s infinite`}
+          >
+            1 SQ.FT
+          </Box>{" "}
+            & receive <Text as="span" color="#FFD700" fontWeight="bold">Lord's Maha Prasadam</Text> at your home
+        </Text>
+
+        {/* Action Icon */}
+        <Icon as={FaGift} color="#FFD700" display={["none", "block"]} />
+      </Flex>
     </Box>
-);
+  );
+};
 
 const HomeSinglePage = () => {
     const { id } = useParams();
