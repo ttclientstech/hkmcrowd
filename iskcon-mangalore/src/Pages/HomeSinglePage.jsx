@@ -232,7 +232,7 @@ const UrgencyBar = () => {
         </Text>
 
         {/* Action Icon */}
-        <Icon as={FaGift} color="#FFD700" display={["none", "block"]} />
+        <Icon as={FaGift} color="#FFD700" display={["block", "block"]} />
       </Flex>
     </Box>
   );
