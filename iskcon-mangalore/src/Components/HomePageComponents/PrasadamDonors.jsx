@@ -21,14 +21,19 @@ import {
     CardBody,
     Flex,
     Icon,
-    useBreakpointValue
+    useBreakpointValue,
+    SimpleGrid,
+    Divider
 } from "@chakra-ui/react";
 import {
     FaFileExcel,
     FaArrowLeft,
     FaArrowRight,
     FaSearch,
-    FaMapMarkerAlt
+    FaMapMarkerAlt,
+    FaUser,
+    FaPhone,
+    FaCalendarAlt
 } from "react-icons/fa";
 import { BE_API_URL } from "../../constants/homePage";
 
@@ -50,6 +55,8 @@ const PrasadamDonors = () => {
 
     const toast = useToast();
     const PAGE_SIZE = 20;
+
+    // Detect Mobile View
     const isMobile = useBreakpointValue({ base: true, md: false });
 
     // Fetch Data Function
@@ -93,51 +100,23 @@ const PrasadamDonors = () => {
         }
     };
 
-    // Handle Search Click
-    const handleSearch = () => {
-        fetchDonors(1); // Reset to page 1 on new search
-    };
-
-    // Handle Pagination
+    const handleSearch = () => fetchDonors(1);
     const handlePageChange = (newPage) => {
-        if (newPage >= 1 && newPage <= totalPages) {
-            fetchDonors(newPage);
-        }
+        if (newPage >= 1 && newPage <= totalPages) fetchDonors(newPage);
     };
 
-    // Export to Excel
     const handleExportExcel = () => {
         if (donors.length === 0) {
             toast({ title: "No data to export", status: "warning" });
             return;
         }
-
-        const headers = [
-            "Name", "Amount", "Donation Date", "Mobile",
-            "House No", "Street Name", "Location/Area", "City",
-            "State", "Pincode", "PAN No", "Campaigner ID"
-        ];
-
+        const headers = ["Name", "Amount", "Donation Date", "Mobile", "House No", "Street Name", "Location/Area", "City", "State", "Pincode", "PAN No", "Campaigner ID"];
         const rows = donors.map(d => [
-            `"${d.username}"`,
-            d.amount,
-            `"${new Date(d.createdate).toLocaleDateString()}"`,
-            `"${d.mobileno}"`,
-            `"${d.houseNumber || ''}"`,
-            `"${d.street || ''}"`,
-            `"${d.location || ''}"`,
-            `"${d.city || ''}"`,
-            `"${d.state || ''}"`,
-            `"${d.pincode}"`,
-            `"${d.panno || ''}"`,
-            `"${d.campaignsid || ''}"`
+            `"${d.username}"`, d.amount, `"${new Date(d.createdate).toLocaleDateString()}"`, `"${d.mobileno}"`,
+            `"${d.houseNumber || ''}"`, `"${d.street || ''}"`, `"${d.location || ''}"`, `"${d.city || ''}"`,
+            `"${d.state || ''}"`, `"${d.pincode}"`, `"${d.panno || ''}"`, `"${d.campaignsid || ''}"`
         ]);
-
-        const csvContent = [
-            headers.join(","),
-            ...rows.map(row => row.join(","))
-        ].join("\n");
-
+        const csvContent = [headers.join(","), ...rows.map(row => row.join(","))].join("\n");
         const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
@@ -148,8 +127,70 @@ const PrasadamDonors = () => {
         document.body.removeChild(link);
     };
 
+    // --- MOBILE CARD COMPONENT ---
+    const MobileDonorCard = ({ donor }) => (
+        <Card bg="white" shadow="sm" borderRadius="lg" border="1px solid" borderColor="gray.200" mb={3}>
+            <CardBody p={4}>
+                {/* Header: Name & Amount */}
+                <Flex justify="space-between" align="center" mb={2}>
+                    <HStack>
+                        <Icon as={FaUser} color="gray.400" />
+                        <Text fontWeight="bold" color="#2D3748" fontSize="md">{donor.username}</Text>
+                    </HStack>
+                    <Badge colorScheme="green" fontSize="sm" px={2} py={0.5} borderRadius="full">
+                        ₹{donor.amount.toLocaleString('en-IN')}
+                    </Badge>
+                </Flex>
+
+                <Divider my={2} />
+
+                {/* Details Grid */}
+                <SimpleGrid columns={2} spacing={3} fontSize="sm">
+                    <Box>
+                        <Text fontSize="xs" color="gray.500" fontWeight="bold">MOBILE</Text>
+                        <HStack spacing={1}>
+                            <Icon as={FaPhone} boxSize={3} color="gray.400"/>
+                            <Text>{donor.mobileno}</Text>
+                        </HStack>
+                    </Box>
+                    <Box>
+                        <Text fontSize="xs" color="gray.500" fontWeight="bold">DATE</Text>
+                        <HStack spacing={1}>
+                            <Icon as={FaCalendarAlt} boxSize={3} color="gray.400"/>
+                            <Text>{new Date(donor.createdate).toLocaleDateString('en-IN')}</Text>
+                        </HStack>
+                    </Box>
+                </SimpleGrid>
+
+                {/* Address Section */}
+                <Box mt={3} bg="orange.50" p={2} borderRadius="md" border="1px dashed" borderColor="orange.200">
+                    <HStack mb={1} align="flex-start">
+                        <Icon as={FaMapMarkerAlt} color={THEME_MAROON} mt={1} />
+                        <Text fontSize="xs" fontWeight="bold" color={THEME_MAROON}>SHIPPING ADDRESS</Text>
+                    </HStack>
+                    <Text fontSize="sm" color="gray.700" lineHeight="1.4">
+                        {donor.houseNumber}, {donor.street}
+                        <br />
+                        {donor.location && <>{donor.location}, <br/></>}
+                        {donor.city}, {donor.state} - <b>{donor.pincode}</b>
+                    </Text>
+                </Box>
+
+                {/* Footer: Campaign Info */}
+                <Flex justify="space-between" align="center" mt={3}>
+                    <Text fontSize="xs" color="gray.500">PAN: {donor.panno || "N/A"}</Text>
+                    {donor.campaignsid && (
+                        <Badge colorScheme="orange" variant="outline" fontSize="xs">
+                            Camp ID: {donor.campaignsid}
+                        </Badge>
+                    )}
+                </Flex>
+            </CardBody>
+        </Card>
+    );
+
     return (
-        <Box minH="100vh" bg={THEME_CREAM} p={[3, 6]} fontFamily="'Satoshi', sans-serif">
+        <Box minH="100vh" bg={THEME_CREAM} p={[2, 6]} fontFamily="'Satoshi', sans-serif">
             <Box maxW="1600px" mx="auto">
 
                 {/* --- HEADER --- */}
@@ -157,61 +198,47 @@ const PrasadamDonors = () => {
                     direction={["column", "row"]}
                     justify="space-between"
                     align={["flex-start", "center"]}
-                    mb={6}
+                    mb={4}
                     bg="white"
-                    p={[4, 6]}
-                    borderRadius="2xl"
+                    p={4}
+                    borderRadius="xl"
                     boxShadow="sm"
                     borderLeft={`6px solid ${THEME_MAROON}`}
-                    gap={4}
+                    gap={3}
                 >
-                    <VStack align="flex-start" spacing={1}>
-                        <Heading size={["md", "lg"]} color={THEME_MAROON} fontWeight="900">
-                            Maha Prasadam Dispatch
+                    <VStack align="flex-start" spacing={0}>
+                        <Heading size="md" color={THEME_MAROON} fontWeight="900">
+                            Prasadam Dispatch
                         </Heading>
-                        <Text color="gray.500" fontSize="sm">
-                            Generate lists for prasadam shipping
+                        <Text color="gray.500" fontSize="xs">
+                            Download shipping lists
                         </Text>
                     </VStack>
 
                     <Button
                         leftIcon={<FaFileExcel />}
                         colorScheme="green"
-                        size="md"
+                        size="sm"
                         w={["100%", "auto"]}
                         onClick={handleExportExcel}
                         isDisabled={!hasSearched || donors.length === 0}
-                        borderRadius="full"
-                        px={6}
                     >
                         Export Excel
                     </Button>
                 </Flex>
 
                 {/* --- FILTERS --- */}
-                <Card mb={6} borderRadius="xl" boxShadow="sm" borderTop={`4px solid ${THEME_GOLD}`}>
-                    <CardBody p={[4, 6]}>
-                        <Flex direction={["column", "row"]} gap={4} align="flex-end">
+                <Card mb={4} borderRadius="xl" boxShadow="sm" borderTop={`4px solid ${THEME_GOLD}`}>
+                    <CardBody p={4}>
+                        <Flex direction={["column", "row"]} gap={3} align="flex-end">
                             <Box w={["100%", "auto"]}>
-                                <Text fontSize="xs" fontWeight="bold" color="gray.500" mb={1}>FROM DATE</Text>
-                                <Input
-                                    type="date"
-                                    bg="white"
-                                    focusBorderColor={THEME_MAROON}
-                                    value={fromDate}
-                                    onChange={(e) => setFromDate(e.target.value)}
-                                />
+                                <Text fontSize="xs" fontWeight="bold" color="gray.500" mb={1}>FROM</Text>
+                                <Input type="date" bg="white" size="sm" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
                             </Box>
 
                             <Box w={["100%", "auto"]}>
-                                <Text fontSize="xs" fontWeight="bold" color="gray.500" mb={1}>TO DATE</Text>
-                                <Input
-                                    type="date"
-                                    bg="white"
-                                    focusBorderColor={THEME_MAROON}
-                                    value={toDate}
-                                    onChange={(e) => setToDate(e.target.value)}
-                                />
+                                <Text fontSize="xs" fontWeight="bold" color="gray.500" mb={1}>TO</Text>
+                                <Input type="date" bg="white" size="sm" value={toDate} onChange={(e) => setToDate(e.target.value)} />
                             </Box>
 
                             <Button
@@ -222,173 +249,81 @@ const PrasadamDonors = () => {
                                 w={["100%", "auto"]}
                                 onClick={handleSearch}
                                 isLoading={loading}
-                                loadingText="Searching..."
+                                size="sm"
                             >
-                                Search Donors
+                                Search
                             </Button>
                         </Flex>
                     </CardBody>
                 </Card>
 
-                {/* --- TABLE --- */}
-                <Card borderRadius="xl" boxShadow="md" overflow="hidden" bg="white">
-                    {/* Horizontal Scroll Wrapper for Mobile */}
-                    <TableContainer overflowX="auto" whiteSpace="nowrap">
-                        <Table variant="simple" size="sm">
-                            <Thead bg={THEME_MAROON}>
-                                <Tr>
-                                    {[
-                                        "Donor Name", "Amount", "Date", "Mobile",
-                                        "Address", "Location", "City & State",
-                                        "Pincode", "PAN", "Camp. ID"
-                                    ].map((header, i) => (
-                                        <Th key={i} color="white" py={4} fontSize="xs" letterSpacing="wider">
-                                            {header}
-                                        </Th>
-                                    ))}
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                {loading ? (
-                                    <Tr>
-                                        <Td colSpan={10} textAlign="center" py={12}>
-                                            <Spinner size="lg" color={THEME_MAROON} />
-                                            <Text mt={2} color="gray.500">Fetching records...</Text>
-                                        </Td>
-                                    </Tr>
-                                ) : !hasSearched ? (
-                                    <Tr>
-                                        <Td colSpan={10} textAlign="center" py={12}>
-                                            <VStack spacing={3}>
-                                                <Icon as={FaSearch} boxSize={10} color="gray.300" />
-                                                <Heading size="md" color="gray.400">Ready to Search</Heading>
-                                                <Text color="gray.500">Please select a <b>From Date</b> and <b>To Date</b> above and click Search.</Text>
-                                            </VStack>
-                                        </Td>
-                                    </Tr>
-                                ) : donors.length === 0 ? (
-                                    <Tr>
-                                        <Td colSpan={10} textAlign="center" py={12}>
-                                            <Text color="red.500" fontWeight="bold">No prasadam requests found for this date range.</Text>
-                                        </Td>
-                                    </Tr>
-                                ) : (
-                                    donors.map((donor) => (
-                                        <Tr
-                                            key={donor.id}
-                                            _hover={{ bg: "orange.50" }}
-                                            borderBottom="1px solid"
-                                            borderColor="gray.100"
-                                        >
-                                            {/* Name */}
-                                            <Td fontWeight="700" color="#2D3748" verticalAlign="top">
-                                                {donor.username}
-                                            </Td>
-
-                                            {/* Amount */}
-                                            <Td fontWeight="bold" color={THEME_MAROON} verticalAlign="top">
-                                                ₹{donor.amount.toLocaleString('en-IN')}
-                                            </Td>
-
-                                            {/* Date */}
-                                            <Td fontSize="xs" color="gray.600" verticalAlign="top">
-                                                {new Date(donor.createdate).toLocaleDateString('en-IN', {
-                                                    day: '2-digit', month: 'short', year: 'numeric'
-                                                })}
-                                            </Td>
-
-                                            {/* Mobile */}
-                                            <Td fontSize="xs" verticalAlign="top">{donor.mobileno}</Td>
-
-                                            {/* Address (Wrapping Enabled) */}
-                                            <Td maxW="200px" whiteSpace="normal" wordBreak="break-word" verticalAlign="top">
-                                                <Text fontSize="xs" fontWeight="bold">{donor.houseNumber}</Text>
-                                                <Text fontSize="xs" color="gray.600">{donor.street}</Text>
-                                            </Td>
-
-                                            {/* Location (Wrapping Enabled) */}
-                                            <Td maxW="150px" whiteSpace="normal" wordBreak="break-word" verticalAlign="top">
-                                                <HStack align="flex-start" spacing={1}>
-                                                    <Icon as={FaMapMarkerAlt} color={THEME_GOLD} mt="2px" boxSize="10px"/>
-                                                    <Text fontSize="xs">{donor.location}</Text>
-                                                </HStack>
-                                            </Td>
-
-                                            {/* City/State (Wrapping Enabled) */}
-                                            <Td maxW="150px" whiteSpace="normal" wordBreak="break-word" verticalAlign="top">
-                                                <Text fontSize="xs" fontWeight="bold">{donor.city}</Text>
-                                                <Text fontSize="xs" color="gray.500">{donor.state}</Text>
-                                            </Td>
-
-                                            {/* Pincode */}
-                                            <Td verticalAlign="top">
-                                                <Badge colorScheme="purple" variant="subtle">
-                                                    {donor.pincode}
-                                                </Badge>
-                                            </Td>
-
-                                            {/* PAN */}
-                                            <Td fontSize="xs" fontFamily="monospace" verticalAlign="top">
-                                                {donor.panno || "-"}
-                                            </Td>
-
-                                            {/* Campaigner */}
-                                            <Td verticalAlign="top">
-                                                {donor.campaignsid ? (
-                                                    <Badge colorScheme="orange" variant="outline" fontSize="xs" whiteSpace="normal">
-                                                        {donor.campaignsid}
-                                                    </Badge>
-                                                ) : (
-                                                    <Text fontSize="xs" color="gray.400">-</Text>
-                                                )}
-                                            </Td>
-                                        </Tr>
-                                    ))
-                                )}
-                            </Tbody>
-                        </Table>
-                    </TableContainer>
-
-                    {/* --- FOOTER PAGINATION (Only show if searched) --- */}
-                    {hasSearched && donors.length > 0 && (
-                        <Flex
-                            bg="gray.50"
-                            p={4}
-                            justify="space-between"
-                            align="center"
-                            borderTop="1px solid"
-                            borderColor="gray.200"
-                            direction={["column", "row"]}
-                            gap={4}
-                        >
-                            <Text fontSize="sm" color="gray.600">
-                                Page <Box as="span" fontWeight="bold" color={THEME_MAROON}>{page}</Box> of {totalPages}
-                            </Text>
-                            <HStack spacing={2} w={["100%", "auto"]} justify="center">
-                                <Button
-                                    size="sm"
-                                    leftIcon={<FaArrowLeft />}
-                                    onClick={() => handlePageChange(page - 1)}
-                                    isDisabled={page === 1 || loading}
-                                    variant="outline"
-                                >
-                                    Prev
-                                </Button>
-                                <Button
-                                    size="sm"
-                                    rightIcon={<FaArrowRight />}
-                                    onClick={() => handlePageChange(page + 1)}
-                                    isDisabled={page >= totalPages || loading}
-                                    bg={THEME_MAROON}
-                                    color="white"
-                                    _hover={{ bg: "#501413" }}
-                                >
-                                    Next
-                                </Button>
-                            </HStack>
+                {/* --- CONTENT AREA --- */}
+                <Box>
+                    {loading ? (
+                        <Flex justify="center" py={10} direction="column" align="center">
+                            <Spinner size="lg" color={THEME_MAROON} thickness="3px" />
+                            <Text mt={2} fontSize="sm" color="gray.500">Loading data...</Text>
                         </Flex>
+                    ) : !hasSearched ? (
+                        <Flex direction="column" align="center" justify="center" bg="white" p={8} borderRadius="xl" boxShadow="sm">
+                            <Icon as={FaSearch} boxSize={8} color="gray.300" mb={2} />
+                            <Text color="gray.500" textAlign="center" fontSize="sm">Select dates and click Search</Text>
+                        </Flex>
+                    ) : donors.length === 0 ? (
+                        <Flex justify="center" p={8} bg="white" borderRadius="xl">
+                            <Text color="red.500" fontWeight="bold">No records found.</Text>
+                        </Flex>
+                    ) : (
+                        <>
+                            {/* === MOBILE VIEW: CARDS === */}
+                            {isMobile ? (
+                                <VStack align="stretch" spacing={0}>
+                                    {donors.map((donor) => (
+                                        <MobileDonorCard key={donor.id} donor={donor} />
+                                    ))}
+                                </VStack>
+                            ) : (
+                                /* === DESKTOP VIEW: TABLE === */
+                                <Card borderRadius="xl" boxShadow="md" overflow="hidden" bg="white">
+                                    <TableContainer>
+                                        <Table variant="simple" size="sm">
+                                            <Thead bg={THEME_MAROON}>
+                                                <Tr>
+                                                    {["Name", "Amount", "Date", "Mobile", "Address", "Location", "City/State", "Pin", "PAN", "Camp ID"].map((h, i) => (
+                                                        <Th key={i} color="white" py={3} fontSize="xs">{h}</Th>
+                                                    ))}
+                                                </Tr>
+                                            </Thead>
+                                            <Tbody>
+                                                {donors.map((donor) => (
+                                                    <Tr key={donor.id} _hover={{ bg: "orange.50" }} borderBottom="1px solid" borderColor="gray.100">
+                                                        <Td fontWeight="bold">{donor.username}</Td>
+                                                        <Td fontWeight="bold" color={THEME_MAROON}>₹{donor.amount.toLocaleString()}</Td>
+                                                        <Td fontSize="xs">{new Date(donor.createdate).toLocaleDateString()}</Td>
+                                                        <Td fontSize="xs">{donor.mobileno}</Td>
+                                                        <Td maxW="200px" whiteSpace="normal"><Text fontSize="xs">{donor.houseNumber}, {donor.street}</Text></Td>
+                                                        <Td maxW="150px" whiteSpace="normal"><Text fontSize="xs">{donor.location}</Text></Td>
+                                                        <Td fontSize="xs">{donor.city}, {donor.state}</Td>
+                                                        <Td><Badge>{donor.pincode}</Badge></Td>
+                                                        <Td fontSize="xs">{donor.panno || "-"}</Td>
+                                                        <Td fontSize="xs">{donor.campaignsid || "-"}</Td>
+                                                    </Tr>
+                                                ))}
+                                            </Tbody>
+                                        </Table>
+                                    </TableContainer>
+                                </Card>
+                            )}
+
+                            {/* --- PAGINATION --- */}
+                            <Flex bg="white" p={3} justify="space-between" align="center" mt={4} borderRadius="xl" boxShadow="sm">
+                                <Button size="sm" onClick={() => handlePageChange(page - 1)} isDisabled={page === 1} variant="outline">Prev</Button>
+                                <Text fontSize="xs" fontWeight="bold">Page {page} of {totalPages}</Text>
+                                <Button size="sm" onClick={() => handlePageChange(page + 1)} isDisabled={page >= totalPages} bg={THEME_MAROON} color="white">Next</Button>
+                            </Flex>
+                        </>
                     )}
-                </Card>
+                </Box>
             </Box>
         </Box>
     );
