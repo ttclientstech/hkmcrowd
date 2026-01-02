@@ -32,6 +32,7 @@ import {
     FaSearch,
     FaMapMarkerAlt
 } from "react-icons/fa";
+import { BE_API_URL } from "../../constants/homePage";
 
 // Brand Colors
 const THEME_MAROON = "#6A1B1A";
@@ -63,7 +64,7 @@ const PrasadamDonors = () => {
             });
 
             // Replace with your actual API endpoint
-            const response = await fetch(`/api/admin/prasadam-donors?${queryParams}`);
+            const response = await fetch(`${BE_API_URL}/api/admin/prasadam-donors?${queryParams}`);
             const data = await response.json();
 
             if (response.ok) {
