@@ -171,10 +171,9 @@ const UrgencyBar = () => {
   return (
     <Box
       w="100%"
-      // Rich Royal Maroon to Gold Gradient (Dignified & Festive)
       bgGradient="linear(to-r, #580808, #8B0000, #B7791F, #8B0000, #580808)"
       backgroundSize="200% 200%"
-      animation={`${shine} 6s ease infinite`} // Slower animation for dignity
+      animation={`${shine} 6s ease infinite`}
       py={3}
       px={4}
       boxShadow="0px 4px 15px rgba(0, 0, 0, 0.3)"
@@ -187,15 +186,15 @@ const UrgencyBar = () => {
         mx="auto"
         justify="center"
         align="center"
-        gap={[2, 4]}
+        gap={[2, 3, 4]}
         direction={["column", "row"]}
         textAlign="center"
       >
-        {/* Left Badge: "Divine Opportunity" instead of Limited Offer */}
-        <Flex align="center" gap={2} color="#FFD700">
-          <Icon as={BsStars} boxSize={5} animation={`${pulse} 3s infinite`} />
+        {/* Badge */}
+        <Flex align="center" gap={2} color="#FFD700" justify="center">
+          <Icon as={BsStars} boxSize={4} animation={`${urgency_pulse} 3s infinite`} />
           <Text
-            fontSize={["xs", "sm"]}
+            fontSize="xs"
             fontWeight="900"
             letterSpacing="wider"
             textTransform="uppercase"
@@ -203,7 +202,7 @@ const UrgencyBar = () => {
             color="#6A1B1A"
             px={3}
             py={0.5}
-            borderRadius="full" // Rounded looks more organic/friendly
+            borderRadius="full"
             boxShadow="0 0 10px rgba(255, 255, 255, 0.4)"
           >
             Divine Opportunity
@@ -211,28 +210,28 @@ const UrgencyBar = () => {
         </Flex>
 
         {/* Main Text */}
-        <Text color="white" fontSize={["sm", "md"]} fontWeight="medium" letterSpacing="wide">
-          Sponsor just{" "}
-          <Box
+        <Text color="white" fontSize={["sm", "md"]} fontWeight="medium" letterSpacing="wide" lineHeight={1.6}>
+          Donate today & receive{" "}
+          <Text
             as="span"
-            display="inline-block"
-            bg="#FFD700"
-            color="#580808"
-            px={3}
-            py={0.5}
-            borderRadius="md"
-            fontWeight="900"
-            mx={1}
-            boxShadow="0 0 15px rgba(255, 215, 0, 0.6)"
-            animation={`${urgency_pulse} 2s infinite`}
+            color="#FFD700"
+            fontWeight="bold"
+            textShadow="0px 0px 10px rgba(255, 215, 0, 0.6)"
           >
-            1 SQ.FT
-          </Box>{" "}
-            & receive <Text as="span" color="#FFD700" fontWeight="bold">Lord's Maha Prasadam</Text> at your home
-        </Text>
+            Lord's Maha Prasadam
+          </Text>{" "}
+          at your home
 
-        {/* Action Icon */}
-        <Icon as={FaGift} color="#FFD700" display={["none", "block"]} />
+          {/* Inline Gift Icon */}
+          <Icon
+            as={FaGift}
+            color="#FFD700"
+            ml={2}
+            boxSize={4}
+            verticalAlign="text-bottom"
+            display="inline"
+          />
+        </Text>
       </Flex>
     </Box>
   );
