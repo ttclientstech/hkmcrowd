@@ -715,21 +715,6 @@ const HomeSinglePage = () => {
             {!initialPageLoad && (
                 <>
                     <DonationBottomBar getSingleUser={getSingleUser} />
-                    {showScrollButton && (
-                        <IconButton
-                            icon={<FaArrowUp />}
-                            position={"fixed"}
-                            bottom={["80px","60px"]}
-                            right={"20px"}
-                            zIndex={"999"}
-                            bg={NAVY}
-                            color={GOLD}
-                            onClick={handleScrollToTop}
-                            borderRadius="full"
-                            boxShadow="xl"
-                            border={`1px solid ${GOLD}`}
-                        />
-                    )}
                 </>
             )}
         </Box>

@@ -64,7 +64,7 @@ const AltarDonationBanner = () => {
                 w="100%"
                 h="100%"
                 // Radial gradient focuses light on text, darkens edges
-                bgGradient={`radial-gradient(circle at center, rgba(8,32,50,0.85) 0%, rgba(5,15,25,0.98) 100%)`}
+                bgGradient={`radial-gradient(circle at center, rgba(8,32,50,0.85) 0%, rgba(5,15,25,0.8) 100%)`}
             />
 
             {/* 3. Modern Decorative Sparkles (Replaced Om) */}

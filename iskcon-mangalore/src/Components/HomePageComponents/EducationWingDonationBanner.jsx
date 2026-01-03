@@ -66,7 +66,7 @@ const EducationWingDonationBanner = () => {
                 w="100%"
                 h="100%"
                 // ✅ Radial gradient creates a "spotlight" in the center, darkening edges
-                bgGradient={`radial-gradient(circle at center, rgba(8,32,50,0.8) 0%, rgba(5,15,25,0.98) 100%)`}
+                bgGradient={`radial-gradient(circle at center, rgba(8,32,50,0.8) 0%, rgba(5,15,25,0.75) 100%)`}
             />
 
             {/* 3. Decorative Floating "Knowledge Sparks" */}

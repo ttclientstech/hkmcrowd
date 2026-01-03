@@ -15,7 +15,7 @@ import {
 import { keyframes } from "@emotion/react";
 import { FaTimes, FaVihara, FaPray } from "react-icons/fa";
 import { BsStars, BsFillLightningFill } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // --- THEME CONSTANTS ---
 const NAVY = "#082032";
@@ -59,6 +59,7 @@ const Particle = ({ size, left, delay, duration }) => (
 const NewYearDonationModal = ({ getSingleUser }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const navigate = useNavigate();
+    const { id } = useParams();
 
     // --- TRIGGER LOGIC (20 SECONDS) ---
     useEffect(() => {
@@ -77,8 +78,8 @@ const NewYearDonationModal = ({ getSingleUser }) => {
 
     const handleDonate = () => {
         onClose();
-        if (getSingleUser?._id) {
-             navigate(`/campaign/${getSingleUser._id}/donate`, { state: { getSingleUser } });
+        if (id) {
+             navigate(`/campaign/${id}/donate`, { state: { getSingleUser } });
         }
     };
 
@@ -89,7 +90,7 @@ const NewYearDonationModal = ({ getSingleUser }) => {
             isCentered
             size="lg" // Slightly larger for impact
             motionPreset="scale"
-            zIndex={1000}
+            zIndex="10000"
         >
             {/* Dark, blurred overlay to focus attention completely */}
             <ModalOverlay bg="blackAlpha.900" backdropFilter="blur(10px)" />
@@ -231,7 +232,7 @@ const NewYearDonationModal = ({ getSingleUser }) => {
                             leftIcon={<Icon as={FaPray} boxSize={6} />}
                             rightIcon={<Icon as={BsFillLightningFill} boxSize={6} />}
                         >
-                            Make My Offering Now
+                            Make Your Offering Now
                         </Button>
 
                         <Text fontSize="sm" color="whiteAlpha.600" pt={2} fontStyle="italic">
