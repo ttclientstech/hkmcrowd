@@ -347,7 +347,7 @@ const WallOfDevotion_Engraved = ({ getSingleUser }) => {
                             _hover={{ transform: "translateY(-2px)", boxShadow: "lg" }}
                             active={{ transform: "scale(0.98)" }}
                         >
-                            Donate & Get Blessings
+                            Add Your Name
                         </Button>
                     </Flex>
                 </Box>
