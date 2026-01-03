@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { Box, SimpleGrid, Tooltip, Text, Flex, Icon, Button, VStack, Badge } from "@chakra-ui/react";
-import { keyframes } from "@motion/react";
+import { keyframes } from "@emotion/react";
 import { FaCheckCircle, FaHandPointer, FaGem, FaVihara } from "react-icons/fa";
 import { BsStars } from "react-icons/bs";
 import { fetchAllContributers } from "../../utils/apiCall";
