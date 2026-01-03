@@ -647,7 +647,7 @@ const HomeSinglePage = () => {
             <CulturalHallDonationBanner />
             <TempleBlueprintSection />
             <TempleArchitecturalShowcase />
-
+            <OverallCampaignProgress />
             {/* TEMPLE CONSTRUCTION STATUS */}
             <Box w="100%" maxW="1200px" mx="auto" mt={16} px={[4, 6]} fontFamily="'Poppins', sans-serif">
                 <Text
@@ -684,16 +684,15 @@ const HomeSinglePage = () => {
                     ))}
                 </Flex>
             </Box>
-            <OverallCampaignProgress />
 
             {/* Reused sections */}
             <TestimonialSection />
             <AltarDonationBanner />
             <DonorPrivilegeSection />
             <SpecialDonorPrivileges />
+            <WallOfDevotion_Engraved getSingleUser={getSingleUser} />
             <RecentContributors getSingleUser={getSingleUser} />
             <DonateNowButton getSingleUser={getSingleUser} />
-            <WallOfDevotion_Engraved getSingleUser={getSingleUser} />
             <WhyDonateQuotes />
             <FAQComponent />
             <DonateNowButton getSingleUser={getSingleUser} />

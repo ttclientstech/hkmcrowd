@@ -59,7 +59,7 @@ const CulturalHallDonationBanner = () => {
                 w="100%"
                 h="100%"
                 // Radial gradient acts like a spotlight on the text
-                bgGradient={`radial-gradient(circle at center, rgba(8,32,50,0.85) 0%, rgba(5,15,25,0.95) 100%)`}
+                bgGradient={`radial-gradient(circle at center, rgba(8,32,50,0.85) 0%, rgba(5,15,25,0.74) 100%)`}
             />
 
             {/* 3. Decorative Sparkles */}
