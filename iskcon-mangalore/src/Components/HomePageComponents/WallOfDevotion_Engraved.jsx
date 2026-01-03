@@ -152,6 +152,7 @@ const WallOfDevotion_Engraved = ({ getSingleUser }) => {
             overflow="hidden"
             position="relative"
             onClick={clearSelection}
+            mt={16}
         >
             {/* Background Decor */}
             <Box position="absolute" top="2%" left="-10%" opacity={0.05} transform="rotate(-15deg)">
