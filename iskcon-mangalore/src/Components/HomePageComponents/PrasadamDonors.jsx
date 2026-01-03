@@ -19,8 +19,6 @@ import {
 } from "@chakra-ui/react";
 import {
     FaFileExcel,
-    FaArrowLeft,
-    FaArrowRight,
     FaSearch,
     FaMapMarkerAlt,
     FaUser,
@@ -38,9 +36,13 @@ const THEME_CREAM = "#FAF3E0";
 const PrasadamDonors = () => {
     const [donors, setDonors] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    // New state for Export Button loading
+    const [exportLoading, setExportLoading] = useState(false);
+
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [totalCount, setTotalCount] = useState(0); // ✅ New State for Total Count
+    const [totalCount, setTotalCount] = useState(0);
     const [hasSearched, setHasSearched] = useState(false);
 
     // Date Filters
@@ -50,7 +52,7 @@ const PrasadamDonors = () => {
     const toast = useToast();
     const PAGE_SIZE = 20;
 
-    // Fetch Data Function
+    // Fetch Data Function (For Pagination Display)
     const fetchDonors = async (pageNumber = 1) => {
         if (!fromDate || !toDate) {
             toast({
@@ -80,7 +82,7 @@ const PrasadamDonors = () => {
             if (response.ok) {
                 setDonors(data.donors);
                 setTotalPages(data.totalPages);
-                setTotalCount(data.totalCount || 0); // ✅ Capture Total Count
+                setTotalCount(data.totalCount || 0);
             } else {
                 toast({ title: "Error fetching data", status: "error" });
             }
@@ -97,47 +99,80 @@ const PrasadamDonors = () => {
         if (newPage >= 1 && newPage <= totalPages) fetchDonors(newPage);
     };
 
-    const handleExportExcel = () => {
-        if (donors.length === 0) {
-            toast({ title: "No data to export", status: "warning" });
+    // ✅ UPDATED: Fetch ALL data & Use Comma Separator
+    const handleExportExcel = async () => {
+        if (!fromDate || !toDate) {
+            toast({ title: "Select Dates", status: "warning" });
             return;
         }
 
-        const headers = [
-            "Name", "Amount", "Donation Date", "Mobile", "Shipping Address",
-            "House No", "Street Name", "Location/Area", "City", "State",
-            "Pincode", "PAN No", "Campaigner ID"
-        ];
+        setExportLoading(true);
 
-        const rows = donors.map(d => {
-            const fullAddress = `"${d.houseNumber || ''}, ${d.street || ''}, ${d.location ? d.location + ', ' : ''}${d.city || ''}, ${d.state || ''} - ${d.pincode || ''}"`;
+        try {
+            // 1. Fetch ALL records
+            const queryParams = new URLSearchParams({
+                page: 1,
+                limit: 100000,
+                fromDate,
+                toDate
+            });
 
-            return [
-                `"${d.username}"`,
-                d.amount,
-                `"${new Date(d.createdate).toLocaleDateString()}"`,
-                `"${d.mobileno}"`,
-                fullAddress,
-                `"${d.houseNumber || ''}"`,
-                `"${d.street || ''}"`,
-                `"${d.location || ''}"`,
-                `"${d.city || ''}"`,
-                `"${d.state || ''}"`,
-                `"${d.pincode}"`,
-                `"${d.panno || ''}"`,
-                `"${d.campaignsid || ''}"`
+            const response = await fetch(`${BE_API_URL}/api/admin/prasadam-donors?${queryParams}`);
+            const data = await response.json();
+
+            if (!response.ok || !data.donors || data.donors.length === 0) {
+                toast({ title: "No data found for export", status: "warning" });
+                setExportLoading(false);
+                return;
+            }
+
+            const allDonors = data.donors;
+
+            const headers = [
+                "Name", "Amount", "Donation Date", "Mobile", "Shipping Address",
+                "House No", "Street Name", "Location/Area", "City", "State",
+                "Pincode", "PAN No", "Campaigner ID"
             ];
-        });
 
-        const csvContent = [headers.join(","), ...rows.map(row => row.join(","))].join("\n");
-        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.setAttribute("href", url);
-        link.setAttribute("download", `Prasadam_Donors_${fromDate}_to_${toDate}.csv`);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+            const rows = allDonors.map(d => {
+                // ✅ CHANGED HERE: Using a comma (,) instead of hyphen (-) after username
+                const fullAddress = `"${d.username}, ${d.houseNumber || ''}, ${d.street || ''}, ${d.location ? d.location + ', ' : ''}${d.city || ''}, ${d.state || ''} - ${d.pincode || ''}"`;
+
+                return [
+                    `"${d.username}"`,
+                    d.amount,
+                    `"${new Date(d.createdate).toLocaleDateString()}"`,
+                    `"${d.mobileno}"`,
+                    fullAddress, // Updated Address column with comma
+                    `"${d.houseNumber || ''}"`,
+                    `"${d.street || ''}"`,
+                    `"${d.location || ''}"`,
+                    `"${d.city || ''}"`,
+                    `"${d.state || ''}"`,
+                    `"${d.pincode}"`,
+                    `"${d.panno || ''}"`,
+                    `"${d.campaignsid || ''}"`
+                ];
+            });
+
+            const csvContent = [headers.join(","), ...rows.map(row => row.join(","))].join("\n");
+            const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", `Prasadam_Donors_FULL_${fromDate}_to_${toDate}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            toast({ title: "Export Successful", status: "success" });
+
+        } catch (error) {
+            console.error("Export error:", error);
+            toast({ title: "Export failed", description: "Could not fetch all records.", status: "error" });
+        } finally {
+            setExportLoading(false);
+        }
     };
 
     // --- CARD COMPONENT ---
@@ -199,10 +234,7 @@ const PrasadamDonors = () => {
     );
 
     return (
-        // ✅ Outer wrapper fills 100% width
         <Box minH="100vh" w="100%" bg={THEME_CREAM} p={[2, 4]} fontFamily="'Satoshi', sans-serif">
-
-            {/* ✅ UPDATED: Changed maxW="1600px" to maxW="100%" to force full width */}
             <Box w="100%" maxW="100%" mx="auto">
 
                 {/* --- HEADER --- */}
@@ -234,7 +266,9 @@ const PrasadamDonors = () => {
                         size="sm"
                         w={["100%", "auto"]}
                         onClick={handleExportExcel}
-                        isDisabled={!hasSearched || donors.length === 0}
+                        isLoading={exportLoading}
+                        loadingText="Exporting..."
+                        isDisabled={!hasSearched || totalCount === 0}
                     >
                         Export Excel
                     </Button>
@@ -270,7 +304,7 @@ const PrasadamDonors = () => {
                     </CardBody>
                 </Card>
 
-                {/* ✅ NEW SECTION: Total Count Display */}
+                {/* Total Count Display */}
                 {hasSearched && (
                     <Flex w="100%" justify="flex-start" align="center" mb={4} px={1}>
                         <HStack bg="white" px={4} py={2} borderRadius="full" shadow="sm" border="1px solid" borderColor="gray.200">
@@ -300,7 +334,7 @@ const PrasadamDonors = () => {
                         </Flex>
                     ) : (
                         <>
-                            {/* Card Grid - Full Width */}
+                            {/* Card Grid */}
                             <SimpleGrid columns={[1, 2, 3]} spacing={4} w="100%" alignItems="stretch">
                                 {donors.map((donor) => (
                                     <DonorCard key={donor.id} donor={donor} />
