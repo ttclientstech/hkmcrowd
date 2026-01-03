@@ -44,7 +44,7 @@ const VisionBanner = () => {
                 transform="translate(-50%, -50%)"
                 boxSize="250px"
                 color={GOLD}
-                opacity={0.03}
+                opacity={0.07}
                 zIndex={0}
             />
 

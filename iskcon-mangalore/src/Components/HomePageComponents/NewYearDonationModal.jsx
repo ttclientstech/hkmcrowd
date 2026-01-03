@@ -89,6 +89,7 @@ const NewYearDonationModal = ({ getSingleUser }) => {
             isCentered
             size="lg" // Slightly larger for impact
             motionPreset="scale"
+            zIndex={1000}
         >
             {/* Dark, blurred overlay to focus attention completely */}
             <ModalOverlay bg="blackAlpha.900" backdropFilter="blur(10px)" />
@@ -203,7 +204,7 @@ const NewYearDonationModal = ({ getSingleUser }) => {
                         <Text color="whiteAlpha.800" fontSize={["md", "lg"]} lineHeight="1.6" px={2} fontFamily="'Satoshi', sans-serif">
                             Your first major action defines the year ahead.
                             <br />
-                            Secure prosperity for you and your family by permanently inscribing your name in the <Text as="span" color={GOLD} fontWeight="bold">Lord's Temple Wall of Devotion</Text>.
+                            Place a brick in the Lord's temple. Let your name be inscribed in the <Text as="span" color={GOLD} fontWeight="bold">Lord's Temple Wall of Devotion</Text> and carry the blessings throughout 2026.
                         </Text>
 
                         {/* 5. The High-Converting Button */}
@@ -234,7 +235,7 @@ const NewYearDonationModal = ({ getSingleUser }) => {
                         </Button>
 
                         <Text fontSize="sm" color="whiteAlpha.600" pt={2} fontStyle="italic">
-                            Join the 5,000+ devotees securing their blessings today.
+                            Join the 5,000+ devotees.
                         </Text>
 
                     </VStack>
