@@ -11,9 +11,9 @@ import {
     Icon,
     Flex,
     IconButton,
-    keyframes,
     useDisclosure
 } from "@chakra-ui/react";
+import { keyframes } from "@emotion/react";
 import { FaTimes, FaHandHoldingHeart, FaOm } from "react-icons/fa";
 import { BsStars, BsFillLightningFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
