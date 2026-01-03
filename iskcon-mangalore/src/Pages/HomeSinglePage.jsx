@@ -45,6 +45,7 @@ import AltarDonationBanner from "../Components/HomePageComponents/AltarDonationB
 import EducationWingDonationBanner from "../Components/HomePageComponents/EducationWingDonationBanner";
 import OverallCampaignProgress from "../Components/HomePageComponents/OverallCampaignProgress";
 import VisionBanner from "../Components/HomePageComponents/VisionBanner";
+import NewYearDonationModal from "../Components/HomePageComponents/NewYearDonationModal";
 
 /* =========================
    THEME CONSTANTS
@@ -531,155 +532,7 @@ const HomeSinglePage = () => {
 
             {/* ================== TEMPLE IMAGE SECTION (MOBILE ONLY) ================== */}
             <Box w="100%" mt={8} display={{ base: "block", md: "block", lg: "block" }}>
-                {/* THE HOOK BAR */}
-                {/* <Box
-                    w="100%"
-                    py={[3, 4]}
-                    px={4}
-                    // Premium Gold Gradient
-                    bgGradient="linear(to-r, #FFF5C3, #FFD700, #FFF5C3)"
-                    borderBottom="1px solid"
-                    borderColor="orange.300"
-                    boxShadow="0 4px 12px -2px rgba(0, 0, 0, 0.15)"
-                    textAlign="center"
-                    position="relative"
-                    overflow="hidden"
-                >
-                    <Flex
-                        direction="column"
-                        align="center"
-                        justify="center"
-                        gap={1}
-                    >
-                         */}{/* The Hook Text: "Witness the Vision" */}{/*
-                        <Flex align="center" gap={2} mb={1}>
-                            <Text
-                                fontSize={["xs", "sm"]}
-                                fontWeight="800"
-                                letterSpacing="wider"
-                                color={NAVY}
-                                textTransform="uppercase"
-                            >
-                                Witness the Vision
-                            </Text>
-                        </Flex>
-
-                         */}{/* The Main Pitch */}{/*
-                        <Text
-                            fontSize={["sm", "md"]}
-                            fontWeight="600"
-                            color={TEXT_DARK}
-                            fontFamily="'Poppins', sans-serif"
-                            lineHeight="1.3"
-                        >
-                            See how we are building <br display={{base: "block", md: "none"}} />
-                            <Text as="span" color="#C53030" fontWeight="800">
-                                Chennai's Tallest Seashore Temple
-                            </Text>
-                        </Text>
-
-                         */}{/* The Subconscious Cue: Bouncing Arrow */}{/*
-                        <Box animation={`${bounce} 1.5s infinite ease-in-out`} mt={1} opacity={0.7}>
-                            <Icon as={FaChevronDown} color={NAVY} w={4} h={4} />
-                        </Box>
-                    </Flex>
-                </Box> */}
                 <VisionBanner />
-
-                {/* THE HOOK BAR - PREMIUM NAVY THEME */}
-                <Box
-                    w="100%"
-                    py={5}
-                    px={4}
-                    bgGradient="linear(to-r, #061826, #082032, #061826)" // Deep Navy Gradient based on your NAVY constant
-                    borderTop="4px solid"
-                    borderBottom="1px solid"
-                    borderColor={GOLD} // Using your GOLD constant
-                    boxShadow="0 10px 30px rgba(0,0,0,0.4)"
-                    textAlign="center"
-                    position="relative"
-                    overflow="hidden"
-                >
-                    {/* Background Glow Effect */}
-                    <Box
-                        position="absolute"
-                        top="50%"
-                        left="50%"
-                        transform="translate(-50%, -50%)"
-                        w="200px"
-                        h="100px"
-                        bg={GOLD}
-                        filter="blur(80px)"
-                        opacity={0.15}
-                        zIndex={0}
-                    />
-
-                    <Flex
-                        direction="column"
-                        align="center"
-                        justify="center"
-                        gap={2}
-                        position="relative"
-                        zIndex={1}
-                    >
-                        {/* The Hook Badge */}
-                        <Flex
-                            align="center"
-                            gap={2}
-                            bg="rgba(255,255,255,0.08)"
-                            px={4}
-                            py={1.5}
-                            borderRadius="full"
-                            border="1px solid rgba(212, 175, 55, 0.3)"
-                            mb={1}
-                        >
-                            <Icon as={FaEye} color={GOLD} boxSize={3} />
-                            <Text
-                                fontSize="xs"
-                                fontWeight="700"
-                                letterSpacing="2px"
-                                color={GOLD}
-                                textTransform="uppercase"
-                                fontFamily="'Satoshi', sans-serif"
-                            >
-                                Witness the Vision
-                            </Text>
-                        </Flex>
-
-                        {/* The Main Pitch */}
-                        <Text
-                            fontSize={["md", "lg"]}
-                            fontWeight="400"
-                            color="white"
-                            fontFamily="'Poppins', sans-serif"
-                            lineHeight="1.4"
-                        >
-                            See the making of <br display={{ base: "block", md: "none" }} />
-                            <Text
-                                as="span"
-                                color="white"
-                                fontWeight="700"
-                                fontSize={["lg", "xl"]}
-                                textShadow={`0px 0px 15px ${GOLD}`} // Glowing text effect
-                            >
-                                Chennai's Tallest Seashore Temple
-                            </Text>
-                        </Text>
-
-                        {/* The Subconscious Cue: Bouncing Arrow */}
-                        <Flex
-                            direction="column"
-                            align="center"
-                            mt={2}
-                            opacity={0.8}
-                            animation={`${bounce} 1.5s infinite ease-in-out`}
-                        >
-                            <Text fontSize="10px" color="gray.400" mb={-1}>SCROLL</Text>
-                            <Icon as={FaChevronDown} color={GOLD} w={5} h={5} />
-                        </Flex>
-                    </Flex>
-                </Box>
-
                 <Box px={4} mt={4}>
                     <Box borderRadius="18px" overflow="hidden" boxShadow="0px 6px 25px rgba(0,0,0,0.25)" bg="white">
                         <Image src={posterImage} alt="Dakshina Dwaraka Dham" w="100%" h="100%" objectFit="cover" />
@@ -858,6 +711,7 @@ const HomeSinglePage = () => {
             </Text>
 
             <FooterSection />
+            <NewYearDonationModal getSingleUser={getSingleUser} />
 
             {!initialPageLoad && (
                 <>

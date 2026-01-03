@@ -130,7 +130,7 @@ const VisionBanner = () => {
                     cursor="pointer"
                 >
                     <Text fontSize="9px" fontWeight="bold" letterSpacing="1px" color={GOLD} mb={0} textTransform="uppercase">
-                        Scroll to Watch
+                        Scroll
                     </Text>
                     <Icon as={FaChevronDown} color={GOLD} w={5} h={5} filter={`drop-shadow(0 0 5px ${GOLD})`} />
                 </Flex>
