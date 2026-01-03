@@ -45,7 +45,6 @@ import AltarDonationBanner from "../Components/HomePageComponents/AltarDonationB
 import EducationWingDonationBanner from "../Components/HomePageComponents/EducationWingDonationBanner";
 import OverallCampaignProgress from "../Components/HomePageComponents/OverallCampaignProgress";
 import VisionBanner from "../Components/HomePageComponents/VisionBanner";
-import NewYearDonationModal from "../Components/HomePageComponents/NewYearDonationModal";
 
 /* =========================
    THEME CONSTANTS
@@ -710,7 +709,6 @@ const HomeSinglePage = () => {
             </Text>
 
             <FooterSection />
-            <NewYearDonationModal getSingleUser={getSingleUser} />
 
             {!initialPageLoad && (
                 <>
