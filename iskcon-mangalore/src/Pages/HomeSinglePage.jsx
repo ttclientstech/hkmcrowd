@@ -44,6 +44,7 @@ import CulturalHallDonationBanner from "../Components/HomePageComponents/Cultura
 import AltarDonationBanner from "../Components/HomePageComponents/AltarDonationBanner";
 import EducationWingDonationBanner from "../Components/HomePageComponents/EducationWingDonationBanner";
 import OverallCampaignProgress from "../Components/HomePageComponents/OverallCampaignProgress";
+import VisionBanner from "../Components/HomePageComponents/VisionBanner";
 
 /* =========================
    THEME CONSTANTS
@@ -583,6 +584,7 @@ const HomeSinglePage = () => {
                         </Box>
                     </Flex>
                 </Box> */}
+                <VisionBanner />
 
                 {/* THE HOOK BAR - PREMIUM NAVY THEME */}
                 <Box
