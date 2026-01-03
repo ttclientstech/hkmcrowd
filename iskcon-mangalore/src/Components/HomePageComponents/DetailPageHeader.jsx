@@ -31,8 +31,8 @@ const DetailPageHeader = ({ getSingleUser }) => {
             fontFamily="'Poppins', sans-serif"
         >
             <PoppinFont />
-            {/* Top Gold Border */}
-            <Box w="100%" h="4px" bgGradient="linear(to-r, #D4AF37, #FFD700, #D4AF37)" zIndex={10} />
+            {/* Top Gold Border
+            <Box w="100%" h="4px" bgGradient="linear(to-r, #D4AF37, #FFD700, #D4AF37)" zIndex={10} /> */}
 
             {/* ------------------------------------------------------- */}
             {/* 1. CINEMATIC BACKGROUND IMAGE (The "Window") */}

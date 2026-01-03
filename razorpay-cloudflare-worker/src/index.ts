@@ -3,7 +3,7 @@ import { env } from 'hono/adapter'
 import { drizzle, NeonHttpDatabase} from 'drizzle-orm/neon-http'
 import { neon, NeonQueryFunction } from '@neondatabase/serverless'
 import {  campaigns, paymentTable, campaignerStreaks, leaderboard} from './db/schema'
-import { and, desc, eq, gte, ilike } from 'drizzle-orm/expressions'
+import { and, desc, eq, gte, ilike, lte } from 'drizzle-orm/expressions'
 import { count,   sql,   sum, notExists, or, asc } from 'drizzle-orm'
 import { alias } from 'drizzle-orm/pg-core'
 import { bearerAuth } from 'hono/bearer-auth'
@@ -285,7 +285,7 @@ app.post("/webhook/razorpay", async (c) => {
 });
 
 app.post("/checkpayment", cors({
-  origin: ["https://campaigns.hkmchennai.org"],
+  origin: ["https://campaigns.hkmchennai.org","https://hkmchennaicrowdfunding-dev.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:false
@@ -362,7 +362,7 @@ app.post("/checkpayment", cors({
 });
 
 app.use("*", cors({
-  origin: ["https://campaigns.hkmchennai.org"],
+  origin: ["https://campaigns.hkmchennai.org","https://hkmchennaicrowdfunding-dev.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:false
@@ -407,7 +407,7 @@ app.use('*', async (c, next) => {
 app.get(
     '/campaign/:id',
     cors({
-        origin: ["https://campaigns.hkmchennai.org"],
+        origin: ["https://campaigns.hkmchennai.org","https://hkmchennaicrowdfunding-dev.vercel.app"],
         allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
         credentials: true,
@@ -477,7 +477,7 @@ app.get(
 app.post(
   '/create-payment',
   cors({
-    origin: ["https://campaigns.hkmchennai.org"],
+    origin: ["https://campaigns.hkmchennai.org","https://hkmchennaicrowdfunding-dev.vercel.app"],
     allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
     credentials: true,
@@ -507,6 +507,7 @@ app.post(
             campaignsid,
             isanonymous,
             taxPincode,
+            taxLocation,
             taxCity,
             taxState,
             taxHouseNumber,
@@ -515,6 +516,7 @@ app.post(
             city,
             state,
             street,
+            location,
             dob,
             prasadRequired
         } = body;
@@ -586,7 +588,9 @@ app.post(
                 taxStreet: taxStreet ?  String(taxStreet ) : null,
                 taxCity: taxCity ? String(taxCity) : null,
                 taxState: taxState ? String(taxState) : null,
-                dob: dob ? String(dob) : null
+                dob: dob ? String(dob) : null,
+                location: location ? String(location) : null,
+                taxLocation: taxLocation ? String(taxLocation) : null,
             });
 
             return c.json(
@@ -705,7 +709,7 @@ app.get("/get_overall_progress", async (c) => {
 });
 
 app.delete('/delete-campaign/:id',cors({
-  origin: ["https://campaigns.hkmchennai.org"],
+  origin: ["https://campaigns.hkmchennai.org","https://hkmchennaicrowdfunding-dev.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
@@ -762,7 +766,7 @@ app.delete('/delete-campaign/:id',cors({
 
 
 app.put('/update-campaign/:id',cors({
-  origin: ["https://campaigns.hkmchennai.org"],
+  origin: ["https://campaigns.hkmchennai.org","https://hkmchennaicrowdfunding-dev.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
@@ -839,7 +843,7 @@ app.put('/update-campaign/:id',cors({
 
 
 app.post('/create-campaign',cors({
-  origin: ["https://campaigns.hkmchennai.org"],
+  origin: ["https://campaigns.hkmchennai.org","https://hkmchennaicrowdfunding-dev.vercel.app"],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Authorization', 'Content-Type', 'X-Requested-With'],
   credentials:true
@@ -1075,7 +1079,7 @@ app.get('/test-cron', async (c) => {
 
 // ✅ NEW AUTH ROUTE
 app.post('/auth/google', cors({
-    origin: ["https://campaigns.hkmchennai.org"],
+    origin: ["https://campaigns.hkmchennai.org","https://hkmchennaicrowdfunding-dev.vercel.app"],
     allowMethods: ['POST', 'OPTIONS'],
     allowHeaders: ['Content-Type'],
     credentials: true
@@ -1287,6 +1291,88 @@ app.get('/api/get_leaderboard', async (c) => {
         return c.json({ error: "Internal Server Error" }, 500);
     }
 });
+
+app.get('/api/admin/prasadam-donors',
+    cors({
+        origin: ["https://campaigns.hkmchennai.org", "https://hkmchennaicrowdfunding-dev.vercel.app"],
+        allowMethods: ['GET', 'OPTIONS'],
+        allowHeaders: ['Authorization', 'Content-Type'],
+        credentials: true
+    }),
+    async (c) => {
+        const db = c.get('db');
+
+        // 1. Get Query Params
+        const page = parseInt(c.req.query('page') || '1');
+        const limit = parseInt(c.req.query('limit') || '20');
+        const fromDate = c.req.query('fromDate');
+        const toDate = c.req.query('toDate');
+
+        const offset = (page - 1) * limit;
+
+        try {
+            // 2. Build Query Conditions
+            // Base Condition: Payment success AND Prasad Required
+            const conditions = [
+                or(
+                    eq(paymentTable.paymentstatus, true),
+                    eq(paymentTable.finalpaymentstatus, 'captured')
+                ),
+                eq(paymentTable.prasadRequired, true)
+            ];
+
+            // 3. Timezone Fix (IST to UTC)
+            if (fromDate) {
+                const start = new Date(fromDate);
+                // Shift back 5.5 hours to get 18:30 prev day (00:00 IST)
+                start.setHours(start.getHours() - 5);
+                start.setMinutes(start.getMinutes() - 30);
+                conditions.push(gte(paymentTable.createdate, start));
+            }
+
+            if (toDate) {
+                const end = new Date(toDate);
+                end.setDate(end.getDate() + 1);
+                // Shift back 5.5 hours to get 18:30 today (24:00 IST)
+                end.setHours(end.getHours() - 5);
+                end.setMinutes(end.getMinutes() - 30);
+                conditions.push(lte(paymentTable.createdate, end));
+            }
+
+            // 4. Fetch Paginated Data
+            const donors = await db
+                .select()
+                .from(paymentTable)
+                .where(and(...conditions))
+                .orderBy(desc(paymentTable.createdate))
+                .limit(limit)
+                .offset(offset);
+
+            // 5. Get Total Count
+            const countResult = await db
+                .select({ count: count() })
+                .from(paymentTable)
+                .where(and(...conditions));
+
+            const totalCount = countResult[0]?.count || 0;
+            const totalPages = Math.ceil(totalCount / limit);
+
+            return c.json({
+                donors,
+                totalPages,
+                currentPage: page,
+                totalCount
+            });
+
+        } catch (error) {
+            console.error("Error fetching prasadam donors:", error);
+            return c.json({
+                error: "Failed to fetch data: " + error.message,
+                status: 500
+            }, 500);
+        }
+    }
+);
 
 export default {
     // A. Handle API Requests (Hono)

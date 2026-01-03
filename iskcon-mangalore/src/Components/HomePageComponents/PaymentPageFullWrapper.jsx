@@ -71,6 +71,7 @@ const PaymentPageFullWrapper = () => {
                         taxCity: formData.taxCity || "",
                         taxState: formData.taxState || "",
                         taxPincode: formData.taxPincode || "",
+                        taxLocation: formData.taxLocation || "",
                         panno: formData.panno || "",
                         dob: formData.dob || "",
                         campainerName: formData.campainerName || "#Campainer Name",

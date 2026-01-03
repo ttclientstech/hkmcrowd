@@ -19,8 +19,8 @@ import {
     Image,
     Spinner,
 } from "@chakra-ui/react";
-import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaVihara, FaChevronDown, FaEye } from "react-icons/fa";
-
+import { FaArrowUp, FaMapMarkerAlt, FaLandmark, FaUserFriends, FaVihara, FaChevronDown, FaEye, FaClock, FaGift } from "react-icons/fa";
+import { BsStars } from "react-icons/bs";
 import PageNotFound from "../Components/HomePageComponents/PageNotFound";
 import DetailPageHeader from "../Components/HomePageComponents/DetailPageHeader";
 import PaymentPageFull from "../Components/HomePageComponents/PaymentPageFull";
@@ -44,6 +44,7 @@ import CulturalHallDonationBanner from "../Components/HomePageComponents/Cultura
 import AltarDonationBanner from "../Components/HomePageComponents/AltarDonationBanner";
 import EducationWingDonationBanner from "../Components/HomePageComponents/EducationWingDonationBanner";
 import OverallCampaignProgress from "../Components/HomePageComponents/OverallCampaignProgress";
+import VisionBanner from "../Components/HomePageComponents/VisionBanner";
 
 /* =========================
    THEME CONSTANTS
@@ -154,6 +155,88 @@ const TrustStrip = () => (
         </Flex>
     </Box>
 );
+
+const shine = keyframes`
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+`;
+
+const urgency_pulse = keyframes`
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+`;
+
+const UrgencyBar = () => {
+  return (
+    <Box
+      w="100%"
+      bgGradient="linear(to-r, #580808, #8B0000, #B7791F, #8B0000, #580808)"
+      backgroundSize="200% 200%"
+      animation={`${shine} 6s ease infinite`}
+      py={3}
+      px={4}
+      boxShadow="0px 4px 15px rgba(0, 0, 0, 0.3)"
+      borderBottom="2px solid #FFD700"
+      position="relative"
+      zIndex={100}
+    >
+      <Flex
+        maxW="1200px"
+        mx="auto"
+        justify="center"
+        align="center"
+        gap={[2, 3, 4]}
+        direction={["column", "row"]}
+        textAlign="center"
+      >
+        {/* Badge */}
+        <Flex align="center" gap={2} color="#FFD700" justify="center">
+          <Icon as={BsStars} boxSize={4} animation={`${urgency_pulse} 3s infinite`} />
+          <Text
+            fontSize="xs"
+            fontWeight="900"
+            letterSpacing="wider"
+            textTransform="uppercase"
+            bg="white"
+            color="#6A1B1A"
+            px={3}
+            py={0.5}
+            borderRadius="full"
+            boxShadow="0 0 10px rgba(255, 255, 255, 0.4)"
+          >
+            Divine Opportunity
+          </Text>
+        </Flex>
+
+        {/* Main Text */}
+        <Text color="white" fontSize={["sm", "md"]} fontWeight="medium" letterSpacing="wide" lineHeight={1.6}>
+          Donate today & receive{" "}
+          <Text
+            as="span"
+            color="#FFD700"
+            fontWeight="bold"
+            textShadow="0px 0px 10px rgba(255, 215, 0, 0.6)"
+          >
+            Lord's Maha Prasadam
+          </Text>{" "}
+          at your home
+
+          {/* Inline Gift Icon */}
+          <Icon
+            as={FaGift}
+            color="#FFD700"
+            ml={2}
+            boxSize={4}
+            verticalAlign="text-bottom"
+            display="inline"
+          />
+        </Text>
+      </Flex>
+    </Box>
+  );
+};
 
 const HomeSinglePage = () => {
     const { id } = useParams();
@@ -356,6 +439,7 @@ const HomeSinglePage = () => {
             <DivineLoader isVisible={initialPageLoad} />
 
             <PoppinFont />
+            <UrgencyBar />
             <DetailPageHeader getSingleUser={getSingleUser} />
             <TrustStrip />
 
@@ -447,60 +531,7 @@ const HomeSinglePage = () => {
 
             {/* ================== TEMPLE IMAGE SECTION (MOBILE ONLY) ================== */}
             <Box w="100%" mt={8} display={{ base: "block", md: "block", lg: "block" }}>
-                {/* THE HOOK BAR */}
-                <Box
-                    w="100%"
-                    py={[3, 4]}
-                    px={4}
-                    // Premium Gold Gradient
-                    bgGradient="linear(to-r, #FFF5C3, #FFD700, #FFF5C3)"
-                    borderBottom="1px solid"
-                    borderColor="orange.300"
-                    boxShadow="0 4px 12px -2px rgba(0, 0, 0, 0.15)"
-                    textAlign="center"
-                    position="relative"
-                    overflow="hidden"
-                >
-                    <Flex
-                        direction="column"
-                        align="center"
-                        justify="center"
-                        gap={1}
-                    >
-                        {/* The Hook Text: "Witness the Vision" */}
-                        <Flex align="center" gap={2} mb={1}>
-                            <Text
-                                fontSize={["xs", "sm"]}
-                                fontWeight="800"
-                                letterSpacing="wider"
-                                color={NAVY}
-                                textTransform="uppercase"
-                            >
-                                Witness the Vision
-                            </Text>
-                        </Flex>
-
-                        {/* The Main Pitch */}
-                        <Text
-                            fontSize={["sm", "md"]}
-                            fontWeight="600"
-                            color={TEXT_DARK}
-                            fontFamily="'Poppins', sans-serif"
-                            lineHeight="1.3"
-                        >
-                            See how we are building <br display={{base: "block", md: "none"}} />
-                            <Text as="span" color="#C53030" fontWeight="800">
-                                Chennai's Tallest Seashore Temple
-                            </Text>
-                        </Text>
-
-                        {/* The Subconscious Cue: Bouncing Arrow */}
-                        <Box animation={`${bounce} 1.5s infinite ease-in-out`} mt={1} opacity={0.7}>
-                            <Icon as={FaChevronDown} color={NAVY} w={4} h={4} />
-                        </Box>
-                    </Flex>
-                </Box>
-
+                <VisionBanner />
                 <Box px={4} mt={4}>
                     <Box borderRadius="18px" overflow="hidden" boxShadow="0px 6px 25px rgba(0,0,0,0.25)" bg="white">
                         <Image src={posterImage} alt="Dakshina Dwaraka Dham" w="100%" h="100%" objectFit="cover" />
@@ -615,7 +646,7 @@ const HomeSinglePage = () => {
             <CulturalHallDonationBanner />
             <TempleBlueprintSection />
             <TempleArchitecturalShowcase />
-
+            <OverallCampaignProgress />
             {/* TEMPLE CONSTRUCTION STATUS */}
             <Box w="100%" maxW="1200px" mx="auto" mt={16} px={[4, 6]} fontFamily="'Poppins', sans-serif">
                 <Text
@@ -652,16 +683,15 @@ const HomeSinglePage = () => {
                     ))}
                 </Flex>
             </Box>
-            <OverallCampaignProgress />
 
             {/* Reused sections */}
             <TestimonialSection />
             <AltarDonationBanner />
             <DonorPrivilegeSection />
             <SpecialDonorPrivileges />
+            <WallOfDevotion_Engraved getSingleUser={getSingleUser} />
             <RecentContributors getSingleUser={getSingleUser} />
             <DonateNowButton getSingleUser={getSingleUser} />
-            <WallOfDevotion_Engraved getSingleUser={getSingleUser} />
             <WhyDonateQuotes />
             <FAQComponent />
             <DonateNowButton getSingleUser={getSingleUser} />
@@ -683,21 +713,6 @@ const HomeSinglePage = () => {
             {!initialPageLoad && (
                 <>
                     <DonationBottomBar getSingleUser={getSingleUser} />
-                    {showScrollButton && (
-                        <IconButton
-                            icon={<FaArrowUp />}
-                            position={"fixed"}
-                            bottom={["80px","60px"]}
-                            right={"20px"}
-                            zIndex={"999"}
-                            bg={NAVY}
-                            color={GOLD}
-                            onClick={handleScrollToTop}
-                            borderRadius="full"
-                            boxShadow="xl"
-                            border={`1px solid ${GOLD}`}
-                        />
-                    )}
                 </>
             )}
         </Box>

@@ -66,7 +66,7 @@ const RecentContributors = () => {
 
     // 2. TOAST LOGIC (Only runs if we have latest data)
     useEffect(() => {
-        const timer = setTimeout(() => setStartToasting(true), 10000);
+        const timer = setTimeout(() => setStartToasting(true), 15000);
         return () => clearTimeout(timer);
     }, []);
 
@@ -179,10 +179,10 @@ const RecentContributors = () => {
                         exit={{ opacity: 0, y: 20, x: "-50%", scale: 0.8 }}
                         transition={{ type: "spring", stiffness: 400, damping: 25 }}
                         position="fixed"
-                        bottom={["100px", "90px"]}
+                        bottom={["78px", "80px"]}
                         left="50%"
                         zIndex="9999"
-                        bg="#020c1b"
+                        bg="rgb(8,32,50)"
                         backdropFilter="blur(12px)"
                         borderRadius="full"
                         boxShadow={`0 8px 30px rgba(0,0,0,0.4), 0 0 0 1px ${GOLD}40`}
@@ -202,7 +202,7 @@ const RecentContributors = () => {
                                 <Text fontSize="xs" fontWeight="700" color="white" noOfLines={1} maxW={["150px", "200px"]}>{toastName}</Text>
                                 <HStack spacing={1}>
                                     <Icon as={FaBolt} color={GOLD} w={2.5} h={2.5} />
-                                    <Text fontSize="10px" color={GOLD} fontWeight="bold" textTransform="uppercase">Just Now</Text>
+                                    <Text fontSize="10px" color={GOLD} fontWeight="bold" textTransform="uppercase">recently</Text>
                                 </HStack>
                             </HStack>
                             <Text fontSize="xs" color="gray.300">contributed <Text as="span" fontWeight="800" color="white" fontSize="sm">{toastAmount}</Text></Text>

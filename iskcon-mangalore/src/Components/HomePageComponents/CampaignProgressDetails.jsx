@@ -9,10 +9,9 @@ import {
     useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { formatCurrency } from "../utils";
+// import { formatCurrency } from "../utils"; // Removed as we are now showing Sq.ft
 import CountUp from "react-countup";
 import { keyframes } from "@emotion/react";
-
 
 const borderAnimation = keyframes`
   0% {
@@ -30,9 +29,16 @@ const borderAnimation = keyframes`
 const CampaignProgressDetails = ({ currentAmount, goalAmount }) => {
     const [progress, setProgress] = useState(0);
 
+    // Conversion constant
+    const PRICE_PER_SQFT = 5000;
+
+    // Convert amounts to Square Feet
+    const currentSqFt = Math.floor(currentAmount / PRICE_PER_SQFT);
+    const goalSqFt = Math.floor(goalAmount / PRICE_PER_SQFT);
+
     useEffect(() => {
         if (goalAmount > 0) {
-
+            // Percentage logic remains the same (ratio of amount is same as ratio of sq ft)
             const targetPercentage = Math.min(
                 (currentAmount / goalAmount) * 100,
                 100
@@ -53,11 +59,7 @@ const CampaignProgressDetails = ({ currentAmount, goalAmount }) => {
         }
     }, [currentAmount, goalAmount]);
 
-//   const bgColor = useColorModeValue("gray.800", "gray.700");
-//   const progressColor = IskconBgColor; //useColorModeValue("green.400", "green.300");
-//   const progressStrokeColor = useColorModeValue("#e3c44e");
     const trackColor = useColorModeValue("gray.300", "gray.600");
-//   const textColor = useColorModeValue("white", "gray.200");
 
     return (
         <Box
@@ -83,15 +85,17 @@ const CampaignProgressDetails = ({ currentAmount, goalAmount }) => {
                     <VStack align={["center", "center", "flex-start"]} marginLeft={["0", "0", "3rem"]}>
                         <Flex align="center" gap={2} color={'#3B2F2F'} fontSize={["1.5rem", "2rem", "2rem"]}>
                             <Box fontWeight="semibold">Goal:</Box>
-                            <Box fontWeight="semibold">{formatCurrency(goalAmount)}</Box>
+                            {/* Changed to Sq.ft display */}
+                            <Box fontWeight="semibold">{goalSqFt.toLocaleString()} Sq.ft</Box>
                         </Flex>
 
                         <HStack alignItems="baseline" color={'#B22222'}>
                             <Box fontSize={["2rem", "2.2rem", "2.5rem"]} fontWeight="bold">
-                                ₹<CountUp end={currentAmount} start={currentAmount / 2} useIndianSeparators={true} />
+                                {/* Removed Currency Symbol, passed SqFt value */}
+                                <CountUp end={currentSqFt} start={currentSqFt / 2} useIndianSeparators={true} />
                             </Box>
                             <Box fontSize={["1.2rem", "1.3rem", "1.5rem"]} fontWeight="bold">
-                                Achieved
+                                Sq.ft Achieved
                             </Box>
                         </HStack>
                     </VStack>
