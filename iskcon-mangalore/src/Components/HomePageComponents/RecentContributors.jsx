@@ -179,7 +179,7 @@ const RecentContributors = () => {
                         exit={{ opacity: 0, y: 20, x: "-50%", scale: 0.8 }}
                         transition={{ type: "spring", stiffness: 400, damping: 25 }}
                         position="fixed"
-                        bottom={["70px", "80px"]}
+                        bottom={["78px", "80px"]}
                         left="50%"
                         zIndex="9999"
                         bg="rgb(8,32,50)"
