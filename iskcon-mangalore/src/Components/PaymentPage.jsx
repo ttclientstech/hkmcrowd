@@ -17,6 +17,7 @@ import { FaCheckCircle, FaHeart, FaPrayingHands } from "react-icons/fa";
 import Confetti from "react-confetti";
 import { motion } from "framer-motion"; // ✅ Import framer-motion
 import WallOfDevotion from "./HomePageComponents/WallOfDevotion";
+import ReactPixel from "react-facebook-pixel";
 
 // ✅ Create Motion components for animation
 const MotionVStack = motion(VStack);
@@ -118,7 +119,12 @@ const PaymentPage = () => {
                 handler: function (response) {
                     setOrderConfirmId(response.razorpay_payment_id)
                     setPaymentStatus('success');
-
+                     ReactPixel.track('Purchase', {
+                        value: Number(paymentData.amount), // Sends the exact donation amount
+                        currency: 'INR',
+                        content_name: 'Donation',
+                        order_id: response.razorpay_payment_id // Tracks unique transaction ID
+                    });
                     Toast({
                         title: "Payment Successful",
                         description: "Your payment was successful. Thank you!",
