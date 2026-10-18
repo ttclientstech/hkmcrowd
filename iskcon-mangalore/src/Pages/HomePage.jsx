@@ -22,23 +22,36 @@ const HomePage = () => {
   const [allCampaigners, setAllCampaigners] = useState([]);
 
   const fetchMoreData = useCallback(async () => {
+    if (!BE_API_URL || BE_API_URL === "test") {
+      setIsLoading(false);
+      return null;
+    }
     try {
       const response = await fetch(`${BE_API_URL}/showcampaigns?limit=10&page=${page}`);
+      if (!response.ok) {
+        throw new Error(`API returned ${response.status}`);
+      }
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Response was not JSON");
+      }
       const data = await response.json();
-      setCampaigns((prevCampaigns) => {
-        const newCampaigns = data.campaignDetails.filter(
-          (newCampaign) => !prevCampaigns.some((campaign) => campaign.campaignId === newCampaign.campaignId)
-        );
-        return [...prevCampaigns, ...newCampaigns];
-      });
+      if (data?.campaignDetails) {
+        setCampaigns((prevCampaigns) => {
+          const newCampaigns = data.campaignDetails.filter(
+            (newCampaign) => !prevCampaigns.some((campaign) => campaign.campaignId === newCampaign.campaignId)
+          );
+          return [...prevCampaigns, ...newCampaigns];
+        });
+      }
       setPage(page + 1);
-      if (data.campaignDetails.length === 0) {
+      if (!data?.campaignDetails || data.campaignDetails.length === 0) {
         setHasMore(false);
       }
       return data;
     } catch (error) {
-      setIsError(error.message);
-      return null
+      console.warn("Could not fetch campaigns:", error.message);
+      return null;
     } finally {
       setIsLoading(false);
     }

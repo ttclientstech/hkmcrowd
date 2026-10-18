@@ -47,7 +47,7 @@ const HomeCards = ({
   }
 
   if (isError) {
-    alert(isError);
+    console.error("Campaign load error:", isError);
   }
 
   const handleSearchChange = debounce(async (e) => {
