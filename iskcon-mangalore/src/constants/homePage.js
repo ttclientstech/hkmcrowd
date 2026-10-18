@@ -59,7 +59,7 @@ export const campaign = {
     "For those of you who can and want to fund large amounts, we would like to acknowledge the same by showcasing your name ( or the name of any relative or friend of yours) on the WALL OF GRATITUDE. ",
 };
 
-export const BE_API_URL = process.env.REACT_APP_CLOUD_FLARE_BACKEND_URL;
+export const BE_API_URL = process.env.REACT_APP_CLOUD_FLARE_BACKEND_URL || "";
 
 export const TOKEN = process.env.REACT_APP_AUTH_TOKEN;
 
