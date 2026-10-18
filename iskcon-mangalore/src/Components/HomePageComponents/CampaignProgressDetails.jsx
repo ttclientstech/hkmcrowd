@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   CircularProgress,
   CircularProgressLabel,
   Flex,
@@ -12,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import { formatCurrency } from "../utils";
 import CountUp from "react-countup";
 import { keyframes } from "@emotion/react";
+import { Link } from "react-router-dom";
 
 
 const borderAnimation = keyframes`
@@ -27,7 +29,22 @@ const borderAnimation = keyframes`
   }
 `;
 
-const CampaignProgressDetails = ({ currentAmount, goalAmount }) => {
+const ctaGlow = keyframes`
+  0% {
+    box-shadow: 0 0 12px 2px rgba(212, 175, 55, 0.6), 0 4px 24px rgba(178, 34, 34, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 32px 8px rgba(212, 175, 55, 0.95), 0 8px 40px rgba(178, 34, 34, 0.55);
+    transform: scale(1.04);
+  }
+  100% {
+    box-shadow: 0 0 12px 2px rgba(212, 175, 55, 0.6), 0 4px 24px rgba(178, 34, 34, 0.3);
+    transform: scale(1);
+  }
+`;
+
+const CampaignProgressDetails = ({ currentAmount, goalAmount, firstCampaignId }) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -123,6 +140,43 @@ const CampaignProgressDetails = ({ currentAmount, goalAmount }) => {
           </Box>
         </VStack>
       </Flex>
+
+      {/* Contribute Now CTA - always centered on every screen */}
+      <Box
+        w="100%"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        py={["14px", "16px", "18px"]}
+      >
+        <Button
+          as={firstCampaignId ? Link : 'button'}
+          to={firstCampaignId ? `/single/${firstCampaignId}` : undefined}
+          size="lg"
+          fontSize={["1.1rem", "1.25rem", "1.4rem"]}
+          fontWeight="900"
+          letterSpacing="0.08em"
+          textTransform="uppercase"
+          color="#FFFFFF"
+          bgGradient="linear(135deg, #B22222 0%, #8B0000 40%, #D4AF37 100%)"
+          border="3px solid #D4AF37"
+          borderRadius="50px"
+          px={["2rem", "3rem", "4rem"]}
+          py={["1.4rem", "1.6rem", "1.8rem"]}
+          animation={`${ctaGlow} 2s ease-in-out infinite`}
+          _hover={{
+            bgGradient: "linear(135deg, #D4AF37 0%, #B22222 100%)",
+            color: '#FFFFFF',
+            transform: 'scale(1.07)',
+            transition: 'all 0.25s ease',
+          }}
+          _active={{ transform: 'scale(0.97)' }}
+          transition="all 0.25s ease"
+          cursor="pointer"
+        >
+          🙏 Contribute Now
+        </Button>
+      </Box>
     </Box>
   );
 };

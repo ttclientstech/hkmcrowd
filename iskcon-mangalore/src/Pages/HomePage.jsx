@@ -68,6 +68,7 @@ const HomePage = () => {
       <CampaignProgressDetails
         currentAmount={Number(campaignsData?.totalraisedamt) || 0}
         goalAmount={Number(campaignsData?.totalgoalamt) || 0}
+        firstCampaignId={campaigns?.[0]?.campaignId || null}
       />
       <Image
         src={Banner}

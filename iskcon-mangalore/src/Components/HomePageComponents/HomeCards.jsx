@@ -57,6 +57,7 @@ const HomeCards = ({
 
   return (
     <Box
+      id="campaigners-section"
       mx="auto"
       minW={'100%'}
       p={["0.3rem", "0.5rem", "1rem", "1.5rem"]}
