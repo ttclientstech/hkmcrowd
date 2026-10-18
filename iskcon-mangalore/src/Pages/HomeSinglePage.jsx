@@ -7,6 +7,7 @@ import { keyframes } from "@emotion/react";
 import {avatar, ddd_poster_mob,ddd_poster_dektop,temple_main1, temple_main2, temple_main3, img_annadanam, img_festival, img_kalamadhuryam, img_harinam, img_icvk, img_gitalife }  from "../constants/cdnImages";
 import {
     Box,
+    Button,
     IconButton,
     Flex,
     useBreakpointValue,
@@ -64,6 +65,21 @@ const pulse = keyframes`
     0% { transform: scale(0.95); opacity: 0.8; }
     50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 10px ${GOLD}); }
     100% { transform: scale(0.95); opacity: 0.8; }
+`;
+
+const ctaGlow = keyframes`
+  0% {
+    box-shadow: 0 0 12px 2px rgba(212, 175, 55, 0.6), 0 4px 24px rgba(178, 34, 34, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 32px 8px rgba(212, 175, 55, 0.95), 0 8px 40px rgba(178, 34, 34, 0.55);
+    transform: scale(1.04);
+  }
+  100% {
+    box-shadow: 0 0 12px 2px rgba(212, 175, 55, 0.6), 0 4px 24px rgba(178, 34, 34, 0.3);
+    transform: scale(1);
+  }
 `;
 
 const fadeOut = keyframes`
@@ -524,6 +540,54 @@ const HomeSinglePage = () => {
                         <Text fontFamily="'Poppins', sans-serif" fontSize={["lg", "2xl", "3xl"]} color={TEXT_DARK} fontWeight={800}>
                             {/* ✅ FIXED: Use displayPercent for 1 decimal precision */}
                             <Text as="span" color={URGENT_RED}>{displayPercent}%</Text> ({raisedSqft.toLocaleString()} Square Feet) of <Text as="span" color={URGENT_RED}>{goalSqft.toLocaleString()}</Text> Square Feet raised
+                        </Text>
+                    </Box>
+
+                    {/* HERO CONTRIBUTE NOW BUTTON - ALWAYS CENTERED ON BOTH DESKTOP & MOBILE */}
+                    <Box
+                        w="100%"
+                        display="flex"
+                        flexDirection="column"
+                        justifyContent="center"
+                        alignItems="center"
+                        mt={[6, 8]}
+                    >
+                        <Button
+                            onClick={() => navigate(`/campaign/${id}/donate`, { state: { getSingleUser } })}
+                            size="lg"
+                            fontSize={["1.1rem", "1.25rem", "1.4rem"]}
+                            fontWeight="900"
+                            letterSpacing="0.08em"
+                            textTransform="uppercase"
+                            color="#FFFFFF"
+                            bgGradient="linear(135deg, #B22222 0%, #8B0000 40%, #D4AF37 100%)"
+                            border="3px solid #D4AF37"
+                            borderRadius="50px"
+                            px={["2rem", "3rem", "4rem"]}
+                            py={["1.4rem", "1.6rem", "1.8rem"]}
+                            animation={`${ctaGlow} 2s ease-in-out infinite`}
+                            _hover={{
+                                bgGradient: "linear(135deg, #D4AF37 0%, #B22222 100%)",
+                                color: '#FFFFFF',
+                                transform: 'scale(1.07)',
+                                transition: 'all 0.25s ease',
+                            }}
+                            _active={{ transform: 'scale(0.97)' }}
+                            transition="all 0.25s ease"
+                            cursor="pointer"
+                        >
+                            🙏 Contribute Now
+                        </Button>
+                        <Text
+                            fontSize={["0.8rem", "0.9rem"]}
+                            fontStyle="italic"
+                            color={NAVY}
+                            opacity={0.85}
+                            textAlign="center"
+                            mt={2}
+                            fontWeight={500}
+                        >
+                            Every Square Feet You Donate Lives Forever
                         </Text>
                     </Box>
                 </Flex>
